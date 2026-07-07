@@ -10,6 +10,11 @@ export function getEligibleCharacters(characters: Character[]): Character[] {
   return characters.filter((c) => !EXCLUDED_QUALITIES.has(c.quality));
 }
 
+/**
+ * Uses the UTC calendar day, not the player's local day, so every player
+ * worldwide gets the same puzzle at the same moment. The reset boundary a
+ * player experiences is UTC midnight, not their local midnight.
+ */
 export function getTodayIsoDate(): string {
   return new Date().toISOString().slice(0, 10);
 }

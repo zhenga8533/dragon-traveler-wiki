@@ -1,13 +1,8 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import StatCard from '@/components/ui/StatCard';
-import { Alert, Blockquote, Loader, SimpleGrid, Stack } from '@mantine/core';
-import {
-  IoCheckmarkCircleOutline,
-  IoChatbubbleEllipsesOutline,
-  IoFlame,
-  IoTrophy,
-} from 'react-icons/io5';
+import { Alert, Blockquote, Loader, Stack } from '@mantine/core';
+import { IoChatbubbleEllipsesOutline } from 'react-icons/io5';
 import { useQuoteGame } from '../hooks/use-quote-game';
+import DailyStatsGrid from './DailyStatsGrid';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
 
@@ -25,26 +20,7 @@ export default function QuoteMode() {
 
   return (
     <Stack gap="md">
-      <SimpleGrid cols={{ base: 3 }} spacing="md">
-        <StatCard
-          icon={<IoCheckmarkCircleOutline size={20} />}
-          title="Games Played"
-          value={stats.gamesPlayed}
-          color="blue"
-        />
-        <StatCard
-          icon={<IoFlame size={20} />}
-          title="Current Streak"
-          value={stats.currentStreak}
-          color="orange"
-        />
-        <StatCard
-          icon={<IoTrophy size={20} />}
-          title="Max Streak"
-          value={stats.maxStreak}
-          color="yellow"
-        />
-      </SimpleGrid>
+      <DailyStatsGrid stats={stats} />
 
       {error ? (
         <DataFetchError

@@ -1,5 +1,4 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import StatCard from '@/components/ui/StatCard';
 import { STORAGE_KEY } from '@/constants/ui';
 import {
   Alert,
@@ -7,19 +6,14 @@ import {
   Group,
   Loader,
   Paper,
-  SimpleGrid,
   Stack,
   Switch,
   Text,
 } from '@mantine/core';
-import {
-  IoCheckmarkCircleOutline,
-  IoFlame,
-  IoTrophy,
-} from 'react-icons/io5';
 import { useAbilityGame } from '../hooks/use-ability-game';
 import { useStoredToggle } from '../hooks/use-stored-toggle';
 import { SKILL_TYPES } from '../modes/ability/utils';
+import DailyStatsGrid from './DailyStatsGrid';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
 
@@ -52,26 +46,7 @@ export default function AbilityMode() {
 
   return (
     <Stack gap="md">
-      <SimpleGrid cols={{ base: 3 }} spacing="md">
-        <StatCard
-          icon={<IoCheckmarkCircleOutline size={20} />}
-          title="Games Played"
-          value={stats.gamesPlayed}
-          color="blue"
-        />
-        <StatCard
-          icon={<IoFlame size={20} />}
-          title="Current Streak"
-          value={stats.currentStreak}
-          color="orange"
-        />
-        <StatCard
-          icon={<IoTrophy size={20} />}
-          title="Max Streak"
-          value={stats.maxStreak}
-          color="yellow"
-        />
-      </SimpleGrid>
+      <DailyStatsGrid stats={stats} />
 
       {error ? (
         <DataFetchError

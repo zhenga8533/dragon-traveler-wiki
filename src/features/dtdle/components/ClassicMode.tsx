@@ -1,12 +1,7 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import StatCard from '@/components/ui/StatCard';
-import { Alert, Loader, SimpleGrid, Stack } from '@mantine/core';
-import {
-  IoCheckmarkCircleOutline,
-  IoFlame,
-  IoTrophy,
-} from 'react-icons/io5';
+import { Alert, Loader, Stack } from '@mantine/core';
 import { useDtdleGame } from '../hooks/use-dtdle-game';
+import DailyStatsGrid from './DailyStatsGrid';
 import GuessSelect from './GuessSelect';
 import GuessTable from './GuessTable';
 
@@ -24,26 +19,7 @@ export default function ClassicMode() {
 
   return (
     <Stack gap="md">
-      <SimpleGrid cols={{ base: 3 }} spacing="md">
-        <StatCard
-          icon={<IoCheckmarkCircleOutline size={20} />}
-          title="Games Played"
-          value={stats.gamesPlayed}
-          color="blue"
-        />
-        <StatCard
-          icon={<IoFlame size={20} />}
-          title="Current Streak"
-          value={stats.currentStreak}
-          color="orange"
-        />
-        <StatCard
-          icon={<IoTrophy size={20} />}
-          title="Max Streak"
-          value={stats.maxStreak}
-          color="yellow"
-        />
-      </SimpleGrid>
+      <DailyStatsGrid stats={stats} />
 
       {error ? (
         <DataFetchError
