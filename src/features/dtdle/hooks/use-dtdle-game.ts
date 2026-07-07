@@ -6,24 +6,12 @@ import {
   getTodayAnswerSlug,
   getTodayIsoDate,
 } from '../utils/daily-answer';
-import { useDailyGameState } from './use-daily-game-state';
+import {
+  freshGameState,
+  isValidGameState,
+  useDailyGameState,
+} from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
-import type { DtdleGameState } from '../types';
-
-function isValidGameState(value: unknown): value is DtdleGameState {
-  if (value === null || typeof value !== 'object') return false;
-  const v = value as Partial<DtdleGameState>;
-  return (
-    typeof v.date === 'string' &&
-    Array.isArray(v.guessedSlugs) &&
-    v.guessedSlugs.every((s) => typeof s === 'string') &&
-    typeof v.solved === 'boolean'
-  );
-}
-
-function freshState(date: string): DtdleGameState {
-  return { date, guessedSlugs: [], solved: false };
-}
 
 export function useDtdleGame() {
   const { data: characters, loading, error } = useCharacters();
@@ -44,7 +32,7 @@ export function useDtdleGame() {
   const [gameState, setGameState] = useDailyGameState(
     STORAGE_KEY.DTDLE_STATE,
     todayStr,
-    freshState,
+    freshGameState,
     isValidGameState
   );
 

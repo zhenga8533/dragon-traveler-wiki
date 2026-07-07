@@ -1,7 +1,6 @@
 import DataFetchError from '@/components/ui/DataFetchError';
 import StatCard from '@/components/ui/StatCard';
 import { STORAGE_KEY } from '@/constants/ui';
-import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
 import {
   Alert,
   Button,
@@ -13,30 +12,16 @@ import {
   Switch,
   Text,
 } from '@mantine/core';
-import { useEffect, useState } from 'react';
 import {
   IoCheckmarkCircleOutline,
   IoFlame,
   IoTrophy,
 } from 'react-icons/io5';
-import { useAbilityGame } from '../hooks/useAbilityGame';
+import { useAbilityGame } from '../hooks/use-ability-game';
+import { useStoredToggle } from '../hooks/use-stored-toggle';
 import { SKILL_TYPES } from '../modes/ability/utils';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
-
-function isValidBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean';
-}
-
-function useStoredToggle(storageKey: string, defaultValue: boolean) {
-  const [value, setValue] = useState(() =>
-    readStoredJson(storageKey, defaultValue, isValidBoolean)
-  );
-  useEffect(() => {
-    writeStoredJson(storageKey, value);
-  }, [storageKey, value]);
-  return [value, setValue] as const;
-}
 
 export default function AbilityMode() {
   const {

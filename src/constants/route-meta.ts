@@ -308,7 +308,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'DTdle',
       description:
-        'Guess the daily Dragon Traveler character with class, quality, faction, origin, height, and weight hints.',
+        'Guess the daily Dragon Traveler character across four modes: classic stat hints, quote, ability, or illustration.',
     },
   },
   {

@@ -1,3 +1,13 @@
+import type { SkillType } from '@/features/characters/types';
+
+export interface AbilityGameState {
+  date: string;
+  guessedSlugs: string[];
+  characterSolved: boolean;
+  categoryGuesses: SkillType[];
+  solved: boolean;
+}
+
 export interface GuessComparison {
   classStatus: 'exact' | 'none';
   qualityStatus: 'exact' | 'higher' | 'lower';

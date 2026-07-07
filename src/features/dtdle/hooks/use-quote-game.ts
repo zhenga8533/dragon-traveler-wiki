@@ -3,32 +3,20 @@ import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useMemo } from 'react';
 import { getQuoteEligibleCharacters } from '../modes/quote/utils';
 import { getEligibleCharacters, getTodayAnswerSlug, getTodayIsoDate } from '../utils/daily-answer';
-import { useDailyGameState } from './use-daily-game-state';
+import {
+  freshGameState,
+  isValidGameState,
+  useDailyGameState,
+} from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
-import type { DtdleGameState } from '../types';
 
 const MODE_SALT = 'quote';
-
-function isValidGameState(value: unknown): value is DtdleGameState {
-  if (value === null || typeof value !== 'object') return false;
-  const v = value as Partial<DtdleGameState>;
-  return (
-    typeof v.date === 'string' &&
-    Array.isArray(v.guessedSlugs) &&
-    v.guessedSlugs.every((s) => typeof s === 'string') &&
-    typeof v.solved === 'boolean'
-  );
-}
-
-function freshState(date: string): DtdleGameState {
-  return { date, guessedSlugs: [], solved: false };
-}
 
 export function useQuoteGame() {
   const { data: characters, loading, error } = useCharacters();
   const todayStr = useMemo(() => getTodayIsoDate(), []);
 
-  const guessable = useMemo(() => getEligibleCharacters(characters), [characters]);
+  const eligible = useMemo(() => getEligibleCharacters(characters), [characters]);
   const answerPool = useMemo(
     () => getQuoteEligibleCharacters(characters),
     [characters]
@@ -44,7 +32,7 @@ export function useQuoteGame() {
   const [gameState, setGameState] = useDailyGameState(
     STORAGE_KEY.DTDLE_QUOTE_STATE,
     todayStr,
-    freshState,
+    freshGameState,
     isValidGameState
   );
 
@@ -56,9 +44,9 @@ export function useQuoteGame() {
   const guessedCharacters = useMemo(
     () =>
       gameState.guessedSlugs
-        .map((slug) => guessable.find((c) => c.slug === slug))
+        .map((slug) => eligible.find((c) => c.slug === slug))
         .filter((c): c is NonNullable<typeof c> => c != null),
-    [gameState.guessedSlugs, guessable]
+    [gameState.guessedSlugs, eligible]
   );
 
   function submitGuess(slug: string) {
@@ -78,7 +66,7 @@ export function useQuoteGame() {
   return {
     loading,
     error,
-    guessable,
+    eligible,
     answer,
     gameState,
     stats,

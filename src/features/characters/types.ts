@@ -119,18 +119,18 @@ export interface CharacterIllustrationEntry {
 export interface Character {
   slug: string;
   name: string;
-  title: string;
+  title?: string;
   quality: Quality;
   character_class: CharacterClass;
   factions: FactionSlug[];
   is_global: boolean;
   subclasses: string[];
-  height: string;
-  weight: string;
-  lore: string | string[];
-  quote: string;
+  height?: string;
+  weight?: string;
+  lore?: string | string[];
+  quote?: string;
   ssr_quote?: string;
-  origin: string;
+  origin?: string;
   summary?: string;
   talent?: Talent | null;
   skills: Skill[];

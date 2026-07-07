@@ -6,7 +6,7 @@ import {
   IoFlame,
   IoTrophy,
 } from 'react-icons/io5';
-import { useDtdleGame } from '../hooks/useDtdleGame';
+import { useDtdleGame } from '../hooks/use-dtdle-game';
 import GuessSelect from './GuessSelect';
 import GuessTable from './GuessTable';
 

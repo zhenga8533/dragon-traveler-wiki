@@ -5,8 +5,8 @@ import type { SkillType } from '@/features/characters/types';
 import { useEffect, useMemo, useState } from 'react';
 import { getAbilityEligibleCharacters, pickDailyAbility } from '../modes/ability/utils';
 import { fnv1aHash32 } from '../utils/ring-hash';
-import type { AbilityGameState } from '../modes/ability/types';
 import { getTodayAnswerSlug, getTodayIsoDate } from '../utils/daily-answer';
+import type { AbilityGameState } from '../types';
 import { useDailyGameState } from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
 

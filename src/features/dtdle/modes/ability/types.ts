@@ -6,11 +6,3 @@ export interface AbilityAnswer {
   skillType?: SkillType;
   name: string;
 }
-
-export interface AbilityGameState {
-  date: string;
-  guessedSlugs: string[];
-  characterSolved: boolean;
-  categoryGuesses: SkillType[];
-  solved: boolean;
-}

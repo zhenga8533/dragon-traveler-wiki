@@ -1,5 +1,21 @@
 import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
 import { useEffect, useState } from 'react';
+import type { DtdleGameState } from '../types';
+
+export function isValidGameState(value: unknown): value is DtdleGameState {
+  if (value === null || typeof value !== 'object') return false;
+  const v = value as Partial<DtdleGameState>;
+  return (
+    typeof v.date === 'string' &&
+    Array.isArray(v.guessedSlugs) &&
+    v.guessedSlugs.every((s) => typeof s === 'string') &&
+    typeof v.solved === 'boolean'
+  );
+}
+
+export function freshGameState(date: string): DtdleGameState {
+  return { date, guessedSlugs: [], solved: false };
+}
 
 /**
  * Persists a per-day game state object under `storageKey`, resetting to

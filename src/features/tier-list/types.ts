@@ -17,9 +17,9 @@ export interface TierEntry {
 
 export interface TierList {
   name: string;
-  author: string;
+  author?: string;
   content_type: ContentType;
-  description: string;
+  description?: string;
   /** Custom tier order and notes. Defaults to S+/S/A/B/C/D if absent. */
   tiers?: TierDefinition[];
   entries: TierEntry[];

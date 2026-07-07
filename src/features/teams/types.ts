@@ -30,9 +30,9 @@ export interface TeamWyrmspells {
 
 export interface Team {
   name: string;
-  author: string;
+  author?: string;
   content_type: ContentType;
-  description: string;
+  description?: string;
   faction: FactionSlug;
   members: TeamMember[];
   bench?: TeamBenchMember[];

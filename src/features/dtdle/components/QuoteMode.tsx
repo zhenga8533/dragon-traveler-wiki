@@ -7,7 +7,7 @@ import {
   IoFlame,
   IoTrophy,
 } from 'react-icons/io5';
-import { useQuoteGame } from '../hooks/useQuoteGame';
+import { useQuoteGame } from '../hooks/use-quote-game';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
 
@@ -15,7 +15,7 @@ export default function QuoteMode() {
   const {
     loading,
     error,
-    guessable,
+    eligible,
     answer,
     gameState,
     stats,
@@ -69,7 +69,7 @@ export default function QuoteMode() {
             "{answer.quote}"
           </Blockquote>
           <GuessSelect
-            characters={guessable}
+            characters={eligible}
             guessedSlugs={gameState.guessedSlugs}
             onSubmitGuess={submitGuess}
             disabled={gameState.solved}

@@ -6,7 +6,7 @@ import {
   IoFlame,
   IoTrophy,
 } from 'react-icons/io5';
-import { useIllustrationGame } from '../hooks/useIllustrationGame';
+import { useIllustrationGame } from '../hooks/use-illustration-game';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
 
