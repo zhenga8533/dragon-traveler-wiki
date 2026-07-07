@@ -2,7 +2,8 @@ import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
 import type { GuessComparison } from '../types';
 
-function parseMeasurement(value: string): number | null {
+function parseMeasurement(value: string | undefined): number | null {
+  if (!value) return null;
   const parsed = parseFloat(value.replace(/,/g, '').replace(/[^0-9.]/g, ''));
   return Number.isNaN(parsed) ? null : parsed;
 }
