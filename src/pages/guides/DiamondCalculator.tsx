@@ -2,6 +2,8 @@ import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
 import { parseNumberInput } from '@/utils';
 import { useGradientAccent } from '@/hooks';
+import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
+import { isRecord } from '@/utils/type-guards';
 import {
   ActionIcon,
   Alert,
@@ -509,15 +511,11 @@ function sortSourcesByCadenceThenLabel(sources: SourceRow[]): SourceRow[] {
 }
 
 function readStoredCalculatorState(): Partial<CalculatorState> | null {
-  if (typeof window === 'undefined') return null;
-
-  try {
-    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as Partial<CalculatorState>;
-  } catch {
-    return null;
-  }
+  return readStoredJson<Partial<CalculatorState> | null>(
+    LOCAL_STORAGE_KEY,
+    null,
+    (value): value is Partial<CalculatorState> => isRecord(value)
+  );
 }
 
 export default function DiamondCalculator() {
@@ -582,11 +580,7 @@ export default function DiamondCalculator() {
     };
 
     const timeoutId = window.setTimeout(() => {
-      try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(state));
-      } catch {
-        // Ignore local storage write failures.
-      }
+      writeStoredJson(LOCAL_STORAGE_KEY, state);
     }, 250);
 
     return () => window.clearTimeout(timeoutId);
