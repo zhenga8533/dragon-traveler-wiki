@@ -1,33 +1,27 @@
 import { STORAGE_KEY } from '@/constants/ui';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useMemo } from 'react';
-import {
-  getEligibleCharacters,
-  getTodayAnswerSlug,
-  getTodayIsoDate,
-} from '../utils/daily-answer';
+import { getEligibleCharacters } from '../utils/daily-answer';
+import { useDailyAnswer } from './use-daily-answer';
 import {
   freshGameState,
   isValidGameState,
   useDailyGameState,
 } from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
+import { useGuessedCharacters } from './use-guessed-characters';
+import { useTodayIsoDate } from './use-today-iso-date';
 
 export function useDtdleGame() {
   const { data: characters, loading, error } = useCharacters();
-  const todayStr = useMemo(() => getTodayIsoDate(), []);
+  const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(
     () => getEligibleCharacters(characters),
     [characters]
   );
 
-  const answer = useMemo(() => {
-    if (eligible.length === 0) return null;
-    const sortedSlugs = eligible.map((c) => c.slug).sort();
-    const answerSlug = getTodayAnswerSlug(todayStr, sortedSlugs);
-    return eligible.find((c) => c.slug === answerSlug) ?? null;
-  }, [eligible, todayStr]);
+  const answer = useDailyAnswer(eligible, todayStr);
 
   const [gameState, setGameState] = useDailyGameState(
     STORAGE_KEY.DTDLE_STATE,
@@ -38,26 +32,22 @@ export function useDtdleGame() {
 
   const { stats, recordWin } = useDailyStats(STORAGE_KEY.DTDLE_STATS, todayStr);
 
-  const guessedCharacters = useMemo(
-    () =>
-      gameState.guessedSlugs
-        .map((slug) => eligible.find((c) => c.slug === slug))
-        .filter((c): c is NonNullable<typeof c> => c != null),
-    [gameState.guessedSlugs, eligible]
-  );
+  const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
 
   function submitGuess(slug: string) {
-    if (!answer || gameState.solved || gameState.guessedSlugs.includes(slug)) {
-      return;
-    }
-    const isWin = slug === answer.slug;
-    setGameState((prev) => ({
-      ...prev,
-      guessedSlugs: [...prev.guessedSlugs, slug],
-      solved: prev.solved || isWin,
-    }));
-
-    if (isWin) recordWin();
+    if (!answer) return;
+    let didWin = false;
+    setGameState((prev) => {
+      if (prev.solved || prev.guessedSlugs.includes(slug)) return prev;
+      const isWin = slug === answer.slug;
+      didWin = isWin;
+      return {
+        ...prev,
+        guessedSlugs: [...prev.guessedSlugs, slug],
+        solved: prev.solved || isWin,
+      };
+    });
+    if (didWin) recordWin();
   }
 
   return {

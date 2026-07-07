@@ -13,8 +13,8 @@ export interface GuessComparison {
   qualityStatus: 'exact' | 'higher' | 'lower';
   factionStatus: 'exact' | 'partial' | 'none';
   originStatus: 'exact' | 'none';
-  heightStatus: 'exact' | 'higher' | 'lower';
-  weightStatus: 'exact' | 'higher' | 'lower';
+  heightStatus: 'exact' | 'higher' | 'lower' | 'unknown';
+  weightStatus: 'exact' | 'higher' | 'lower' | 'unknown';
 }
 
 export interface DtdleGameState {

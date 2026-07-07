@@ -41,6 +41,12 @@ export function pickDailyAbility(
     });
   }
 
+  if (pool.length === 0) {
+    throw new Error(
+      `Character ${character.slug} has no talent or skills to pick a daily ability from`
+    );
+  }
+
   const index =
     fnv1aHash32(`${dateStr}:ability-slot:${character.slug}`) % pool.length;
   return pool[index];

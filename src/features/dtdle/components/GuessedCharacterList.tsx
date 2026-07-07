@@ -16,7 +16,7 @@ export default function GuessedCharacterList({
   if (guessedCharacters.length === 0) return null;
 
   return (
-    <Stack gap="xs">
+    <Stack gap="xs" aria-live="polite">
       {[...guessedCharacters].reverse().map((guess) => {
         const isCorrect = guess.slug === correctSlug;
         return (

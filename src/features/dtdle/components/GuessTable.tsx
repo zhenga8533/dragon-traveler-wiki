@@ -19,7 +19,12 @@ export default function GuessTable({ guesses, answer }: GuessTableProps) {
 
   return (
     <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-      <Table striped highlightOnHover style={getMinWidthStyle(720)}>
+      <Table
+        striped
+        highlightOnHover
+        style={getMinWidthStyle(720)}
+        aria-live="polite"
+      >
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Character</Table.Th>

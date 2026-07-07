@@ -2,12 +2,17 @@ import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
 import type { GuessComparison } from '../types';
 
-function parseMeasurement(value: string): number {
-  return parseFloat(value.replace(/,/g, '').replace(/[^0-9.]/g, ''));
+function parseMeasurement(value: string): number | null {
+  const parsed = parseFloat(value.replace(/,/g, '').replace(/[^0-9.]/g, ''));
+  return Number.isNaN(parsed) ? null : parsed;
 }
 
 /** 'higher' means the answer's value is greater than the guess's value. */
-function compareOrdinal(guessValue: number, answerValue: number): 'exact' | 'higher' | 'lower' {
+function compareOrdinal(
+  guessValue: number | null,
+  answerValue: number | null
+): 'exact' | 'higher' | 'lower' | 'unknown' {
+  if (guessValue === null || answerValue === null) return 'unknown';
   if (answerValue === guessValue) return 'exact';
   return answerValue > guessValue ? 'higher' : 'lower';
 }

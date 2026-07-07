@@ -5,10 +5,12 @@ import type { SkillType } from '@/features/characters/types';
 import { useEffect, useMemo, useState } from 'react';
 import { getAbilityEligibleCharacters, pickDailyAbility } from '../modes/ability/utils';
 import { fnv1aHash32 } from '../utils/ring-hash';
-import { getTodayAnswerSlug, getTodayIsoDate } from '../utils/daily-answer';
 import type { AbilityGameState } from '../types';
+import { useDailyAnswer } from './use-daily-answer';
 import { useDailyGameState } from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
+import { useGuessedCharacters } from './use-guessed-characters';
+import { useTodayIsoDate } from './use-today-iso-date';
 
 const MODE_SALT = 'ability';
 
@@ -37,19 +39,14 @@ function freshState(date: string): AbilityGameState {
 
 export function useAbilityGame() {
   const { data: characters, loading, error } = useCharacters();
-  const todayStr = useMemo(() => getTodayIsoDate(), []);
+  const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(
     () => getAbilityEligibleCharacters(characters),
     [characters]
   );
 
-  const answerCharacter = useMemo(() => {
-    if (eligible.length === 0) return null;
-    const sortedSlugs = eligible.map((c) => c.slug).sort();
-    const answerSlug = getTodayAnswerSlug(todayStr, sortedSlugs, MODE_SALT);
-    return eligible.find((c) => c.slug === answerSlug) ?? null;
-  }, [eligible, todayStr]);
+  const answerCharacter = useDailyAnswer(eligible, todayStr, MODE_SALT);
 
   const ability = useMemo(
     () => (answerCharacter ? pickDailyAbility(answerCharacter, todayStr) : null),
@@ -112,57 +109,49 @@ export function useAbilityGame() {
     todayStr
   );
 
-  const guessedCharacters = useMemo(
-    () =>
-      gameState.guessedSlugs
-        .map((slug) => eligible.find((c) => c.slug === slug))
-        .filter((c): c is NonNullable<typeof c> => c != null),
-    [gameState.guessedSlugs, eligible]
-  );
+  const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
 
   function submitCharacterGuess(slug: string) {
-    if (
-      !answerCharacter ||
-      !ability ||
-      gameState.characterSolved ||
-      gameState.guessedSlugs.includes(slug)
-    ) {
-      return;
-    }
-    const isCorrect = slug === answerCharacter.slug;
-    const characterSolved = gameState.characterSolved || isCorrect;
-    // Talent abilities have no category to guess, so getting the character
-    // right immediately completes the round.
-    const solved = isCorrect && ability.kind === 'talent';
-
-    setGameState((prev) => ({
-      ...prev,
-      guessedSlugs: [...prev.guessedSlugs, slug],
-      characterSolved,
-      solved: prev.solved || solved,
-    }));
-
-    if (solved) recordWin();
+    if (!answerCharacter || !ability) return;
+    let didWin = false;
+    setGameState((prev) => {
+      if (prev.characterSolved || prev.guessedSlugs.includes(slug)) return prev;
+      const isCorrect = slug === answerCharacter.slug;
+      const characterSolved = prev.characterSolved || isCorrect;
+      // Talent abilities have no category to guess, so getting the character
+      // right immediately completes the round.
+      const solved = isCorrect && ability.kind === 'talent';
+      didWin = solved;
+      return {
+        ...prev,
+        guessedSlugs: [...prev.guessedSlugs, slug],
+        characterSolved,
+        solved: prev.solved || solved,
+      };
+    });
+    if (didWin) recordWin();
   }
 
   function submitCategoryGuess(type: SkillType) {
-    if (
-      !ability ||
-      ability.kind !== 'skill' ||
-      !gameState.characterSolved ||
-      gameState.solved ||
-      gameState.categoryGuesses.includes(type)
-    ) {
-      return;
-    }
-    const isCorrect = type === ability.skillType;
-    setGameState((prev) => ({
-      ...prev,
-      categoryGuesses: [...prev.categoryGuesses, type],
-      solved: prev.solved || isCorrect,
-    }));
-
-    if (isCorrect) recordWin();
+    if (!ability || ability.kind !== 'skill') return;
+    let didWin = false;
+    setGameState((prev) => {
+      if (
+        !prev.characterSolved ||
+        prev.solved ||
+        prev.categoryGuesses.includes(type)
+      ) {
+        return prev;
+      }
+      const isCorrect = type === ability.skillType;
+      didWin = isCorrect;
+      return {
+        ...prev,
+        categoryGuesses: [...prev.categoryGuesses, type],
+        solved: prev.solved || isCorrect,
+      };
+    });
+    if (didWin) recordWin();
   }
 
   return {
