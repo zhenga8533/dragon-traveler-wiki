@@ -41,11 +41,9 @@ export function filterCharacters(
   ownedCharacters?: Record<string, string>,
   starLevelOrder?: string[]
 ): Character[] {
+  const searchLower = filters.search.toLowerCase();
   return characters.filter((c) => {
-    if (
-      filters.search &&
-      !c.name.toLowerCase().includes(filters.search.toLowerCase())
-    ) {
+    if (filters.search && !c.name.toLowerCase().includes(searchLower)) {
       return false;
     }
     if (
@@ -115,11 +113,18 @@ export function filterCharacters(
   });
 }
 
+// Avoids re-parsing skill descriptions with regex on every filter pass.
+const effectRefsCache = new WeakMap<Character, string[]>();
+
 function extractCharacterEffectRefs(character: Character): string[] {
+  const cached = effectRefsCache.get(character);
+  if (cached) return cached;
+
   const refs: string[] = [];
   for (const skill of character.skills) {
     refs.push(...parseEffectRefs(skill.description));
   }
+  effectRefsCache.set(character, refs);
   return refs;
 }
 

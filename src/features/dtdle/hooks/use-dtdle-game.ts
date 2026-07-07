@@ -10,6 +10,7 @@ import {
 } from './use-daily-game-state';
 import { useDailyStats } from './use-daily-stats';
 import { useGuessedCharacters } from './use-guessed-characters';
+import { useSubmitGuess } from './use-submit-guess';
 import { useTodayIsoDate } from './use-today-iso-date';
 
 export function useDtdleGame() {
@@ -34,21 +35,7 @@ export function useDtdleGame() {
 
   const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
 
-  function submitGuess(slug: string) {
-    if (!answer) return;
-    let didWin = false;
-    setGameState((prev) => {
-      if (prev.solved || prev.guessedSlugs.includes(slug)) return prev;
-      const isWin = slug === answer.slug;
-      didWin = isWin;
-      return {
-        ...prev,
-        guessedSlugs: [...prev.guessedSlugs, slug],
-        solved: prev.solved || isWin,
-      };
-    });
-    if (didWin) recordWin();
-  }
+  const submitGuess = useSubmitGuess(setGameState, answer, recordWin);
 
   return {
     loading,

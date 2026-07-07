@@ -22,6 +22,7 @@ import { showSuccessToast, showWarningToast } from '@/utils/toast';
 import {
   DndContext,
   DragOverlay,
+  KeyboardSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -128,7 +129,9 @@ export default function TeamBuilder({
         delay: 120,
         tolerance: 8,
       },
-    })
+    }),
+    // Basic keyboard drag support (no grid-aware coordinateGetter yet)
+    useSensor(KeyboardSensor)
   );
 
   useEffect(() => {

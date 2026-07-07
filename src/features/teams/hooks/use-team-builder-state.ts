@@ -34,7 +34,7 @@ import {
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import { useCharacterResolution } from '@/hooks';
+import { useCharacterResolution, useDraftHydration } from '@/hooks';
 import type { FactionSlug } from '@/types/faction';
 import { showWarningToast } from '@/utils/toast';
 import type {
@@ -202,9 +202,23 @@ function toCharacterKey(id: UniqueIdentifier | undefined): string | null {
   return typeof id === 'string' ? id : null;
 }
 
+/** First empty slot whose row is in `validRows` (any row if `validRows` is null). */
+function findNextEmptySlot(
+  slots: Array<string | null>,
+  validRows: number[] | null
+): number {
+  for (let slotIndex = 0; slotIndex < slots.length; slotIndex++) {
+    if (slots[slotIndex] !== null) continue;
+    if (validRows && !validRows.includes(Math.floor(slotIndex / 3))) continue;
+    return slotIndex;
+  }
+  return -1;
+}
+
 function toBuilderState(
   data: Team,
-  getCharacterKeyFromReference: (name: string, quality?: string) => string
+  getCharacterKeyFromReference: (name: string, quality?: string) => string,
+  getCharacterFromKey: (characterKey: string) => Character | undefined
 ): TeamBuilderState {
   const nextState = createEmptyBuilderState();
   nextState.meta = {
@@ -226,28 +240,37 @@ function toBuilderState(
     );
     if (usedKeys.has(characterKey)) continue;
 
-    let slotIndex = nextState.slots.findIndex(
-      (slotValue) => slotValue === null
-    );
+    const character = getCharacterFromKey(characterKey);
+    const validRows = character ? getValidRows(character.character_class) : null;
+
+    // A malformed/duplicate/wrong-row position falls back to the next open
+    // valid-row slot instead of silently dropping the character.
+    let slotIndex = -1;
     if (member.position) {
-      slotIndex = member.position.row * 3 + member.position.col;
+      const candidate = member.position.row * 3 + member.position.col;
+      const candidateValid =
+        candidate >= 0 &&
+        candidate < GRID_SIZE &&
+        nextState.slots[candidate] === null &&
+        (!validRows || validRows.includes(member.position.row));
+      slotIndex = candidateValid
+        ? candidate
+        : findNextEmptySlot(nextState.slots, validRows);
+    } else {
+      slotIndex = findNextEmptySlot(nextState.slots, validRows);
     }
 
-    if (
-      slotIndex >= 0 &&
-      slotIndex < GRID_SIZE &&
-      nextState.slots[slotIndex] === null
-    ) {
-      nextState.slots[slotIndex] = characterKey;
-      usedKeys.add(characterKey);
-      nextState.slotNotes[slotIndex] = normalizeNote(member.note) || '';
+    if (slotIndex === -1) continue;
 
-      if (member.overdrive_order != null) {
-        parsedOverdriveEntries.push({
-          slotIndex,
-          order: member.overdrive_order,
-        });
-      }
+    nextState.slots[slotIndex] = characterKey;
+    usedKeys.add(characterKey);
+    nextState.slotNotes[slotIndex] = normalizeNote(member.note) || '';
+
+    if (member.overdrive_order != null) {
+      parsedOverdriveEntries.push({
+        slotIndex,
+        order: member.overdrive_order,
+      });
     }
   }
 
@@ -295,7 +318,6 @@ export function useTeamBuilderState({
     undefined,
     createEmptyBuilderState
   );
-  const [draftHydrated, setDraftHydrated] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const { byIdentity: characterByIdentity } = useCharacterResolution(characters);
@@ -322,51 +344,28 @@ export function useTeamBuilderState({
     (team: Team) => {
       dispatch({
         type: 'LOAD_TEAM',
-        payload: toBuilderState(team, getCharacterKeyFromReference),
+        payload: toBuilderState(
+          team,
+          getCharacterKeyFromReference,
+          getCharacterFromKey
+        ),
       });
     },
-    [getCharacterKeyFromReference]
+    [getCharacterFromKey, getCharacterKeyFromReference]
   );
 
-  useEffect(() => {
-    if (initialData) {
-      queueMicrotask(() => {
-        loadFromTeam(initialData);
-        setDraftHydrated(true);
-      });
-      return;
-    }
-
-    if (typeof window === 'undefined') {
-      queueMicrotask(() => setDraftHydrated(true));
-      return;
-    }
-
-    const storedDraft = window.localStorage.getItem(
-      STORAGE_KEY.TEAMS_BUILDER_DRAFT
-    );
-    if (storedDraft) {
-      try {
-        const parsedDraft = JSON.parse(storedDraft) as unknown;
-        const partialTeam = getPastedTeamPatch(parsedDraft);
-        if (partialTeam) {
-          const hydratedTeam = normalizeTeamFromPartial(
-            partialTeam,
-            createFallbackTeam()
-          );
-          queueMicrotask(() => {
-            loadFromTeam(hydratedTeam);
-          });
-        } else {
-          window.localStorage.removeItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT);
-        }
-      } catch {
-        window.localStorage.removeItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT);
-      }
-    }
-
-    queueMicrotask(() => setDraftHydrated(true));
-  }, [initialData, loadFromTeam]);
+  const draftHydrated = useDraftHydration({
+    initialData,
+    storageKey: STORAGE_KEY.TEAMS_BUILDER_DRAFT,
+    getPastedPatch: getPastedTeamPatch,
+    normalizeFromPartial: (partial, fallback) =>
+      normalizeTeamFromPartial(
+        partial as Parameters<typeof normalizeTeamFromPartial>[0],
+        fallback
+      ),
+    createFallback: createFallbackTeam,
+    load: loadFromTeam,
+  });
 
   const deferredName = useDeferredValue(state.meta.name);
   const deferredAuthor = useDeferredValue(state.meta.author);
@@ -894,6 +893,7 @@ export function useTeamBuilderState({
               ? state.benchNotes[characterKey] || ''
               : '';
 
+          // Full team: occupant is overwritten outright (nowhere to relocate them).
           if (occupant && teamSize >= MAX_ROSTER_SIZE) {
             dispatch({
               type: 'SET_SLOT',

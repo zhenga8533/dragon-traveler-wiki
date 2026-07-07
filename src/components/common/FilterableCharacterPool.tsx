@@ -171,7 +171,10 @@ export default function FilterableCharacterPool({
     return sortCharactersByQuality(filteredChars);
   }, [characters, filters, tierLookup, selectedTierListName]);
 
-  const filterKey = JSON.stringify({ filters, selectedTierListName });
+  const filterKey = useMemo(
+    () => JSON.stringify({ filters, selectedTierListName }),
+    [filters, selectedTierListName]
+  );
   const {
     page: safePage,
     setPage,

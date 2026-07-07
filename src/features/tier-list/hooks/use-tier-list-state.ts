@@ -24,7 +24,7 @@ import type {
   TierList,
 } from '@/features/tier-list/types';
 import { removeItemFromRecordArrays } from '@/utils/dnd-list';
-import { useCharacterResolution } from '@/hooks';
+import { useCharacterResolution, useDraftHydration } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { showWarningToast } from '@/utils/toast';
 import type {
@@ -384,7 +384,6 @@ export function useTierListState({
     undefined,
     createEmptyBuilderState
   );
-  const [draftHydrated, setDraftHydrated] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const { byIdentity: characterByIdentity } = useCharacterResolution(characters);
@@ -417,45 +416,18 @@ export function useTierListState({
     [getCharacterKeyFromReference]
   );
 
-  useEffect(() => {
-    if (initialData) {
-      queueMicrotask(() => {
-        loadFromTierList(initialData);
-        setDraftHydrated(true);
-      });
-      return;
-    }
-
-    if (typeof window === 'undefined') {
-      queueMicrotask(() => setDraftHydrated(true));
-      return;
-    }
-
-    const storedDraft = window.localStorage.getItem(
-      STORAGE_KEY.TIER_LIST_BUILDER_DRAFT
-    );
-    if (storedDraft) {
-      try {
-        const parsedDraft = JSON.parse(storedDraft) as unknown;
-        const partialTierList = getPastedTierListPatch(parsedDraft);
-        if (partialTierList) {
-          const hydratedTierList = normalizeTierListFromPartial(
-            partialTierList,
-            createFallbackTierList()
-          );
-          queueMicrotask(() => {
-            loadFromTierList(hydratedTierList);
-          });
-        } else {
-          window.localStorage.removeItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT);
-        }
-      } catch {
-        window.localStorage.removeItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT);
-      }
-    }
-
-    queueMicrotask(() => setDraftHydrated(true));
-  }, [initialData, loadFromTierList]);
+  const draftHydrated = useDraftHydration({
+    initialData,
+    storageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
+    getPastedPatch: getPastedTierListPatch,
+    normalizeFromPartial: (partial, fallback) =>
+      normalizeTierListFromPartial(
+        partial as Parameters<typeof normalizeTierListFromPartial>[0],
+        fallback
+      ),
+    createFallback: createFallbackTierList,
+    load: loadFromTierList,
+  });
 
   const deferredName = useDeferredValue(state.meta.name);
   const deferredAuthor = useDeferredValue(state.meta.author);

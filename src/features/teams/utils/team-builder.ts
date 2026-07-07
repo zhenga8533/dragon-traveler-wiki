@@ -7,6 +7,7 @@ import type { Team, TeamBenchMember, TeamMember } from '@/features/teams/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
+import { resolvePastedPatch } from '@/utils/pasted-json';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
@@ -91,23 +92,8 @@ function teamMemberIdentity(member: {
 }
 
 export function getPastedTeamPatch(value: unknown): TeamPatch | null {
-  if (Array.isArray(value)) {
-    if (value.every(isTeamMemberLike)) {
-      return { members: value };
-    }
-
-    if (value.length === 1 && isRecord(value[0])) {
-      return value[0] as TeamPatch;
-    }
-
-    return null;
-  }
-
-  if (isRecord(value)) {
-    return value as TeamPatch;
-  }
-
-  return null;
+  // normalizeTeamFromPartial re-validates every field, so this cast is safe.
+  return resolvePastedPatch(value, isTeamMemberLike, 'members') as TeamPatch | null;
 }
 
 export function normalizeTeamFromPartial(

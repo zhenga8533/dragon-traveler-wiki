@@ -5,6 +5,7 @@ import type { TierList } from '@/features/tier-list/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
+import { resolvePastedPatch } from '@/utils/pasted-json';
 import { toEntitySlug } from '@/utils/entity-slug';
 
 interface LegacyTierEntry {
@@ -41,23 +42,8 @@ export function isTierEntryLike(value: unknown): value is LegacyTierEntry {
 export function getPastedTierListPatch(
   value: unknown
 ): TierListPatch | null {
-  if (Array.isArray(value)) {
-    if (value.every(isTierEntryLike)) {
-      return { entries: value };
-    }
-
-    if (value.length === 1 && isRecord(value[0])) {
-      return value[0] as Partial<TierList>;
-    }
-
-    return null;
-  }
-
-  if (isRecord(value)) {
-    return value as Partial<TierList>;
-  }
-
-  return null;
+  // normalizeTierListFromPartial re-validates every field, so this cast is safe.
+  return resolvePastedPatch(value, isTierEntryLike, 'entries') as TierListPatch | null;
 }
 
 export function normalizeTierListFromPartial(
