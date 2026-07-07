@@ -17,20 +17,3 @@
   max-width: 100%;
   align-items: flex-start;
 }
-
-.search-pill-trigger {
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
-}
-
-.search-pill-trigger:hover {
-  border-color: var(--dt-focus-border) !important;
-  box-shadow: 0 0 0 1px var(--dt-focus-ring);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .search-pill-trigger {
-    transition: none;
-  }
-}

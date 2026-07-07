@@ -1,6 +1,6 @@
-import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
 import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
 import { SearchDataContext } from '@/contexts';
+import { useGradientAccent } from '@/hooks';
 import { isCodeActive, readStoredStringSet } from '@/utils';
 import { isGameEventActive } from '@/utils/event-utils';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
@@ -178,11 +178,15 @@ function isNavPathActive(navPath: string, pathname: string) {
   );
 }
 
-const renderNavIcon = (
+function renderNavIcon(
   Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
   isActive: boolean,
-) => <Icon size={IMAGE_SIZE.ICON_LG} color={getIconColor(accent, isActive)} />;
+) {
+  return (
+    <Icon size={IMAGE_SIZE.ICON_LG} color={getIconColor(accent, isActive)} />
+  );
+}
 
 export default function Navigation({
   onNavigate,
@@ -195,6 +199,8 @@ export default function Navigation({
 }) {
   const location = useLocation();
   const { codes, events } = useContext(SearchDataContext);
+  const { accent } = useGradientAccent();
+  const navAccent = accent.primary;
 
   const [redeemedCodes, setRedeemedCodes] = useState<Set<string>>(() =>
     readStoredStringSet(STORAGE_KEY.REDEEMED_CODES),
@@ -263,7 +269,6 @@ export default function Navigation({
           const isChildActive = item.children.some((child) =>
             childIsActive(child, location.pathname),
           );
-          const parentAccent = PARENT_ACCENTS[item.label];
 
           if (!showLabels) {
             return (
@@ -279,10 +284,10 @@ export default function Navigation({
                   title={item.label}
                   leftSection={
                     item.icon &&
-                    renderNavIcon(item.icon, parentAccent, isChildActive)
+                    renderNavIcon(item.icon, navAccent, isChildActive)
                   }
                   active={isChildActive}
-                  color={parentAccent}
+                  color={navAccent}
                   styles={collapsedNavStyles}
                   onClick={() => {
                     setOpenGroups((prev) => ({ ...prev, [item.label]: true }));
@@ -301,12 +306,12 @@ export default function Navigation({
               onChange={(opened) =>
                 setOpenGroups((prev) => ({ ...prev, [item.label]: opened }))
               }
-              childrenOffset={28}
+              childrenOffset={24}
               leftSection={
                 item.icon &&
-                renderNavIcon(item.icon, parentAccent, isChildActive)
+                renderNavIcon(item.icon, navAccent, isChildActive)
               }
-              color={parentAccent}
+              color={navAccent}
               styles={expandedNavStyles}
             >
               {item.children.map((child) => {
@@ -327,40 +332,36 @@ export default function Navigation({
                           [groupKey]: opened,
                         }))
                       }
-                      childrenOffset={16}
+                      childrenOffset={14}
                       leftSection={
                         child.icon &&
                         renderNavIcon(
                           child.icon,
-                          parentAccent,
+                          navAccent,
                           isSubgroupActive,
                         )
                       }
                       active={isSubgroupActive}
-                      color={parentAccent}
+                      color={navAccent}
                     >
-                      {child.children.map((leaf) => {
-                        const leafAccent = getAccentForPath(leaf.path);
-                        return (
-                          <NavLink
-                            key={leaf.path}
-                            component={Link}
-                            to={leaf.path}
-                            label={leaf.label}
-                            active={isNavPathActive(
-                              leaf.path,
-                              location.pathname,
-                            )}
-                            color={leafAccent}
-                            onClick={onNavigate}
-                          />
-                        );
-                      })}
+                      {child.children.map((leaf) => (
+                        <NavLink
+                          key={leaf.path}
+                          component={Link}
+                          to={leaf.path}
+                          label={leaf.label}
+                          active={isNavPathActive(
+                            leaf.path,
+                            location.pathname,
+                          )}
+                          color={navAccent}
+                          onClick={onNavigate}
+                        />
+                      ))}
                     </NavLink>
                   );
                 }
 
-                const childAccent = getAccentForPath(child.path);
                 return (
                   <NavLink
                     key={child.path}
@@ -368,7 +369,7 @@ export default function Navigation({
                     to={child.path}
                     label={child.label}
                     active={isNavPathActive(child.path, location.pathname)}
-                    color={childAccent}
+                    color={navAccent}
                     onClick={onNavigate}
                   />
                 );
@@ -377,7 +378,6 @@ export default function Navigation({
           );
         }
 
-        const itemAccent = getAccentForPath(item.path!);
         const isActive = isNavPathActive(item.path!, location.pathname);
 
         if (!showLabels) {
@@ -401,10 +401,10 @@ export default function Navigation({
                 aria-label={tooltipLabel}
                 title={item.label}
                 leftSection={
-                  item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+                  item.icon && renderNavIcon(item.icon, navAccent, isActive)
                 }
                 active={isActive}
-                color={itemAccent}
+                color={navAccent}
                 onClick={onNavigate}
                 styles={collapsedNavStyles}
               />
@@ -438,10 +438,10 @@ export default function Navigation({
             to={item.path!}
             label={label}
             leftSection={
-              item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+              item.icon && renderNavIcon(item.icon, navAccent, isActive)
             }
             active={isActive}
-            color={itemAccent}
+            color={navAccent}
             onClick={onNavigate}
             styles={expandedNavStyles}
           />
