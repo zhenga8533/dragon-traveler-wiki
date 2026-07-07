@@ -59,7 +59,7 @@ export function useAbilityGame() {
   const rotationDeg = useMemo(
     () =>
       ability
-        ? fnv1aHash32(`${todayStr}:rotate:${ability.characterSlug}`) % 360
+        ? (fnv1aHash32(`${todayStr}:rotate:${ability.characterSlug}`) % 4) * 90
         : 0,
     [ability, todayStr]
   );

@@ -1,3 +1,5 @@
+import ClassTag from '@/components/ui/ClassTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import { Group, Stack, Text } from '@mantine/core';
@@ -38,9 +40,10 @@ export default function GuessedCharacterList({
               <Text size="sm" fw={500}>
                 {guess.name}
               </Text>
-              <Text size="xs" c="dimmed">
-                {guess.quality} · {guess.character_class}
-              </Text>
+              <Group gap={6} align="center">
+                <QualityIcon quality={guess.quality} size={14} showTooltip={false} />
+                <ClassTag characterClass={guess.character_class} size="xs" />
+              </Group>
             </Stack>
           </Group>
         );
