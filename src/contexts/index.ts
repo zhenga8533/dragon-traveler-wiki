@@ -2,6 +2,8 @@ export { BannerContext, BannerProvider } from './banner-context';
 export { LocaleContext } from './locale';
 export type { LocaleContextValue } from './locale';
 export { LocaleProvider } from './locale-context';
+export { NavLayoutContext, NavLayoutProvider } from './nav-layout-context';
+export type { NavLayout, NavLayoutContextValue } from './nav-layout-context';
 export {
   CharacterOwnershipContext,
   CharacterOwnershipProvider,

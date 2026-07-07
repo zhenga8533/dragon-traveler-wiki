@@ -1,140 +1,16 @@
-import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
-import { SearchDataContext } from '@/contexts';
-import { useGradientAccent } from '@/hooks';
-import { isCodeActive, readStoredStringSet } from '@/utils';
-import { isGameEventActive } from '@/utils/event-utils';
+import {
+  childIsActive,
+  groupHasActiveChild,
+  getActiveGroupKeys,
+  isNavGroup,
+  isNavPathActive,
+  NAV_ITEMS,
+} from '@/constants/nav-items';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT } from '@/constants/ui';
+import { useGradientAccent, useNavBadgeCounts } from '@/hooks';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
-import {
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ComponentType,
-} from 'react';
-import {
-  IoBook,
-  IoCalculatorOutline,
-  IoCalendar,
-  IoConstructOutline,
-  IoEllipsisHorizontalOutline,
-  IoGift,
-  IoHome,
-  IoList,
-  IoServer,
-  IoShield,
-  IoTrophy,
-} from 'react-icons/io5';
-import { Link, matchPath, useLocation } from 'react-router-dom';
-
-type NavLeaf = { label: string; path: string };
-type NavGroup = {
-  label: string;
-  icon?: ComponentType;
-  children: NavLeaf[];
-};
-type NavItem = {
-  label: string;
-  path?: string;
-  icon?: ComponentType;
-  children?: (NavLeaf | NavGroup)[];
-};
-
-function isNavGroup(child: NavLeaf | NavGroup): child is NavGroup {
-  return 'children' in child;
-}
-
-function groupHasActiveChild(group: NavGroup, pathname: string) {
-  return group.children.some((leaf) => isNavPathActive(leaf.path, pathname));
-}
-
-function childIsActive(child: NavLeaf | NavGroup, pathname: string) {
-  return isNavGroup(child)
-    ? groupHasActiveChild(child, pathname)
-    : isNavPathActive(child.path, pathname);
-}
-
-function getActiveGroupKeys(pathname: string) {
-  const keys: string[] = [];
-  for (const item of NAV_ITEMS) {
-    if (!item.children) continue;
-    if (item.children.some((child) => childIsActive(child, pathname))) {
-      keys.push(item.label);
-    }
-    for (const child of item.children) {
-      if (isNavGroup(child) && groupHasActiveChild(child, pathname)) {
-        keys.push(`${item.label}>${child.label}`);
-      }
-    }
-  }
-  return keys;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', path: '/', icon: IoHome },
-  {
-    label: 'Database',
-    icon: IoServer,
-    children: [
-      { label: 'Artifacts', path: '/artifacts' },
-      { label: 'Characters', path: '/characters' },
-      { label: 'Gear', path: '/gear' },
-      { label: 'Howlkins', path: '/howlkins' },
-      { label: 'Noble Phantasms', path: '/noble-phantasms' },
-      { label: 'Relics', path: '/relics' },
-      { label: 'Resources', path: '/resources' },
-      { label: 'Subclasses', path: '/subclasses' },
-      { label: 'Status Effects', path: '/status-effects' },
-      { label: 'Wyrms', path: '/wyrms' },
-      { label: 'Wyrmspells', path: '/wyrmspells' },
-    ],
-  },
-  {
-    label: 'Toolbox',
-    icon: IoConstructOutline,
-    children: [
-      {
-        label: 'Calculators',
-        icon: IoCalculatorOutline,
-        children: [
-          {
-            label: 'Star Upgrade Calculator',
-            path: '/toolbox/star-upgrade-calculator',
-          },
-          {
-            label: 'Mythic Summon Calculator',
-            path: '/toolbox/mythic-summon-calculator',
-          },
-          {
-            label: 'Diamond Calculator',
-            path: '/toolbox/diamond-calculator',
-          },
-        ],
-      },
-      {
-        label: 'Strategy Guides',
-        icon: IoBook,
-        children: [
-          { label: 'Beginner Q&A', path: '/toolbox/beginner-qa' },
-          { label: 'Shovel Event Guide', path: '/toolbox/shovel-event' },
-        ],
-      },
-      {
-        label: 'Misc',
-        icon: IoEllipsisHorizontalOutline,
-        children: [
-          { label: 'FAQ', path: '/toolbox/faq' },
-          { label: 'Useful Links', path: '/toolbox/useful-links' },
-          { label: 'DTdle', path: '/toolbox/dtdle' },
-        ],
-      },
-    ],
-  },
-  { label: 'Tier List', path: '/tier-list', icon: IoTrophy },
-  { label: 'Teams', path: '/teams', icon: IoShield },
-  { label: 'Events', path: '/events', icon: IoCalendar },
-  { label: 'Codes', path: '/codes', icon: IoGift },
-  { label: 'Changelog', path: '/changelog', icon: IoList },
-];
+import { useEffect, useState, type ComponentType } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const collapsedNavStyles = {
   root: {
@@ -166,18 +42,6 @@ const expandedNavStyles = {
 const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
 
-const NAV_ACTIVE_PATTERNS: Record<string, string[]> = {
-  '/gear': ['/gear', '/gear-sets/:setName'],
-  '/relics': ['/relics', '/oracle-scrolls/:scrollName'],
-};
-
-function isNavPathActive(navPath: string, pathname: string) {
-  const patterns = NAV_ACTIVE_PATTERNS[navPath] ?? [navPath, `${navPath}/*`];
-  return patterns.some(
-    (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null,
-  );
-}
-
 function renderNavIcon(
   Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
@@ -198,45 +62,9 @@ export default function Navigation({
   onExpand?: () => void;
 }) {
   const location = useLocation();
-  const { codes, events } = useContext(SearchDataContext);
   const { accent } = useGradientAccent();
   const navAccent = accent.primary;
-
-  const [redeemedCodes, setRedeemedCodes] = useState<Set<string>>(() =>
-    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES),
-  );
-
-  useEffect(() => {
-    const syncRedeemedCodes = () => {
-      setRedeemedCodes(readStoredStringSet(STORAGE_KEY.REDEEMED_CODES));
-    };
-
-    const handleStorage = (event: StorageEvent) => {
-      if (event.key === STORAGE_KEY.REDEEMED_CODES) {
-        syncRedeemedCodes();
-      }
-    };
-
-    window.addEventListener('storage', handleStorage);
-    window.addEventListener('redeemed-codes-updated', syncRedeemedCodes);
-    return () => {
-      window.removeEventListener('storage', handleStorage);
-      window.removeEventListener('redeemed-codes-updated', syncRedeemedCodes);
-    };
-  }, []);
-
-  const activeCodesCount = useMemo(
-    () =>
-      codes.filter(
-        (code) => isCodeActive(code) && !redeemedCodes.has(code.code),
-      ).length,
-    [codes, redeemedCodes],
-  );
-
-  const activeEventsCount = useMemo(
-    () => events.filter((event) => isGameEventActive(event)).length,
-    [events],
-  );
+  const { activeCodesCount, activeEventsCount } = useNavBadgeCounts();
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};

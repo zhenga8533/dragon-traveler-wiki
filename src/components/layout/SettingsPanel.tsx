@@ -11,7 +11,13 @@ import {
   UiOpacityContext,
 } from '@/contexts';
 import { SUPPORTED_LOCALES } from '@/utils/data-paths';
-import { useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
+import {
+  useDarkMode,
+  useEffectiveNavLayout,
+  useGradientAccent,
+  useIsMobile,
+  useMobileTooltip,
+} from '@/hooks';
 import {
   ActionIcon,
   Badge,
@@ -130,6 +136,7 @@ export default function SettingsPanel({
   const isMobile = useIsMobile();
   const mobileTooltip = useMobileTooltip();
   const { accent, palette, setPalette, customColors, setCustomColors } = useGradientAccent();
+  const { navLayout, setNavLayout, effectiveNavLayout } = useEffectiveNavLayout();
 
   const {
     tierLists,
@@ -269,6 +276,30 @@ export default function SettingsPanel({
           />
           <Text size="xs" c="dimmed">
             Changes which localized data files are loaded. Reload the page after switching.
+          </Text>
+        </Stack>
+      </Paper>
+
+      <Paper p="sm" radius="md" withBorder>
+        <Stack gap="xs">
+          <Text size="sm" fw={600}>
+            Navigation
+          </Text>
+          <SegmentedControl
+            fullWidth
+            size={controlSize}
+            value={navLayout}
+            onChange={(value) => setNavLayout(value as typeof navLayout)}
+            data={[
+              { label: 'Sidebar', value: 'sidebar' },
+              { label: 'Header', value: 'header' },
+            ]}
+            aria-label="Select navigation layout"
+          />
+          <Text size="xs" c="dimmed">
+            {navLayout === 'header' && effectiveNavLayout === 'sidebar'
+              ? 'Header nav needs a wider screen to fit — using the sidebar for now.'
+              : 'Header nav is only available on wide screens; narrower screens always use the sidebar.'}
           </Text>
         </Stack>
       </Paper>

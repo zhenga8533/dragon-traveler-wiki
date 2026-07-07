@@ -5,6 +5,7 @@ import {
   FavoriteIllustrationsProvider,
   GradientThemeProvider,
   LocaleProvider,
+  NavLayoutProvider,
   ResourcesProvider,
   SearchDataProvider,
   TierListReferenceProvider,
@@ -21,9 +22,11 @@ export default function AppProviders({ children }: { children: ReactNode }) {
               <FavoriteIllustrationsProvider>
                 <BannerProvider>
                   <CharacterOwnershipProvider>
-                    <SearchDataProvider>
-                      {children}
-                    </SearchDataProvider>
+                    <NavLayoutProvider>
+                      <SearchDataProvider>
+                        {children}
+                      </SearchDataProvider>
+                    </NavLayoutProvider>
                   </CharacterOwnershipProvider>
                 </BannerProvider>
               </FavoriteIllustrationsProvider>

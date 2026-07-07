@@ -155,6 +155,7 @@ export const STORAGE_KEY = {
   STATUS_EFFECT_SORT: 'status-effects:sort',
   SUBCLASS_SORT: 'subclasses:sort',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
+  NAV_LAYOUT: 'ui:navLayout',
   TEAMS_BUILDER_SLOTS: 'teams:builderSlots',
   TIER_LIST_BUILDER_SLOTS: 'tier-list:builderSlots',
   TEAMS_MY_SAVED: 'teams:mySaved',

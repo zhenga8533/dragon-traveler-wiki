@@ -6,13 +6,14 @@ import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { isDetailRoute } from '@/constants/route-meta';
 import { HEADER_HEIGHT, IMAGE_SIZE, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
-import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
+import { useDarkMode, useEffectiveNavLayout, useIsMobile, useSidebar } from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
 import {
   ActionIcon,
   AppShell,
   Box,
   Burger,
+  Divider,
   Group,
   Image,
   Title,
@@ -24,6 +25,7 @@ import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
 import BannerBackground from './BannerBackground';
 import Footer from './Footer';
+import HeaderNav from './HeaderNav';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
@@ -35,6 +37,8 @@ export default function AppLayout() {
   const sidebar = useSidebar();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
+  const { effectiveNavLayout } = useEffectiveNavLayout();
+  const useHeaderNav = effectiveNavLayout === 'header';
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -45,9 +49,11 @@ export default function AppLayout() {
   const glassStyles = getGlassStyles(isDark);
 
   const showLabels = isMobile ? true : sidebar.showLabels;
-  const navbarWidth = isMobile
-    ? SIDEBAR.WIDTH_EXPANDED
-    : sidebar.effectiveWidth;
+  const navbarWidth = useHeaderNav
+    ? 0
+    : isMobile
+      ? SIDEBAR.WIDTH_EXPANDED
+      : sidebar.effectiveWidth;
 
   return (
     <AppShell
@@ -57,7 +63,7 @@ export default function AppLayout() {
       navbar={{
         width: navbarWidth,
         breakpoint: 'sm',
-        collapsed: { mobile: !mobileOpened },
+        collapsed: { mobile: !mobileOpened, desktop: useHeaderNav },
       }}
       padding={{ base: 'sm', sm: 'md' }}
       transitionDuration={parseInt(TRANSITION.NORMAL)}
@@ -65,30 +71,32 @@ export default function AppLayout() {
       style={{ minHeight: '100dvh' }}
     >
       <AppShell.Header style={glassStyles}>
-        <Group h="100%" px="md" justify="space-between" wrap="nowrap">
-          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+        <Group h="100%" px="md" wrap="nowrap" align="stretch" style={{ justifyContent: 'space-between' }}>
+          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden', flexShrink: 0 }}>
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
               hiddenFrom="sm"
               size="sm"
             />
-            <Tooltip
-              label={
-                sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
-              }
-              position="right"
-            >
-              <ActionIcon
-                variant="subtle"
-                size="lg"
-                onClick={sidebar.toggle}
-                aria-label="Toggle sidebar"
-                visibleFrom="sm"
+            {!useHeaderNav && (
+              <Tooltip
+                label={
+                  sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+                }
+                position="right"
               >
-                {sidebar.isCollapsed ? <IoChevronForward size={IMAGE_SIZE.ICON_LG} /> : <IoChevronBack size={IMAGE_SIZE.ICON_LG} />}
-              </ActionIcon>
-            </Tooltip>
+                <ActionIcon
+                  variant="subtle"
+                  size="lg"
+                  onClick={sidebar.toggle}
+                  aria-label="Toggle sidebar"
+                  visibleFrom="sm"
+                >
+                  {sidebar.isCollapsed ? <IoChevronForward size={IMAGE_SIZE.ICON_LG} /> : <IoChevronBack size={IMAGE_SIZE.ICON_LG} />}
+                </ActionIcon>
+              </Tooltip>
+            )}
             <Link
               to="/"
               style={{
@@ -111,27 +119,39 @@ export default function AppLayout() {
               </Title>
             </Link>
           </Group>
-          <Group gap="xs" wrap="nowrap">
+
+          {useHeaderNav && (
+            <>
+              <Box style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', minWidth: 0, overflow: 'hidden' }}>
+                <HeaderNav />
+              </Box>
+              <Divider orientation="vertical" my="sm" />
+            </>
+          )}
+
+          <Group gap="xs" wrap="nowrap" style={{ flexShrink: 0 }}>
             <LazySearchModal />
             <LazySettingsPanel />
           </Group>
         </Group>
       </AppShell.Header>
 
-      <AppShell.Navbar
-        p="xs"
-        style={{ ...glassStyles, display: 'flex', flexDirection: 'column' }}
-        onMouseEnter={() => sidebar.setHovered(true)}
-        onMouseLeave={() => sidebar.setHovered(false)}
-      >
-        <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
-          <Navigation
-            onNavigate={closeMobile}
-            showLabels={showLabels}
-            onExpand={() => sidebar.setCollapsed(false)}
-          />
-        </Box>
-      </AppShell.Navbar>
+      {!useHeaderNav && (
+        <AppShell.Navbar
+          p="xs"
+          style={{ ...glassStyles, display: 'flex', flexDirection: 'column' }}
+          onMouseEnter={() => sidebar.setHovered(true)}
+          onMouseLeave={() => sidebar.setHovered(false)}
+        >
+          <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+            <Navigation
+              onNavigate={closeMobile}
+              showLabels={showLabels}
+              onExpand={() => sidebar.setCollapsed(false)}
+            />
+          </Box>
+        </AppShell.Navbar>
+      )}
 
       <AppShell.Main
         style={{

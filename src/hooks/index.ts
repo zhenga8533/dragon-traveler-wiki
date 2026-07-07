@@ -76,6 +76,8 @@ export { useBuilderEditState } from './use-builder-edit-state';
 export { useDraftHydration } from './use-draft-hydration';
 export { useInputCommit } from './use-input-commit';
 export { useSecondaryTabList } from './use-secondary-tab-list';
+export { useEffectiveNavLayout } from './use-effective-nav-layout';
+export { useNavBadgeCounts } from './use-nav-badge-counts';
 export { useSidebar } from './use-sidebar';
 export { applyDir, useSortState } from './use-sort';
 export { useEntityTabParam, useTabParam } from './use-tab-param';
