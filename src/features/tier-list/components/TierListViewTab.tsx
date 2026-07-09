@@ -48,6 +48,10 @@ interface TierListViewTabProps {
 	hasCharacterFilters: boolean;
 }
 
+function getTierListCharacterIdentity(character: Character): string {
+	return `${getCharacterIdentityKey(character)}__${character.quality}`;
+}
+
 export default function TierListViewTab({
 	visibleTierLists,
 	characters,
@@ -106,13 +110,15 @@ export default function TierListViewTab({
 								})
 								.map((e) => {
 									const resolved = resolveTierEntryCharacter(e);
-									return resolved ? getCharacterIdentityKey(resolved) : e.character_slug;
+									return resolved
+										? getTierListCharacterIdentity(resolved)
+										: `${e.character_slug}__${e.character_quality ?? ''}`;
 								})
 						);
 						const unranked = sortCharactersByQuality(
 							characters.filter(
 								(c) =>
-									!rankedNames.has(getCharacterIdentityKey(c)) &&
+									!rankedNames.has(getTierListCharacterIdentity(c)) &&
 									(!hasCharacterFilters || characterFilter(c))
 							)
 						);
@@ -146,7 +152,7 @@ export default function TierListViewTab({
 
 									{unranked.length > 0 && (
 										<CollapsibleSectionCard
-											defaultExpanded={false}
+											defaultExpanded
 											color="gray"
 											header={
 												<Badge
@@ -155,7 +161,7 @@ export default function TierListViewTab({
 													size="lg"
 													radius="sm"
 												>
-													N/A
+													N/A ({unranked.length})
 												</Badge>
 											}
 										>
