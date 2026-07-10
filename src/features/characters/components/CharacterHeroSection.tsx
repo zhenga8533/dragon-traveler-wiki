@@ -1,5 +1,6 @@
 ﻿import type { Illustration } from '@/assets';
-import { GlobalBadge } from '@/components';
+import { GlobalBadge, SafeImage } from '@/components';
+import { useState } from 'react';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ClassTag from '@/components/ui/ClassTag';
@@ -23,9 +24,15 @@ import {
 } from '@mantine/core';
 import CharacterPortrait from './CharacterPortrait';
 
+function getFullBodyHeight(aspectRatio: number): number {
+  if (!Number.isFinite(aspectRatio) || aspectRatio <= 0) return 135;
+  return 60 + 75 / aspectRatio;
+}
+
 interface CharacterPageHeroSectionProps {
   character: Character;
   activeIllustration: Illustration | null;
+  fullBodySrc?: string | null;
   assetKey?: string;
   isNew?: boolean;
 }
@@ -33,10 +40,19 @@ interface CharacterPageHeroSectionProps {
 export default function CharacterPageHeroSection({
   character,
   activeIllustration,
+  fullBodySrc,
   assetKey,
   isNew = false,
 }: CharacterPageHeroSectionProps) {
   const isDark = useDarkMode();
+  const [fullBodyMeasurement, setFullBodyMeasurement] = useState<{
+    src: string;
+    height: number;
+  } | null>(null);
+  const fullBodyHeight =
+    fullBodyMeasurement && fullBodyMeasurement.src === fullBodySrc
+      ? fullBodyMeasurement.height
+      : null;
   const heroBlurFilter = isDark
     ? `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(${CHARACTER_HERO.BRIGHTNESS})`
     : `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(1.2) saturate(1.05)`;
@@ -82,6 +98,62 @@ export default function CharacterPageHeroSection({
           }}
         />
       )}
+
+      {fullBodySrc && (
+        <Container
+          size="lg"
+          visibleFrom="md"
+          aria-hidden="true"
+          style={{
+            position: 'absolute',
+            inset: 0,
+            pointerEvents: 'none',
+          }}
+        >
+          <Box
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: 0,
+              width: '40%',
+              height: 'calc(100% - 32px)',
+              maskImage:
+                'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
+            }}
+          >
+            <SafeImage
+              src={fullBodySrc}
+              alt=""
+              loading="eager"
+              onLoad={(event) => {
+                const image = event.currentTarget;
+                const aspectRatio = image.naturalWidth / image.naturalHeight;
+                // Narrow canvases need more enlargement to occupy comparable
+                // visual space; wide canvases need less to avoid crowding text.
+                const height = getFullBodyHeight(aspectRatio);
+                setFullBodyMeasurement({ src: fullBodySrc, height });
+              }}
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                width: 'auto',
+                maxWidth: 'none',
+                height: `${fullBodyHeight ?? 130}%`,
+                opacity: fullBodyHeight == null ? 0 : 1,
+                transition: 'opacity 160ms ease',
+                maskImage:
+                  'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
+                WebkitMaskImage:
+                  'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
+              }}
+            />
+          </Box>
+        </Container>
+      )}
+
       <Box
         style={{
           position: 'absolute',
@@ -99,7 +171,11 @@ export default function CharacterPageHeroSection({
         style={{ position: 'relative', zIndex: 1 }}
         py={{ base: 'xl', sm: 50 }}
       >
-        <Grid gutter={{ base: 'md', sm: 'xl' }} align="center">
+        <Grid
+          gutter={{ base: 'md', sm: 'xl' }}
+          align="center"
+          style={{ position: 'relative', zIndex: 1 }}
+        >
           {/* Portrait */}
           <Grid.Col span={{ base: 12, sm: 'content' }}>
             <Center>
@@ -199,6 +275,10 @@ export default function CharacterPageHeroSection({
               </Stack>
             </Stack>
           </Grid.Col>
+
+          {fullBodySrc && (
+            <Grid.Col visibleFrom="md" span={4} aria-hidden="true" />
+          )}
         </Grid>
       </Container>
 

@@ -6,6 +6,7 @@ export interface SafeImageProps extends ImageProps {
   alt?: string;
   fallbackSrc?: string;
   loading?: 'lazy' | 'eager';
+  onLoad?: (event: SyntheticEvent<HTMLImageElement, Event>) => void;
 }
 
 export default function SafeImage({

@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   getCharacterSkillIcon,
+  getCharacterSkinAsset,
   getTalentIcon,
   probeIllustrations,
   resolveManifestIllustrations,
@@ -18,6 +19,7 @@ interface UseCharacterAssetsResult {
   illustrationsLoading: boolean;
   skinOptions: Array<{ value: string; label: string }>;
   selectedSkinSlug: string | null;
+  fullBodySrc: string | null;
   setSelectedSkinSlug: (slug: string | null) => void;
   talentIcon: string | undefined;
   skillIcons: Map<string, string>;
@@ -103,6 +105,32 @@ export function useCharacterAssets(
   const selectedSkinSlug = availableSkinSlugs.has(savedSkinSlug ?? '')
     ? savedSkinSlug
     : skinOptions[0]?.value ?? null;
+  const fullBodySrc = useMemo(() => {
+    if (!character || !selectedSkinSlug || assetManifest.loading) return null;
+
+    const characterKey = characterAssetKey?.trim() || character.slug;
+    const src = getCharacterSkinAsset(
+      characterKey,
+      selectedSkinSlug,
+      'full_body'
+    );
+    if (!src) return null;
+
+    // When the manifest is unavailable, SafeImage performs the compatibility
+    // probe by quietly hiding a missing optional file after its request fails.
+    if (assetManifest.error) return src;
+
+    const assetPath = `character/${characterKey}/skins/${selectedSkinSlug}/full_body.png`;
+    const entry = assetManifest.data.assets[assetPath];
+    return entry ? `${src}?v=${entry.sha256.slice(0, 12)}` : null;
+  }, [
+    assetManifest.data.assets,
+    assetManifest.error,
+    assetManifest.loading,
+    character,
+    characterAssetKey,
+    selectedSkinSlug,
+  ]);
   const setSelectedSkinSlug = useCallback(
     (skinSlug: string | null) => {
       if (characterSlug && skinSlug) setSelectedSkin(characterSlug, skinSlug);
@@ -245,6 +273,7 @@ export function useCharacterAssets(
     illustrationsLoading,
     skinOptions,
     selectedSkinSlug,
+    fullBodySrc,
     setSelectedSkinSlug,
     talentIcon: displayTalentIcon,
     skillIcons: displaySkillIcons,

@@ -82,6 +82,7 @@ export default function CharacterPage() {
     illustrationsLoading,
     skinOptions,
     selectedSkinSlug,
+    fullBodySrc,
     setSelectedSkinSlug,
     talentIcon,
     skillIcons,
@@ -165,6 +166,7 @@ export default function CharacterPage() {
         <CharacterHeroSection
           character={character}
           activeIllustration={activeIllustration}
+          fullBodySrc={fullBodySrc}
           assetKey={characterAssetKey}
           isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
         />
