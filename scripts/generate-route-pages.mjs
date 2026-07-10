@@ -329,7 +329,7 @@ function writeRoutePages() {
       getSlug: (item) => item?.slug,
       getEntityImageUrl: (item) =>
         assetsBase && item?.slug
-          ? `${assetsBase}character/${item.slug}/illustrations/default.png`
+          ? `${assetsBase}character/${item.slug}/skins/default/portrait.png`
           : null,
       getDescription: (item, baseDescription) => {
         const title = item?.title ? `, ${item.title}` : '';

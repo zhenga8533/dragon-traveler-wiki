@@ -193,7 +193,9 @@ export default function CharacterPageHeroSection({
                 </Group>
 
                 {/* Last Updated */}
-                <LastUpdated timestamp={character.last_updated} />
+                {character.last_updated != null && (
+                  <LastUpdated timestamp={character.last_updated} />
+                )}
               </Stack>
             </Stack>
           </Grid.Col>

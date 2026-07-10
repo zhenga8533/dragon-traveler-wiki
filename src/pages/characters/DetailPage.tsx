@@ -12,6 +12,7 @@ import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
 import {
   BannerContext,
   CharacterOwnershipContext,
+  CharacterSkinContext,
   FavoriteIllustrationsContext,
 } from '@/contexts';
 import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
@@ -41,6 +42,7 @@ export default function CharacterPage() {
     FavoriteIllustrationsContext
   );
   const { favoritesOnly } = useContext(BannerContext);
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
@@ -77,6 +79,10 @@ export default function CharacterPage() {
 
   const {
     illustrations,
+    illustrationsLoading,
+    skinOptions,
+    selectedSkinSlug,
+    setSelectedSkinSlug,
     talentIcon,
     skillIcons,
     setSelectedIllustration,
@@ -149,7 +155,8 @@ export default function CharacterPage() {
     'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
   const { previousItem, nextItem } = getCharacterNavPaths(
     previousCharacter,
-    nextCharacter
+    nextCharacter,
+    getSelectedSkin
   );
 
   return (
@@ -178,6 +185,10 @@ export default function CharacterPage() {
             >
               <CharacterIllustrationPanel
                 characterName={character.name}
+                loading={illustrationsLoading}
+                skinOptions={skinOptions}
+                selectedSkinSlug={selectedSkinSlug}
+                onSkinChange={setSelectedSkinSlug}
                 activeIllustration={activeIllustration}
                 activeIllustrationIndex={activeIllustrationIndex}
                 illustrationsLength={illustrations.length}

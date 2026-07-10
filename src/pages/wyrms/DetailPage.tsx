@@ -257,12 +257,12 @@ export default function WyrmPage() {
         <DetailPageNavigation
           previousItem={
             previousWyrm
-              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}`, iconSrc: getWyrmIcon(previousWyrm.name) }
+              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}`, iconSrc: getWyrmIcon(previousWyrm.slug) }
               : null
           }
           nextItem={
             nextWyrm
-              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}`, iconSrc: getWyrmIcon(nextWyrm.name) }
+              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}`, iconSrc: getWyrmIcon(nextWyrm.slug) }
               : null
           }
         />

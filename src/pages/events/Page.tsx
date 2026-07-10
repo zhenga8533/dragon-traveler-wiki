@@ -55,7 +55,8 @@ import {
   Title,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
+import { CharacterSkinContext } from '@/contexts';
 import { IoCalendarOutline, IoInformationCircleOutline } from 'react-icons/io5';
 
 const EVENTS_PER_PAGE = 12;
@@ -428,6 +429,7 @@ function EventListSkeleton() {
 }
 
 export default function Events() {
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { accent } = useGradientAccent();
   const isPageMobile = useIsMobile();
   const {
@@ -441,12 +443,13 @@ export default function Events() {
     const map = new Map<string, string>();
     for (const char of characters) {
       if (!map.has(char.name)) {
-        const portrait = getPortrait(char.name, getCharacterRouteSlug(char));
+        const slug = getCharacterRouteSlug(char);
+        const portrait = getPortrait(char.name, slug, getSelectedSkin(slug));
         if (portrait) map.set(char.name, portrait);
       }
     }
     return map;
-  }, [characters]);
+  }, [characters, getSelectedSkin]);
 
   const [tabParam, handleTabChange] = useTabParam('tab', 'active', [
     'active',

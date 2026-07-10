@@ -48,6 +48,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Generate asset manifest
+        working-directory: private-data
+        run: python -m src.normalize_data.asset_manifest
+
       - name: Build
         run: npm run build --ignore-scripts
         env:
@@ -57,6 +61,9 @@ jobs:
 
       - name: Copy data into dist
         run: cp -r private-data/data dist/data
+
+      - name: Copy asset manifest into dist
+        run: cp private-data/assets/manifest.json dist/assets/manifest.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

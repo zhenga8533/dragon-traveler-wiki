@@ -163,7 +163,9 @@ export default function CharacterFilter({
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
                   const effect = effectOptions.find((o) => o.value === option.value);
-                  const iconSrc = effect?.icon && effect.type && effect.slug ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
+                  const iconSrc = effect?.slug
+                    ? getStatusEffectIcon(effect.slug, effect.type)
+                    : undefined;
                   return (
                     <Group gap="xs" align="center">
                       {iconSrc ? (

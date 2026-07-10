@@ -9,7 +9,8 @@ import {
   Table,
   Text,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { CharacterSkinContext } from '@/contexts';
 import { getPortrait } from '@/assets';
 import { getNoblePhantasmIcon } from '@/assets';
 import CharacterTag from '@/features/characters/components/CharacterTag';
@@ -44,6 +45,7 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 };
 
 export default function NoblePhantasms() {
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { accent } = useGradientAccent();
   const {
     data: noblePhantasms,
@@ -71,7 +73,7 @@ export default function NoblePhantasms() {
     const characterIcons: Record<string, string> = {};
     for (const char of characters) {
       const slug = getCharacterRouteSlug(char);
-      const portrait = getPortrait(char.name, slug);
+      const portrait = getPortrait(char.name, slug, getSelectedSkin(slug));
       if (portrait) characterIcons[slug] = portrait;
     }
     return [
@@ -91,7 +93,7 @@ export default function NoblePhantasms() {
         optionIcons: characterIcons,
       },
     ];
-  }, [characters]);
+  }, [characters, getSelectedSkin]);
 
   const charNameBySlug = useMemo(
     () => new Map(characters.map((c) => [c.slug, c.name])),

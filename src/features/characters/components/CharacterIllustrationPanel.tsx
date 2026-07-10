@@ -10,6 +10,8 @@ import {
   Box,
   Center,
   Group,
+  Select,
+  Skeleton,
   Stack,
   Text,
   UnstyledButton,
@@ -24,6 +26,10 @@ import {
 
 interface CharacterIllustrationPanelProps {
   characterName: string;
+  loading: boolean;
+  skinOptions: Array<{ value: string; label: string }>;
+  selectedSkinSlug: string | null;
+  onSkinChange: (slug: string | null) => void;
   activeIllustration: Illustration | null;
   activeIllustrationIndex: number;
   illustrationsLength: number;
@@ -38,6 +44,10 @@ interface CharacterIllustrationPanelProps {
 
 export default function CharacterIllustrationPanel({
   characterName,
+  loading,
+  skinOptions,
+  selectedSkinSlug,
+  onSkinChange,
   activeIllustration,
   activeIllustrationIndex,
   illustrationsLength,
@@ -52,6 +62,17 @@ export default function CharacterIllustrationPanel({
   const { accent } = useGradientAccent();
   const activeIllustrationName = activeIllustration?.name;
 
+  if (loading) {
+    return (
+      <StaticSurface p="md" radius="lg">
+        <Stack gap="xs">
+          <Skeleton height={18} width="35%" />
+          <Skeleton height={300} radius="md" />
+        </Stack>
+      </StaticSurface>
+    );
+  }
+
   if (!activeIllustration || illustrationsLength === 0) {
     return (
       <StaticSurface p="xl" radius="lg">
@@ -65,6 +86,16 @@ export default function CharacterIllustrationPanel({
   return (
     <StaticSurface p="md" radius="lg" style={{ overflow: 'hidden' }}>
       <Stack gap="xs">
+        {skinOptions.length > 1 && (
+          <Select
+            label="Skin"
+            data={skinOptions}
+            value={selectedSkinSlug}
+            onChange={onSkinChange}
+            allowDeselect={false}
+            size="xs"
+          />
+        )}
         <Group justify="space-between" align="center">
           <Text fw={600} size="sm">
             Illustrations

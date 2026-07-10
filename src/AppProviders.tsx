@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import {
   BannerProvider,
   CharacterOwnershipProvider,
+  CharacterSkinProvider,
   FavoriteIllustrationsProvider,
   GradientThemeProvider,
   LocaleProvider,
@@ -21,13 +22,15 @@ export default function AppProviders({ children }: { children: ReactNode }) {
             <UiOpacityProvider>
               <FavoriteIllustrationsProvider>
                 <BannerProvider>
-                  <CharacterOwnershipProvider>
-                    <NavLayoutProvider>
-                      <SearchDataProvider>
-                        {children}
-                      </SearchDataProvider>
-                    </NavLayoutProvider>
-                  </CharacterOwnershipProvider>
+                  <CharacterSkinProvider>
+                    <CharacterOwnershipProvider>
+                      <NavLayoutProvider>
+                        <SearchDataProvider>
+                          {children}
+                        </SearchDataProvider>
+                      </NavLayoutProvider>
+                    </CharacterOwnershipProvider>
+                  </CharacterSkinProvider>
                 </BannerProvider>
               </FavoriteIllustrationsProvider>
             </UiOpacityProvider>

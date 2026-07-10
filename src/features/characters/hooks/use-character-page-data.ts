@@ -417,21 +417,30 @@ export function useCharacterPageData(
 /** Returns the route paths for prev/next character navigation. */
 export function getCharacterNavPaths(
   previousCharacter: Character | null,
-  nextCharacter: Character | null
+  nextCharacter: Character | null,
+  getSelectedSkin: (characterSlug: string) => string = () => 'default'
 ) {
   return {
     previousItem: previousCharacter
       ? {
           label: previousCharacter.name,
           path: getCharacterRoutePath(previousCharacter),
-          iconSrc: getPortrait(previousCharacter.slug),
+          iconSrc: getPortrait(
+            previousCharacter.slug,
+            previousCharacter.slug,
+            getSelectedSkin(previousCharacter.slug)
+          ),
         }
       : null,
     nextItem: nextCharacter
       ? {
           label: nextCharacter.name,
           path: getCharacterRoutePath(nextCharacter),
-          iconSrc: getPortrait(nextCharacter.slug),
+          iconSrc: getPortrait(
+            nextCharacter.slug,
+            nextCharacter.slug,
+            getSelectedSkin(nextCharacter.slug)
+          ),
         }
       : null,
   };

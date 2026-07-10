@@ -8,7 +8,7 @@ export function getIllustrationEligibleCharacters(
   characters: Character[]
 ): Character[] {
   return getEligibleCharacters(characters).filter((c) =>
-    resolveIllustrations(c.name, c.slug, c.illustrations).some(
+    resolveIllustrations(c.name, c.slug, c.skins, c.affection_gift).some(
       (i) => i.type === 'image'
     )
   );
@@ -18,7 +18,8 @@ export function pickDailyIllustration(character: Character): Illustration | null
   const illustrations = resolveIllustrations(
     character.name,
     character.slug,
-    character.illustrations
+    character.skins,
+    character.affection_gift
   );
   return illustrations.find((i) => i.type === 'image') ?? null;
 }

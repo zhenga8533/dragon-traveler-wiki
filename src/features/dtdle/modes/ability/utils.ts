@@ -32,7 +32,9 @@ export function pickDailyAbility(
       name: character.talent.name,
     });
   }
-  for (const skill of character.skills) {
+  for (const skill of character.skills.filter(
+    (entry) => entry.type && SKILL_TYPES.includes(entry.type)
+  )) {
     pool.push({
       characterSlug: character.slug,
       kind: 'skill',

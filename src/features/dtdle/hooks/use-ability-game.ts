@@ -79,7 +79,7 @@ export function useAbilityGame() {
         ? getTalentIcon(answerCharacter.name, answerCharacter.slug)
         : getCharacterSkillIcon(
             answerCharacter.name,
-            ability.name,
+            (ability.skillType ?? '').replace(/ Skill$/i, '').toLowerCase(),
             answerCharacter.slug
           );
 

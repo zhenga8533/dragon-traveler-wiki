@@ -1,16 +1,24 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   getCharacterSkillIcon,
   getTalentIcon,
+  probeIllustrations,
+  resolveManifestIllustrations,
   resolveIllustrations,
   type Illustration,
 } from '@/assets';
 import type { Character } from '@/features/characters/types';
+import { CharacterSkinContext } from '@/contexts';
+import { useAssetManifest } from '@/hooks/use-asset-manifest';
 
 const EMPTY_SKILL_ICONS = new Map<string, string>();
 
 interface UseCharacterAssetsResult {
   illustrations: Illustration[];
+  illustrationsLoading: boolean;
+  skinOptions: Array<{ value: string; label: string }>;
+  selectedSkinSlug: string | null;
+  setSelectedSkinSlug: (slug: string | null) => void;
   talentIcon: string | undefined;
   skillIcons: Map<string, string>;
   setSelectedIllustration: (illustration: Illustration | null) => void;
@@ -25,12 +33,89 @@ export function useCharacterAssets(
   character: Character | null | undefined,
   characterAssetKey?: string
 ): UseCharacterAssetsResult {
-  const illustrations = useMemo(
+  const { getSelectedSkin, setSelectedSkin } = useContext(CharacterSkinContext);
+  const assetManifest = useAssetManifest();
+  const illustrationCandidates = useMemo(
     () =>
       character
-        ? resolveIllustrations(character.slug, characterAssetKey, character.illustrations)
+        ? resolveIllustrations(character.slug, characterAssetKey, character.skins, character.affection_gift)
         : [],
     [character, characterAssetKey]
+  );
+  const illustrationCandidatesKey = useMemo(
+    () => illustrationCandidates.map((candidate) => candidate.src).join('|'),
+    [illustrationCandidates]
+  );
+  const [probeResult, setProbeResult] = useState<{
+    key: string;
+    illustrations: Illustration[];
+  }>({ key: '', illustrations: [] });
+  useEffect(() => {
+    if (!assetManifest.error) return;
+    let cancelled = false;
+    probeIllustrations(illustrationCandidates).then((available) => {
+      if (!cancelled) {
+        setProbeResult({
+          key: illustrationCandidatesKey,
+          illustrations: available,
+        });
+      }
+    });
+    return () => { cancelled = true; };
+  }, [assetManifest.error, illustrationCandidates, illustrationCandidatesKey]);
+  const manifestIllustrations = useMemo(
+    () =>
+      resolveManifestIllustrations(
+        illustrationCandidates,
+        assetManifest.data.assets
+      ),
+    [assetManifest.data.assets, illustrationCandidates]
+  );
+  const fallbackLoading =
+    Boolean(assetManifest.error) && probeResult.key !== illustrationCandidatesKey;
+  const illustrationsLoading = assetManifest.loading || fallbackLoading;
+  const availableIllustrations = useMemo(
+    () => {
+      if (illustrationsLoading) return [];
+      return assetManifest.error
+        ? probeResult.illustrations
+        : manifestIllustrations;
+    }, [assetManifest.error, illustrationsLoading, manifestIllustrations, probeResult.illustrations]
+  );
+  const characterSlug = character?.slug ?? null;
+  const availableSkinSlugs = useMemo(
+    () =>
+      new Set(
+        availableIllustrations.flatMap((illustration) =>
+          illustration.skinSlug ? [illustration.skinSlug] : []
+        )
+      ),
+    [availableIllustrations]
+  );
+  const skinOptions = useMemo(
+    () =>
+      (character?.skins ?? [])
+        .filter((skin) => availableSkinSlugs.has(skin.slug))
+        .map((skin) => ({ value: skin.slug, label: skin.name })),
+    [availableSkinSlugs, character?.skins]
+  );
+  const savedSkinSlug = characterSlug ? getSelectedSkin(characterSlug) : null;
+  const selectedSkinSlug = availableSkinSlugs.has(savedSkinSlug ?? '')
+    ? savedSkinSlug
+    : skinOptions[0]?.value ?? null;
+  const setSelectedSkinSlug = useCallback(
+    (skinSlug: string | null) => {
+      if (characterSlug && skinSlug) setSelectedSkin(characterSlug, skinSlug);
+    },
+    [characterSlug, setSelectedSkin]
+  );
+  const illustrations = useMemo(
+    () =>
+      availableIllustrations.filter(
+        (illustration) =>
+          illustration.skinSlug === selectedSkinSlug || !illustration.skinSlug
+      ),
+    [availableIllustrations, selectedSkinSlug]
   );
   // Sentinel `null` (never a real illustrations array, even an empty one) ensures the
   // reset below also runs on the very first render, not just on later changes.
@@ -88,6 +173,7 @@ export function useCharacterAssets(
     Promise.all(
       character.skills.map(async (skill): Promise<[string, string] | null> => {
         const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
+        if (typeKey === 'divine') return null;
         const icon = await getCharacterSkillIcon(
           character.slug,
           typeKey,
@@ -156,6 +242,10 @@ export function useCharacterAssets(
 
   return {
     illustrations,
+    illustrationsLoading,
+    skinOptions,
+    selectedSkinSlug,
+    setSelectedSkinSlug,
     talentIcon: displayTalentIcon,
     skillIcons: displaySkillIcons,
     setSelectedIllustration,

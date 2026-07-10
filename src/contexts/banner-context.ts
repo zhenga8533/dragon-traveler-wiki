@@ -1,5 +1,7 @@
 import {
   resolveIllustrations,
+  probeIllustrations,
+  resolveManifestIllustrations,
   type Illustration,
 } from '@/assets';
 
@@ -7,6 +9,7 @@ import { DEFAULT_BANNER_SRC } from '@/constants/banner';
 import { STORAGE_KEY } from '@/constants/ui';
 import { FavoriteIllustrationsContext } from './favorite-illustrations-context';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useAssetManifest } from '@/hooks/use-asset-manifest';
 import {
   createContext,
   createElement,
@@ -106,6 +109,7 @@ export const BannerContext = createContext<BannerContextValue>({
 
 export function BannerProvider({ children }: { children: ReactNode }) {
   const { data: characters } = useCharacters();
+  const assetManifest = useAssetManifest();
   const { favoriteIllustrations } = useContext(FavoriteIllustrationsContext);
 
   const [showOnAllRoutes, setShowOnAllRoutes] = useState(() => {
@@ -140,7 +144,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       DEFAULT_BANNER_PREFERENCE
     );
   });
-  const bannerSourcesByAssetKey = useMemo(() => {
+  const bannerSourceCandidates = useMemo(() => {
     const map = new Map<
       string,
       { characterName: string; illustrations: Illustration[] }
@@ -153,12 +157,49 @@ export function BannerProvider({ children }: { children: ReactNode }) {
         illustrations: resolveIllustrations(
           assetKey,
           assetKey,
-          character.illustrations
+          character.skins,
+          character.affection_gift
         ),
       });
     }
     return map;
   }, [characters]);
+  const [probedBannerSources, setProbedBannerSources] = useState(bannerSourceCandidates);
+  useEffect(() => {
+    if (!assetManifest.error) return;
+    let cancelled = false;
+    Promise.all([...bannerSourceCandidates].map(async ([key, entry]) => [
+      key,
+      { ...entry, illustrations: await probeIllustrations(entry.illustrations) },
+    ] as const)).then((entries) => {
+      if (!cancelled) setProbedBannerSources(new Map(entries));
+    });
+    return () => { cancelled = true; };
+  }, [assetManifest.error, bannerSourceCandidates]);
+  const bannerSourcesByAssetKey = useMemo<
+    Map<string, { characterName: string; illustrations: Illustration[] }>
+  >(() => {
+    if (assetManifest.loading) return new Map();
+    if (assetManifest.error) return probedBannerSources;
+    return new Map(
+      [...bannerSourceCandidates].map(([key, entry]) => [
+        key,
+        {
+          ...entry,
+          illustrations: resolveManifestIllustrations(
+            entry.illustrations,
+            assetManifest.data.assets
+          ),
+        },
+      ])
+    );
+  }, [
+    assetManifest.data.assets,
+    assetManifest.error,
+    assetManifest.loading,
+    bannerSourceCandidates,
+    probedBannerSources,
+  ]);
 
   const bannerOptions = useMemo(() => {
     const loadedOptions: BannerOption[] = [DEFAULT_BANNER_OPTION];
@@ -181,7 +222,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     ];
   }, [bannerSourcesByAssetKey]);
 
-  const bannerOptionsReady = characters.length > 0;
+  const bannerOptionsReady = characters.length > 0 && !assetManifest.loading;
 
   const selectedBannerValue = useMemo(() => {
     if (!bannerOptionsReady) return null;

@@ -14,7 +14,8 @@ export type SkillType =
   | 'Overdrive'
   | 'Ultimate Skill'
   | 'Secret Skill'
-  | 'Special Skill';
+  | 'Special Skill'
+  | 'Divine Skill';
 
 export interface Skill {
   name: string;
@@ -110,10 +111,14 @@ export interface RecommendedGearLoadoutData {
   activatedSetBonuses: ActivatedSetBonus[];
 }
 
-export interface CharacterIllustrationEntry {
+export interface CharacterSkin {
+  slug: string;
   name: string;
-  file: string;
-  type: 'image' | 'video';
+}
+
+export interface CharacterAffectionGift {
+  image?: string | null;
+  video?: string | null;
 }
 
 export interface Character {
@@ -138,6 +143,7 @@ export interface Character {
   recommended_noble_phantasm: string;
   recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
-  illustrations?: CharacterIllustrationEntry[];
-  last_updated: number;
+  skins: CharacterSkin[];
+  affection_gift?: CharacterAffectionGift | null;
+  last_updated: number | null;
 }

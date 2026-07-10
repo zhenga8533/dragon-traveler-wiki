@@ -1,7 +1,7 @@
 ﻿import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
-import { CharacterOwnershipContext } from '@/contexts';
+import { CharacterOwnershipContext, CharacterSkinContext } from '@/contexts';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import type { Quality } from '@/types/quality';
 import SafeImage from '@/components/ui/SafeImage';
@@ -57,8 +57,12 @@ export default function CharacterPortrait({
   const { characterTrackingEnabled, grayUnowned, isOwned } = useContext(
     CharacterOwnershipContext
   );
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
   const resolvedAssetKey = assetKey ?? routeAssetKey;
+  const selectedSkin = resolvedAssetKey
+    ? getSelectedSkin(resolvedAssetKey)
+    : 'default';
   const resolvedBorderColor =
     borderColor ??
     (quality ? QUALITY_BORDER_COLOR[quality] : 'var(--mantine-color-gray-5)');
@@ -73,7 +77,7 @@ export default function CharacterPortrait({
 
   const portrait = (
     <SafeImage
-      src={getPortrait(name, resolvedAssetKey)}
+      src={getPortrait(name, resolvedAssetKey, selectedSkin)}
       alt={alt ?? name}
       w={size}
       h={size}
@@ -100,7 +104,9 @@ export default function CharacterPortrait({
       }}
       fallbackSrc={
         fallbackSrc ??
-        `https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`
+        (selectedSkin !== 'default'
+          ? getPortrait(name, resolvedAssetKey, 'default')
+          : `https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`)
       }
     />
   );

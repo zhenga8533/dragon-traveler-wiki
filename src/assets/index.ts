@@ -1,4 +1,4 @@
-import type { CharacterClass, CharacterIllustrationEntry } from '@/features/characters/types';
+import type { CharacterAffectionGift, CharacterClass, CharacterSkin } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
@@ -146,31 +146,25 @@ export function getSkillIcon(skillName: string): string | undefined {
 // ── Status Effect ────────────────────────────────────────────────────────────
 
 /** Build a status-effect icon path using the effect's stable slug. */
-export function getStatusEffectIcon(slug: string, type: string): string | undefined {
-  if (!slug || !type) return undefined;
+export function getStatusEffectIcon(slug: string, type = 'misc'): string | undefined {
+  if (!slug) return undefined;
   return `${BASE}status_effect/${normalizeKey(type)}/${slug}.png`;
 }
 
 // ── Subclass ─────────────────────────────────────────────────────────────────
 
 export function getSubclassIcon(subclassName: string, characterClass?: string): string | undefined {
-  if (!subclassName) return undefined;
+  if (!subclassName || !characterClass) return undefined;
   const subclassKey = normalizeKey(subclassName);
-  if (characterClass) {
-    return `${BASE}subclass/${normalizeKey(characterClass)}/${subclassKey}.png`;
-  }
-  return `${BASE}subclass/${subclassKey}.png`;
+  return `${BASE}subclass/${normalizeKey(characterClass)}/${subclassKey}.png`;
 }
 
 // ── Wyrmspell ────────────────────────────────────────────────────────────────
 
 export function getWyrmspellIcon(name: string, type?: string): string | undefined {
-  if (!name) return undefined;
+  if (!name || !type) return undefined;
   const nameKey = normalizeKey(name);
-  if (type) {
-    return `${BASE}wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
-  }
-  return `${BASE}wyrmspell/${nameKey}.png`;
+  return `${BASE}wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
 }
 
 // ── Event ────────────────────────────────────────────────────────────────────
@@ -189,6 +183,8 @@ export interface Illustration {
   name: string;
   src: string;
   type: 'image' | 'video';
+  skinSlug?: string;
+  assetPath?: string;
 }
 
 function resolveAssetKey(characterName: string, characterKey?: string): string {
@@ -198,25 +194,99 @@ function resolveAssetKey(characterName: string, characterKey?: string): string {
 
 export function getPortrait(
   characterName: string,
-  characterKey?: string
+  characterKey?: string,
+  skinSlug = 'default'
 ): string | undefined {
   if (!characterName) return undefined;
   const key = resolveAssetKey(characterName, characterKey);
-  return `${BASE}character/${key}/portrait.png`;
+  return `${BASE}character/${key}/skins/${skinSlug}/portrait.png`;
+}
+
+export type CharacterSkinAsset = 'portrait' | 'full_body' | 'card' | 'scene';
+
+export function getCharacterSkinAsset(
+  characterSlug: string,
+  skinSlug: string,
+  asset: CharacterSkinAsset,
+  type: 'image' | 'video' = 'image'
+): string | undefined {
+  if (!characterSlug || !skinSlug || (type === 'video' && asset !== 'scene')) return undefined;
+  return `${BASE}character/${characterSlug}/skins/${skinSlug}/${asset}.${type === 'video' ? 'mp4' : 'png'}`;
+}
+
+export function getCharacterAffectionGift(
+  characterSlug: string,
+  type: 'image' | 'video'
+): string | undefined {
+  if (!characterSlug) return undefined;
+  return `${BASE}character/${characterSlug}/affection_gift.${type === 'video' ? 'mp4' : 'png'}`;
 }
 
 export function resolveIllustrations(
   characterName: string,
   characterKey: string | undefined,
-  entries: CharacterIllustrationEntry[] | undefined
+  skins: CharacterSkin[] | undefined,
+  affectionGift?: CharacterAffectionGift | null
 ): Illustration[] {
-  if (!entries || entries.length === 0) return [];
   const key = resolveAssetKey(characterName, characterKey);
-  return entries.map((e) => ({
-    name: e.name,
-    src: `${BASE}character/${key}/illustrations/${e.file}`,
-    type: e.type,
-  }));
+  const skinAssetPath = (skinSlug: string, filename: string) =>
+    `character/${key}/skins/${skinSlug}/${filename}`;
+  const candidates: Illustration[] = (skins ?? []).flatMap((skin) => [
+    {
+      name: `${skin.name} Animation`,
+      src: getCharacterSkinAsset(key, skin.slug, 'scene', 'video')!,
+      type: 'video' as const,
+      skinSlug: skin.slug,
+      assetPath: skinAssetPath(skin.slug, 'scene.mp4'),
+    },
+    {
+      name: skin.name,
+      src: getCharacterSkinAsset(key, skin.slug, 'scene')!,
+      type: 'image' as const,
+      skinSlug: skin.slug,
+      assetPath: skinAssetPath(skin.slug, 'scene.png'),
+    },
+  ]);
+  if (affectionGift?.image) candidates.push({ name: 'Affection Gift', src: getCharacterAffectionGift(key, 'image')!, type: 'image', assetPath: `character/${key}/affection_gift.png` });
+  if (affectionGift?.video) candidates.push({ name: 'Affection Gift Animation', src: getCharacterAffectionGift(key, 'video')!, type: 'video', assetPath: `character/${key}/affection_gift.mp4` });
+  return candidates;
+}
+
+const availability = new Map<string, Promise<boolean>>();
+
+/** Probe optional skin files once and keep only media that can actually load. */
+export function probeIllustrations(candidates: Illustration[]): Promise<Illustration[]> {
+  if (typeof window === 'undefined') return Promise.resolve(candidates);
+  return Promise.all(candidates.map(async (candidate) => {
+    let probe = availability.get(candidate.src);
+    if (!probe) {
+      probe = new Promise<boolean>((resolve) => {
+        const element = candidate.type === 'image' ? new Image() : document.createElement('video');
+        element.onload = () => resolve(true);
+        element.onerror = () => resolve(false);
+        if (element instanceof HTMLVideoElement) element.onloadedmetadata = () => resolve(true);
+        element.src = candidate.src;
+      });
+      availability.set(candidate.src, probe);
+    }
+    return (await probe) ? candidate : null;
+  })).then((items) => items.filter((item): item is Illustration => item !== null));
+}
+
+export function resolveManifestIllustrations(
+  candidates: Illustration[],
+  assets: Record<string, { sha256: string }>
+): Illustration[] {
+  return candidates.flatMap((illustration) => {
+    if (!illustration.assetPath) return [illustration];
+    const entry = assets[illustration.assetPath];
+    if (!entry) return [];
+    const separator = illustration.src.includes('?') ? '&' : '?';
+    return [{
+      ...illustration,
+      src: `${illustration.src}${separator}v=${entry.sha256.slice(0, 12)}`,
+    }];
+  });
 }
 
 export async function getTalentIcon(

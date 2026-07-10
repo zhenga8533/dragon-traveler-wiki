@@ -1,7 +1,7 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/quality';
-import { CharacterOwnershipContext } from '@/contexts';
+import { CharacterOwnershipContext, CharacterSkinContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
   getCharacterIdentityKey,
@@ -422,6 +422,7 @@ export default function StarLevelBubbleChart({
   onClose,
 }: StarLevelBubbleChartProps) {
   const { ownedCharacters } = useContext(CharacterOwnershipContext);
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
   const starLevelMap = useMemo(
@@ -467,13 +468,17 @@ export default function StarLevelBubbleChart({
         starLevel,
         displayName: char.name,
         r: getBubbleRadius(starLevel.copies, config.baseSize, config.scale, config.sizeExponent),
-        portrait: getPortrait(char.name, getCharacterRouteSlug(char)),
+        portrait: getPortrait(
+          char.name,
+          getCharacterRouteSlug(char),
+          getSelectedSkin(getCharacterRouteSlug(char))
+        ),
         tierColor: TIER_GLOW[starLevel.tier],
         qualityBorder: QUALITY_BORDER_COLOR[char.quality] ?? '#9e9e9e',
       });
     }
     return items.sort((a, b) => b.r - a.r);
-  }, [ownedCharacters, charByIdentity, starLevelMap, config.baseSize, config.scale, config.sizeExponent]);
+  }, [ownedCharacters, charByIdentity, starLevelMap, config.baseSize, config.scale, config.sizeExponent, getSelectedSkin]);
 
   const positions = useMemo(() => {
     const { padding, centerBias, stretchX, stretchY } = config;

@@ -1,11 +1,15 @@
 import DataFetchError from '@/components/ui/DataFetchError';
 import { Alert, Box, Loader, Stack } from '@mantine/core';
 import { useIllustrationGame } from '../hooks/use-illustration-game';
+import { getPortrait } from '@/assets';
 import DailyStatsGrid from './DailyStatsGrid';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
+import { CharacterSkinContext } from '@/contexts';
+import { useContext } from 'react';
 
 export default function IllustrationMode() {
+  const { getSelectedSkin } = useContext(CharacterSkinContext);
   const {
     loading,
     error,
@@ -52,6 +56,16 @@ export default function IllustrationMode() {
           >
             <img
               src={illustration.src}
+              onError={(event) => {
+                const fallback = getPortrait(
+                  answer.name,
+                  answer.slug,
+                  getSelectedSkin(answer.slug)
+                );
+                if (fallback && event.currentTarget.src !== new URL(fallback, window.location.href).href) {
+                  event.currentTarget.src = fallback;
+                }
+              }}
               alt="Mystery character illustration"
               style={{
                 width: '100%',
