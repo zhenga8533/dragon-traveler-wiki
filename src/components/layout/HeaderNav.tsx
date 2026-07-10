@@ -10,6 +10,7 @@ import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent, useNavBadgeCounts } from '@/hooks';
 import {
   Badge,
+  Box,
   Group,
   Menu,
   SimpleGrid,
@@ -34,7 +35,14 @@ function NavIcon({
   isActive: boolean;
 }) {
   if (!Icon) return null;
-  return <Icon size={IMAGE_SIZE.ICON_MD} color={getIconColor(accent, isActive)} />;
+  return (
+    <Box component="span" visibleFrom="xl">
+      <Icon
+        size={IMAGE_SIZE.ICON_MD}
+        color={getIconColor(accent, isActive)}
+      />
+    </Box>
+  );
 }
 
 /** Shared look for both plain links and group triggers in the horizontal header nav.

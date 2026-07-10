@@ -122,7 +122,14 @@ export default function AppLayout() {
 
           {useHeaderNav && (
             <>
-              <Box style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', minWidth: 0, overflow: 'hidden' }}>
+              <Box
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  minWidth: 0,
+                }}
+              >
                 <HeaderNav />
               </Box>
               <Divider orientation="vertical" my="sm" />
