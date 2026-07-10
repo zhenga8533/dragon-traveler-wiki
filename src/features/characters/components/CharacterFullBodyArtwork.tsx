@@ -44,7 +44,7 @@ export default function CharacterFullBodyArtwork({
       <Box
         style={{
           position: 'absolute',
-          right: 0,
+          right: 'clamp(16px, 2vw, 32px)',
           bottom: 0,
           width: '40%',
           height: 'calc(100% - 32px)',
