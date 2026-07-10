@@ -7,6 +7,7 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import FullBleedSection from '@/components/layout/FullBleedSection';
 import { BREAKPOINTS } from '@/constants/ui';
 import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
 import {
@@ -162,15 +163,17 @@ export default function CharacterPage() {
 
   return (
     <Box>
-      <ErrorBoundary>
-        <CharacterHeroSection
-          character={character}
-          activeIllustration={activeIllustration}
-          fullBodySrc={fullBodySrc}
-          assetKey={characterAssetKey}
-          isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
-        />
-      </ErrorBoundary>
+      <FullBleedSection>
+        <ErrorBoundary>
+          <CharacterHeroSection
+            character={character}
+            activeIllustration={activeIllustration}
+            fullBodySrc={fullBodySrc}
+            assetKey={characterAssetKey}
+            isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
+          />
+        </ErrorBoundary>
+      </FullBleedSection>
 
       {/* Main Content */}
       <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>

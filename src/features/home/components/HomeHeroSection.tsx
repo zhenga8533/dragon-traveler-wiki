@@ -1,4 +1,5 @@
 import { OPEN_GLOBAL_SEARCH_EVENT } from '@/components/tools/LazySearchModal';
+import FullBleedSection from '@/components/layout/FullBleedSection';
 import {
   HOME_HERO_TITLE_STYLE,
   getHomeHeroMetaTextStyle,
@@ -75,17 +76,11 @@ export default function HomeHeroSection() {
     [accent.primary, accent.secondary, accent.tertiary]
   );
 
-  // Bleed to edges by exactly matching the AppShell.Main padding on each breakpoint.
-  const negMargin = `calc(var(--mantine-spacing-${isMobile ? 'sm' : 'md'}) * -1)`;
-
   return (
-    <Box
+    <FullBleedSection
       style={{
         position: 'relative',
         minHeight: isMobile ? 430 : 520,
-        marginLeft: negMargin,
-        marginRight: negMargin,
-        marginTop: negMargin,
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -379,6 +374,6 @@ export default function HomeHeroSection() {
           }}
         />
       )}
-    </Box>
+    </FullBleedSection>
   );
 }
