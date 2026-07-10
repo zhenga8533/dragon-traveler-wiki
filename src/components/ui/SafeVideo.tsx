@@ -9,14 +9,12 @@ import {
 export interface SafeVideoProps
   extends Omit<VideoHTMLAttributes<HTMLVideoElement>, 'children'> {
   src?: string;
-  sourceType?: string;
 }
 
 const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
   (
     {
       src,
-      sourceType = 'video/mp4',
       autoPlay,
       muted,
       playsInline = true,
@@ -46,27 +44,37 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
 
       if (!autoPlay) return;
 
-      const playPromise = video.play();
-      if (playPromise) {
-        playPromise.catch(() => {
-          // Mobile browsers may block autoplay in low power or data saver modes.
-        });
+      const play = () => {
+        const playPromise = video.play();
+        if (playPromise) {
+          playPromise.catch(() => {
+            // Mobile browsers may block autoplay in low power or data saver modes.
+          });
+        }
+      };
+
+      if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+        play();
+        return;
       }
+
+      video.addEventListener('canplay', play, { once: true });
+      return () => video.removeEventListener('canplay', play);
     }, [autoPlay, muted, src]);
 
     if (!src) return null;
 
     return (
       <video
+        key={src}
         ref={videoRef}
+        src={src}
         autoPlay={autoPlay}
         muted={muted}
         playsInline={playsInline}
         preload={preload ?? (autoPlay ? 'auto' : 'metadata')}
         {...props}
-      >
-        <source src={src} type={sourceType} />
-      </video>
+      />
     );
   }
 );

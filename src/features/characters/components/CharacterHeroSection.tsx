@@ -1,6 +1,5 @@
 ﻿import type { Illustration } from '@/assets';
-import { GlobalBadge, SafeImage } from '@/components';
-import { useState } from 'react';
+import { GlobalBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ClassTag from '@/components/ui/ClassTag';
@@ -23,11 +22,7 @@ import {
   Title,
 } from '@mantine/core';
 import CharacterPortrait from './CharacterPortrait';
-
-function getFullBodyHeight(aspectRatio: number): number {
-  if (!Number.isFinite(aspectRatio) || aspectRatio <= 0) return 135;
-  return 60 + 75 / aspectRatio;
-}
+import CharacterFullBodyArtwork from './CharacterFullBodyArtwork';
 
 interface CharacterPageHeroSectionProps {
   character: Character;
@@ -45,14 +40,6 @@ export default function CharacterPageHeroSection({
   isNew = false,
 }: CharacterPageHeroSectionProps) {
   const isDark = useDarkMode();
-  const [fullBodyMeasurement, setFullBodyMeasurement] = useState<{
-    src: string;
-    height: number;
-  } | null>(null);
-  const fullBodyHeight =
-    fullBodyMeasurement && fullBodyMeasurement.src === fullBodySrc
-      ? fullBodyMeasurement.height
-      : null;
   const heroBlurFilter = isDark
     ? `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(${CHARACTER_HERO.BRIGHTNESS})`
     : `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(1.2) saturate(1.05)`;
@@ -99,60 +86,7 @@ export default function CharacterPageHeroSection({
         />
       )}
 
-      {fullBodySrc && (
-        <Container
-          size="lg"
-          visibleFrom="md"
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            pointerEvents: 'none',
-          }}
-        >
-          <Box
-            style={{
-              position: 'absolute',
-              right: 0,
-              bottom: 0,
-              width: '40%',
-              height: 'calc(100% - 32px)',
-              maskImage:
-                'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
-              WebkitMaskImage:
-                'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
-            }}
-          >
-            <SafeImage
-              src={fullBodySrc}
-              alt=""
-              loading="eager"
-              onLoad={(event) => {
-                const image = event.currentTarget;
-                const aspectRatio = image.naturalWidth / image.naturalHeight;
-                // Narrow canvases need more enlargement to occupy comparable
-                // visual space; wide canvases need less to avoid crowding text.
-                const height = getFullBodyHeight(aspectRatio);
-                setFullBodyMeasurement({ src: fullBodySrc, height });
-              }}
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                width: 'auto',
-                maxWidth: 'none',
-                height: `${fullBodyHeight ?? 130}%`,
-                opacity: fullBodyHeight == null ? 0 : 1,
-                transition: 'opacity 160ms ease',
-                maskImage:
-                  'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
-                WebkitMaskImage:
-                  'linear-gradient(to bottom, black 0%, black 72%, transparent 100%)',
-              }}
-            />
-          </Box>
-        </Container>
-      )}
+      {fullBodySrc && <CharacterFullBodyArtwork src={fullBodySrc} />}
 
       <Box
         style={{

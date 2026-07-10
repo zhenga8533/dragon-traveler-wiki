@@ -234,7 +234,14 @@ export function useCharacterAssets(
   }, [character, characterAssetKey]);
 
   const activeIllustration = useMemo(
-    () => selectedIllustration ?? illustrations[0] ?? null,
+    () =>
+      (selectedIllustration
+        ? illustrations.find(
+            (illustration) => illustration.src === selectedIllustration.src
+          )
+        : null) ??
+      illustrations[0] ??
+      null,
     [selectedIllustration, illustrations]
   );
 

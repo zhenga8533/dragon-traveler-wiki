@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { existsSync, readFileSync } from 'fs';
+import { createReadStream, existsSync, readFileSync, statSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -56,8 +56,60 @@ function serveAssetsDir(assetsDir: string): Plugin {
             const mime = EXT_MIME[ext];
             const filepath = path.join(assetsDir, filename);
             if (mime && existsSync(filepath)) {
+              const { size } = statSync(filepath);
               res.setHeader('Content-Type', mime);
-              res.end(readFileSync(filepath));
+              res.setHeader('Content-Length', size);
+
+              if (ext === '.mp4') {
+                res.setHeader('Accept-Ranges', 'bytes');
+                const range = req.headers.range;
+                const match = range?.match(/^bytes=(\d*)-(\d*)$/);
+
+                if (range && !match) {
+                  res.statusCode = 416;
+                  res.setHeader('Content-Range', `bytes */${size}`);
+                  res.end();
+                  return;
+                }
+
+                if (match) {
+                  const requestedStart = match[1]
+                    ? Number.parseInt(match[1], 10)
+                    : null;
+                  const requestedEnd = match[2]
+                    ? Number.parseInt(match[2], 10)
+                    : null;
+                  const start =
+                    requestedStart ?? Math.max(0, size - (requestedEnd ?? size));
+                  const end = Math.min(
+                    requestedStart == null ? size - 1 : (requestedEnd ?? size - 1),
+                    size - 1
+                  );
+
+                  if (start > end || start >= size) {
+                    res.statusCode = 416;
+                    res.setHeader('Content-Range', `bytes */${size}`);
+                    res.end();
+                    return;
+                  }
+
+                  res.statusCode = 206;
+                  res.setHeader('Content-Range', `bytes ${start}-${end}/${size}`);
+                  res.setHeader('Content-Length', end - start + 1);
+                  if (req.method === 'HEAD') {
+                    res.end();
+                  } else {
+                    createReadStream(filepath, { start, end }).pipe(res);
+                  }
+                  return;
+                }
+              }
+
+              if (req.method === 'HEAD') {
+                res.end();
+              } else {
+                createReadStream(filepath).pipe(res);
+              }
               return;
             }
           }
