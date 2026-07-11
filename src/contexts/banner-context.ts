@@ -31,6 +31,7 @@ export interface BannerOption {
   label: string;
   src: string;
   type: Illustration['type'];
+  videoVariant?: Illustration['videoVariant'];
 }
 
 const DEFAULT_BANNER_OPTION: BannerOption = {
@@ -45,18 +46,19 @@ function pickRandomBanner(
   mode: 'all' | 'png' | 'mp4',
   favorites?: Set<string>
 ): BannerOption | null {
-  const candidates = options.filter((option) => {
+  const matchesMode = (option: BannerOption) => {
     if (option.value === DEFAULT_BANNER_OPTION.value) return false;
     if (mode === 'png') return option.type === 'image';
     if (mode === 'mp4') return option.type === 'video';
     return true;
-  });
+  };
 
   // Restrict to favorites when requested, but fall back to the full candidate
   // pool if no favorites match so the banner never silently stops rotating.
+  // Favorited birth clips are allowed here even though the general pool below excludes them.
   if (favorites && favorites.size > 0) {
-    const favoriteCandidates = candidates.filter((option) =>
-      favorites.has(option.value)
+    const favoriteCandidates = options.filter(
+      (option) => matchesMode(option) && favorites.has(option.value)
     );
     if (favoriteCandidates.length > 0) {
       return favoriteCandidates[
@@ -65,6 +67,11 @@ function pickRandomBanner(
     }
   }
 
+  // Birth clips are one-time entrance animations, not meant for repeated random
+  // rotation, so the unfavorited pool only draws from loop clips (and images).
+  const candidates = options.filter(
+    (option) => matchesMode(option) && option.videoVariant !== 'birth'
+  );
   if (candidates.length === 0) return null;
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
@@ -210,6 +217,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
           label: `${characterName} — ${illustration.name}`,
           src: illustration.src,
           type: illustration.type,
+          videoVariant: illustration.videoVariant,
         });
       });
     }

@@ -185,6 +185,8 @@ export interface Illustration {
   type: 'image' | 'video';
   skinSlug?: string;
   assetPath?: string;
+  /** Distinguishes the one-time entrance clip from the repeatable idle clip; only relevant for videos. */
+  videoVariant?: 'birth' | 'loop';
 }
 
 function resolveAssetKey(characterName: string, characterKey?: string): string {
@@ -202,7 +204,13 @@ export function getPortrait(
   return `${BASE}character/${key}/skins/${skinSlug}/portrait.png`;
 }
 
-export type CharacterSkinAsset = 'portrait' | 'full_body' | 'card' | 'scene';
+export type CharacterSkinAsset =
+  | 'portrait'
+  | 'full_body'
+  | 'card'
+  | 'scene'
+  | 'birth'
+  | 'loop';
 
 export function getCharacterSkinAsset(
   characterSlug: string,
@@ -210,7 +218,12 @@ export function getCharacterSkinAsset(
   asset: CharacterSkinAsset,
   type: 'image' | 'video' = 'image'
 ): string | undefined {
-  if (!characterSlug || !skinSlug || (type === 'video' && asset !== 'scene')) return undefined;
+  if (
+    !characterSlug ||
+    !skinSlug ||
+    (type === 'video' && asset !== 'birth' && asset !== 'loop')
+  )
+    return undefined;
   return `${BASE}character/${characterSlug}/skins/${skinSlug}/${asset}.${type === 'video' ? 'mp4' : 'png'}`;
 }
 
@@ -221,6 +234,8 @@ export function getCharacterAffectionGift(
   if (!characterSlug) return undefined;
   return `${BASE}character/${characterSlug}/affection_gift.${type === 'video' ? 'mp4' : 'png'}`;
 }
+
+export const AFFECTION_GIFT_SKIN_SLUG = '__affection_gift__';
 
 export function resolveIllustrations(
   characterName: string,
@@ -233,11 +248,22 @@ export function resolveIllustrations(
     `character/${key}/skins/${skinSlug}/${filename}`;
   const candidates: Illustration[] = (skins ?? []).flatMap((skin) => [
     {
+      // Ordered before the birth clip so it remains the illustrations[0] fallback
+      // default (matching the pre-existing single "scene" animation default).
       name: `${skin.name} Animation`,
-      src: getCharacterSkinAsset(key, skin.slug, 'scene', 'video')!,
+      src: getCharacterSkinAsset(key, skin.slug, 'loop', 'video')!,
       type: 'video' as const,
       skinSlug: skin.slug,
-      assetPath: skinAssetPath(skin.slug, 'scene.mp4'),
+      assetPath: skinAssetPath(skin.slug, 'loop.mp4'),
+      videoVariant: 'loop' as const,
+    },
+    {
+      name: `${skin.name} Birth Animation`,
+      src: getCharacterSkinAsset(key, skin.slug, 'birth', 'video')!,
+      type: 'video' as const,
+      skinSlug: skin.slug,
+      assetPath: skinAssetPath(skin.slug, 'birth.mp4'),
+      videoVariant: 'birth' as const,
     },
     {
       name: skin.name,
@@ -247,8 +273,8 @@ export function resolveIllustrations(
       assetPath: skinAssetPath(skin.slug, 'scene.png'),
     },
   ]);
-  if (affectionGift?.image) candidates.push({ name: 'Affection Gift', src: getCharacterAffectionGift(key, 'image')!, type: 'image', assetPath: `character/${key}/affection_gift.png` });
-  if (affectionGift?.video) candidates.push({ name: 'Affection Gift Animation', src: getCharacterAffectionGift(key, 'video')!, type: 'video', assetPath: `character/${key}/affection_gift.mp4` });
+  if (affectionGift?.image) candidates.push({ name: 'Affection Gift', src: getCharacterAffectionGift(key, 'image')!, type: 'image', skinSlug: AFFECTION_GIFT_SKIN_SLUG, assetPath: `character/${key}/affection_gift.png` });
+  if (affectionGift?.video) candidates.push({ name: 'Affection Gift Animation', src: getCharacterAffectionGift(key, 'video')!, type: 'video', skinSlug: AFFECTION_GIFT_SKIN_SLUG, assetPath: `character/${key}/affection_gift.mp4` });
   return candidates;
 }
 

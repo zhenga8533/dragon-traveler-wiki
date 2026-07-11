@@ -1,5 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
+  AFFECTION_GIFT_SKIN_SLUG,
   getCharacterSkillIcon,
   getCharacterSkinAsset,
   getTalentIcon,
@@ -94,19 +95,27 @@ export function useCharacterAssets(
       ),
     [availableIllustrations]
   );
-  const skinOptions = useMemo(
-    () =>
-      (character?.skins ?? [])
-        .filter((skin) => availableSkinSlugs.has(skin.slug))
-        .map((skin) => ({ value: skin.slug, label: skin.name })),
-    [availableSkinSlugs, character?.skins]
-  );
+  const skinOptions = useMemo(() => {
+    const options = (character?.skins ?? [])
+      .filter((skin) => availableSkinSlugs.has(skin.slug))
+      .map((skin) => ({ value: skin.slug, label: skin.name }));
+    if (availableSkinSlugs.has(AFFECTION_GIFT_SKIN_SLUG)) {
+      options.push({ value: AFFECTION_GIFT_SKIN_SLUG, label: 'Affection Gift' });
+    }
+    return options;
+  }, [availableSkinSlugs, character?.skins]);
   const savedSkinSlug = characterSlug ? getSelectedSkin(characterSlug) : null;
   const selectedSkinSlug = availableSkinSlugs.has(savedSkinSlug ?? '')
     ? savedSkinSlug
     : skinOptions[0]?.value ?? null;
   const fullBodySrc = useMemo(() => {
-    if (!character || !selectedSkinSlug || assetManifest.loading) return null;
+    if (
+      !character ||
+      !selectedSkinSlug ||
+      selectedSkinSlug === AFFECTION_GIFT_SKIN_SLUG ||
+      assetManifest.loading
+    )
+      return null;
 
     const characterKey = characterAssetKey?.trim() || character.slug;
     const src = getCharacterSkinAsset(
@@ -140,8 +149,7 @@ export function useCharacterAssets(
   const illustrations = useMemo(
     () =>
       availableIllustrations.filter(
-        (illustration) =>
-          illustration.skinSlug === selectedSkinSlug || !illustration.skinSlug
+        (illustration) => illustration.skinSlug === selectedSkinSlug
       ),
     [availableIllustrations, selectedSkinSlug]
   );
