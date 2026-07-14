@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
-  AFFECTION_GIFT_SKIN_SLUG,
   getCharacterSkillIcon,
   getCharacterSkinAsset,
   getTalentIcon,
@@ -41,7 +40,7 @@ export function useCharacterAssets(
   const illustrationCandidates = useMemo(
     () =>
       character
-        ? resolveIllustrations(character.slug, characterAssetKey, character.skins, character.affection_gift)
+        ? resolveIllustrations(character.slug, characterAssetKey, character.skins)
         : [],
     [character, characterAssetKey]
   );
@@ -99,9 +98,6 @@ export function useCharacterAssets(
     const options = (character?.skins ?? [])
       .filter((skin) => availableSkinSlugs.has(skin.slug))
       .map((skin) => ({ value: skin.slug, label: skin.name }));
-    if (availableSkinSlugs.has(AFFECTION_GIFT_SKIN_SLUG)) {
-      options.push({ value: AFFECTION_GIFT_SKIN_SLUG, label: 'Affection Gift' });
-    }
     return options;
   }, [availableSkinSlugs, character?.skins]);
   const savedSkinSlug = characterSlug ? getSelectedSkin(characterSlug) : null;
@@ -112,7 +108,6 @@ export function useCharacterAssets(
     if (
       !character ||
       !selectedSkinSlug ||
-      selectedSkinSlug === AFFECTION_GIFT_SKIN_SLUG ||
       assetManifest.loading
     )
       return null;

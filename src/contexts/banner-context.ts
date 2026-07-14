@@ -164,8 +164,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
         illustrations: resolveIllustrations(
           assetKey,
           assetKey,
-          character.skins,
-          character.affection_gift
+          character.skins
         ),
       });
     }

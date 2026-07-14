@@ -116,11 +116,6 @@ export interface CharacterSkin {
   name: string;
 }
 
-export interface CharacterAffectionGift {
-  image?: string | null;
-  video?: string | null;
-}
-
 export interface Character {
   slug: string;
   name: string;
@@ -144,6 +139,5 @@ export interface Character {
   recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
   skins: CharacterSkin[];
-  affection_gift?: CharacterAffectionGift | null;
   last_updated: number | null;
 }

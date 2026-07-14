@@ -1,4 +1,4 @@
-import type { CharacterAffectionGift, CharacterClass, CharacterSkin } from '@/features/characters/types';
+import type { CharacterClass, CharacterSkin } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
@@ -227,21 +227,10 @@ export function getCharacterSkinAsset(
   return `${BASE}character/${characterSlug}/skins/${skinSlug}/${asset}.${type === 'video' ? 'mp4' : 'png'}`;
 }
 
-export function getCharacterAffectionGift(
-  characterSlug: string,
-  type: 'image' | 'video'
-): string | undefined {
-  if (!characterSlug) return undefined;
-  return `${BASE}character/${characterSlug}/affection_gift.${type === 'video' ? 'mp4' : 'png'}`;
-}
-
-export const AFFECTION_GIFT_SKIN_SLUG = '__affection_gift__';
-
 export function resolveIllustrations(
   characterName: string,
   characterKey: string | undefined,
-  skins: CharacterSkin[] | undefined,
-  affectionGift?: CharacterAffectionGift | null
+  skins: CharacterSkin[] | undefined
 ): Illustration[] {
   const key = resolveAssetKey(characterName, characterKey);
   const skinAssetPath = (skinSlug: string, filename: string) =>
@@ -273,8 +262,6 @@ export function resolveIllustrations(
       assetPath: skinAssetPath(skin.slug, 'scene.png'),
     },
   ]);
-  if (affectionGift?.image) candidates.push({ name: 'Affection Gift', src: getCharacterAffectionGift(key, 'image')!, type: 'image', skinSlug: AFFECTION_GIFT_SKIN_SLUG, assetPath: `character/${key}/affection_gift.png` });
-  if (affectionGift?.video) candidates.push({ name: 'Affection Gift Animation', src: getCharacterAffectionGift(key, 'video')!, type: 'video', skinSlug: AFFECTION_GIFT_SKIN_SLUG, assetPath: `character/${key}/affection_gift.mp4` });
   return candidates;
 }
 

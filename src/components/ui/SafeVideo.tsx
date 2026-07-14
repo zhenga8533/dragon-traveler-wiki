@@ -3,6 +3,8 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
+  type SyntheticEvent,
   type VideoHTMLAttributes,
 } from 'react';
 
@@ -19,11 +21,24 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
       muted,
       playsInline = true,
       preload,
+      className,
+      onCanPlay,
+      onLoadedData,
+      onError,
       ...props
     },
     forwardedRef
   ) => {
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [loadState, setLoadState] = useState({
+      src,
+      isLoading: Boolean(src),
+      failed: false,
+    });
+    const currentLoadState =
+      loadState.src === src
+        ? loadState
+        : { src, isLoading: Boolean(src), failed: false };
 
     useImperativeHandle(
       forwardedRef,
@@ -62,7 +77,10 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
       return () => video.removeEventListener('canplay', play);
     }, [autoPlay, muted, src]);
 
-    if (!src) return null;
+    if (!src || currentLoadState.failed) return null;
+
+    const markLoaded = () =>
+      setLoadState({ src, isLoading: false, failed: false });
 
     return (
       <video
@@ -73,6 +91,22 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
         muted={muted}
         playsInline={playsInline}
         preload={preload ?? (autoPlay ? 'auto' : 'metadata')}
+        aria-busy={currentLoadState.isLoading || undefined}
+        className={[className, currentLoadState.isLoading ? 'dt-safe-media--loading' : '']
+          .filter(Boolean)
+          .join(' ')}
+        onCanPlay={(event: SyntheticEvent<HTMLVideoElement, Event>) => {
+          markLoaded();
+          onCanPlay?.(event);
+        }}
+        onLoadedData={(event: SyntheticEvent<HTMLVideoElement, Event>) => {
+          markLoaded();
+          onLoadedData?.(event);
+        }}
+        onError={(event: SyntheticEvent<HTMLVideoElement, Event>) => {
+          onError?.(event);
+          setLoadState({ src, isLoading: false, failed: true });
+        }}
         {...props}
       />
     );

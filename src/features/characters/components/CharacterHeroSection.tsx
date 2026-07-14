@@ -71,7 +71,7 @@ export default function CharacterPageHeroSection({
         <SafeVideo
           src={activeIllustration.src}
           autoPlay
-          loop
+          loop={activeIllustration.videoVariant !== 'birth'}
           muted
           style={{
             position: 'absolute',

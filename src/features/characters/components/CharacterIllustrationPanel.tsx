@@ -148,7 +148,7 @@ export default function CharacterIllustrationPanel({
                 src={activeIllustration.src}
                 autoPlay
                 muted
-                loop
+                loop={activeIllustration.videoVariant !== 'birth'}
                 style={{
                   width: '100%',
                   maxHeight: 420,
