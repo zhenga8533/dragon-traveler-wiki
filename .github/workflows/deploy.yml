@@ -48,10 +48,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate asset manifest
-        working-directory: private-data
-        run: python -m src.normalize_data.asset_manifest
-
       - name: Build
         run: npm run build --ignore-scripts
         env:
