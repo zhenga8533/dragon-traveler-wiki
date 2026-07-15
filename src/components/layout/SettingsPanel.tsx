@@ -2,7 +2,7 @@ import JsonModal from '@/components/tools/JsonModal';
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
 import { STORAGE_KEY, TRANSITION, Z_INDEX } from '@/constants/ui';
-import type { CustomMantineAccent, GradientPalette } from '@/contexts';
+import type { CustomMantineAccent } from '@/contexts';
 import {
   BannerContext,
   CharacterOwnershipContext,
@@ -10,7 +10,12 @@ import {
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
-import { SUPPORTED_LOCALES } from '@/utils/data-paths';
+import {
+  CUSTOM_COLOR_FIELDS,
+  LOCALE_OPTIONS,
+  PALETTE_SWATCHES,
+  RANDOM_MODE_LABEL,
+} from '@/features/settings/options';
 import {
   useDarkMode,
   useEffectiveNavLayout,
@@ -42,85 +47,22 @@ import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
 
-const RANDOM_MODE_LABEL: Record<'all' | 'png' | 'mp4', string> = {
-  all: '',
-  png: 'PNG ',
-  mp4: 'MP4 ',
-};
+const SETTINGS_EXPORT_VERSION = 1;
+const SETTINGS_EXPORT_EXCLUDE = new Set<string>([
+  STORAGE_KEY.TEAMS_BUILDER_DRAFT,
+  STORAGE_KEY.TEAMS_BUILDER_SLOTS,
+  STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
+  STORAGE_KEY.TIER_LIST_BUILDER_SLOTS,
+]);
+const SETTINGS_IMPORT_KEYS = new Set<string>(
+  Object.values(STORAGE_KEY).filter(
+    (key) => !SETTINGS_EXPORT_EXCLUDE.has(key)
+  )
+);
 
-const LOCALE_OPTIONS: { value: string; label: string }[] = [
-  { value: 'enUS', label: 'English (US)' },
-  { value: 'zhCN', label: '简体中文' },
-  { value: 'zhTW', label: '繁體中文' },
-  { value: 'jaJP', label: '日本語' },
-  { value: 'koKR', label: '한국어' },
-  { value: 'thTH', label: 'ภาษาไทย' },
-  { value: 'viVN', label: 'Tiếng Việt' },
-].filter((opt) => (SUPPORTED_LOCALES as readonly string[]).includes(opt.value));
-
-const CUSTOM_COLOR_FIELDS: {
-  key: 'colorA' | 'colorB';
-  label: string;
-  swatches: string[];
-}[] = [
-  {
-    key: 'colorA',
-    label: 'Color A',
-    swatches: ['#7c3aed', '#1d4ed8', '#0f766e', '#be123c', '#b45309', '#065f46', '#831843', '#38bdf8'],
-  },
-  {
-    key: 'colorB',
-    label: 'Color B',
-    swatches: ['#9333ea', '#2563eb', '#0891b2', '#f43f5e', '#f97316', '#0f766e', '#db2777', '#7dd3fc'],
-  },
-];
-
-const PALETTE_SWATCHES: {
-  value: GradientPalette;
-  label: string;
-  gradient: string;
-}[] = [
-  {
-    value: 'violet',
-    label: 'Arcane',
-    gradient: 'linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #4338ca 100%)',
-  },
-  {
-    value: 'ocean',
-    label: 'Abyss',
-    gradient: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0891b2 100%)',
-  },
-  {
-    value: 'sunset',
-    label: 'Golden Hour',
-    gradient: 'linear-gradient(135deg, #b45309 0%, #f97316 50%, #ca8a04 100%)',
-  },
-  {
-    value: 'forest',
-    label: 'Ancient Grove',
-    gradient: 'linear-gradient(135deg, #065f46 0%, #0f766e 50%, #134e4a 100%)',
-  },
-  {
-    value: 'ember',
-    label: 'Dragon Fire',
-    gradient: 'linear-gradient(135deg, #be123c 0%, #f43f5e 50%, #c026d3 100%)',
-  },
-  {
-    value: 'dusk',
-    label: 'Northern Lights',
-    gradient: 'linear-gradient(135deg, #0f766e 0%, #7c3aed 50%, #312e81 100%)',
-  },
-  {
-    value: 'frost',
-    label: 'Glacial',
-    gradient: 'linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #a5f3fc 100%)',
-  },
-  {
-    value: 'blossom',
-    label: 'Night Garden',
-    gradient: 'linear-gradient(135deg, #831843 0%, #db2777 50%, #6b21a8 100%)',
-  },
-];
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
 
 export default function SettingsPanel({
   initiallyOpened = false,
@@ -222,33 +164,50 @@ export default function SettingsPanel({
     useDisclosure(false);
   const [exportJson, setExportJson] = useState('');
 
-  const EXPORT_EXCLUDE = new Set<string>([
-    STORAGE_KEY.TEAMS_BUILDER_DRAFT,
-    STORAGE_KEY.TEAMS_BUILDER_SLOTS,
-    STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
-    STORAGE_KEY.TIER_LIST_BUILDER_SLOTS,
-  ]);
-
   const handleOpenExport = () => {
     const data: Record<string, string> = {};
     for (const key of Object.values(STORAGE_KEY)) {
-      if (EXPORT_EXCLUDE.has(key)) continue;
+      if (SETTINGS_EXPORT_EXCLUDE.has(key)) continue;
       const val = localStorage.getItem(key);
       if (val !== null) data[key] = val;
     }
     setExportJson(
-      JSON.stringify({ version: 1, savedAt: new Date().toISOString(), data }, null, 2)
+      JSON.stringify(
+        {
+          version: SETTINGS_EXPORT_VERSION,
+          savedAt: new Date().toISOString(),
+          data,
+        },
+        null,
+        2
+      )
     );
     openExportModal();
   };
 
   const handleImport = (text: string): string | null => {
     try {
-      const parsed = JSON.parse(text);
-      if (!parsed?.data || typeof parsed.data !== 'object')
+      const parsed: unknown = JSON.parse(text);
+      if (
+        !isRecord(parsed) ||
+        parsed.version !== SETTINGS_EXPORT_VERSION ||
+        !isRecord(parsed.data)
+      ) {
         return 'Invalid settings file.';
-      for (const [key, value] of Object.entries(parsed.data)) {
-        if (typeof value === 'string') localStorage.setItem(key, value);
+      }
+
+      const entries = Object.entries(parsed.data);
+      if (
+        entries.some(
+          ([key, value]) =>
+            !SETTINGS_IMPORT_KEYS.has(key) || typeof value !== 'string'
+        )
+      ) {
+        return 'Settings file contains unsupported keys or values.';
+      }
+
+      for (const [key, value] of entries) {
+        localStorage.setItem(key, value as string);
       }
       window.location.reload();
       return null;

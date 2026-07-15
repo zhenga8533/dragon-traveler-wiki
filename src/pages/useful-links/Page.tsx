@@ -121,7 +121,12 @@ export default function UsefulLinks() {
                   </Text>
                   <Box style={{ flex: 1 }}>
                     <Group gap="xs" mb={4}>
-                      <Anchor href={link.link} target="_blank" fw={600}>
+                      <Anchor
+                        href={link.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        fw={600}
+                      >
                         {link.name}
                       </Anchor>
                       <Badge

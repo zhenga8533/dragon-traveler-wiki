@@ -9,7 +9,7 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
 import ViewToggle from '@/components/ui/ViewToggle';
-import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
+import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import { useCodes, useResources } from '@/features/wiki/hooks/use-wiki-data';
@@ -55,6 +55,7 @@ import {
   ThemeIcon,
   Title,
   Tooltip,
+  UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -418,40 +419,40 @@ export default function Codes() {
 
         {!loading && !error && (
           <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
-            <Group
-              justify="space-between"
-              align="center"
+            <UnstyledButton
               onClick={toggleRewards}
-              style={CURSOR_POINTER_STYLE}
-              px="xs"
-              py={4}
+              aria-expanded={rewardsOpen}
+              aria-controls="code-reward-summary"
+              style={{ width: '100%', borderRadius: 'var(--mantine-radius-sm)' }}
             >
-              <Group gap="sm">
-                <ThemeIcon
-                  variant="light"
-                  color={accent.primary}
-                  size="md"
-                  radius="md"
-                >
-                  <IoStatsChart size={14} />
-                </ThemeIcon>
-                <Text fw={600} size="sm">
-                  Reward Summary ({tab === 'active' ? 'Active' : 'Expired'} ·{' '}
-                  {view === 'unredeemed'
-                    ? 'Unredeemed'
-                    : view === 'redeemed'
-                      ? 'Redeemed'
-                      : 'All'}
-                  )
-                </Text>
+              <Group justify="space-between" align="center" px="xs" py={4}>
+                <Group gap="sm">
+                  <ThemeIcon
+                    variant="light"
+                    color={accent.primary}
+                    size="md"
+                    radius="md"
+                  >
+                    <IoStatsChart size={14} />
+                  </ThemeIcon>
+                  <Text fw={600} size="sm">
+                    Reward Summary ({tab === 'active' ? 'Active' : 'Expired'} ·{' '}
+                    {view === 'unredeemed'
+                      ? 'Unredeemed'
+                      : view === 'redeemed'
+                        ? 'Redeemed'
+                        : 'All'}
+                    )
+                  </Text>
+                </Group>
+                {rewardsOpen ? (
+                  <IoChevronUp size={16} />
+                ) : (
+                  <IoChevronDown size={16} />
+                )}
               </Group>
-              {rewardsOpen ? (
-                <IoChevronUp size={16} />
-              ) : (
-                <IoChevronDown size={16} />
-              )}
-            </Group>
-            <Collapse in={rewardsOpen}>
+            </UnstyledButton>
+            <Collapse id="code-reward-summary" in={rewardsOpen}>
               <Divider mt="sm" mb="md" />
               <Group align="flex-start" gap={0} wrap="wrap">
                 {view !== 'redeemed' && (
@@ -626,6 +627,7 @@ export default function Codes() {
                           component="a"
                           href={buildExpiredCodeUrl(entry.code)}
                           target="_blank"
+                          rel="noopener noreferrer"
                           variant="subtle"
                           color="red"
                           aria-label="Report expired"
@@ -715,6 +717,7 @@ export default function Codes() {
                                 component="a"
                                 href={buildExpiredCodeUrl(entry.code)}
                                 target="_blank"
+                                rel="noopener noreferrer"
                                 variant="subtle"
                                 color="red"
                                 size="sm"

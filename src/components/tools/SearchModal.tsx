@@ -12,10 +12,16 @@
 } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import { normalizeContentType } from '@/constants/content-types';
-import { IMAGE_SIZE, STORAGE_KEY, TRANSITION } from '@/constants/ui';
-import { SearchDataContext } from '@/contexts';
+import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
+import {
+  clearRecentSearches,
+  loadRecentSearches,
+  saveRecentSearch,
+} from '@/features/search/recent-searches';
+import { SEARCH_PAGES } from '@/features/search/search-pages';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import { isCodeActive } from '@/utils';
@@ -93,147 +99,8 @@ type SearchResult = {
   color: string;
 };
 
-const PAGES = [
-  {
-    title: 'Artifacts',
-    path: '/artifacts',
-    keywords: 'artifacts database relic equipment',
-  },
-  {
-    title: 'Characters',
-    path: '/characters',
-    keywords: 'characters database hero heroes',
-  },
-  {
-    title: 'Gear',
-    path: '/gear',
-    keywords:
-      'gear equipment set headgear chestplate bracers boots weapon accessory',
-  },
-  {
-    title: 'Noble Phantasms',
-    path: '/noble-phantasms',
-    keywords: 'noble phantasm noble phantasms database',
-  },
-  {
-    title: 'Relics',
-    path: '/relics',
-    keywords: 'relics sanctuary fated legendary ritual vessel oracle scroll',
-  },
-  {
-    title: 'Resources',
-    path: '/resources',
-    keywords: 'resources materials currency items',
-  },
-  {
-    title: 'Subclasses',
-    path: '/subclasses',
-    keywords: 'subclasses class talents tier bonuses effects',
-  },
-  {
-    title: 'Howlkins',
-    path: '/howlkins',
-    keywords: 'howlkins database pot howlkin refinement',
-  },
-  {
-    title: 'Status Effects',
-    path: '/status-effects',
-    keywords: 'status effects buffs debuffs',
-  },
-  {
-    title: 'Wyrms',
-    path: '/wyrms',
-    keywords: 'wyrms dragons dragon companions battle faction',
-  },
-  {
-    title: 'Wyrmspells',
-    path: '/wyrmspells',
-    keywords: 'wyrmspells dragon spells magic',
-  },
-  {
-    title: 'FAQ',
-    path: '/toolbox/faq',
-    keywords: 'faq frequently asked questions help guide beginner',
-  },
-  {
-    title: 'Beginner Q&A',
-    path: '/toolbox/beginner-qa',
-    keywords: 'beginner guide faq help tutorial',
-  },
-  {
-    title: 'Shovel Event Guide',
-    path: '/toolbox/shovel-event',
-    keywords: 'shovel event digging layers efficiency bombs rockets',
-  },
-  {
-    title: 'Star Upgrade Calculator',
-    path: '/toolbox/star-upgrade-calculator',
-    keywords: 'calculator star upgrade cost',
-  },
-  {
-    title: 'Mythic Summon Calculator',
-    path: '/toolbox/mythic-summon-calculator',
-    keywords: 'mythic summon calculator pull rates rewards pity simulation',
-  },
-  {
-    title: 'Diamond Calculator',
-    path: '/toolbox/diamond-calculator',
-    keywords: 'diamond calculator income spending budget projection',
-  },
-  {
-    title: 'Tier List',
-    path: '/tier-list',
-    keywords: 'tier list ranking meta best',
-  },
-  {
-    title: 'Teams',
-    path: '/teams',
-    keywords: 'teams compositions squad party',
-  },
-  { title: 'Codes', path: '/codes', keywords: 'codes redeem rewards gifts' },
-  {
-    title: 'Events',
-    path: '/events',
-    keywords: 'events special event in-game limited time active',
-  },
-  {
-    title: 'Useful Links',
-    path: '/toolbox/useful-links',
-    keywords: 'links resources tools external',
-  },
-];
-
-const MAX_RECENT = 5;
-
-function loadRecentSearches(): string[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY.RECENT_SEARCHES);
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed)
-      ? parsed.filter((s): s is string => typeof s === 'string')
-      : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveRecentSearch(query: string, prev: string[]): string[] {
-  const trimmed = query.trim();
-  if (!trimmed) return prev;
-  const next = [trimmed, ...prev.filter((s) => s !== trimmed)].slice(
-    0,
-    MAX_RECENT
-  );
-  try {
-    localStorage.setItem(STORAGE_KEY.RECENT_SEARCHES, JSON.stringify(next));
-  } catch {
-    /* ignore */
-  }
-  return next;
-}
-
-// PAGES Fuse index is module-level — the list never changes at runtime.
-const PAGE_FUSE = new Fuse(PAGES, {
+// The page list never changes at runtime, so its Fuse index can be shared.
+const PAGE_FUSE = new Fuse(SEARCH_PAGES, {
   keys: ['title', 'keywords'],
   threshold: 0.4,
 });
@@ -1202,7 +1069,7 @@ function SearchModalContent({
                       onClick={() => {
                         setRecentSearches([]);
                         try {
-                          localStorage.removeItem(STORAGE_KEY.RECENT_SEARCHES);
+                          clearRecentSearches();
                         } catch {
                           /* ignore */
                         }
@@ -1265,5 +1132,9 @@ function SearchModalContent({
 }
 
 export default function SearchModal(props: SearchModalProps) {
-  return <SearchModalContent {...props} />;
+  return (
+    <SearchDataProvider>
+      <SearchModalContent {...props} />
+    </SearchDataProvider>
+  );
 }

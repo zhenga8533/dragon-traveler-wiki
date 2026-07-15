@@ -352,22 +352,22 @@ function ZoomControls({
   return (
     <Group gap={4} style={{ position: 'absolute', bottom: 8, right: 8, zIndex: 10 }}>
       <Tooltip label="Zoom in" withArrow>
-        <ActionIcon variant="light" color={accent} size="sm" onClick={() => zoomIn()}>
+        <ActionIcon aria-label="Zoom in" variant="light" color={accent} size="sm" onClick={() => zoomIn()}>
           <IoAdd size={13} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Zoom out" withArrow>
-        <ActionIcon variant="light" color={accent} size="sm" onClick={() => zoomOut()}>
+        <ActionIcon aria-label="Zoom out" variant="light" color={accent} size="sm" onClick={() => zoomOut()}>
           <IoRemove size={13} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Reset view" withArrow>
-        <ActionIcon variant="light" color={accent} size="sm" onClick={() => centerView(1)}>
+        <ActionIcon aria-label="Reset view" variant="light" color={accent} size="sm" onClick={() => centerView(1)}>
           <IoScanOutline size={13} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} withArrow>
-        <ActionIcon variant="light" color={accent} size="sm" onClick={onToggleFullscreen}>
+        <ActionIcon aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} variant="light" color={accent} size="sm" onClick={onToggleFullscreen}>
           {isFullscreen ? <IoContract size={13} /> : <IoExpand size={13} />}
         </ActionIcon>
       </Tooltip>

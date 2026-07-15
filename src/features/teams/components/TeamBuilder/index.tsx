@@ -203,7 +203,7 @@ export default function TeamBuilder({
 
   function handleSubmitSuggestion() {
     if (!teamIssueUrl) {
-      window.open(teamEmptyIssueUrl, '_blank');
+      window.open(teamEmptyIssueUrl, '_blank', 'noopener,noreferrer');
       showWarningToast({
         title: 'Team JSON is too large',
         message:
@@ -212,7 +212,7 @@ export default function TeamBuilder({
       });
       return;
     }
-    window.open(teamIssueUrl, '_blank');
+    window.open(teamIssueUrl, '_blank', 'noopener,noreferrer');
   }
 
   return (

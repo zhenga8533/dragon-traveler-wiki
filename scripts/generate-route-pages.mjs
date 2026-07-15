@@ -7,13 +7,18 @@ import {
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadProjectEnv } from './project-env.mjs';
+import {
+  BASE_URL,
+  DEFAULT_IMAGE,
+  ROUTE_META,
+  SITE_NAME,
+} from '../src/constants/route-meta.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
 const { env, dataDir } = loadProjectEnv('production', projectRoot);
-const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
 
 const rawAssetsBase = env.VITE_ASSETS_BASE ?? '';
@@ -79,78 +84,6 @@ function readJsonArray(fileName) {
   } catch {
     return [];
   }
-}
-
-function parseRouteMetaSource(source) {
-  const getConstExpression = (name) => {
-    const match = source.match(
-      new RegExp(`export\\s+const\\s+${name}\\s*=\\s*([^;]+);`)
-    );
-    return match ? match[1].trim() : null;
-  };
-
-  const resolveStringValue = (expression, substitutions = {}) => {
-    if (!expression) {
-      return null;
-    }
-
-    if (
-      (expression.startsWith("'") && expression.endsWith("'")) ||
-      (expression.startsWith('"') && expression.endsWith('"'))
-    ) {
-      return expression.slice(1, -1);
-    }
-
-    if (expression.startsWith('`') && expression.endsWith('`')) {
-      const templateBody = expression.slice(1, -1);
-      return templateBody.replace(/\$\{([^}]+)\}/g, (_, key) => {
-        const trimmedKey = String(key).trim();
-        return substitutions[trimmedKey] ?? '';
-      });
-    }
-
-    return substitutions[expression] ?? null;
-  };
-
-  const siteName = resolveStringValue(getConstExpression('SITE_NAME'));
-  const baseUrl = resolveStringValue(getConstExpression('BASE_URL'));
-  const defaultImage = resolveStringValue(getConstExpression('DEFAULT_IMAGE'), {
-    BASE_URL: baseUrl ?? '',
-  });
-
-  const routeMetaStart = source.indexOf('export const ROUTE_META');
-  if (routeMetaStart === -1) {
-    throw new Error('Could not find ROUTE_META export in route-meta.ts');
-  }
-
-  const arrayStart = source.indexOf('[', routeMetaStart);
-  const arrayEnd = source.lastIndexOf('];');
-  if (arrayStart === -1 || arrayEnd === -1 || arrayEnd <= arrayStart) {
-    throw new Error('Could not parse ROUTE_META array in route-meta.ts');
-  }
-
-  const routeMetaChunk = source.slice(arrayStart, arrayEnd);
-  const entryRegex =
-    /\{\s*pattern:\s*'([^']+)'[^{}]*?meta:\s*\{\s*title:\s*'([^']+)'\s*,\s*description:\s*'((?:\\'|[^'])*)'\s*,?\s*\}\s*,?\s*\}/g;
-
-  const routes = [];
-  let match;
-  while ((match = entryRegex.exec(routeMetaChunk)) !== null) {
-    routes.push({
-      pattern: match[1],
-      meta: {
-        title: match[2],
-        description: match[3].replace(/\\'/g, "'").replace(/\s+/g, ' ').trim(),
-      },
-    });
-  }
-
-  return {
-    siteName,
-    baseUrl,
-    defaultImage,
-    routes,
-  };
 }
 
 function upsertMeta(html, attr, key, value) {
@@ -257,15 +190,10 @@ function writeRoutePages() {
     );
   }
 
-  const routeMetaSource = readFileSync(routeMetaPath, 'utf-8');
-  const { siteName, baseUrl, defaultImage, routes } =
-    parseRouteMetaSource(routeMetaSource);
-
-  if (!siteName || !baseUrl || !defaultImage) {
-    throw new Error(
-      'Could not parse SITE_NAME, BASE_URL, or DEFAULT_IMAGE from route-meta.ts'
-    );
-  }
+  const siteName = SITE_NAME;
+  const baseUrl = BASE_URL;
+  const defaultImage = DEFAULT_IMAGE;
+  const routes = ROUTE_META;
 
   const indexHtml = readFileSync(indexHtmlPath, 'utf-8');
   const routeMetaByPattern = new Map(

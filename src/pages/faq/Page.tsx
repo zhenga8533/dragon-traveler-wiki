@@ -407,7 +407,11 @@ export default function FAQ() {
             >
               The embedded page below is an external community source used for
               translation/adaptation. If it does not load, open it directly:{' '}
-              <Anchor href="https://www.gamekee.com/lhlr" target="_blank">
+              <Anchor
+                href="https://www.gamekee.com/lhlr"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 GameKee Dragon Traveler Reference
               </Anchor>
               .

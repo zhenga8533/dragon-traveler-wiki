@@ -187,7 +187,9 @@ export default function RichText({
                 variant="light"
                 color={accent.secondary}
                 size="sm"
-                component="span"
+                component="button"
+                type="button"
+                aria-label={`Go to skill ${skill.name}`}
                 style={{ ...RICH_TEXT_BADGE_STYLE, ...CURSOR_POINTER_STYLE }}
                 onClick={() => onSkillClick(skill.name)}
               >
@@ -216,7 +218,9 @@ export default function RichText({
                 variant="light"
                 color={accent.tertiary}
                 size="sm"
-                component="span"
+                component="button"
+                type="button"
+                aria-label={`Go to talent ${talent.name}`}
                 style={{ ...RICH_TEXT_BADGE_STYLE, ...CURSOR_POINTER_STYLE }}
                 onClick={onTalentClick}
               >

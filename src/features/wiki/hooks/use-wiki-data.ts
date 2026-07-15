@@ -19,10 +19,26 @@ import type { Code } from '@/types/code';
 import type { Resource } from '@/types/resource';
 import type { StarTierData } from '@/types/star-level';
 import type { UsefulLink } from '@/types/useful-link';
+import {
+  parseObjectArray,
+  parseObjectRecord,
+} from '@/utils/data-validation';
+
+function useEntityArray<T>(path: string) {
+  return useDataFetch<T[]>(path, [], parseObjectArray<T>);
+}
+
+function useChangesFile(path: string) {
+  return useDataFetch<ChangesFile>(
+    path,
+    {},
+    parseObjectRecord<ChangesFile[string]>
+  );
+}
 
 export function useWyrmspells() {
   const path = useLocalePath('wyrmspells.json');
-  return useDataFetch<Wyrmspell[]>(path, []);
+  return useEntityArray<Wyrmspell>(path);
 }
 
 export function useStatusEffects() {
@@ -30,10 +46,10 @@ export function useStatusEffects() {
   const localePath = useLocalePath('status-effects.json');
   const enUSPath = dataPath('status-effects.json', DEFAULT_LOCALE);
 
-  const localeResult = useDataFetch<StatusEffect[]>(localePath, []);
+  const localeResult = useEntityArray<StatusEffect>(localePath);
   // Always fetch enUS so that English bracket references in enUS-fallback characters
   // (those missing from the current locale) can still be matched.
-  const enUSResult = useDataFetch<StatusEffect[]>(enUSPath, []);
+  const enUSResult = useEntityArray<StatusEffect>(enUSPath);
 
   const data = useMemo(() => {
     if (locale === DEFAULT_LOCALE) return localeResult.data;
@@ -58,117 +74,117 @@ export function useStatusEffects() {
 
 export function useNoblePhantasms() {
   const path = useLocalePath('noble-phantasm.json');
-  return useDataFetch<NoblePhantasm[]>(path, []);
+  return useEntityArray<NoblePhantasm>(path);
 }
 
 export function useSubclasses() {
   const path = useLocalePath('subclasses.json');
-  return useDataFetch<Subclass[]>(path, []);
+  return useEntityArray<Subclass>(path);
 }
 
 export function useGear() {
   const path = useLocalePath('gear.json');
-  return useDataFetch<Gear[]>(path, []);
+  return useEntityArray<Gear>(path);
 }
 
 export function useGearSets() {
   const path = useLocalePath('gear-sets.json');
-  return useDataFetch<GearSet[]>(path, []);
+  return useEntityArray<GearSet>(path);
 }
 
 export function useArtifacts() {
   const path = useLocalePath('artifacts.json');
-  return useDataFetch<Artifact[]>(path, []);
+  return useEntityArray<Artifact>(path);
 }
 
 export function useStarLevels() {
   const path = useLocalePath('star-levels.json');
-  return useDataFetch<StarTierData[]>(path, []);
+  return useEntityArray<StarTierData>(path);
 }
 
 export function useWyrms() {
   const path = useLocalePath('wyrms.json');
-  return useDataFetch<Wyrm[]>(path, []);
+  return useEntityArray<Wyrm>(path);
 }
 
 export function useHowlkins() {
   const path = useLocalePath('howlkins.json');
-  return useDataFetch<Howlkin[]>(path, []);
+  return useEntityArray<Howlkin>(path);
 }
 
 export function useGoldenAlliances() {
   const path = useLocalePath('golden-alliances.json');
-  return useDataFetch<GoldenAlliance[]>(path, []);
+  return useEntityArray<GoldenAlliance>(path);
 }
 
 export function useRelics() {
   const path = useLocalePath('relic.json');
-  return useDataFetch<Relic[]>(path, []);
+  return useEntityArray<Relic>(path);
 }
 
 export function useEvents() {
   const path = useLocalePath('events.json');
-  return useDataFetch<GameEvent[]>(path, []);
+  return useEntityArray<GameEvent>(path);
 }
 
 export function useCodes() {
   const path = useLocalePath('codes.json');
-  return useDataFetch<Code[]>(path, []);
+  return useEntityArray<Code>(path);
 }
 
 export function useResources() {
   const path = useLocalePath('resources.json');
-  return useDataFetch<Resource[]>(path, []);
+  return useEntityArray<Resource>(path);
 }
 
 export function useUsefulLinks() {
   const path = useLocalePath('useful-links.json');
-  return useDataFetch<UsefulLink[]>(path, []);
+  return useEntityArray<UsefulLink>(path);
 }
 
 export function useChangelog() {
   const path = useLocalePath('changelog.json');
-  return useDataFetch<ChangelogEntry[]>(path, []);
+  return useEntityArray<ChangelogEntry>(path);
 }
 
 // Change-history hooks
 
 export function useArtifactChanges() {
   const path = useLocaleChangesPath('artifacts.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useWyrmChanges() {
   const path = useLocaleChangesPath('wyrms.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useWyrmspellChanges() {
   const path = useLocaleChangesPath('wyrmspells.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useNoblePhantasmChanges() {
   const path = useLocaleChangesPath('noble-phantasm.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useRelicChanges() {
   const path = useLocaleChangesPath('relic.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useGoldenAllianceChanges() {
   const path = useLocaleChangesPath('golden-alliances.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useGearChanges() {
   const path = useLocaleChangesPath('gear.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }
 
 export function useGearSetChanges() {
   const path = useLocaleChangesPath('gear-sets.json');
-  return useDataFetch<ChangesFile>(path, {});
+  return useChangesFile(path);
 }

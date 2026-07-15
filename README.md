@@ -26,6 +26,8 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 
 ## Getting Started
 
+Node.js 22.18 or newer is required.
+
 ```bash
 npm install
 npm run dev
@@ -43,6 +45,12 @@ cp .env.example .env.local
 Repository-relative paths in `DATA_DIR` and `ASSETS_DIR` are resolved from this
 repository's root. Shell and CI variables take precedence over values in env
 files. Both the dev server and production build load the same env files.
+
+Run the complete local quality suite with:
+
+```bash
+npm run check
+```
 
 ### Build for Production
 

@@ -1,98 +1,98 @@
-﻿import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
+import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
 import { getCardHoverProps } from '@/constants/styles';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
 interface ChangelogEntry {
-	date: string;
-	version?: string;
-	changes: {
-		type: 'added' | 'updated' | 'fixed' | 'removed';
-		category: string;
-		description: string;
-	}[];
+  date: string;
+  version?: string;
+  changes: {
+    type: 'added' | 'updated' | 'fixed' | 'removed';
+    category: string;
+    description: string;
+  }[];
 }
 
 const TYPE_COLORS: Record<string, string> = {
-	added: 'green',
-	updated: 'blue',
-	fixed: 'orange',
-	removed: 'red',
+  added: 'green',
+  updated: 'blue',
+  fixed: 'orange',
+  removed: 'red',
 };
 
 export default function RecentUpdatesSection() {
-	const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
+  const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
 
-	if (loading) {
-		return (
-			<Stack gap="xs">
-				{[1, 2, 3].map((i) => (
-					<Skeleton key={i} height={60} radius="md" />
-				))}
-			</Stack>
-		);
-	}
+  if (loading) {
+    return (
+      <Stack gap="xs">
+        {[1, 2, 3].map((i) => (
+          <Skeleton key={i} height={60} radius="md" />
+        ))}
+      </Stack>
+    );
+  }
 
-	const recentEntries = [...changelog]
-		.sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
-		.slice(0, 3);
+  const recentEntries = [...changelog]
+    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+    .slice(0, 3);
 
-	if (recentEntries.length === 0) {
-		return (
-			<Text size="sm" c="dimmed" fs="italic">
-				No recent updates.
-			</Text>
-		);
-	}
+  if (recentEntries.length === 0) {
+    return (
+      <Text size="sm" c="dimmed" fs="italic">
+        No recent updates.
+      </Text>
+    );
+  }
 
-	return (
-		<Stack gap="xs">
-			{recentEntries.map((entry) => (
-				<Paper
-					key={entry.version ?? entry.date}
-					p="xs"
-					radius="md"
-					withBorder
-					{...getCardHoverProps()}
-				>
-					<Group justify="space-between" mb={4} wrap="wrap" gap={4}>
-						<Text size="xs" fw={600}>
-							{entry.version || entry.date}
-						</Text>
-						<Group gap="xs" wrap="nowrap">
-							<Badge size="xs" variant="light" color="gray">
-								{entry.changes.length} changes
-							</Badge>
-							{entry.version && (
-								<Text size="xs" c="dimmed">
-									{entry.date}
-								</Text>
-							)}
-						</Group>
-					</Group>
-					<Stack gap={2}>
-						{entry.changes.slice(0, 2).map((change, cIdx) => (
-							<Group key={cIdx} gap="xs" wrap="nowrap">
-								<Badge
-									size="xs"
-									variant="light"
-									color={TYPE_COLORS[change.type] || 'gray'}
-									style={{ flexShrink: 0 }}
-								>
-									{change.type}
-								</Badge>
-								<Text size="xs" lineClamp={1}>
-									{change.description}
-								</Text>
-							</Group>
-						))}
-						{entry.changes.length > 2 && (
-							<Text size="xs" c="dimmed" fs="italic">
-								+{entry.changes.length - 2} more changes
-							</Text>
-						)}
-					</Stack>
-				</Paper>
-			))}
-		</Stack>
-	);
+  return (
+    <Stack gap="xs">
+      {recentEntries.map((entry) => (
+        <Paper
+          key={entry.version ?? entry.date}
+          p="xs"
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
+        >
+          <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
+            <Text size="xs" fw={600}>
+              {entry.version || entry.date}
+            </Text>
+            <Group gap="xs" wrap="nowrap">
+              <Badge size="xs" variant="light" color="gray">
+                {entry.changes.length} changes
+              </Badge>
+              {entry.version && (
+                <Text size="xs" c="dimmed">
+                  {entry.date}
+                </Text>
+              )}
+            </Group>
+          </Group>
+          <Stack gap={2}>
+            {entry.changes.slice(0, 2).map((change, cIdx) => (
+              <Group key={cIdx} gap="xs" wrap="nowrap">
+                <Badge
+                  size="xs"
+                  variant="light"
+                  color={TYPE_COLORS[change.type] || 'gray'}
+                  style={{ flexShrink: 0 }}
+                >
+                  {change.type}
+                </Badge>
+                <Text size="xs" lineClamp={1}>
+                  {change.description}
+                </Text>
+              </Group>
+            ))}
+            {entry.changes.length > 2 && (
+              <Text size="xs" c="dimmed" fs="italic">
+                +{entry.changes.length - 2} more changes
+              </Text>
+            )}
+          </Stack>
+        </Paper>
+      ))}
+    </Stack>
+  );
 }

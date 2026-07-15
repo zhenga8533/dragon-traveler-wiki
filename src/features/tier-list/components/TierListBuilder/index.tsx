@@ -127,7 +127,7 @@ export default function TierListBuilder({
 
   function handleSubmitSuggestion() {
     if (!tierListIssueUrl) {
-      window.open(tierListEmptyIssueUrl, '_blank');
+      window.open(tierListEmptyIssueUrl, '_blank', 'noopener,noreferrer');
       showWarningToast({
         title: 'Tier list JSON is too large',
         message:
@@ -137,7 +137,7 @@ export default function TierListBuilder({
       return;
     }
 
-    window.open(tierListIssueUrl, '_blank');
+    window.open(tierListIssueUrl, '_blank', 'noopener,noreferrer');
   }
 
   useEffect(() => {

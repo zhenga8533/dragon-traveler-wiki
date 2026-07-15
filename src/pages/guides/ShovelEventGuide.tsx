@@ -83,6 +83,7 @@ export default function ShovelEventGuide() {
             <Anchor
               href="https://www.gamekee.com/lhlr/671116.html"
               target="_blank"
+              rel="noopener noreferrer"
             >
               铲子活动
             </Anchor>

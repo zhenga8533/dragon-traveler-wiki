@@ -311,7 +311,7 @@ export default function SuggestModal({
         title: issueTitle,
         body: buildEmptyIssueBody(''),
       });
-      window.open(emptyUrl, '_blank');
+      window.open(emptyUrl, '_blank', 'noopener,noreferrer');
       setJsonTooLong(true);
       showWarningToast({
         title: 'JSON is too large for URL',
@@ -322,7 +322,7 @@ export default function SuggestModal({
       return;
     }
 
-    window.open(fullUrl, '_blank');
+    window.open(fullUrl, '_blank', 'noopener,noreferrer');
     close();
   };
 

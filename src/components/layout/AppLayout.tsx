@@ -107,7 +107,7 @@ export default function AppLayout() {
               }}
             >
               <Image
-                src="/logo.png"
+                src={`${import.meta.env.BASE_URL}logo.png`}
                 alt="Dragon Traveler Wiki"
                 h={{ base: 32, xs: 40, sm: 48 }}
                 w="auto"

@@ -157,6 +157,8 @@ export default function EventBanner({
           {Array.from({ length: total }, (_, i) => (
             <UnstyledButton
               key={i}
+              aria-label={`Show banner ${i + 1} of ${total}`}
+              aria-current={i === idx ? 'true' : undefined}
               onClick={(e) => {
                 e.stopPropagation();
                 goTo(i);

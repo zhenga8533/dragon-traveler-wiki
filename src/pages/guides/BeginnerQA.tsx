@@ -210,6 +210,7 @@ export default function BeginnerQA() {
             <Anchor
               href="https://www.gamekee.com/lhlr/670682.html"
               target="_blank"
+              rel="noopener noreferrer"
             >
               萌新Q&A / Beginner Q&A
             </Anchor>

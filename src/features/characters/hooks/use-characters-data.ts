@@ -5,16 +5,28 @@ import { LocaleContext } from '@/contexts/locale';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import { changesPath, dataPath, DEFAULT_LOCALE } from '@/utils/data-paths';
+import {
+  parseObjectArray,
+  parseObjectRecord,
+} from '@/utils/data-validation';
 
 export function useCharacters() {
   const { locale } = useContext(LocaleContext);
   const localePath = useLocalePath('characters.json');
   const enUSPath = dataPath('characters.json', DEFAULT_LOCALE);
 
-  const localeResult = useDataFetch<Character[]>(localePath, []);
+  const localeResult = useDataFetch<Character[]>(
+    localePath,
+    [],
+    parseObjectArray<Character>
+  );
   // Always fetch enUS so missing locale characters can fall back to it.
   // When locale is already enUS, both paths are identical and the cache deduplicates the request.
-  const enUSResult = useDataFetch<Character[]>(enUSPath, []);
+  const enUSResult = useDataFetch<Character[]>(
+    enUSPath,
+    [],
+    parseObjectArray<Character>
+  );
 
   const data = useMemo(() => {
     if (locale === DEFAULT_LOCALE) return localeResult.data;
@@ -43,8 +55,16 @@ export function useCharacterChanges() {
   const localePath = useLocaleChangesPath('characters.json');
   const enUSPath = changesPath('characters.json', DEFAULT_LOCALE);
 
-  const localeResult = useDataFetch<ChangesFile>(localePath, {});
-  const enUSResult = useDataFetch<ChangesFile>(enUSPath, {});
+  const localeResult = useDataFetch<ChangesFile>(
+    localePath,
+    {},
+    parseObjectRecord<ChangesFile[string]>
+  );
+  const enUSResult = useDataFetch<ChangesFile>(
+    enUSPath,
+    {},
+    parseObjectRecord<ChangesFile[string]>
+  );
 
   const data = useMemo(() => {
     if (locale === DEFAULT_LOCALE) return localeResult.data;

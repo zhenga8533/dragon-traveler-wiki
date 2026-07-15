@@ -1,12 +1,12 @@
 import {
-	Badge,
-	Group,
-	ScrollArea,
-	SimpleGrid,
-	Stack,
-	Table,
-	Tabs,
-	Text,
+  Badge,
+  Group,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  Tabs,
+  Text,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import CharacterCard from '@/features/characters/components/CharacterCard';
@@ -24,251 +24,251 @@ import type { ChangesFile } from '@/types/changes';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
-	getCharacterIdentityKey,
-	getCharacterRoutePath,
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
 import { sortCharactersByQuality } from '@/features/characters/utils/filter-characters';
 import TierListContent from '@/features/tier-list/components/TierListContent';
 
 interface TierListViewTabProps {
-	visibleTierLists: TierListType[];
-	characters: Character[];
-	resolveTierEntryCharacter: (
-		entry: TierListType['entries'][number]
-	) => Character | null | undefined;
-	viewMode: string;
-	onClearFilters: () => void;
-	onOpenFilters: () => void;
-	tierListChanges: ChangesFile;
-	onRequestEdit: (tierList: TierListType) => void;
-	onRequestExport: (name: string) => void;
-	isExporting: string | null;
-	exportRefCallback: (name: string, node: HTMLDivElement | null) => void;
-	characterFilter: (character: Character) => boolean;
-	hasCharacterFilters: boolean;
+  visibleTierLists: TierListType[];
+  characters: Character[];
+  resolveTierEntryCharacter: (
+    entry: TierListType['entries'][number]
+  ) => Character | null | undefined;
+  viewMode: string;
+  onClearFilters: () => void;
+  onOpenFilters: () => void;
+  tierListChanges: ChangesFile;
+  onRequestEdit: (tierList: TierListType) => void;
+  onRequestExport: (name: string) => void;
+  isExporting: string | null;
+  exportRefCallback: (name: string, node: HTMLDivElement | null) => void;
+  characterFilter: (character: Character) => boolean;
+  hasCharacterFilters: boolean;
 }
 
 function getTierListCharacterIdentity(character: Character): string {
-	return `${getCharacterIdentityKey(character)}__${character.quality}`;
+  return `${getCharacterIdentityKey(character)}__${character.quality}`;
 }
 
 export default function TierListViewTab({
-	visibleTierLists,
-	characters,
-	resolveTierEntryCharacter,
-	viewMode,
-	onClearFilters,
-	onOpenFilters,
-	tierListChanges,
-	onRequestEdit,
-	onRequestExport,
-	isExporting,
-	exportRefCallback,
-	characterFilter,
-	hasCharacterFilters,
+  visibleTierLists,
+  characters,
+  resolveTierEntryCharacter,
+  viewMode,
+  onClearFilters,
+  onOpenFilters,
+  tierListChanges,
+  onRequestEdit,
+  onRequestExport,
+  isExporting,
+  exportRefCallback,
+  characterFilter,
+  hasCharacterFilters,
 }: TierListViewTabProps) {
-	const isMobile = useIsMobile();
-	const [activeTierListName, handleSelectTierList] = useEntityTabParam(
-		'list',
-		visibleTierLists
-	);
+  const isMobile = useIsMobile();
+  const [activeTierListName, handleSelectTierList] = useEntityTabParam(
+    'list',
+    visibleTierLists
+  );
 
-	return (
-		<>
-			{visibleTierLists.length === 0 && (
-				<NoResultsSuggestions
-					title="No tier lists found"
-					message="No tier lists match the current filters."
-					onReset={onClearFilters}
-					onOpenFilters={onOpenFilters}
-				/>
-			)}
+  return (
+    <>
+      {visibleTierLists.length === 0 && (
+        <NoResultsSuggestions
+          title="No tier lists found"
+          message="No tier lists match the current filters."
+          onReset={onClearFilters}
+          onOpenFilters={onOpenFilters}
+        />
+      )}
 
-			{visibleTierLists.length > 0 && (
-				<Tabs value={activeTierListName} onChange={handleSelectTierList}>
-					<ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
-						<Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
-							{visibleTierLists.map((tierList) => (
-								<Tabs.Tab
-									key={tierList.name}
-									value={tierList.name}
-									style={{ minHeight: 40 }}
-								>
-									{tierList.name}
-								</Tabs.Tab>
-							))}
-						</Tabs.List>
-					</ScrollArea>
+      {visibleTierLists.length > 0 && (
+        <Tabs value={activeTierListName} onChange={handleSelectTierList}>
+          <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
+            <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
+              {visibleTierLists.map((tierList) => (
+                <Tabs.Tab
+                  key={tierList.name}
+                  value={tierList.name}
+                  style={{ minHeight: 40 }}
+                >
+                  {tierList.name}
+                </Tabs.Tab>
+              ))}
+            </Tabs.List>
+          </ScrollArea>
 
-					{visibleTierLists.map((tierList) => {
-						const rankedNames = new Set(
-							tierList.entries
-								.filter((entry) => {
-									if (!hasCharacterFilters) return true;
-									const resolved = resolveTierEntryCharacter(entry);
-									return resolved ? characterFilter(resolved) : false;
-								})
-								.map((e) => {
-									const resolved = resolveTierEntryCharacter(e);
-									return resolved
-										? getTierListCharacterIdentity(resolved)
-										: `${e.character_slug}__${e.character_quality ?? ''}`;
-								})
-						);
-						const unranked = sortCharactersByQuality(
-							characters.filter(
-								(c) =>
-									!rankedNames.has(getTierListCharacterIdentity(c)) &&
-									(!hasCharacterFilters || characterFilter(c))
-							)
-						);
+          {visibleTierLists.map((tierList) => {
+            const rankedNames = new Set(
+              tierList.entries
+                .filter((entry) => {
+                  if (!hasCharacterFilters) return true;
+                  const resolved = resolveTierEntryCharacter(entry);
+                  return resolved ? characterFilter(resolved) : false;
+                })
+                .map((e) => {
+                  const resolved = resolveTierEntryCharacter(e);
+                  return resolved
+                    ? getTierListCharacterIdentity(resolved)
+                    : `${e.character_slug}__${e.character_quality ?? ''}`;
+                })
+            );
+            const unranked = sortCharactersByQuality(
+              characters.filter(
+                (c) =>
+                  !rankedNames.has(getTierListCharacterIdentity(c)) &&
+                  (!hasCharacterFilters || characterFilter(c))
+              )
+            );
 
-						const headerActions = (
-							<EntityActionButtons
-								onEdit={() => onRequestEdit(tierList)}
-								onExport={() => onRequestExport(tierList.name)}
-								isExporting={isExporting === tierList.name}
-								size={isMobile ? 'xs' : 'compact-xs'}
-								variant="light"
-							/>
-						);
+            const headerActions = (
+              <EntityActionButtons
+                onEdit={() => onRequestEdit(tierList)}
+                onExport={() => onRequestExport(tierList.name)}
+                isExporting={isExporting === tierList.name}
+                size={isMobile ? 'xs' : 'compact-xs'}
+                variant="light"
+              />
+            );
 
-						return (
-							<Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
-								<Stack gap="md">
-									<TierListContent
-										tierList={tierList}
-										resolveTierEntryCharacter={resolveTierEntryCharacter}
-										viewMode={viewMode}
-										headerActions={headerActions}
-										disableNameClamp={isExporting === tierList.name}
-										exportRefCallback={(node) =>
-											exportRefCallback(tierList.name, node)
-										}
-										characterFilter={
-											hasCharacterFilters ? characterFilter : undefined
-										}
-									/>
+            return (
+              <Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
+                <Stack gap="md">
+                  <TierListContent
+                    tierList={tierList}
+                    resolveTierEntryCharacter={resolveTierEntryCharacter}
+                    viewMode={viewMode}
+                    headerActions={headerActions}
+                    disableNameClamp={isExporting === tierList.name}
+                    exportRefCallback={(node) =>
+                      exportRefCallback(tierList.name, node)
+                    }
+                    characterFilter={
+                      hasCharacterFilters ? characterFilter : undefined
+                    }
+                  />
 
-									{unranked.length > 0 && (
-										<CollapsibleSectionCard
-											defaultExpanded
-											color="gray"
-											header={
-												<Badge
-													variant="filled"
-													color="gray"
-													size="lg"
-													radius="sm"
-												>
-													N/A ({unranked.length})
-												</Badge>
-											}
-										>
-											{viewMode === 'grid' ? (
-												<SimpleGrid
-													cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-													spacing={CHARACTER_GRID_SPACING}
-												>
-													{unranked.map((c) => {
-														return (
-															<CharacterCard
-																key={getCharacterIdentityKey(c)}
-																name={c.name}
-																label={undefined}
-																quality={c.quality}
-																routePath={getCharacterRoutePath(c)}
-															/>
-														);
-													})}
-												</SimpleGrid>
-											) : (
-												<ScrollArea
-													type="auto"
-													scrollbarSize={6}
-													offsetScrollbars
-												>
-													<Table
-														striped
-														highlightOnHover
-														style={{ minWidth: 460 }}
-													>
-														<Table.Thead>
-															<Table.Tr>
-																<Table.Th>Character</Table.Th>
-																<Table.Th>Quality</Table.Th>
-																<Table.Th>Class</Table.Th>
-																<Table.Th>Factions</Table.Th>
-															</Table.Tr>
-														</Table.Thead>
-														<Table.Tbody>
-															{unranked.map((c) => {
-																const displayName = c.name;
-																return (
-																	<Table.Tr key={getCharacterIdentityKey(c)}>
-																		<Table.Td>
-																			<Group gap="sm" wrap="nowrap">
-																				<CharacterPortrait
-																					name={c.name}
-																					size={32}
-																					quality={c.quality}
-																					routePath={getCharacterRoutePath(c)}
-																				/>
-																				<Text
-																					component={Link}
-																					to={getCharacterRoutePath(c)}
-																					size="sm"
-																					fw={500}
-																					className="dt-link-text"
-																				>
-																					{displayName}
-																				</Text>
-																			</Group>
-																		</Table.Td>
-																		<Table.Td>
-																			<QualityIcon
-																				quality={c.quality}
-																				size={IMAGE_SIZE.ICON_LG}
-																			/>
-																		</Table.Td>
-																		<Table.Td>
-																			<ClassTag
-																				characterClass={c.character_class}
-																				size="sm"
-																			/>
-																		</Table.Td>
-																		<Table.Td className="table-badge-cell">
-																			<Group
-																				gap={4}
-																				wrap="wrap"
-																				className="table-badge-list"
-																			>
-																				{c.factions.map((faction) => (
-																					<FactionTag
-																						key={faction}
-																						faction={faction}
-																						size="xs"
-																					/>
-																				))}
-																			</Group>
-																		</Table.Td>
-																	</Table.Tr>
-																);
-															})}
-														</Table.Tbody>
-													</Table>
-												</ScrollArea>
-											)}
-										</CollapsibleSectionCard>
-									)}
+                  {unranked.length > 0 && (
+                    <CollapsibleSectionCard
+                      defaultExpanded
+                      color="gray"
+                      header={
+                        <Badge
+                          variant="filled"
+                          color="gray"
+                          size="lg"
+                          radius="sm"
+                        >
+                          N/A ({unranked.length})
+                        </Badge>
+                      }
+                    >
+                      {viewMode === 'grid' ? (
+                        <SimpleGrid
+                          cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                          spacing={CHARACTER_GRID_SPACING}
+                        >
+                          {unranked.map((c) => {
+                            return (
+                              <CharacterCard
+                                key={getCharacterIdentityKey(c)}
+                                name={c.name}
+                                label={undefined}
+                                quality={c.quality}
+                                routePath={getCharacterRoutePath(c)}
+                              />
+                            );
+                          })}
+                        </SimpleGrid>
+                      ) : (
+                        <ScrollArea
+                          type="auto"
+                          scrollbarSize={6}
+                          offsetScrollbars
+                        >
+                          <Table
+                            striped
+                            highlightOnHover
+                            style={{ minWidth: 460 }}
+                          >
+                            <Table.Thead>
+                              <Table.Tr>
+                                <Table.Th>Character</Table.Th>
+                                <Table.Th>Quality</Table.Th>
+                                <Table.Th>Class</Table.Th>
+                                <Table.Th>Factions</Table.Th>
+                              </Table.Tr>
+                            </Table.Thead>
+                            <Table.Tbody>
+                              {unranked.map((c) => {
+                                const displayName = c.name;
+                                return (
+                                  <Table.Tr key={getCharacterIdentityKey(c)}>
+                                    <Table.Td>
+                                      <Group gap="sm" wrap="nowrap">
+                                        <CharacterPortrait
+                                          name={c.name}
+                                          size={32}
+                                          quality={c.quality}
+                                          routePath={getCharacterRoutePath(c)}
+                                        />
+                                        <Text
+                                          component={Link}
+                                          to={getCharacterRoutePath(c)}
+                                          size="sm"
+                                          fw={500}
+                                          className="dt-link-text"
+                                        >
+                                          {displayName}
+                                        </Text>
+                                      </Group>
+                                    </Table.Td>
+                                    <Table.Td>
+                                      <QualityIcon
+                                        quality={c.quality}
+                                        size={IMAGE_SIZE.ICON_LG}
+                                      />
+                                    </Table.Td>
+                                    <Table.Td>
+                                      <ClassTag
+                                        characterClass={c.character_class}
+                                        size="sm"
+                                      />
+                                    </Table.Td>
+                                    <Table.Td className="table-badge-cell">
+                                      <Group
+                                        gap={4}
+                                        wrap="wrap"
+                                        className="table-badge-list"
+                                      >
+                                        {c.factions.map((faction) => (
+                                          <FactionTag
+                                            key={faction}
+                                            faction={faction}
+                                            size="xs"
+                                          />
+                                        ))}
+                                      </Group>
+                                    </Table.Td>
+                                  </Table.Tr>
+                                );
+                              })}
+                            </Table.Tbody>
+                          </Table>
+                        </ScrollArea>
+                      )}
+                    </CollapsibleSectionCard>
+                  )}
 
-									<ChangeHistory history={tierListChanges[tierList.name]} />
-								</Stack>
-							</Tabs.Panel>
-						);
-					})}
-				</Tabs>
-			)}
-		</>
-	);
+                  <ChangeHistory history={tierListChanges[tierList.name]} />
+                </Stack>
+              </Tabs.Panel>
+            );
+          })}
+        </Tabs>
+      )}
+    </>
+  );
 }

@@ -8,7 +8,6 @@ import {
   LocaleProvider,
   NavLayoutProvider,
   ResourcesProvider,
-  SearchDataProvider,
   TierListReferenceProvider,
   UiOpacityProvider,
 } from './contexts';
@@ -25,9 +24,7 @@ export default function AppProviders({ children }: { children: ReactNode }) {
                   <CharacterSkinProvider>
                     <CharacterOwnershipProvider>
                       <NavLayoutProvider>
-                        <SearchDataProvider>
-                          {children}
-                        </SearchDataProvider>
+                        {children}
                       </NavLayoutProvider>
                     </CharacterOwnershipProvider>
                   </CharacterSkinProvider>

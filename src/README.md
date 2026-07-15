@@ -18,7 +18,7 @@ src/
 │   ├── tier-list/
 │   └── wiki/        # All wiki database features (artifacts, gear, relics, wyrms, etc.)
 ├── hooks/           # Shared generic hooks (useDataFetch, useFilters, usePagination, etc.)
-├── pages/           # Thin route-entry components — import from features/, render page shell
+├── pages/           # Route-focused components; reusable domain code belongs in features/
 ├── routes/          # AppRoutes.tsx — all React Router route definitions
 ├── styles/          # Global CSS
 ├── types/           # Shared TypeScript types not owned by a feature
@@ -41,7 +41,9 @@ Data-fetching hooks for wiki entities live in `features/wiki/hooks/use-wiki-data
 
 ## Data Layer
 
-All game data is served as JSON files from `data/*.json` (the private data repo is symlinked/copied in at build time).
+Game data is served from localized `data/<locale>/*.json` and shared
+`data/global/*.json` files. The private data repository is read directly in
+development and copied into the production artifact during deployment.
 
 **`useDataFetch<T>(path, initial)`** — the core primitive. Fetches a JSON file, caches the result in a module-level `Map` so repeated calls (including across components) share one request, and returns `{ data, loading, error }`.
 
@@ -54,7 +56,13 @@ export function useRelics() {
 }
 ```
 
-**`SearchDataContext`** (`contexts/search-data-context.tsx`) eagerly fetches all datasets on app load to power the global search modal. It consumes the feature hooks — data file paths are defined in one place only.
+**`SearchDataContext`** (`contexts/search-data-context.tsx`) fetches the datasets
+needed by global search after the search UI is first requested. It consumes the
+feature hooks, so data file paths remain defined in one place.
+
+Fetched entity collections are checked at runtime for their expected top-level
+shape before being exposed to components. The data pipeline remains responsible
+for full schema validation.
 
 ## Adding a New Database Page
 
@@ -63,7 +71,7 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 1. **Types** — create `features/wiki/mounts/types.ts`
 2. **Data hook** — add `useMounts()` to `features/wiki/hooks/use-wiki-data.ts`
 3. **Components** — create `features/wiki/mounts/components/` with list card and detail components
-4. **Pages** — create `pages/mounts/ListPage.tsx` (and `DetailPage.tsx` if needed), importing from the feature folder
+4. **Pages** — create `pages/mounts/ListPage.tsx` (and `DetailPage.tsx` if needed), keeping reusable domain logic in the feature folder
 5. **Route** — add `<Route path="/mounts" element={<Mounts />} />` in `src/routes/AppRoutes.tsx`; if the entity has detail pages, also add the pattern to `DETAIL_ROUTE_RE` in the same file
 6. **Navigation** — add an entry to `NAV_ITEMS` in `src/components/layout/Navigation.tsx`
 7. **Search** — add to `SearchDataContextValue` interface, call `useMounts()` in `SearchDataProvider`, and wire up a result type + renderer in `src/components/tools/SearchModal.tsx`
@@ -92,6 +100,10 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 - Palette-aware accent controls should use `useGradientAccent()` or Mantine primary-color variants rather than hard-coded color names
 - Quality-tier border colors: `QUALITY_BORDER_COLOR[quality]` from `constants/colors`
 - Row/position colors: red = Front, orange = Middle, blue = Back
+
+Formatting conventions are defined in the repository `.editorconfig` and
+enforced by `npm run format:check`. Run `npm run check` before opening a pull
+request to execute formatting, lint, tests, and type checking together.
 
 ## Page Shells
 
