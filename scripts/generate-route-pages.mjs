@@ -6,16 +6,17 @@ import {
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadProjectEnv } from './project-env.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
-const dataDir = path.resolve(projectRoot, process.env.DATA_DIR || '../data');
+const { env, dataDir } = loadProjectEnv('production', projectRoot);
 const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
 
-const rawAssetsBase = process.env.VITE_ASSETS_BASE ?? '';
+const rawAssetsBase = env.VITE_ASSETS_BASE ?? '';
 const assetsBase =
   rawAssetsBase.startsWith('http://') || rawAssetsBase.startsWith('https://')
     ? rawAssetsBase.endsWith('/')

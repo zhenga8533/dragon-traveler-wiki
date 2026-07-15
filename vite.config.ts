@@ -4,8 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { visualizer } from 'rollup-plugin-visualizer';
 import type { Plugin } from 'vite';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { loadProjectEnv } from './scripts/project-env.mjs';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -121,9 +122,7 @@ function serveAssetsDir(assetsDir: string): Plugin {
 }
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  const dataDir = path.resolve(process.cwd(), env.DATA_DIR ?? 'data');
-  const assetsDir = path.resolve(process.cwd(), env.ASSETS_DIR ?? '../dragon-traveler-data/assets');
+  const { env, dataDir, assetsDir } = loadProjectEnv(mode, rootDir);
 
   return {
     plugins: [

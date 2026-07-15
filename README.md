@@ -33,12 +33,16 @@ npm run dev
 
 The dev server runs at `http://localhost:5173`.
 
-By default the dev server looks for a `data/` folder at the repo root. To use the private data repo, clone it alongside this repo and set `DATA_DIR` in a local `.env.local` file:
+By default the dev server looks for a `data/` folder at the repo root. To use the private data repo for both data and assets, clone it alongside this repo and create a local `.env.local` file:
 
 ```bash
-cp .env.local.example .env.local
-# then edit DATA_DIR to point at your local clone of dragon-traveler-data
+cp .env.example .env.local
+# edit DATA_DIR and ASSETS_DIR if your local clone is elsewhere
 ```
+
+Repository-relative paths in `DATA_DIR` and `ASSETS_DIR` are resolved from this
+repository's root. Shell and CI variables take precedence over values in env
+files. Both the dev server and production build load the same env files.
 
 ### Build for Production
 
