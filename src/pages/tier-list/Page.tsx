@@ -85,11 +85,13 @@ export default function TierList() {
     data: tierLists,
     loading: loadingTiers,
     error: tierListsError,
+    retry: retryTierLists,
   } = useTierLists();
   const {
     data: characters,
     loading: loadingChars,
     error: charactersError,
+    retry: retryCharacters,
   } = useCharacters();
   const { data: tierListChanges } = useTierListChanges();
   interface TierListViewFilters {
@@ -432,7 +434,10 @@ export default function TierList() {
           <DataFetchError
             title="Could not load tier lists"
             message={error.message}
-            onRetry={() => window.location.reload()}
+            onRetry={() => {
+              retryTierLists();
+              retryCharacters();
+            }}
           />
         )}
 

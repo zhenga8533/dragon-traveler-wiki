@@ -21,6 +21,7 @@ export default function AbilityMode() {
   const {
     loading,
     error,
+    retry,
     eligible,
     answerCharacter,
     ability,
@@ -52,7 +53,7 @@ export default function AbilityMode() {
         <DataFetchError
           title="Could not load characters"
           message={error.message}
-          onRetry={() => window.location.reload()}
+          onRetry={retry}
         />
       ) : loading || !answerCharacter || !ability ? (
         <Loader size="sm" />

@@ -10,6 +10,7 @@ export default function QuoteMode() {
   const {
     loading,
     error,
+    retry,
     eligible,
     answer,
     gameState,
@@ -26,7 +27,7 @@ export default function QuoteMode() {
         <DataFetchError
           title="Could not load characters"
           message={error.message}
-          onRetry={() => window.location.reload()}
+          onRetry={retry}
         />
       ) : loading || !answer ? (
         <Loader size="sm" />

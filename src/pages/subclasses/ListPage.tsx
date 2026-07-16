@@ -65,6 +65,7 @@ export default function Subclasses() {
     data: subclasses,
     loading,
     error,
+    retry,
   } = useSubclasses();
   const { data: statusEffects } = useStatusEffects();
 
@@ -157,6 +158,7 @@ export default function Subclasses() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load subclasses"
           hasData={subclasses.length > 0}
           emptyMessage="No subclass data available yet."

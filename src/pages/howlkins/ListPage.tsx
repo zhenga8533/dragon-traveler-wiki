@@ -53,6 +53,7 @@ export default function Howlkins() {
     data: howlkins,
     loading: howlkinsLoading,
     error: howlkinsError,
+    retry: retryHowlkins,
   } = useHowlkins();
 
   const {
@@ -234,6 +235,7 @@ export default function Howlkins() {
             <HowlkinsTab
               loading={howlkinsLoading}
               error={howlkinsError}
+              onRetry={retryHowlkins}
               howlkins={howlkins}
               filtered={filtered}
               viewMode={viewMode}

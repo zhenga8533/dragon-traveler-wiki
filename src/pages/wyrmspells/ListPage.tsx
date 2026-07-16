@@ -107,6 +107,7 @@ export default function Wyrmspells() {
     data: wyrmspells,
     loading,
     error,
+    retry,
   } = useWyrmspells();
   const {
     filters,
@@ -247,6 +248,7 @@ export default function Wyrmspells() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load wyrmspells"
           hasData={wyrmspells.length > 0}
           emptyMessage="No wyrmspell data available yet."

@@ -9,6 +9,7 @@ export default function ClassicMode() {
   const {
     loading,
     error,
+    retry,
     eligible,
     answer,
     gameState,
@@ -25,7 +26,7 @@ export default function ClassicMode() {
         <DataFetchError
           title="Could not load characters"
           message={error.message}
-          onRetry={() => window.location.reload()}
+          onRetry={retry}
         />
       ) : loading || !answer ? (
         <Loader size="sm" />

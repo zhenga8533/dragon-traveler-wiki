@@ -80,16 +80,23 @@ export default function Teams() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: teams, loading: loadingTeams, error: teamsError } = useTeams();
+  const {
+    data: teams,
+    loading: loadingTeams,
+    error: teamsError,
+    retry: retryTeams,
+  } = useTeams();
   const {
     data: characters,
     loading: loadingChars,
     error: charactersError,
+    retry: retryCharacters,
   } = useCharacters();
   const {
     data: wyrmspells,
     loading: loadingSpells,
     error: wyrmspellsError,
+    retry: retryWyrmspells,
   } = useWyrmspells();
   const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
     Record<string, string[]>
@@ -322,7 +329,11 @@ export default function Teams() {
           <DataFetchError
             title="Could not load teams data"
             message={error.message}
-            onRetry={() => window.location.reload()}
+            onRetry={() => {
+              retryTeams();
+              retryCharacters();
+              retryWyrmspells();
+            }}
           />
         )}
 

@@ -38,7 +38,7 @@ function freshState(date: string): AbilityGameState {
 }
 
 export function useAbilityGame() {
-  const { data: characters, loading, error } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
   const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(
@@ -157,6 +157,7 @@ export function useAbilityGame() {
   return {
     loading,
     error,
+    retry,
     eligible,
     answerCharacter,
     ability,

@@ -51,6 +51,7 @@ export default function NoblePhantasms() {
     data: noblePhantasms,
     loading,
     error,
+    retry,
   } = useNoblePhantasms();
   const { data: characters } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
@@ -191,6 +192,7 @@ export default function NoblePhantasms() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load noble phantasms"
           hasData={noblePhantasms.length > 0}
           emptyMessage="No noble phantasm data available yet."

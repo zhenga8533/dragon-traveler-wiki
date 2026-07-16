@@ -70,6 +70,7 @@ export default function UsefulLinks() {
     data: links,
     loading,
     error,
+    retry,
   } = useUsefulLinks();
 
   useEffect(() => {
@@ -99,6 +100,7 @@ export default function UsefulLinks() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load useful links"
           hasData={links.length > 0}
           emptyMessage="No useful links available yet."

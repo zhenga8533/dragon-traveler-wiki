@@ -79,6 +79,7 @@ export default function StatusEffects() {
     data: effects,
     loading,
     error,
+    retry,
   } = useStatusEffects();
   const {
     filters,
@@ -169,6 +170,7 @@ export default function StatusEffects() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load status effects"
           hasData={effects.length > 0}
           emptyMessage="No status effect data available yet."

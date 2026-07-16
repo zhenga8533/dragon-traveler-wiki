@@ -436,6 +436,7 @@ export default function Events() {
     data: events,
     loading,
     error,
+    retry,
   } = useEvents();
   const { data: characters } = useCharacters();
 
@@ -710,7 +711,7 @@ export default function Events() {
           <DataFetchError
             title="Could not load events"
             message={error.message}
-            onRetry={() => window.location.reload()}
+            onRetry={retry}
           />
         )}
 

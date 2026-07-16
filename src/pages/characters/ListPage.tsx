@@ -26,6 +26,7 @@ export default function Characters() {
     data: characters,
     loading,
     error,
+    retry,
   } = useCharacters();
 
   const mostRecentUpdate = useMemo(
@@ -95,6 +96,7 @@ export default function Characters() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load characters"
           hasData={characters.length > 0}
           emptyMessage="No character data available yet."

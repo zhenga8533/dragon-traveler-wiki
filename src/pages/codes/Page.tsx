@@ -166,6 +166,7 @@ export default function Codes() {
     data: codes,
     loading,
     error,
+    retry,
   } = useCodes();
   const { data: resources } = useResources();
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
@@ -413,7 +414,7 @@ export default function Codes() {
           <DataFetchError
             title="Could not load codes"
             message={error.message}
-            onRetry={() => window.location.reload()}
+            onRetry={retry}
           />
         )}
 

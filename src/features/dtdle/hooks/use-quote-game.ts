@@ -17,7 +17,7 @@ import { useTodayIsoDate } from './use-today-iso-date';
 const MODE_SALT = 'quote';
 
 export function useQuoteGame() {
-  const { data: characters, loading, error } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
   const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(() => getEligibleCharacters(characters), [characters]);
@@ -47,6 +47,7 @@ export function useQuoteGame() {
   return {
     loading,
     error,
+    retry,
     eligible,
     answer,
     gameState,

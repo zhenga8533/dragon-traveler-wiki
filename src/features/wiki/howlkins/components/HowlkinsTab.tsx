@@ -26,6 +26,7 @@ interface HowlkinFilters {
 interface HowlkinsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   howlkins: Howlkin[];
   filtered: Howlkin[];
   viewMode: ViewMode;
@@ -54,6 +55,7 @@ interface HowlkinsTabProps {
 export default function HowlkinsTab({
   loading,
   error,
+  onRetry,
   howlkins,
   filtered,
   viewMode,
@@ -88,7 +90,7 @@ export default function HowlkinsTab({
         <DataFetchError
           title="Could not load howlkins"
           message={error.message}
-          onRetry={() => window.location.reload()}
+          onRetry={onRetry}
         />
       )}
 

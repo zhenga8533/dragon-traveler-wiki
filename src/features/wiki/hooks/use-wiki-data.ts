@@ -69,6 +69,10 @@ export function useStatusEffects() {
     data,
     loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
+    retry: () => {
+      localeResult.retry();
+      if (locale !== DEFAULT_LOCALE) enUSResult.retry();
+    },
   };
 }
 

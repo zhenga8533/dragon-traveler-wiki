@@ -14,7 +14,7 @@ import { useSubmitGuess } from './use-submit-guess';
 import { useTodayIsoDate } from './use-today-iso-date';
 
 export function useDtdleGame() {
-  const { data: characters, loading, error } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
   const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(
@@ -40,6 +40,7 @@ export function useDtdleGame() {
   return {
     loading,
     error,
+    retry,
     eligible,
     answer,
     gameState,

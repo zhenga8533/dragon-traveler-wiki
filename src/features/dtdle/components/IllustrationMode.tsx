@@ -13,6 +13,7 @@ export default function IllustrationMode() {
   const {
     loading,
     error,
+    retry,
     eligible,
     answer,
     illustration,
@@ -32,7 +33,7 @@ export default function IllustrationMode() {
         <DataFetchError
           title="Could not load characters"
           message={error.message}
-          onRetry={() => window.location.reload()}
+          onRetry={retry}
         />
       ) : loading || !answer || !illustration ? (
         <Loader size="sm" />

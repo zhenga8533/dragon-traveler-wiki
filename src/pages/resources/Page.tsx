@@ -84,7 +84,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function Resources() {
-  const { resources, loading } = useContext(ResourcesContext);
+  const { resources, loading, error, retry } = useContext(ResourcesContext);
   const {
     filters,
     setFilters,
@@ -178,6 +178,9 @@ export default function Resources() {
 
         <ListPageShell
           loading={loading}
+          error={error}
+          onRetry={retry}
+          errorTitle="Could not load resources"
           hasData={resources.length > 0}
           emptyMessage="No resource data available yet."
           skeletonCards={4}

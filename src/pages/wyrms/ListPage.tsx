@@ -154,7 +154,7 @@ function phaseIndex(phase: WyrmPhase): number {
 
 export default function WyrmsListPage() {
   const { data: statusEffects } = useStatusEffects();
-  const { data: wyrms, loading, error } = useWyrms();
+  const { data: wyrms, loading, error, retry } = useWyrms();
 
   const {
     filters,
@@ -260,6 +260,7 @@ export default function WyrmsListPage() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load wyrms"
           hasData={wyrms.length > 0}
           emptyMessage="No wyrm data available yet."

@@ -6,6 +6,7 @@ import { CardGridLoading, ListPageLoading } from './PageLoadingSkeleton';
 interface ListPageShellProps {
   loading: boolean;
   error?: Error | null;
+  onRetry?: () => void;
   hasData: boolean;
   emptyMessage: string;
   errorTitle?: string;
@@ -19,6 +20,7 @@ interface ListPageShellProps {
 export default function ListPageShell({
   loading,
   error,
+  onRetry,
   hasData,
   emptyMessage,
   errorTitle = 'Could not load data',
@@ -44,7 +46,7 @@ export default function ListPageShell({
       <DataFetchError
         title={errorTitle}
         message={error.message}
-        onRetry={() => window.location.reload()}
+        onRetry={onRetry ?? (() => window.location.reload())}
       />
     );
   }

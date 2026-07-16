@@ -54,6 +54,7 @@ export default function Artifacts() {
     data: artifacts,
     loading,
     error,
+    retry,
   } = useArtifacts();
   const { data: statusEffects } = useStatusEffects();
   const {
@@ -140,6 +141,7 @@ export default function Artifacts() {
         <ListPageShell
           loading={loading}
           error={error}
+          onRetry={retry}
           errorTitle="Could not load artifacts"
           hasData={artifacts.length > 0}
           emptyMessage="No artifact data available yet."

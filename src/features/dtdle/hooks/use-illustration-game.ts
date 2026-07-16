@@ -21,7 +21,7 @@ const MODE_SALT = 'illustration';
 const ZOOM_STEPS = [6, 4.5, 3, 2, 1.4, 1];
 
 export function useIllustrationGame() {
-  const { data: characters, loading, error } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
   const todayStr = useTodayIsoDate();
 
   const eligible = useMemo(
@@ -66,6 +66,7 @@ export function useIllustrationGame() {
   return {
     loading,
     error,
+    retry,
     eligible,
     answer,
     illustration,

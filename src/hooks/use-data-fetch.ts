@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface DataFetchResult<T> {
   data: T;
   loading: boolean;
   error: Error | null;
+  retry: () => void;
 }
 
 const dataCache = new Map<string, unknown>();
@@ -63,6 +64,7 @@ export function useDataFetch<T>(
   parse?: (raw: unknown) => T
 ): DataFetchResult<T> {
   const parseRef = useRef(parse);
+  const initialRef = useRef(initial);
 
   const hasCachedValue = dataCache.has(path);
   const [data, setData] = useState<T>(() => {
@@ -79,10 +81,15 @@ export function useDataFetch<T>(
   });
   const [loading, setLoading] = useState(() => !hasCachedValue);
   const [error, setError] = useState<Error | null>(null);
+  const [requestVersion, setRequestVersion] = useState(0);
 
   useEffect(() => {
     parseRef.current = parse;
   }, [parse]);
+
+  useEffect(() => {
+    initialRef.current = initial;
+  }, [initial]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -90,6 +97,7 @@ export function useDataFetch<T>(
     const hasCached = dataCache.has(path);
     queueMicrotask(() => {
       if (isCancelled) return;
+      if (!hasCached) setData(initialRef.current);
       setLoading(!hasCached);
       setError(null);
     });
@@ -102,6 +110,8 @@ export function useDataFetch<T>(
       })
       .catch((err) => {
         if (isCancelled) return;
+        dataCache.delete(path);
+        setData(initialRef.current);
         console.error(`Failed to fetch ${path}:`, err);
         setError(err instanceof Error ? err : new Error(String(err)));
       })
@@ -113,7 +123,12 @@ export function useDataFetch<T>(
     return () => {
       isCancelled = true;
     };
+  }, [path, requestVersion]);
+
+  const retry = useCallback(() => {
+    dataCache.delete(path);
+    setRequestVersion((version) => version + 1);
   }, [path]);
 
-  return { data, loading, error };
+  return { data, loading, error, retry };
 }

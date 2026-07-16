@@ -47,6 +47,10 @@ export function useCharacters() {
     loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     // Only surface the enUS error — a locale fetch failure just means graceful fallback.
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
+    retry: () => {
+      localeResult.retry();
+      if (locale !== DEFAULT_LOCALE) enUSResult.retry();
+    },
   };
 }
 
@@ -76,5 +80,9 @@ export function useCharacterChanges() {
     data,
     loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
+    retry: () => {
+      localeResult.retry();
+      if (locale !== DEFAULT_LOCALE) enUSResult.retry();
+    },
   };
 }
