@@ -7,7 +7,7 @@ import {
   useBounds,
   useGLTF,
 } from '@react-three/drei';
-import { Canvas, useLoader } from '@react-three/fiber';
+import { Canvas, useLoader, useThree } from '@react-three/fiber';
 import {
   ActionIcon,
   Box,
@@ -300,13 +300,28 @@ function CharacterModel({
   return <Center top><primitive object={model} /></Center>;
 }
 
-function CameraFit({ request }: { request: number }) {
+function CameraFit({
+  request,
+  onReady,
+}: {
+  request: number;
+  onReady: () => void;
+}) {
   const bounds = useBounds();
+  const width = useThree((state) => state.size.width);
+  const height = useThree((state) => state.size.height);
 
   useEffect(() => {
-    if (request === 0) return;
     bounds.refresh().clip().fit();
-  }, [bounds, request]);
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(onReady);
+    });
+    return () => {
+      cancelAnimationFrame(firstFrame);
+      cancelAnimationFrame(secondFrame);
+    };
+  }, [bounds, height, onReady, request, width]);
 
   return null;
 }
@@ -360,6 +375,7 @@ export default function CharacterModelViewer({
   const [animationRun, setAnimationRun] = useState(0);
   const [paused, setPaused] = useState(false);
   const [cameraFitRequest, setCameraFitRequest] = useState(0);
+  const [modelReady, setModelReady] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
@@ -404,6 +420,17 @@ export default function CharacterModelViewer({
       animations[0]?.name;
     if (fallback) selectAnimation(fallback);
   }, [loadedMetadata.value, selectAnimation]);
+  const openViewer = useCallback(() => {
+    setModelReady(false);
+    open();
+  }, [open]);
+  const closeViewer = useCallback(() => {
+    setModelReady(false);
+    close();
+  }, [close]);
+  const handleInitialCameraFit = useCallback(() => {
+    setModelReady(true);
+  }, []);
 
   const metadata =
     loadedMetadata.path === metadataPath ? loadedMetadata.value : null;
@@ -418,7 +445,7 @@ export default function CharacterModelViewer({
         <ActionIcon
           aria-label="Open 3D model viewer"
           color={accent.primary}
-          onClick={open}
+          onClick={openViewer}
           size="sm"
           variant="subtle"
         >
@@ -428,7 +455,7 @@ export default function CharacterModelViewer({
 
       <Modal
         centered
-        onClose={close}
+        onClose={closeViewer}
         opened={opened}
         size="xl"
         title={<Text fw={700}>3D Model</Text>}
@@ -444,7 +471,7 @@ export default function CharacterModelViewer({
               </>
             ) : (
               <>
-                <Loader />
+                <Loader color={accent.primary} />
                 <Text c="dimmed" size="sm">
                   Loading model data…
                 </Text>
@@ -510,11 +537,34 @@ export default function CharacterModelViewer({
                 </Tooltip>
               </Group>
             </Group>
-            <Box h={{ base: 440, sm: 620 }}>
-              <Canvas camera={{ position: [0, 0.9, 2.2], fov: 32 }} dpr={[1, 2]}>
+            <Box h={{ base: 440, sm: 620 }} pos="relative">
+              {!modelReady && (
+                <Stack
+                  align="center"
+                  gap="xs"
+                  inset={0}
+                  justify="center"
+                  pos="absolute"
+                >
+                  <Loader color={accent.primary} size="sm" />
+                  <Text c="dimmed" size="sm">
+                    Preparing viewer…
+                  </Text>
+                </Stack>
+              )}
+              <Canvas
+                camera={{ position: [0, 0.9, 2.2], fov: 32 }}
+                dpr={[1, 2]}
+                style={{ opacity: modelReady ? 1 : 0 }}
+              >
                 <color attach="background" args={['#15111d']} />
                 <Suspense fallback={<ModelLoadingState />}>
-                  <Bounds fit clip observe margin={1.12} maxDuration={0.01}>
+                  <Bounds
+                    clip
+                    observe
+                    margin={1.12}
+                    maxDuration={0.01}
+                  >
                     <CharacterModel
                       key={`${rootPath}/${metadata.model}`}
                       metadata={metadata}
@@ -525,7 +575,10 @@ export default function CharacterModelViewer({
                       paused={paused}
                       onAnimationFinished={handleAnimationFinished}
                     />
-                    <CameraFit request={cameraFitRequest} />
+                    <CameraFit
+                      request={cameraFitRequest}
+                      onReady={handleInitialCameraFit}
+                    />
                   </Bounds>
                 </Suspense>
                 <OrbitControls
