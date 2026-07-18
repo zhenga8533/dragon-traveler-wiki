@@ -7,6 +7,18 @@ import { normalizeKey, normalizeQualityKey } from '@/utils/asset-utils';
 const rawBase: string = import.meta.env.VITE_ASSETS_BASE ?? import.meta.env.BASE_URL;
 const BASE = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 
+export function getAssetUrl(path: string): string {
+  return `${BASE}${path.replace(/^\/+/, '')}`;
+}
+
+export function getCharacterModelAssetPath(
+  characterSlug: string,
+  skinSlug: string,
+  filename = 'model.json'
+): string {
+  return `character/${characterSlug}/skins/${skinSlug}/${filename}`;
+}
+
 // ── Class ────────────────────────────────────────────────────────────────────
 
 export const CLASS_ICON_MAP: Record<CharacterClass, string> = {

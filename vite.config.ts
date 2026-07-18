@@ -40,6 +40,7 @@ const EXT_MIME: Record<string, string> = {
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
   '.mp4': 'video/mp4',
+  '.glb': 'model/gltf-binary',
   '.json': 'application/json',
 };
 

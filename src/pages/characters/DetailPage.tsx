@@ -1,6 +1,6 @@
 import { Box, Container, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useContext, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -31,6 +31,10 @@ import CharacterSkillsSection from '@/features/characters/components/CharacterSk
 import CharacterSubclassPanel from '@/features/characters/components/CharacterSubclassPanel';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
+
+const CharacterModelViewer = lazy(
+  () => import('@/features/characters/components/CharacterModelViewer')
+);
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
@@ -207,6 +211,16 @@ export default function CharacterPage() {
                   activeIllustrationFavoriteKey
                     ? toggleActiveIllustrationFavorite
                     : undefined
+                }
+                modelAction={
+                  <ErrorBoundary>
+                    <Suspense fallback={null}>
+                      <CharacterModelViewer
+                        characterSlug={characterAssetKey || character.slug}
+                        skinSlug={selectedSkinSlug}
+                      />
+                    </Suspense>
+                  </ErrorBoundary>
                 }
               />
 

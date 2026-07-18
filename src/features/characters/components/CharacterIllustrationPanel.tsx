@@ -23,6 +23,7 @@ import {
   IoStar,
   IoStarOutline,
 } from 'react-icons/io5';
+import type { ReactNode } from 'react';
 
 interface CharacterIllustrationPanelProps {
   characterName: string;
@@ -40,6 +41,7 @@ interface CharacterIllustrationPanelProps {
   onNext: () => void;
   isFavorite?: boolean;
   onToggleFavorite?: () => void;
+  modelAction?: ReactNode;
 }
 
 export default function CharacterIllustrationPanel({
@@ -58,6 +60,7 @@ export default function CharacterIllustrationPanel({
   onNext,
   isFavorite,
   onToggleFavorite,
+  modelAction,
 }: CharacterIllustrationPanelProps) {
   const { accent } = useGradientAccent();
   const activeIllustrationName = activeIllustration?.name;
@@ -100,8 +103,10 @@ export default function CharacterIllustrationPanel({
           <Text fw={600} size="sm">
             Illustrations
           </Text>
-          {activeIllustrationIndex >= 0 &&
-            (hasMultipleIllustrations ? (
+          <Group gap="xs" wrap="nowrap">
+            {modelAction}
+            {activeIllustrationIndex >= 0 &&
+              (hasMultipleIllustrations ? (
               <Group gap={2} align="center">
                 <ActionIcon
                   onClick={onPrevious}
@@ -125,11 +130,12 @@ export default function CharacterIllustrationPanel({
                   <IoChevronForward />
                 </ActionIcon>
               </Group>
-            ) : (
-              <Text size="xs" c="dimmed">
-                {activeIllustrationIndex + 1}/{illustrationsLength}
-              </Text>
-            ))}
+              ) : (
+                <Text size="xs" c="dimmed">
+                  {activeIllustrationIndex + 1}/{illustrationsLength}
+                </Text>
+              ))}
+          </Group>
         </Group>
         <Box style={{ position: 'relative' }}>
           <UnstyledButton
