@@ -8,6 +8,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { getStableTagColor } from '@/constants/tag-colors';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
@@ -22,7 +23,6 @@ import {
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
 import {
-  Badge,
   Box,
   Container,
   Group,
@@ -146,9 +146,7 @@ export default function WyrmspellPage() {
             </Group>
             <LastUpdated timestamp={wyrmspell.last_updated} />
             <Group gap="sm" mt={4}>
-              <Badge size="lg" variant="light" color={typeColor}>
-                {wyrmspell.type}
-              </Badge>
+              <WyrmspellTypeTag type={wyrmspell.type} size="lg" />
               {wyrmspell.exclusive_faction && (
                 <FactionTag faction={wyrmspell.exclusive_faction} size="md" />
               )}

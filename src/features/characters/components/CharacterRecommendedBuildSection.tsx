@@ -17,6 +17,7 @@ import ExpandableText from '@/components/ui/ExpandableText';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import ClassTag from '@/components/ui/ClassTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import TierBadge from '@/components/ui/TierBadge';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getNoblePhantasmIcon } from '@/assets';
@@ -133,13 +134,7 @@ export default function CharacterRecommendedBuildSection({
                     </Text>
                     <Group gap={6} wrap="wrap">
                       {typeof entry.tier === 'number' && (
-                        <Badge
-                          variant="light"
-                          color={accent.primary}
-                          size="xs"
-                        >
-                          Tier {entry.tier}
-                        </Badge>
+                        <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
                       )}
                       {entry.className && (
                         <ClassTag
@@ -210,13 +205,7 @@ export default function CharacterRecommendedBuildSection({
                               {entry.name}
                             </Text>
                             {typeof entry.tier === 'number' && (
-                              <Badge
-                                variant="light"
-                                color={accent.primary}
-                                size="xs"
-                              >
-                                Tier {entry.tier}
-                              </Badge>
+                              <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
                             )}
                             {entry.className && (
                               <ClassTag

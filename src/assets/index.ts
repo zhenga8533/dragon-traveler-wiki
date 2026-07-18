@@ -1,5 +1,7 @@
 import type { CharacterClass, CharacterSkin } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
+import type { RelicType } from '@/features/wiki/relics/types';
+import type { WyrmspellType } from '@/features/wiki/wyrmspells/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { normalizeKey, normalizeQualityKey } from '@/utils/asset-utils';
@@ -109,6 +111,13 @@ export const GEAR_TYPE_ICON_MAP: Record<GearType, string> = {
   Accessory: `${BASE}gear/icons/accessory.png`,
 };
 
+export const RELIC_TYPE_ICON_MAP: Record<RelicType, string> = {
+  'Sanctuary Relic': `${BASE}relic/icons/sanctuary_relic.png`,
+  'Legendary Ritual Vessel': `${BASE}relic/icons/legendary_ritual_vessel.png`,
+  'Fated Relic': `${BASE}relic/icons/fated_relic.png`,
+  'Symbol of Theocracy': `${BASE}relic/icons/symbol_of_theocracy.png`,
+};
+
 export function getGearIcon(type: string, name: string): string | undefined {
   if (!type || !name) return undefined;
   return `${BASE}gear/${normalizeKey(type)}/${normalizeKey(name)}.png`;
@@ -178,6 +187,13 @@ export function getWyrmspellIcon(name: string, type?: string): string | undefine
   const nameKey = normalizeKey(name);
   return `${BASE}wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
 }
+
+export const WYRMSPELL_TYPE_ICON_MAP: Record<WyrmspellType, string> = {
+  Breach: `${BASE}wyrmspell/icons/breach.png`,
+  Refuge: `${BASE}wyrmspell/icons/refuge.png`,
+  Wildcry: `${BASE}wyrmspell/icons/wildcry.png`,
+  "Dragon's Call": `${BASE}wyrmspell/icons/dragons_call.png`,
+};
 
 // ── Event ────────────────────────────────────────────────────────────────────
 

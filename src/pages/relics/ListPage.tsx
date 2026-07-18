@@ -1,12 +1,14 @@
 ﻿import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import { RELIC_TYPE_ICON_MAP } from '@/assets';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
+import SafeImage from '@/components/ui/SafeImage';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
-import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
 import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
 import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
@@ -42,6 +44,15 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     key: 'types',
     label: 'Type',
     options: [...RELIC_TYPE_ORDER],
+    icon: (value) => (
+      <SafeImage
+        src={RELIC_TYPE_ICON_MAP[value as RelicType]}
+        alt=""
+        w={IMAGE_SIZE.ICON_SM}
+        h={IMAGE_SIZE.ICON_SM}
+        fit="contain"
+      />
+    ),
   },
   {
     ...createQualityFilterGroup(),

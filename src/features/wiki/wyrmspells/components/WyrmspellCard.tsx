@@ -1,16 +1,15 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
-import { getStableTagColor } from '@/constants/tag-colors';
-import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+import type { Wyrmspell, WyrmspellType } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
+import WyrmspellTypeTag from './WyrmspellTypeTag';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
+import { Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Link } from 'react-router-dom';
@@ -63,17 +62,7 @@ export default function WyrmspellCard({
           {maxQuality && <QualityIcon quality={maxQuality.quality} />}
         </Group>
         <Group gap={4} justify="center">
-          <Badge
-            variant="light"
-            size="sm"
-            color={
-              WYRMSPELL_TYPE_COLOR[
-                displayType as keyof typeof WYRMSPELL_TYPE_COLOR
-              ] ?? getStableTagColor(displayType)
-            }
-          >
-            {displayType}
-          </Badge>
+          <WyrmspellTypeTag type={displayType as WyrmspellType} />
           {wyrmspell.exclusive_faction && (
             <FactionTag faction={wyrmspell.exclusive_faction} size="xs" />
           )}

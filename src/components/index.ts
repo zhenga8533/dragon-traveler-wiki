@@ -26,8 +26,6 @@ export { default as ConfirmActionModal } from './ui/ConfirmActionModal';
 export { default as DataFetchError } from './ui/DataFetchError';
 export { default as EmptyState } from './ui/EmptyState';
 export { default as EntityNotFound } from './ui/EntityNotFound';
-export { default as EntityTagBadge } from './ui/EntityTagBadge';
-export type { EntityTagBadgeProps } from './ui/EntityTagBadge';
 export { default as ErrorBoundary } from './ui/ErrorBoundary';
 export { default as ExpandableText } from './ui/ExpandableText';
 export { default as FactionTag } from './ui/FactionTag';

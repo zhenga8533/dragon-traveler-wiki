@@ -5,6 +5,7 @@ import {
   CURSOR_DEFAULT_STYLE,
   CURSOR_POINTER_STYLE,
   RICH_TEXT_BADGE_STYLE,
+  TAG_BADGE_STYLE,
 } from '@/constants/styles';
 import { POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import SafeImage from '@/components/ui/SafeImage';
@@ -49,6 +50,7 @@ export default function IconBadge({
       // Mantine's polymorphic type overloads don't accept string directly; cast needed.
       component={component as 'span'}
       style={{
+        ...TAG_BADGE_STYLE,
         ...RICH_TEXT_BADGE_STYLE,
         ...(popoverContent ? CURSOR_POINTER_STYLE : CURSOR_DEFAULT_STYLE),
       }}

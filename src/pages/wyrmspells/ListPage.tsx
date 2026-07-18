@@ -1,6 +1,6 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmspellIcon } from '@/assets';
+import { getWyrmspellIcon, WYRMSPELL_TYPE_ICON_MAP } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
@@ -17,8 +17,6 @@ import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
 import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { getStableTagColor } from '@/constants/tag-colors';
-import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
@@ -27,12 +25,12 @@ import {
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {
-  Badge,
   Container,
   Group,
   Paper,
@@ -214,7 +212,20 @@ export default function Wyrmspells() {
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
     const groups: ChipFilterGroup[] = [];
     if (typeOptions.length > 0)
-      groups.push({ key: 'types', label: 'Type', options: typeOptions });
+      groups.push({
+        key: 'types',
+        label: 'Type',
+        options: typeOptions,
+        icon: (value) => (
+          <SafeImage
+            src={WYRMSPELL_TYPE_ICON_MAP[value as keyof typeof WYRMSPELL_TYPE_ICON_MAP]}
+            alt=""
+            w={IMAGE_SIZE.ICON_SM}
+            h={IMAGE_SIZE.ICON_SM}
+            fit="contain"
+          />
+        ),
+      });
     if (qualityOptions.length > 0)
       groups.push(
         createQualityFilterGroup({
@@ -327,16 +338,7 @@ export default function Wyrmspells() {
                             )}
                           </Group>
                           <Group gap="sm" wrap="wrap">
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={
-                                WYRMSPELL_TYPE_COLOR[spell.type] ??
-                                getStableTagColor(spell.type)
-                              }
-                            >
-                              {spell.type}
-                            </Badge>
+                            <WyrmspellTypeTag type={spell.type} />
                             {spell.exclusive_faction && (
                               <FactionTag
                                 faction={spell.exclusive_faction}
@@ -424,16 +426,7 @@ export default function Wyrmspells() {
                             {spell.name}
                           </EntityTableLinkCell>
                           <Table.Td>
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={
-                                WYRMSPELL_TYPE_COLOR[spell.type] ??
-                                getStableTagColor(spell.type)
-                              }
-                            >
-                              {spell.type}
-                            </Badge>
+                            <WyrmspellTypeTag type={spell.type} />
                           </Table.Td>
                           <Table.Td>
                             {maxQuality && (

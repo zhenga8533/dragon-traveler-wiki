@@ -1,5 +1,5 @@
 ﻿import { CLASS_ICON_MAP } from '@/assets';
-import EntityTagBadge from '@/components/ui/EntityTagBadge';
+import IconBadge from '@/components/ui/IconBadge';
 import { CLASS_COLOR } from '@/constants/class-colors';
 import type { CharacterClass } from '@/features/characters/types';
 import { useGradientAccent } from '@/hooks';
@@ -29,7 +29,7 @@ function ClassTag({
   const label = `${characterClass.charAt(0).toUpperCase()}${characterClass.slice(1)}`;
 
   return (
-    <EntityTagBadge
+    <IconBadge
       label={label}
       color={color ?? classColor ?? accent.secondary}
       iconSrc={iconSrc}

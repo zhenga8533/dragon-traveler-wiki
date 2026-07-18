@@ -1,5 +1,5 @@
 ﻿import { GEAR_TYPE_ICON_MAP } from '@/assets';
-import EntityTagBadge from '@/components/ui/EntityTagBadge';
+import IconBadge from '@/components/ui/IconBadge';
 import { GEAR_TYPE_COLOR } from '@/constants/gear-colors';
 import type { GearType } from '@/features/wiki/gear/types';
 import { useGradientAccent } from '@/hooks';
@@ -15,7 +15,7 @@ function GearTypeTag({ type, color, size = 'sm' }: GearTypeTagProps) {
   const { accent } = useGradientAccent();
 
   return (
-    <EntityTagBadge
+    <IconBadge
       label={type}
       color={color ?? GEAR_TYPE_COLOR[type] ?? accent.primary}
       iconSrc={GEAR_TYPE_ICON_MAP[type]}

@@ -3,9 +3,10 @@ import { Tooltip } from '@mantine/core';
 import SafeImage from './SafeImage';
 import { memo } from 'react';
 import { useMobileTooltip } from '@/hooks';
+import type { Quality } from '@/types/quality';
 
 interface QualityIconProps {
-  quality: keyof typeof QUALITY_ICON_MAP;
+  quality: Quality;
   size?: number;
   showTooltip?: boolean;
 }
