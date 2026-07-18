@@ -18,6 +18,7 @@ import {
 } from '@/features/characters/utils/filter-characters';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { buildStarLevels } from '@/types/star-level';
 import type { ViewMode } from '@/hooks/use-filters';
 import { useFilterPanel, useFilters, useViewMode } from '@/hooks/use-filters';
@@ -39,7 +40,13 @@ export interface CharacterListData {
   sortCol: string | null;
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;
-  effectOptions: { label: string; value: string; slug: string; icon?: boolean; type?: string }[];
+  effectOptions: {
+    label: string;
+    value: string;
+    slug: string;
+    icon?: boolean;
+    type?: StatusEffectType;
+  }[];
   tierOptions: string[];
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;

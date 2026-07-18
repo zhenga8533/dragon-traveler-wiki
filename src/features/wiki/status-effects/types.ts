@@ -1,14 +1,15 @@
 export type StatusEffectType =
-  | 'Control (CC)'
-  | 'Damage Over Time (DoT)'
-  | 'Defense / Immunity'
-  | 'Elemental'
-  | 'Faction / Unique'
-  | 'Form / Aspect'
+  | 'Control'
   | 'Stat Buff'
   | 'Stat Debuff'
+  | 'Defense'
+  | 'Healing'
+  | 'Elemental'
   | 'Summon'
-  | 'Utility / Special';
+  | 'Form'
+  | 'Damage'
+  | 'Unique'
+  | 'Utility';
 
 export interface StatusEffect {
   slug: string;

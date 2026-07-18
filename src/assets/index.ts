@@ -1,9 +1,11 @@
 import type { CharacterClass, CharacterSkin } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { RelicType } from '@/features/wiki/relics/types';
+import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import type { WyrmspellType } from '@/features/wiki/wyrmspells/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
+import type { ResourceCategory } from '@/types/resource';
 import { normalizeKey, normalizeQualityKey } from '@/utils/asset-utils';
 
 const rawBase: string = import.meta.env.VITE_ASSETS_BASE ?? import.meta.env.BASE_URL;
@@ -152,7 +154,7 @@ export function getOracleScrollVideo(slug: string): string | undefined {
 // ── Resource ─────────────────────────────────────────────────────────────────
 
 /** Build a resource icon path using the resource's stable slug. */
-export function getResourceIcon(slug: string, category: string): string | undefined {
+export function getResourceIcon(slug: string, category: ResourceCategory): string | undefined {
   if (!slug || !category) return undefined;
   return `${BASE}resource/${category.toLowerCase()}/${slug}.png`;
 }
@@ -167,7 +169,10 @@ export function getSkillIcon(skillName: string): string | undefined {
 // ── Status Effect ────────────────────────────────────────────────────────────
 
 /** Build a status-effect icon path using the effect's stable slug. */
-export function getStatusEffectIcon(slug: string, type = 'misc'): string | undefined {
+export function getStatusEffectIcon(
+  slug: string,
+  type: StatusEffectType = 'Utility'
+): string | undefined {
   if (!slug) return undefined;
   return `${BASE}status_effect/${normalizeKey(type)}/${slug}.png`;
 }

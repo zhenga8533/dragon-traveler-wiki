@@ -11,6 +11,7 @@ import {
   FilterSection,
 } from '@/components/common/FilterControls';
 import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
 import { useIsMobile } from '@/hooks';
 import { IMAGE_SIZE } from '@/constants/ui';
@@ -20,7 +21,13 @@ import SafeImage from '@/components/ui/SafeImage';
 export interface CharacterFilterProps {
   filters: CharacterFilters;
   onChange: (filters: CharacterFilters) => void;
-  effectOptions: { label: string; value: string; slug: string; icon?: boolean; type?: string }[];
+  effectOptions: {
+    label: string;
+    value: string;
+    slug: string;
+    icon?: boolean;
+    type?: StatusEffectType;
+  }[];
   showTierFilter?: boolean;
   tierOptions?: string[];
   starLevelOptions?: { value: string; label: string }[];
