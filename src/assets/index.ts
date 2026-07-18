@@ -16,7 +16,7 @@ export function getCharacterModelAssetPath(
   skinSlug: string,
   filename = 'model.json'
 ): string {
-  return `character/${characterSlug}/skins/${skinSlug}/${filename}`;
+  return `character/${characterSlug}/skins/${skinSlug}/model/${filename}`;
 }
 
 // ── Class ────────────────────────────────────────────────────────────────────
