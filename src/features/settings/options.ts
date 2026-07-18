@@ -54,6 +54,12 @@ export const CUSTOM_COLOR_FIELDS: {
   },
 ];
 
+// Settings swatches must preview all 8 palettes at once, but `--dt-brand-gradient`
+// (src/styles/theme-tokens.css) only reflects the *currently active* palette on
+// <html>, so it can't drive an inactive preview without side effects. These hex
+// stops are the literal Mantine default-theme values for the same color/shade
+// pairs used in each palette's --dt-brand-gradient — keep both in sync when
+// either changes.
 export const PALETTE_SWATCHES: {
   value: GradientPalette;
   label: string;
@@ -62,41 +68,49 @@ export const PALETTE_SWATCHES: {
   {
     value: 'violet',
     label: 'Arcane',
-    gradient: 'linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #4338ca 100%)',
+    // violet-3, grape-5, pink-5
+    gradient: 'linear-gradient(120deg, #b197fc 0%, #cc5de8 50%, #f06595 100%)',
   },
   {
     value: 'ocean',
     label: 'Abyss',
-    gradient: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0891b2 100%)',
+    // blue-3, blue-6, cyan-5
+    gradient: 'linear-gradient(120deg, #74c0fc 0%, #228be6 50%, #22b8cf 100%)',
   },
   {
     value: 'sunset',
     label: 'Golden Hour',
-    gradient: 'linear-gradient(135deg, #b45309 0%, #f97316 50%, #ca8a04 100%)',
+    // yellow-4, orange-4, yellow-6
+    gradient: 'linear-gradient(120deg, #ffd43b 0%, #ffa94d 50%, #fab005 100%)',
   },
   {
     value: 'forest',
     label: 'Ancient Grove',
-    gradient: 'linear-gradient(135deg, #065f46 0%, #0f766e 50%, #134e4a 100%)',
+    // green-4, teal-6, green-6
+    gradient: 'linear-gradient(120deg, #69db7c 0%, #12b886 50%, #40c057 100%)',
   },
   {
     value: 'ember',
     label: 'Dragon Fire',
-    gradient: 'linear-gradient(135deg, #be123c 0%, #f43f5e 50%, #c026d3 100%)',
+    // red-4, pink-5, grape-5
+    gradient: 'linear-gradient(120deg, #ff8787 0%, #f06595 50%, #cc5de8 100%)',
   },
   {
     value: 'dusk',
     label: 'Northern Lights',
-    gradient: 'linear-gradient(135deg, #0f766e 0%, #7c3aed 50%, #312e81 100%)',
+    // teal-3, violet-5, indigo-5
+    gradient: 'linear-gradient(120deg, #63e6be 0%, #845ef7 50%, #5c7cfa 100%)',
   },
   {
     value: 'frost',
     label: 'Glacial',
-    gradient: 'linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #a5f3fc 100%)',
+    // cyan-2, blue-3, cyan-4
+    gradient: 'linear-gradient(120deg, #99e9f2 0%, #74c0fc 50%, #3bc9db 100%)',
   },
   {
     value: 'blossom',
     label: 'Night Garden',
-    gradient: 'linear-gradient(135deg, #831843 0%, #db2777 50%, #6b21a8 100%)',
+    // pink-3, grape-5, pink-6
+    gradient: 'linear-gradient(120deg, #faa2c1 0%, #cc5de8 50%, #e64980 100%)',
   },
 ];

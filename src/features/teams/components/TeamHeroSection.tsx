@@ -9,7 +9,7 @@ import {
   getContentTypeColor,
   normalizeContentType,
 } from '@/constants/content-types';
-import { GLASS_BORDER, getLoreGlassStyles } from '@/constants/glass';
+import { GLASS_BORDER, GLASS_ICON_BG, getLoreGlassStyles } from '@/constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getDetailHeroGradient,
@@ -211,8 +211,8 @@ export function TeamHeroSection({
                                       height: 64,
                                       borderRadius: 'var(--mantine-radius-md)',
                                       background: isDark
-                                        ? 'rgba(0,0,0,0.3)'
-                                        : 'rgba(255,255,255,0.6)',
+                                        ? GLASS_ICON_BG.dark
+                                        : GLASS_ICON_BG.light,
                                       border: isDark
                                         ? GLASS_BORDER.dark
                                         : GLASS_BORDER.light,

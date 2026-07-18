@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { GLASS_ICON_BG } from './glass';
 
 export const DETAIL_HERO_WRAPPER_STYLES = {
   position: 'relative' as const,
@@ -54,7 +55,7 @@ export function getHeroIconBoxStyles(
     height: 96,
     flexShrink: 0,
     borderRadius: circle ? '50%' : 'var(--mantine-radius-md)',
-    background: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.5)',
+    background: isDark ? GLASS_ICON_BG.dark : GLASS_ICON_BG.light,
     border: `3px solid var(--mantine-color-${color}-${isDark ? 7 : 4})`,
     display: 'flex' as const,
     alignItems: 'center' as const,

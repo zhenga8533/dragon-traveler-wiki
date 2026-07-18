@@ -13,6 +13,15 @@ export const GLASS_BORDER = {
 } as const;
 
 /**
+ * Shared background alpha for small glass "icon chip" surfaces
+ * (hero icon boxes, inline artifact/wyrmspell thumbnails, etc.).
+ */
+export const GLASS_ICON_BG = {
+  dark: 'rgba(0,0,0,0.3)',
+  light: 'rgba(255,255,255,0.5)',
+} as const;
+
+/**
  * Subtle glass style for lore/description cards.
  * Opacity scales automatically via --dt-surface-opacity CSS variable.
  */

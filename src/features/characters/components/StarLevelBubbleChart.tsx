@@ -14,7 +14,11 @@ import {
   type StarTier,
 } from '@/types/star-level';
 import { STORAGE_KEY } from '@/constants/ui';
-import { downloadElementAsImage } from '@/utils/export-image';
+import {
+  downloadElementAsImage,
+  DARK_BACKGROUND,
+  LIGHT_BACKGROUND,
+} from '@/utils/export-image';
 import {
   ActionIcon,
   Box,
@@ -57,6 +61,9 @@ const TIER_ORDER: Record<StarTier, number> = {
   divine: 4,
 };
 
+// Rendered on an HTML5 canvas, not through CSS, so these can't reference
+// Mantine/--dt-* tokens. Intentionally static across light/dark — the glow
+// is decorative and reads fine on both canvas backgrounds.
 const TIER_GLOW: Record<StarTier, string> = {
   base: '#9e9e9e',
   purple: '#ce93d8',
@@ -758,7 +765,7 @@ export default function StarLevelBubbleChart({
             ref={exportRef}
             style={{
               display: 'inline-block',
-              backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+              backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
               padding: 24,
             }}
           >

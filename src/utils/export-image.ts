@@ -3,8 +3,10 @@ import { toJpeg } from 'html-to-image';
 const JPEG_EXTENSION = 'jpg';
 const JPEG_MIME_TYPE = 'image/jpeg';
 const JPEG_QUALITY = 0.95;
-const LIGHT_BACKGROUND = '#ffffff';
-const DARK_BACKGROUND = '#1a1b1e';
+// html-to-image needs a literal color for rasterization (can't resolve CSS vars
+// reliably at capture time). Matches theme.ts `dark[6]` (card background).
+export const LIGHT_BACKGROUND = '#ffffff';
+export const DARK_BACKGROUND = '#1a1b1e';
 const DESKTOP_PIXEL_RATIO = 2;
 const MOBILE_MAX_PIXEL_RATIO = 1.5;
 const DESKTOP_EXPORT_WIDTH = 1200;

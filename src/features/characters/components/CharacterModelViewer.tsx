@@ -588,6 +588,7 @@ export default function CharacterModelViewer({
                 dpr={[1, 2]}
                 style={{ opacity: modelReady ? 1 : 0 }}
               >
+                {/* three.js scene background — can't reference CSS vars; intentionally static across light/dark */}
                 <color attach="background" args={['#15111d']} />
                 <OrbitControls
                   makeDefault

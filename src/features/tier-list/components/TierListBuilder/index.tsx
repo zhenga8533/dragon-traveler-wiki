@@ -14,7 +14,11 @@ import type { TierList } from '@/features/tier-list/types';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 import type { PoolLayout } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
-import { downloadElementAsImage } from '@/utils/export-image';
+import {
+  downloadElementAsImage,
+  DARK_BACKGROUND,
+  LIGHT_BACKGROUND,
+} from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
 import { showSuccessToast, showWarningToast } from '@/utils/toast';
 import {
@@ -426,7 +430,7 @@ export default function TierListBuilder({
             ref={exportRef}
             style={{
               width: 900,
-              backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+              backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
               padding: 16,
             }}
           >
