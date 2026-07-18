@@ -21,7 +21,14 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
-import { LuBox, LuPause, LuPlay, LuRefreshCw, LuRotate3D } from 'react-icons/lu';
+import {
+  LuBox,
+  LuPause,
+  LuPlay,
+  LuRefreshCw,
+  LuRotate3D,
+  LuScan,
+} from 'react-icons/lu';
 import {
   DataTexture,
   BackSide,
@@ -308,20 +315,39 @@ function CameraFit({
   onReady: () => void;
 }) {
   const bounds = useBounds();
+  const camera = useThree((state) => state.camera);
+  const get = useThree((state) => state.get);
   const width = useThree((state) => state.size.width);
   const height = useThree((state) => state.size.height);
 
   useEffect(() => {
-    bounds.refresh().clip().fit();
-    let secondFrame = 0;
-    const firstFrame = requestAnimationFrame(() => {
-      secondFrame = requestAnimationFrame(onReady);
-    });
-    return () => {
-      cancelAnimationFrame(firstFrame);
-      cancelAnimationFrame(secondFrame);
+    let resetFrame = 0;
+    let readyFrame = 0;
+    const reset = () => {
+      const controls = get().controls as unknown as
+        | { target: Vector3; update: () => void }
+        | null;
+      if (!controls) {
+        resetFrame = requestAnimationFrame(reset);
+        return;
+      }
+      const { center, distance } = bounds.refresh().getSize();
+      const viewDirection = new Vector3(0, 0.9, 2.2)
+        .sub(center)
+        .normalize();
+
+      camera.up.set(0, 1, 0);
+      camera.position.copy(center).addScaledVector(viewDirection, distance);
+      controls.target.copy(center);
+      bounds.clip();
+      readyFrame = requestAnimationFrame(onReady);
     };
-  }, [bounds, height, onReady, request, width]);
+    resetFrame = requestAnimationFrame(reset);
+    return () => {
+      cancelAnimationFrame(resetFrame);
+      cancelAnimationFrame(readyFrame);
+    };
+  }, [bounds, camera, get, height, onReady, request, width]);
 
   return null;
 }
@@ -431,6 +457,10 @@ export default function CharacterModelViewer({
   const handleInitialCameraFit = useCallback(() => {
     setModelReady(true);
   }, []);
+  const handleViewerOpened = useCallback(() => {
+    setModelReady(false);
+    setCameraFitRequest((request) => request + 1);
+  }, []);
 
   const metadata =
     loadedMetadata.path === metadataPath ? loadedMetadata.value : null;
@@ -456,6 +486,7 @@ export default function CharacterModelViewer({
       <Modal
         centered
         onClose={closeViewer}
+        onEnterTransitionEnd={handleViewerOpened}
         opened={opened}
         size="xl"
         title={<Text fw={700}>3D Model</Text>}
@@ -532,7 +563,7 @@ export default function CharacterModelViewer({
                     onClick={() => setCameraFitRequest((request) => request + 1)}
                     variant="subtle"
                   >
-                    <LuRotate3D />
+                    <LuScan />
                   </ActionIcon>
                 </Tooltip>
               </Group>
@@ -558,12 +589,16 @@ export default function CharacterModelViewer({
                 style={{ opacity: modelReady ? 1 : 0 }}
               >
                 <color attach="background" args={['#15111d']} />
+                <OrbitControls
+                  makeDefault
+                  enablePan={false}
+                  minDistance={0.5}
+                />
                 <Suspense fallback={<ModelLoadingState />}>
                   <Bounds
                     clip
                     observe
                     margin={1.12}
-                    maxDuration={0.01}
                   >
                     <CharacterModel
                       key={`${rootPath}/${metadata.model}`}
@@ -581,12 +616,6 @@ export default function CharacterModelViewer({
                     />
                   </Bounds>
                 </Suspense>
-                <OrbitControls
-                  makeDefault
-                  enablePan={false}
-                  minDistance={0.5}
-                  maxDistance={8}
-                />
               </Canvas>
             </Box>
           </Box>
