@@ -1,31 +1,17 @@
-import { useCharacterChanges } from '@/features/characters/hooks/use-characters-data';
+import {
+  useCharacterChanges,
+  useCharacters,
+} from '@/features/characters/hooks/use-characters-data';
+import { getNewestActiveCharacterKeys } from '@/features/characters/utils/new-character-keys';
 import { useMemo } from 'react';
 
-type CharactersChanges = Record<string, { added?: number }>;
-
-/** Returns a Set of character slugs for characters with the latest "added" timestamp. */
+/** Returns the active character slugs from the newest addition or re-addition batch. */
 export function useNewCharacters(): Set<string> {
-  const { data } = useCharacterChanges() as { data: CharactersChanges };
+  const { data: changes } = useCharacterChanges();
+  const { data: characters } = useCharacters();
 
-  return useMemo(() => {
-    const entries = Object.entries(data);
-    if (entries.length === 0) return new Set();
-
-    let maxAdded = 0;
-    for (const [, value] of entries) {
-      if (value.added && value.added > maxAdded) {
-        maxAdded = value.added;
-      }
-    }
-
-    if (maxAdded === 0) return new Set();
-
-    const newKeys = new Set<string>();
-    for (const [key, value] of entries) {
-      if (value.added === maxAdded) {
-        newKeys.add(key);
-      }
-    }
-    return newKeys;
-  }, [data]);
+  return useMemo(
+    () => getNewestActiveCharacterKeys(changes, characters.map(({ slug }) => slug)),
+    [changes, characters]
+  );
 }
