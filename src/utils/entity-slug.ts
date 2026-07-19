@@ -32,11 +32,20 @@ export function toEntitySlug(
 export function findEntityByParam<T>(
   items: T[],
   param: string | undefined,
-  getName: (item: T) => string
+  getName: (item: T) => string,
+  getAliases?: (item: T) => Array<string | null | undefined>
 ): T | null {
   if (!param) return null;
   const slug = toEntitySlug(param);
-  return items.find((item) => toEntitySlug(getName(item)) === slug) ?? null;
+  return (
+    items.find(
+      (item) =>
+        toEntitySlug(getName(item)) === slug ||
+        getAliases?.(item).some(
+          (alias) => Boolean(alias) && toEntitySlug(alias ?? '') === slug
+        )
+    ) ?? null
+  );
 }
 
 export function shouldRedirectToEntitySlug(

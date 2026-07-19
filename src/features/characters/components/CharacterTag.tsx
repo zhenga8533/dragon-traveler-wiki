@@ -3,7 +3,10 @@ import { Badge } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { useGradientAccent } from '@/hooks';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
-import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
+import {
+  buildCharacterByIdentityMap,
+  getCharacterRoutePath,
+} from '@/features/characters/utils/character-route';
 import CharacterPortrait from './CharacterPortrait';
 
 export interface CharacterTagProps {
@@ -24,7 +27,7 @@ export default function CharacterTag({
   const { data: characters } = useCharacters();
 
   const resolvedCharacter = useMemo(
-    () => characters.find((c) => c.slug === slug),
+    () => buildCharacterByIdentityMap(characters).get(slug),
     [slug, characters]
   );
 

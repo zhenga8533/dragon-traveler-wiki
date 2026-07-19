@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import LegacySlugStorageMigration from './components/common/LegacySlugStorageMigration';
 import {
   BannerProvider,
   CharacterOwnershipProvider,
@@ -15,6 +16,7 @@ import {
 export default function AppProviders({ children }: { children: ReactNode }) {
   return (
     <LocaleProvider>
+      <LegacySlugStorageMigration />
       <ResourcesProvider>
         <TierListReferenceProvider>
           <GradientThemeProvider>

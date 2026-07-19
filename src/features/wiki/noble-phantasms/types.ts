@@ -11,9 +11,12 @@ export interface NoblePhantasmSkill {
 
 export interface NoblePhantasm {
   slug: string;
+  legacy_slug?: string | null;
   name: string;
+  quality?: Quality | null;
   character_slug: string | null;
   effects: NoblePhantasmEffect[];
   skills: NoblePhantasmSkill[];
   last_updated?: number;
 }
+import type { Quality } from '@/types/quality';

@@ -1,6 +1,7 @@
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import { Z_INDEX } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
+import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
 import { Group, Select, Stack, Text } from '@mantine/core';
 import { useMemo, useState } from 'react';
 
@@ -22,7 +23,7 @@ export default function GuessSelect({
   const guessed = useMemo(() => new Set(guessedSlugs), [guessedSlugs]);
 
   const characterBySlug = useMemo(
-    () => new Map(characters.map((c) => [c.slug, c])),
+    () => buildCharacterByIdentityMap(characters),
     [characters]
   );
 

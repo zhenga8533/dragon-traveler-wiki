@@ -35,13 +35,19 @@ import {
 import RichText from '@/components/common/RichText';
 import { getLatestTimestamp } from '@/utils';
 import { getCharacterRouteSlug } from '@/features/characters/utils/character-route';
+import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
+import QualityIcon from '@/components/ui/QualityIcon';
+import { QUALITY_ORDER } from '@/constants/quality';
+import type { Quality } from '@/types/quality';
 
 interface NoblePhantasmFilters {
   search: string;
+  qualities: Quality[];
 }
 
 const EMPTY_FILTERS: NoblePhantasmFilters = {
   search: '',
+  qualities: [],
 };
 
 export default function NoblePhantasms() {
@@ -97,12 +103,18 @@ export default function NoblePhantasms() {
   }, [characters, getSelectedSkin]);
 
   const charNameBySlug = useMemo(
-    () => new Map(characters.map((c) => [c.slug, c.name])),
+    () =>
+      new Map(
+        [...buildCharacterByIdentityMap(characters)].map(([slug, character]) => [
+          slug,
+          character.name,
+        ])
+      ),
     [characters]
   );
 
   const charBySlug = useMemo(
-    () => new Map(characters.map((c) => [c.slug, c])),
+    () => buildCharacterByIdentityMap(characters),
     [characters]
   );
 
@@ -135,6 +147,11 @@ export default function NoblePhantasms() {
     },
     defaultViewMode: 'grid',
     filterFn: (np, filters) => {
+      if (
+        filters.qualities.length > 0 &&
+        (!np.quality || !filters.qualities.includes(np.quality))
+      )
+        return false;
       if (!filters.search) return true;
       const q = filters.search.toLowerCase();
       const charName = charNameBySlug.get(np.character_slug ?? '') ?? '';
@@ -215,6 +232,23 @@ export default function NoblePhantasms() {
                   setFilters({ ...filters, search: value })
                 }
                 searchPlaceholder="Search by name or character..."
+                groups={[
+                  {
+                    key: 'qualities',
+                    label: 'Quality',
+                    options: [...QUALITY_ORDER],
+                    icon: (quality) => (
+                      <QualityIcon quality={quality as Quality} size={16} />
+                    ),
+                  },
+                ]}
+                selected={{ qualities: filters.qualities }}
+                onChange={(key, values) =>
+                  setFilters({
+                    ...filters,
+                    [key]: values as Quality[],
+                  })
+                }
               />
             }
             page={page}
@@ -236,6 +270,7 @@ export default function NoblePhantasms() {
                       imageSrc={iconSrc}
                       metadata={
                         <Group gap="xs" wrap="wrap">
+                          {np.quality && <QualityIcon quality={np.quality} />}
                           {np.character_slug && charNameBySlug.get(np.character_slug) && (
                             <CharacterTag
                               slug={np.character_slug}
@@ -273,6 +308,7 @@ export default function NoblePhantasms() {
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>
+                      <Table.Th>Quality</Table.Th>
                       <SortableTh
                         sortKey="name"
                         sortCol={sortCol}
@@ -327,6 +363,13 @@ export default function NoblePhantasms() {
                               <Text c="dimmed" size="sm">
                                 —
                               </Text>
+                            )}
+                          </Table.Td>
+                          <Table.Td>
+                            {np.quality ? (
+                              <QualityIcon quality={np.quality} />
+                            ) : (
+                              <Text size="sm" c="dimmed">—</Text>
                             )}
                           </Table.Td>
                           <EntityTableLinkCell

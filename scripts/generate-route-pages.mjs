@@ -235,11 +235,13 @@ function writeRoutePages() {
 
   // Build a character slug-to-name map for use by other entity descriptions.
   const characterItems = readJsonArray('enUS/characters.json');
-  const charSlugToName = new Map(
-    characterItems
-      .filter((c) => c.slug)
-      .map((c) => [c.slug, c.name])
-  );
+  const charSlugToName = new Map();
+  for (const character of characterItems) {
+    if (character.slug) charSlugToName.set(character.slug, character.name);
+    if (character.legacy_slug) {
+      charSlugToName.set(character.legacy_slug, character.name);
+    }
+  }
 
   // Build a howlkin slug-to-qualityKey map for alliance embed icons.
   const howlkinItems = readJsonArray('enUS/howlkins.json');
@@ -419,6 +421,13 @@ function writeRoutePages() {
       };
 
       writePage(routePath, meta, imageUrl, cardType);
+      if (item?.legacy_slug && item.legacy_slug !== slug) {
+        const legacyRoutePath = config.pattern.replace(
+          /:[^/]+$/,
+          item.legacy_slug
+        );
+        writePage(legacyRoutePath, meta, imageUrl, cardType);
+      }
     }
   }
 

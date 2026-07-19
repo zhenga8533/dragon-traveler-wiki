@@ -9,6 +9,8 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterTag from '@/features/characters/components/CharacterTag';
+import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
+import QualityIcon from '@/components/ui/QualityIcon';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
 import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -40,7 +42,12 @@ export default function NoblePhantasmPage() {
   const { data: changesData } = useNoblePhantasmChanges();
 
   const noblePhantasm = useMemo(() => {
-    return findEntityByParam(noblePhantasms, name, (np) => np.slug);
+    return findEntityByParam(
+      noblePhantasms,
+      name,
+      (np) => np.slug,
+      (np) => [np.legacy_slug]
+    );
   }, [name, noblePhantasms]);
 
   useEffect(() => {
@@ -77,7 +84,9 @@ export default function NoblePhantasmPage() {
 
   const linkedCharacter = useMemo(() => {
     if (!noblePhantasm?.character_slug) return null;
-    return characters.find((c) => c.slug === noblePhantasm.character_slug);
+    return buildCharacterByIdentityMap(characters).get(
+      noblePhantasm.character_slug
+    );
   }, [characters, noblePhantasm]);
 
   if (loading) {
@@ -136,6 +145,11 @@ export default function NoblePhantasmPage() {
             >
               {noblePhantasm.name}
             </Title>
+            {noblePhantasm.quality && (
+              <Group gap="xs">
+                <QualityIcon quality={noblePhantasm.quality} size={24} />
+              </Group>
+            )}
             <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
 
             {linkedCharacter && (
@@ -153,7 +167,7 @@ export default function NoblePhantasmPage() {
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
-          <Stack gap="md">
+          {noblePhantasm.effects.length > 0 && <Stack gap="md">
             <Title order={2} size="h3">
               Effects
             </Title>
@@ -163,9 +177,9 @@ export default function NoblePhantasmPage() {
               skills={linkedCharacter?.skills}
               talent={linkedCharacter?.talent}
             />
-          </Stack>
+          </Stack>}
 
-          <Stack gap="md">
+          {noblePhantasm.skills.length > 0 && <Stack gap="md">
             <Title order={2} size="h3">
               Skill Progression
             </Title>
@@ -175,10 +189,17 @@ export default function NoblePhantasmPage() {
               characterSkills={linkedCharacter?.skills}
               talent={linkedCharacter?.talent}
             />
-          </Stack>
+          </Stack>}
         </Stack>
 
-        <ChangeHistory history={changesData[noblePhantasm.slug]} />
+        <ChangeHistory
+          history={
+            changesData[noblePhantasm.slug] ??
+            (noblePhantasm.legacy_slug
+              ? changesData[noblePhantasm.legacy_slug]
+              : undefined)
+          }
+        />
 
         <DetailPageNavigation
           previousItem={

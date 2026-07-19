@@ -126,7 +126,10 @@ export function useCharacterPageData(
   const { data: teams } = useTeams();
   const { data: changesData } = useCharacterChanges();
 
-  const { preferredByName: preferredCharacterByName } =
+  const {
+    preferredByName: preferredCharacterByName,
+    byIdentity: characterByIdentity,
+  } =
     useCharacterResolution(characters);
 
   const routeMatch = useMemo(
@@ -187,10 +190,10 @@ export function useCharacterPageData(
       return null;
     return (
       selectedTierList.entries.find(
-        (entry) => entry.character_slug === character.slug
+        (entry) => characterByIdentity.get(entry.character_slug) === character
       ) ?? null
     );
-  }, [selectedTierList, character, isPreferredCharacterForNameReferences]);
+  }, [selectedTierList, character, characterByIdentity, isPreferredCharacterForNameReferences]);
 
   const tierLabel = useMemo(() => {
     if (!showCharacterTiers || !selectedTierListName || !selectedTierList || !character) return null;
@@ -238,7 +241,9 @@ export function useCharacterPageData(
     if (!character?.recommended_noble_phantasm) return null;
     return (
       noblePhantasms.find(
-        (np) => np.slug === character.recommended_noble_phantasm
+        (np) =>
+          np.slug === character.recommended_noble_phantasm ||
+          np.legacy_slug === character.recommended_noble_phantasm
       ) ?? null
     );
   }, [character, noblePhantasms]);

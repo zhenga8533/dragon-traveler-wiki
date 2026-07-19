@@ -135,6 +135,9 @@ export function buildCharacterByIdentityMap(
   const map = new Map<string, Character>();
   for (const character of characters) {
     map.set(getCharacterIdentityKey(character), character);
+    if (character.legacy_slug) {
+      map.set(character.legacy_slug, character);
+    }
   }
   return map;
 }
@@ -247,7 +250,9 @@ export function resolveCharacterRoute(
   }
 
   const matchedByExactSlug = characters.find(
-    (entry) => getCharacterRouteSlug(entry).toLowerCase() === incomingSlug
+    (entry) =>
+      getCharacterRouteSlug(entry).toLowerCase() === incomingSlug ||
+      entry.legacy_slug?.toLowerCase() === incomingSlug
   );
   if (matchedByExactSlug) {
     return {

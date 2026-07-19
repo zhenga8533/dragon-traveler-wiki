@@ -118,6 +118,7 @@ export interface CharacterSkin {
 
 export interface Character {
   slug: string;
+  legacy_slug?: string | null;
   name: string;
   title?: string;
   quality: Quality;

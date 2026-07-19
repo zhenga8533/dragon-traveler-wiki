@@ -36,7 +36,7 @@ export default function EventCharacterAvatars({
             name={resolved?.name ?? slug}
             size={size}
             quality={resolved?.quality}
-            assetKey={slug}
+            assetKey={resolved?.slug ?? slug}
             routePath={resolved ? getCharacterRoutePath(resolved) : `/characters/${slug}`}
             link
             tooltip={resolved?.name ?? slug}

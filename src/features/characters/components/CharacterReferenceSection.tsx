@@ -83,7 +83,8 @@ export default function CharacterReferenceSection({
         const member =
           team.members?.find(
             (entry) =>
-              entry.character_slug === character.slug &&
+              (entry.character_slug === character.slug ||
+                entry.character_slug === character.legacy_slug) &&
               (!entry.character_quality ||
                 entry.character_quality === character.quality)
           ) ?? null;
@@ -105,7 +106,8 @@ export default function CharacterReferenceSection({
             const benchSlug = getTeamBenchEntryName(entry);
             const benchQuality = getTeamBenchEntryQuality(entry);
             return (
-              benchSlug === character.slug &&
+              (benchSlug === character.slug ||
+                benchSlug === character.legacy_slug) &&
               (!benchQuality || benchQuality === character.quality)
             );
           }) ?? null;
