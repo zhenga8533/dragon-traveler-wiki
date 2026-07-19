@@ -6,6 +6,8 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
+import EmptyState from '@/components/ui/EmptyState';
+import { StaticSurface } from '@/components/ui/Surface';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterTag from '@/features/characters/components/CharacterTag';
@@ -29,6 +31,7 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { IoHourglassOutline } from 'react-icons/io5';
 
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
@@ -167,6 +170,16 @@ export default function NoblePhantasmPage() {
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
+          {noblePhantasm.effects.length === 0 &&
+            noblePhantasm.skills.length === 0 && (
+              <StaticSurface p="xl" radius="lg">
+                <EmptyState
+                  icon={<IoHourglassOutline size={32} />}
+                  title="Noble Phantasm information coming soon"
+                  description="This preview currently includes the available artwork and basic details. Effects and skill progression will be added when they become available."
+                />
+              </StaticSurface>
+            )}
           {noblePhantasm.effects.length > 0 && <Stack gap="md">
             <Title order={2} size="h3">
               Effects
