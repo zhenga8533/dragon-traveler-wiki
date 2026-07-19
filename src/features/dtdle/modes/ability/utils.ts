@@ -10,9 +10,15 @@ export const SKILL_TYPES: SkillType[] = [
   'Special Skill',
 ];
 
-/** R+ characters all qualify: every character has a talent and at least 2 skills. */
+/** R+ characters with at least one mineable talent or supported skill. */
 export function getAbilityEligibleCharacters(characters: Character[]): Character[] {
-  return getEligibleCharacters(characters);
+  return getEligibleCharacters(characters).filter(
+    (character) =>
+      Boolean(character.talent) ||
+      character.skills.some(
+        (skill) => skill.type && SKILL_TYPES.includes(skill.type)
+      )
+  );
 }
 
 /**

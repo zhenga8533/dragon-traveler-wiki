@@ -23,6 +23,14 @@ export interface DtdleGameState {
   solved: boolean;
 }
 
+export interface IllustrationGameState {
+  date: string;
+  guessedSlugs: string[];
+  characterSolved: boolean;
+  guessedSkinSlugs: string[];
+  solved: boolean;
+}
+
 export interface DtdleStats {
   currentStreak: number;
   maxStreak: number;

@@ -1,5 +1,5 @@
 import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { addDaysIso } from '../utils/daily-answer';
 import type { DtdleStats } from '../types';
 
@@ -31,8 +31,18 @@ export function useDailyStats(storageKey: string, todayStr: string) {
     writeStoredJson(storageKey, stats);
   }, [storageKey, stats]);
 
+  const displayedStats = useMemo(() => {
+    const streakIsCurrent =
+      stats.lastPlayedDate === todayStr ||
+      stats.lastPlayedDate === addDaysIso(todayStr, -1);
+    return streakIsCurrent || stats.currentStreak === 0
+      ? stats
+      : { ...stats, currentStreak: 0 };
+  }, [stats, todayStr]);
+
   const recordWin = useCallback(() => {
     setStats((prev) => {
+      if (prev.lastPlayedDate === todayStr) return prev;
       const isConsecutive = prev.lastPlayedDate === addDaysIso(todayStr, -1);
       const currentStreak = isConsecutive ? prev.currentStreak + 1 : 1;
       return {
@@ -44,5 +54,5 @@ export function useDailyStats(storageKey: string, todayStr: string) {
     });
   }, [todayStr]);
 
-  return { stats, recordWin };
+  return { stats: displayedStats, recordWin };
 }

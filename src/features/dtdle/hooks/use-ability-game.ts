@@ -112,8 +112,14 @@ export function useAbilityGame() {
   const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
 
   function submitCharacterGuess(slug: string) {
-    if (!answerCharacter || !ability) return;
-    let didWin = false;
+    if (
+      !answerCharacter ||
+      !ability ||
+      gameState.characterSolved ||
+      gameState.guessedSlugs.includes(slug)
+    ) {
+      return;
+    }
     setGameState((prev) => {
       if (prev.characterSolved || prev.guessedSlugs.includes(slug)) return prev;
       const isCorrect = slug === answerCharacter.slug;
@@ -121,7 +127,6 @@ export function useAbilityGame() {
       // Talent abilities have no category to guess, so getting the character
       // right immediately completes the round.
       const solved = isCorrect && ability.kind === 'talent';
-      didWin = solved;
       return {
         ...prev,
         guessedSlugs: [...prev.guessedSlugs, slug],
@@ -129,12 +134,19 @@ export function useAbilityGame() {
         solved: prev.solved || solved,
       };
     });
-    if (didWin) recordWin();
+    if (slug === answerCharacter.slug && ability.kind === 'talent') recordWin();
   }
 
   function submitCategoryGuess(type: SkillType) {
-    if (!ability || ability.kind !== 'skill') return;
-    let didWin = false;
+    if (
+      !ability ||
+      ability.kind !== 'skill' ||
+      !gameState.characterSolved ||
+      gameState.solved ||
+      gameState.categoryGuesses.includes(type)
+    ) {
+      return;
+    }
     setGameState((prev) => {
       if (
         !prev.characterSolved ||
@@ -144,14 +156,13 @@ export function useAbilityGame() {
         return prev;
       }
       const isCorrect = type === ability.skillType;
-      didWin = isCorrect;
       return {
         ...prev,
         categoryGuesses: [...prev.categoryGuesses, type],
         solved: prev.solved || isCorrect,
       };
     });
-    if (didWin) recordWin();
+    if (type === ability.skillType) recordWin();
   }
 
   return {

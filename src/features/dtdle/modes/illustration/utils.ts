@@ -3,7 +3,7 @@ import type { Character } from '@/features/characters/types';
 import { getEligibleCharacters } from '../../utils/daily-answer';
 import { fnv1aHash32 } from '../../utils/ring-hash';
 
-/** R+ characters with at least one image-type illustration (currently all of them). */
+/** R+ characters with at least one declared skin scene. */
 export function getIllustrationEligibleCharacters(
   characters: Character[]
 ): Character[] {
@@ -14,13 +14,26 @@ export function getIllustrationEligibleCharacters(
   );
 }
 
-export function pickDailyIllustration(character: Character): Illustration | null {
-  const illustrations = resolveIllustrations(
+export function getSceneIllustrations(character: Character): Illustration[] {
+  return resolveIllustrations(
     character.name,
     character.slug,
     character.skins
+  ).filter((illustration) => illustration.type === 'image');
+}
+
+/** Deterministically gives every available skin scene a chance to be selected. */
+export function pickDailyIllustration(
+  character: Character,
+  dateStr: string,
+  scenes = getSceneIllustrations(character)
+): Illustration | null {
+  if (scenes.length === 0) return null;
+  const orderedScenes = [...scenes].sort((left, right) =>
+    (left.skinSlug ?? '').localeCompare(right.skinSlug ?? '')
   );
-  return illustrations.find((i) => i.type === 'image') ?? null;
+  const hash = fnv1aHash32(`${dateStr}:illustration-skin:${character.slug}`);
+  return orderedScenes[hash % orderedScenes.length];
 }
 
 /**

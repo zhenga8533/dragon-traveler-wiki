@@ -1,15 +1,14 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import { Alert, Box, Loader, Stack } from '@mantine/core';
+import { Alert, Badge, Box, Group, Loader, Select, Stack, Text } from '@mantine/core';
 import { useIllustrationGame } from '../hooks/use-illustration-game';
 import { getPortrait } from '@/assets';
 import DailyStatsGrid from './DailyStatsGrid';
 import GuessedCharacterList from './GuessedCharacterList';
 import GuessSelect from './GuessSelect';
-import { CharacterSkinContext } from '@/contexts';
-import { useContext } from 'react';
+import { useMemo, useState } from 'react';
 
 export default function IllustrationMode() {
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const [skinGuess, setSkinGuess] = useState<string | null>(null);
   const {
     loading,
     error,
@@ -22,8 +21,27 @@ export default function IllustrationMode() {
     gameState,
     stats,
     guessedCharacters,
-    submitGuess,
+    availableScenes,
+    submitCharacterGuess,
+    submitSkinGuess,
   } = useIllustrationGame();
+
+  const skinNames = useMemo(
+    () => new Map(answer?.skins.map((skin) => [skin.slug, skin.name]) ?? []),
+    [answer]
+  );
+  const skinOptions = useMemo(
+    () =>
+      availableScenes.flatMap((scene) =>
+        scene.skinSlug
+          ? [{ value: scene.skinSlug, label: skinNames.get(scene.skinSlug) ?? scene.name }]
+          : []
+      ),
+    [availableScenes, skinNames]
+  );
+  const answerSkinName = illustration?.skinSlug
+    ? (skinNames.get(illustration.skinSlug) ?? illustration.name)
+    : (illustration?.name ?? 'Unknown');
 
   return (
     <Stack gap="md">
@@ -41,7 +59,14 @@ export default function IllustrationMode() {
         <>
           {gameState.solved && (
             <Alert color="green" title="Solved!">
-              That's {answer.name}. Come back tomorrow for a new one.
+              That's {answer.name} wearing the {answerSkinName} skin. Come back
+              tomorrow for a new one.
+            </Alert>
+          )}
+
+          {gameState.characterSolved && !gameState.solved && (
+            <Alert color="blue" title="Character found!">
+              Correct, that's {answer.name}. Now identify the skin.
             </Alert>
           )}
 
@@ -61,7 +86,7 @@ export default function IllustrationMode() {
                 const fallback = getPortrait(
                   answer.name,
                   answer.slug,
-                  getSelectedSkin(answer.slug)
+                  illustration.skinSlug
                 );
                 if (fallback && event.currentTarget.src !== new URL(fallback, window.location.href).href) {
                   event.currentTarget.src = fallback;
@@ -72,24 +97,59 @@ export default function IllustrationMode() {
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-                transform: `scale(${gameState.solved ? 1 : zoomScale})`,
+                transform: `scale(${gameState.characterSolved ? 1 : zoomScale})`,
                 transformOrigin: `${focusPoint.x}% ${focusPoint.y}%`,
                 transition: 'transform 400ms ease',
               }}
             />
           </Box>
 
-          <GuessSelect
-            characters={eligible}
-            guessedSlugs={gameState.guessedSlugs}
-            onSubmitGuess={submitGuess}
-            disabled={gameState.solved}
-          />
+          {!gameState.characterSolved && (
+            <GuessSelect
+              characters={eligible}
+              guessedSlugs={gameState.guessedSlugs}
+              onSubmitGuess={submitCharacterGuess}
+            />
+          )}
 
           <GuessedCharacterList
             guessedCharacters={guessedCharacters}
             correctSlug={answer.slug}
           />
+
+          {gameState.characterSolved && !gameState.solved && (
+            <Stack gap="xs">
+              <Select
+                label="Guess the skin"
+                placeholder="Choose a skin..."
+                data={skinOptions.filter(
+                  (option) =>
+                    !gameState.guessedSkinSlugs.includes(option.value)
+                )}
+                value={skinGuess}
+                onChange={(value) => {
+                  setSkinGuess(null);
+                  if (value) submitSkinGuess(value);
+                }}
+                searchable
+                nothingFoundMessage="No matching skins"
+              />
+              {gameState.guessedSkinSlugs.length > 0 && (
+                <Stack gap={4}>
+                  <Text size="xs" c="dimmed">
+                    Incorrect skin guesses
+                  </Text>
+                  <Group gap="xs">
+                    {gameState.guessedSkinSlugs.map((slug) => (
+                      <Badge key={slug} color="red" variant="light" tt="none">
+                        {skinNames.get(slug) ?? slug}
+                      </Badge>
+                    ))}
+                  </Group>
+                </Stack>
+              )}
+            </Stack>
+          )}
         </>
       )}
     </Stack>

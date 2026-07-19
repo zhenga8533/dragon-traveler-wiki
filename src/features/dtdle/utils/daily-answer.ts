@@ -4,6 +4,9 @@ import { buildRing, fnv1aHash32, pickFromRing } from './ring-hash';
 const EXCLUDED_QUALITIES = new Set(['N', 'C']);
 const LOOKBACK_DAYS = 14;
 const MS_PER_DAY = 86_400_000;
+// Anchored 14 days before the fixed-schedule cutover so the answer already
+// served on 2026-07-19 remains unchanged while subsequent days share one history.
+const SCHEDULE_EPOCH = '2026-07-05';
 
 /** Characters eligible to be a daily answer: quality "R" or better. */
 export function getEligibleCharacters(characters: Character[]): Character[] {
@@ -38,9 +41,9 @@ function pickForDate(
 }
 
 /**
- * Derives today's answer with no stored schedule: replays the trailing
- * `LOOKBACK_DAYS` window forward-in-time so each day's exclusion set is
- * built the same deterministic way, then applies the same rule to today.
+ * Derives today's answer with no stored schedule by replaying from a fixed
+ * epoch. A fixed origin is required: replaying only a moving lookback window
+ * can reconstruct different prior answers on consecutive days.
  *
  * `modeSalt` namespaces the hash so different game modes each get their own
  * independent daily answer from the same ring. Leaving it empty preserves
@@ -53,11 +56,11 @@ export function getTodayAnswerSlug(
 ): string {
   const ring = buildRing(eligibleSlugsSorted);
   const history: string[] = [];
-
-  for (let d = LOOKBACK_DAYS; d >= 1; d--) {
-    const dayStr = addDaysIso(todayStr, -d);
+  let dayStr = SCHEDULE_EPOCH;
+  while (dayStr < todayStr) {
     const excluded = new Set(history.slice(-LOOKBACK_DAYS));
     history.push(pickForDate(dayStr, ring, excluded, modeSalt));
+    dayStr = addDaysIso(dayStr, 1);
   }
 
   const excluded = new Set(history.slice(-LOOKBACK_DAYS));
