@@ -23,6 +23,19 @@ import {
 } from '@mantine/core';
 import CharacterPortrait from './CharacterPortrait';
 import CharacterFullBodyArtwork from './CharacterFullBodyArtwork';
+import CharacterCombatMetadata from './CharacterCombatMetadata';
+
+function formatReleaseDate(value: string): string {
+  const date = new Date(`${value}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+}
 
 interface CharacterPageHeroSectionProps {
   character: Character;
@@ -179,6 +192,12 @@ export default function CharacterPageHeroSection({
                   <GlobalBadge isGlobal={character.is_global} size="lg" />
                 </Group>
 
+                <CharacterCombatMetadata
+                  attackRange={character.attack_range}
+                  attackType={character.attack_type}
+                  combatTags={character.combat_tags}
+                />
+
                 {/* Factions */}
                 <Group gap="xs">
                   {character.factions.map((f) => (
@@ -197,6 +216,11 @@ export default function CharacterPageHeroSection({
                     {character.weight && (
                       <Text size="sm" c="dimmed">
                         WT: {character.weight}
+                      </Text>
+                    )}
+                    {character.release_date && (
+                      <Text size="sm" c="dimmed">
+                        Released: {formatReleaseDate(character.release_date)}
                       </Text>
                     )}
                   </Group>

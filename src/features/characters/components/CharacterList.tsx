@@ -38,6 +38,7 @@ export default function CharacterList({
     sortDir,
     handleSort,
     effectOptions,
+    combatTagOptions,
     tierOptions,
     selectedTierListName,
     getTierLabel,
@@ -102,6 +103,7 @@ export default function CharacterList({
           filters={filters}
           onChange={setFilters}
           effectOptions={effectOptions}
+          combatTagOptions={combatTagOptions}
           showTierFilter={Boolean(selectedTierListName)}
           tierOptions={tierOptions}
           starLevelOptions={starLevelOptions}

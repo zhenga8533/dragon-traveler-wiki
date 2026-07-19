@@ -1,5 +1,10 @@
 ﻿import { QUALITY_ORDER } from '@/constants/quality';
-import type { Character, CharacterClass } from '@/features/characters/types';
+import type {
+  Character,
+  CharacterAttackRange,
+  CharacterAttackType,
+  CharacterClass,
+} from '@/features/characters/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { getCharacterIdentityKey } from './character-route';
@@ -10,10 +15,12 @@ export interface CharacterFilters {
   qualities: Quality[];
   classes: CharacterClass[];
   factions: FactionSlug[];
+  attackRanges: CharacterAttackRange[];
+  attackTypes: CharacterAttackType[];
+  combatTags: string[];
   tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
-  inGlobalAssets: boolean;
   ownedOnly: boolean;
   minStarLevel: string | null;
   maxStarLevel: string | null;
@@ -24,10 +31,12 @@ export const EMPTY_FILTERS: CharacterFilters = {
   qualities: [],
   classes: [],
   factions: [],
+  attackRanges: [],
+  attackTypes: [],
+  combatTags: [],
   tiers: [],
   statusEffects: [],
   globalOnly: null,
-  inGlobalAssets: false,
   ownedOnly: false,
   minStarLevel: null,
   maxStarLevel: null,
@@ -64,6 +73,24 @@ export function filterCharacters(
     ) {
       return false;
     }
+    if (
+      filters.attackRanges.length > 0 &&
+      (!c.attack_range || !filters.attackRanges.includes(c.attack_range))
+    ) {
+      return false;
+    }
+    if (
+      filters.attackTypes.length > 0 &&
+      (!c.attack_type || !filters.attackTypes.includes(c.attack_type))
+    ) {
+      return false;
+    }
+    if (
+      filters.combatTags.length > 0 &&
+      !filters.combatTags.some((tag) => c.combat_tags?.includes(tag))
+    ) {
+      return false;
+    }
     if (filters.tiers.length > 0 && tierLookup) {
       const tier =
         tierLookup.get(getCharacterIdentityKey(c)) ??
@@ -81,10 +108,6 @@ export function filterCharacters(
     }
     if (filters.globalOnly !== null && c.is_global !== filters.globalOnly) {
       return false;
-    }
-    if (filters.inGlobalAssets) {
-      const loreArr = Array.isArray(c.lore) ? c.lore : c.lore ? [c.lore] : [];
-      if (c.is_global || loreArr.length <= 1) return false;
     }
     const identityKey = getCharacterIdentityKey(c);
     const ownedLevel = ownedCharacters?.[identityKey] ?? null;

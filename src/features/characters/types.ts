@@ -10,6 +10,10 @@ export type CharacterClass =
   | 'archer'
   | 'mage';
 
+export type CharacterAttackRange = 'melee' | 'ranged';
+
+export type CharacterAttackType = 'physical' | 'magical';
+
 export type SkillType =
   | 'Overdrive'
   | 'Ultimate Skill'
@@ -126,6 +130,10 @@ export interface Character {
   factions: FactionSlug[];
   is_global: boolean;
   subclasses: string[];
+  release_date?: string | null;
+  attack_range?: CharacterAttackRange | null;
+  attack_type?: CharacterAttackType | null;
+  combat_tags?: string[];
   height?: string;
   weight?: string;
   lore?: string | string[];

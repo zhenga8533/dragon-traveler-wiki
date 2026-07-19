@@ -15,7 +15,7 @@ import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
 import { useIsMobile } from '@/hooks';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { Group, Select, SimpleGrid, Text } from '@mantine/core';
+import { Divider, Group, Select, SimpleGrid, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 
 export interface CharacterFilterProps {
@@ -28,6 +28,7 @@ export interface CharacterFilterProps {
     icon?: boolean;
     type?: StatusEffectType;
   }[];
+  combatTagOptions?: string[];
   showTierFilter?: boolean;
   tierOptions?: string[];
   starLevelOptions?: { value: string; label: string }[];
@@ -37,6 +38,7 @@ export default function CharacterFilter({
   filters,
   onChange,
   effectOptions,
+  combatTagOptions = [],
   showTierFilter = false,
   tierOptions = [],
   starLevelOptions = [],
@@ -101,10 +103,12 @@ export default function CharacterFilter({
         filters.qualities.length > 0 ||
         filters.classes.length > 0 ||
         filters.factions.length > 0 ||
+        filters.attackRanges.length > 0 ||
+        filters.attackTypes.length > 0 ||
+        filters.combatTags.length > 0 ||
         (showTierFilter && filters.tiers.length > 0) ||
         filters.statusEffects.length > 0 ||
         filters.globalOnly !== null ||
-        filters.inGlobalAssets ||
         hasOwnedFilter
       }
       search={filters.search}
@@ -129,8 +133,6 @@ export default function CharacterFilter({
                 onChange({
                   ...filters,
                   globalOnly,
-                  inGlobalAssets:
-                    globalOnly === true ? false : filters.inGlobalAssets,
                 });
               }}
               options={[
@@ -139,28 +141,58 @@ export default function CharacterFilter({
               ]}
             />
           </FilterSection>
-          <FilterSection
-            label="Global Assets"
-            info="Characters not yet released on Global but spotted in Global game assets"
-          >
-            <FilterChipGroup
-              size={chipSize}
-              value={filters.inGlobalAssets ? ['inGlobalAssets'] : []}
-              onChange={(val) => {
-                const inGlobalAssets = val.includes('inGlobalAssets');
-                onChange({
-                  ...filters,
-                  inGlobalAssets,
-                  globalOnly: inGlobalAssets ? null : filters.globalOnly,
-                });
-              }}
-              options={[{ value: 'inGlobalAssets', label: 'Exists' }]}
-            />
-          </FilterSection>
         </>
       }
       afterGroups={
         <>
+          <Divider label="Combat" labelPosition="left" my={4} />
+          <FilterSection label="Attack Type">
+            <FilterChipGroup
+              size={chipSize}
+              value={filters.attackTypes}
+              onChange={(values) =>
+                onChange({
+                  ...filters,
+                  attackTypes: values as CharacterFilters['attackTypes'],
+                })
+              }
+              options={[
+                { value: 'physical', label: 'Physical' },
+                { value: 'magical', label: 'Magical' },
+              ]}
+            />
+          </FilterSection>
+          <FilterSection label="Attack Range">
+            <FilterChipGroup
+              size={chipSize}
+              value={filters.attackRanges}
+              onChange={(values) =>
+                onChange({
+                  ...filters,
+                  attackRanges: values as CharacterFilters['attackRanges'],
+                })
+              }
+              options={[
+                { value: 'melee', label: 'Melee' },
+                { value: 'ranged', label: 'Ranged' },
+              ]}
+            />
+          </FilterSection>
+          {combatTagOptions.length > 0 && (
+            <FilterSection label="Combat Tags">
+              <FilterMultiSelect
+                data={combatTagOptions}
+                value={filters.combatTags}
+                onChange={(val) => onChange({ ...filters, combatTags: val })}
+                placeholder="Filter by combat tag..."
+                searchable
+                clearable
+                size={chipSize}
+                style={{ flex: 1, minWidth: 180 }}
+                comboboxProps={{ withinPortal: !isMobile }}
+              />
+            </FilterSection>
+          )}
           {effectOptions.length > 0 && (
             <FilterSection label="Effects">
               <FilterMultiSelect
@@ -196,6 +228,7 @@ export default function CharacterFilter({
               />
             </FilterSection>
           )}
+          <Divider label="Collection" labelPosition="left" my={4} />
           <FilterSection label="Owned Characters">
             <FilterChipGroup
               size={chipSize}

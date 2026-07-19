@@ -47,6 +47,7 @@ export interface CharacterListData {
     icon?: boolean;
     type?: StatusEffectType;
   }[];
+  combatTagOptions: string[];
   tierOptions: string[];
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;
@@ -122,6 +123,13 @@ export function useCharacterListData(
         type: effect.type,
       }));
   }, [characters, statusEffects]);
+
+  const combatTagOptions = useMemo(
+    () =>
+      [...new Set(characters.flatMap((character) => character.combat_tags ?? []))]
+        .sort((left, right) => left.localeCompare(right)),
+    [characters]
+  );
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
@@ -257,10 +265,12 @@ export function useCharacterListData(
     filters.qualities.length +
     filters.classes.length +
     filters.factions.length +
+    filters.attackRanges.length +
+    filters.attackTypes.length +
+    filters.combatTags.length +
     (selectedTierListName ? filters.tiers.length : 0) +
     filters.statusEffects.length +
     (filters.globalOnly !== null ? 1 : 0) +
-    (filters.inGlobalAssets ? 1 : 0) +
     (filters.ownedOnly ? 1 : 0) +
     (filters.minStarLevel ? 1 : 0) +
     (filters.maxStarLevel ? 1 : 0);
@@ -276,6 +286,7 @@ export function useCharacterListData(
     sortDir,
     handleSort,
     effectOptions,
+    combatTagOptions,
     tierOptions,
     selectedTierListName,
     getTierLabel,
