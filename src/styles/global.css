@@ -26,6 +26,24 @@
   animation: safeMediaLoading 1.4s ease-in-out infinite;
 }
 
+@supports (-webkit-touch-callout: none) {
+  @media (max-width: 48em) {
+    input:not([type='checkbox']):not([type='radio']):not([type='range']):not(
+        [type='color']
+      ),
+    textarea,
+    select {
+      font-size: 16px !important;
+    }
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .mantine-Tooltip-tooltip {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .dt-safe-media--loading {
     animation: none;

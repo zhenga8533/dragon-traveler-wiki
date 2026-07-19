@@ -98,6 +98,7 @@ export const theme = createTheme({
     Modal: {
       defaultProps: {
         radius: 'md',
+        removeScrollProps: { removeScrollBar: false },
       },
     },
     Drawer: {
@@ -121,7 +122,7 @@ export const theme = createTheme({
         withArrow: true,
         openDelay: 120,
         closeDelay: 120,
-        events: { hover: true, focus: true, touch: true },
+        events: { hover: true, focus: true, touch: false },
         styles: DETAIL_TOOLTIP_STYLES,
       },
     },

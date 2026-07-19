@@ -1,11 +1,7 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { BREAKPOINTS } from '@/constants/ui';
 
-/**
- * Hook to determine if tooltips should be interactive on touch devices
- * On mobile/touch devices, returns openDelay and closeDelay to make tooltips easier to interact with
- * On desktop, returns default behavior
- */
+/** Keep tap interactions from leaving focus-triggered tooltips open on touch devices. */
 export function useMobileTooltip() {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const isTouchDevice =
@@ -15,23 +11,21 @@ export function useMobileTooltip() {
         'maxTouchPoints' in navigator &&
         navigator.maxTouchPoints > 0));
 
-  // On mobile/touch devices, open quickly and stay visible a bit longer.
-  // Also enable the touch event so tapping triggers the tooltip.
   if (isMobile || isTouchDevice) {
     return {
-      openDelay: 80,
-      closeDelay: 260,
+      openDelay: 0,
+      closeDelay: 0,
       withArrow: true,
       position: 'top' as const,
-      events: { hover: true, focus: true, touch: true },
+      events: { hover: false, focus: false, touch: false },
     };
   }
 
-  // Desktop behavior - quick feedback without the old lag.
   return {
     openDelay: 120,
     closeDelay: 120,
     withArrow: true,
     position: 'top' as const,
+    events: { hover: true, focus: true, touch: false },
   };
 }
