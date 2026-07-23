@@ -1,36 +1,55 @@
 import {
   existsSync,
+  mkdirSync,
   readFileSync,
   writeFileSync,
-  mkdirSync,
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { loadProjectEnv } from './project-env.mjs';
 import {
   BASE_URL,
   DEFAULT_IMAGE,
   ROUTE_META,
   SITE_NAME,
 } from '../src/constants/route-meta.ts';
+import { loadProjectEnv } from './project-env.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
-const { env, dataDir } = loadProjectEnv('production', projectRoot);
+const { env, dataDir, assetsDir } = loadProjectEnv('production', projectRoot);
 const indexHtmlPath = path.join(distDir, 'index.html');
 
 const rawAssetsBase = env.VITE_ASSETS_BASE ?? '';
-const assetsBase =
-  rawAssetsBase.startsWith('http://') || rawAssetsBase.startsWith('https://')
-    ? rawAssetsBase.endsWith('/')
-      ? rawAssetsBase
-      : `${rawAssetsBase}/`
-    : null;
+const assetsBase = rawAssetsBase
+  ? new URL(
+      rawAssetsBase.endsWith('/') ? rawAssetsBase : `${rawAssetsBase}/`,
+      `${BASE_URL}/`
+    ).href
+  : null;
 
-function normalizeTypeKey(value) {
-  return String(value ?? '').toLowerCase().replace(/\s+/g, '_');
+const DEFAULT_SOCIAL_IMAGE = {
+  url: DEFAULT_IMAGE,
+  alt: 'Dragon Traveler Wiki banner',
+  width: 1200,
+  height: 630,
+  type: 'image/jpeg',
+  cardType: 'summary_large_image',
+};
+
+export function normalizeTypeKey(value) {
+  return String(value ?? '')
+    .toLowerCase()
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+function humanizeKey(value) {
+  return String(value ?? '')
+    .replace(/_/g, ' ')
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function normalizeQualityKey(quality) {
@@ -55,28 +74,31 @@ function toEntitySlug(value) {
     .trim()
     .toLowerCase()
     .normalize('NFKD')
-    .replace(/[̀-ͯ]/g, '')
+    .replace(/[\u0300-\u036f]/g, '')
     .replace(/[-\s]+/g, '_')
     .replace(/[^a-z0-9_]/g, '')
     .replace(/_+/g, '_')
     .replace(/^_+|_+$/g, '');
 }
 
-function truncateText(value, maxLength = 240) {
-  const text = String(value ?? '')
+export function cleanGameText(value) {
+  return String(value ?? '')
+    .replace(/\{([^{}]+)\}/g, (_, key) => humanizeKey(key))
+    .replace(/\[([^\[\]]+)\]/g, '$1')
     .replace(/\s+/g, ' ')
     .trim();
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function truncateText(value, maxLength = 200) {
+  const text = cleanGameText(value);
+  return text.length <= maxLength
+    ? text
+    : `${text.slice(0, maxLength - 1).trimEnd()}…`;
 }
 
 function readJsonArray(fileName) {
   const filePath = path.join(dataDir, fileName);
-  if (!existsSync(filePath)) {
-    return [];
-  }
+  if (!existsSync(filePath)) return [];
 
   try {
     const parsed = JSON.parse(readFileSync(filePath, 'utf-8'));
@@ -86,6 +108,25 @@ function readJsonArray(fileName) {
   }
 }
 
+function getAssetImage(relativePath, options) {
+  if (!assetsBase || !relativePath) return null;
+  if (!existsSync(path.join(assetsDir, relativePath))) return null;
+
+  return {
+    url: new URL(relativePath.replaceAll(path.sep, '/'), assetsBase).href,
+    type: 'image/png',
+    ...options,
+  };
+}
+
+function getFirstAvailableAssetImage(candidates) {
+  for (const [relativePath, options] of candidates) {
+    const image = getAssetImage(relativePath, options);
+    if (image) return image;
+  }
+  return null;
+}
+
 function upsertMeta(html, attr, key, value) {
   const pattern = new RegExp(
     `<meta\\s+${attr}=["']${escapeRegExp(key)}["']\\s+content=["'][^"']*["']\\s*\\/?>`,
@@ -93,10 +134,7 @@ function upsertMeta(html, attr, key, value) {
   );
   const replacement = `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
 
-  if (pattern.test(html)) {
-    return html.replace(pattern, replacement);
-  }
-
+  if (pattern.test(html)) return html.replace(pattern, replacement);
   return html.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
 }
 
@@ -112,23 +150,20 @@ function writeHtmlForPath(routePath, html) {
   const normalized = routePath.replace(/^\//, '');
   const flatPath = path.join(distDir, `${normalized}.html`);
   const nestedDir = path.join(distDir, normalized);
-  const nestedIndexPath = path.join(nestedDir, 'index.html');
 
   mkdirSync(path.dirname(flatPath), { recursive: true });
   mkdirSync(nestedDir, { recursive: true });
-
   writeFileSync(flatPath, html, 'utf-8');
-  writeFileSync(nestedIndexPath, html, 'utf-8');
+  writeFileSync(path.join(nestedDir, 'index.html'), html, 'utf-8');
 }
 
-function buildRouteHtml(
+export function buildRouteHtml(
   indexHtml,
   routePath,
   meta,
   siteName,
   baseUrl,
-  imageUrl,
-  cardType = 'summary_large_image'
+  image = DEFAULT_SOCIAL_IMAGE
 ) {
   const pageTitle =
     meta.title === siteName ? siteName : `${meta.title} | ${siteName}`;
@@ -147,93 +182,133 @@ function buildRouteHtml(
   html = upsertMeta(html, 'name', 'twitter:title', pageTitle);
   html = upsertMeta(html, 'name', 'twitter:description', meta.description);
 
-  html = removeMeta(html, 'property', 'og:image:secure_url');
-
-  if (cardType === 'summary_no_image') {
-    html = removeMeta(html, 'property', 'og:image');
-    html = removeMeta(html, 'property', 'og:image:width');
-    html = removeMeta(html, 'property', 'og:image:height');
-    html = removeMeta(html, 'property', 'og:image:alt');
+  if (!image) {
+    for (const key of [
+      'og:image',
+      'og:image:secure_url',
+      'og:image:width',
+      'og:image:height',
+      'og:image:type',
+      'og:image:alt',
+    ]) {
+      html = removeMeta(html, 'property', key);
+    }
     html = removeMeta(html, 'name', 'twitter:image');
     html = removeMeta(html, 'name', 'twitter:image:alt');
-    html = upsertMeta(html, 'name', 'twitter:card', 'summary');
-  } else {
-    const isDefaultImage =
-      imageUrl === `${baseUrl}/images/banners/default-social.jpg`;
-    html = upsertMeta(html, 'property', 'og:image', imageUrl);
-    if (isDefaultImage) {
-      html = upsertMeta(html, 'property', 'og:image:width', '1200');
-      html = upsertMeta(html, 'property', 'og:image:height', '630');
-    } else {
-      html = removeMeta(html, 'property', 'og:image:width');
-      html = removeMeta(html, 'property', 'og:image:height');
-    }
-    html = upsertMeta(html, 'property', 'og:image:alt', `${pageTitle} preview`);
-    html = upsertMeta(html, 'name', 'twitter:image', imageUrl);
-    html = upsertMeta(html, 'name', 'twitter:image:alt', `${pageTitle} preview`);
-    html = upsertMeta(
-      html,
-      'name',
-      'twitter:card',
-      cardType === 'summary' ? 'summary' : 'summary_large_image'
-    );
+    return upsertMeta(html, 'name', 'twitter:card', 'summary');
   }
 
-  return html;
+  html = upsertMeta(html, 'property', 'og:image', image.url);
+  if (image.url.startsWith('https://')) {
+    html = upsertMeta(html, 'property', 'og:image:secure_url', image.url);
+  } else {
+    html = removeMeta(html, 'property', 'og:image:secure_url');
+  }
+  if (image.width && image.height) {
+    html = upsertMeta(html, 'property', 'og:image:width', String(image.width));
+    html = upsertMeta(html, 'property', 'og:image:height', String(image.height));
+  } else {
+    html = removeMeta(html, 'property', 'og:image:width');
+    html = removeMeta(html, 'property', 'og:image:height');
+  }
+  html = upsertMeta(html, 'property', 'og:image:type', image.type);
+  html = upsertMeta(html, 'property', 'og:image:alt', image.alt);
+  html = upsertMeta(html, 'name', 'twitter:image', image.url);
+  html = upsertMeta(html, 'name', 'twitter:image:alt', image.alt);
+  return upsertMeta(html, 'name', 'twitter:card', image.cardType);
 }
 
+function makeSquareImage(relativePath, alt) {
+  return getAssetImage(relativePath, {
+    alt,
+    cardType: 'summary',
+  });
+}
 
-function writeRoutePages() {
+function makeCharacterImage(item) {
+  const assetSlugs = [...new Set([item.slug, item.legacy_slug].filter(Boolean))];
+  const sceneOptions = {
+    alt: `${item.name} default scene illustration`,
+    width: 2340,
+    height: 1080,
+    cardType: 'summary_large_image',
+  };
+  const portraitOptions = {
+    alt: `${item.name} portrait`,
+    cardType: 'summary',
+  };
+  return getFirstAvailableAssetImage([
+    ...assetSlugs.map((slug) => [
+      `character/${slug}/skins/default/scene.png`,
+      sceneOptions,
+    ]),
+    ...assetSlugs.map((slug) => [
+      `character/${slug}/skins/default/portrait.png`,
+      portraitOptions,
+    ]),
+  ]);
+}
+
+function makeWyrmImage(item) {
+  const base = `wyrm/${item.slug}`;
+  return getFirstAvailableAssetImage([
+    [
+      `${base}/illustration.png`,
+      {
+        alt: `${item.name} illustration`,
+        width: 2048,
+        height: 1024,
+        cardType: 'summary_large_image',
+      },
+    ],
+    [
+      `${base}/portrait.png`,
+      {
+        alt: `${item.name} portrait`,
+        cardType: 'summary',
+      },
+    ],
+  ]);
+}
+
+export function writeRoutePages() {
   if (!existsSync(indexHtmlPath)) {
     throw new Error(
       'dist/index.html not found. Run vite build before generating route pages.'
     );
   }
 
-  const siteName = SITE_NAME;
-  const baseUrl = BASE_URL;
-  const defaultImage = DEFAULT_IMAGE;
-  const routes = ROUTE_META;
-
   const indexHtml = readFileSync(indexHtmlPath, 'utf-8');
   const routeMetaByPattern = new Map(
-    routes.map((route) => [route.pattern, route.meta])
+    ROUTE_META.map((route) => [route.pattern, route.meta])
   );
   const writtenPaths = new Set();
-
-  const writePage = (routePath, meta, imageUrl = defaultImage, cardType = 'summary_large_image') => {
-    if (!routePath || routePath === '/') {
-      return;
-    }
-    if (writtenPaths.has(routePath)) {
-      return;
-    }
-    const html = buildRouteHtml(
-      indexHtml,
+  const writePage = (routePath, meta, image = DEFAULT_SOCIAL_IMAGE) => {
+    if (!routePath || routePath === '/' || writtenPaths.has(routePath)) return;
+    writeHtmlForPath(
       routePath,
-      meta,
-      siteName,
-      baseUrl,
-      cardType === 'summary_no_image' ? null : (imageUrl ?? defaultImage),
-      cardType
+      buildRouteHtml(
+        indexHtml,
+        routePath,
+        meta,
+        SITE_NAME,
+        BASE_URL,
+        image ?? DEFAULT_SOCIAL_IMAGE
+      )
     );
-    writeHtmlForPath(routePath, html);
     writtenPaths.add(routePath);
   };
 
-  for (const route of routes) {
+  for (const route of ROUTE_META) {
     if (
-      route.pattern === '/' ||
-      route.pattern === '*' ||
-      route.pattern.includes(':')
+      route.pattern !== '/' &&
+      route.pattern !== '*' &&
+      !route.pattern.includes(':')
     ) {
-      continue;
+      writePage(route.pattern, route.meta);
     }
-
-    writePage(route.pattern, route.meta);
   }
 
-  // Build a character slug-to-name map for use by other entity descriptions.
   const characterItems = readJsonArray('enUS/characters.json');
   const charSlugToName = new Map();
   for (const character of characterItems) {
@@ -242,234 +317,188 @@ function writeRoutePages() {
       charSlugToName.set(character.legacy_slug, character.name);
     }
   }
-
-  // Build a howlkin slug-to-qualityKey map for alliance embed icons.
   const howlkinItems = readJsonArray('enUS/howlkins.json');
   const howlkinQualityMap = new Map(
     howlkinItems
-      .filter((h) => h.slug && h.quality)
-      .map((h) => [h.slug, normalizeQualityKey(h.quality)])
+      .filter((item) => item.slug && item.quality)
+      .map((item) => [item.slug, normalizeQualityKey(item.quality)])
+  );
+  const howlkinNameMap = new Map(
+    howlkinItems.filter((item) => item.slug).map((item) => [item.slug, item.name])
   );
 
   const dynamicRouteConfigs = [
     {
       pattern: '/characters/:name',
       file: 'enUS/characters.json',
-      cardType: 'summary_large_image',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) =>
-        assetsBase && item?.slug
-          ? `${assetsBase}character/${item.slug}/skins/default/portrait.png`
-          : null,
-      getDescription: (item, baseDescription) => {
-        const title = item?.title ? `, ${item.title}` : '';
-        return truncateText(
-          `${item?.name ?? 'Character'}${title}. ${baseDescription}`
-        );
-      },
+      getImage: makeCharacterImage,
+      getDescription: (item, fallback) =>
+        truncateText(
+          item.summary ||
+            `${item.name}, ${item.title ?? item.quality}. ${fallback}`
+        ),
     },
     {
       pattern: '/artifacts/:name',
       file: 'enUS/artifacts.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) =>
-        assetsBase && item?.slug
-          ? `${assetsBase}artifacts/${item.slug}/artifact.png`
-          : null,
-      getDescription: (item, baseDescription) => {
-        const lore = item?.lore ? truncateText(item.lore, 140) : '';
-        return truncateText(
-          `${item?.name ?? 'Artifact'} details. ${lore ? `${lore} ` : ''}${baseDescription}`
-        );
-      },
+      getImage: (item) =>
+        makeSquareImage(
+          `artifacts/${item.slug}/artifact.png`,
+          `${item.name} artifact`
+        ),
+      getDescription: (item, fallback) =>
+        truncateText(
+          `${item.quality ? `${item.quality} artifact. ` : ''}${item.lore || fallback}`
+        ),
     },
     {
       pattern: '/noble-phantasms/:name',
       file: 'enUS/noble-phantasm.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) =>
-        assetsBase && item?.slug
-          ? `${assetsBase}noble_phantasm/${item.slug}.png`
-          : null,
-      getDescription: (item, baseDescription) => {
-        const charName = item?.character_slug
-          ? (charSlugToName.get(item.character_slug) ?? null)
-          : null;
-        const owner = charName ? `Linked character: ${charName}. ` : '';
+      getImage: (item) =>
+        makeSquareImage(
+          `noble_phantasm/${item.slug}.png`,
+          `${item.name} Noble Phantasm`
+        ),
+      getDescription: (item, fallback) => {
+        const owner = charSlugToName.get(item.character_slug);
+        const effect = item.effects?.[0]?.description ?? item.skills?.[0]?.description;
         return truncateText(
-          `${item?.name ?? 'Noble Phantasm'} details. ${owner}${baseDescription}`
+          `${owner ? `${owner}'s Noble Phantasm. ` : 'Noble Phantasm. '}${effect || fallback}`
         );
       },
     },
     {
       pattern: '/teams/:teamName',
-      file: 'enUS/teams.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getDescription: (item, baseDescription) => {
-        const teamDesc = item?.description
-          ? `${truncateText(item.description, 140)} `
-          : '';
-        return truncateText(
-          `${item?.name ?? 'Team'} composition guide. ${teamDesc}${baseDescription}`
-        );
-      },
+      file: 'global/teams.json',
+      getDescription: (item, fallback) =>
+        truncateText(
+          `${item.content_type ? `${item.content_type} team. ` : ''}${item.description || fallback}`
+        ),
     },
     {
       pattern: '/gear-sets/:setName',
       file: 'enUS/gear-sets.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getDescription: (item, baseDescription) => {
-        const bonus = item?.bonus_description
-          ? `Set bonus: ${truncateText(item.bonus_description, 120)}. `
-          : '';
-        return truncateText(
-          `${item?.name ?? 'Gear Set'} details. ${bonus}${baseDescription}`
-        );
-      },
+      getDescription: (item, fallback) =>
+        truncateText(
+          item.set_bonus?.description
+            ? `${item.set_bonus.quantity}-piece bonus: ${item.set_bonus.description}`
+            : fallback
+        ),
     },
     {
       pattern: '/wyrms/:name',
       file: 'enUS/wyrms.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) =>
-        assetsBase && item?.slug
-          ? `${assetsBase}wyrm/${item.slug}/portrait.png`
-          : null,
-      getDescription: (item, baseDescription) => {
-        const desc = item?.description ? truncateText(item.description, 140) : '';
-        return truncateText(
-          `${item?.name ?? 'Wyrm'} — ${item?.phase ?? ''} ${item?.faction ?? ''}. ${desc ? `${desc} ` : ''}${baseDescription}`
-        );
-      },
+      getImage: makeWyrmImage,
+      getDescription: (item, fallback) =>
+        truncateText(
+          `${item.quality ?? ''} ${item.phase ?? ''} ${humanizeKey(item.faction)} Wyrm. ${item.description || fallback}`
+        ),
     },
     {
       pattern: '/wyrmspells/:name',
       file: 'enUS/wyrmspells.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) =>
-        assetsBase && item?.type && item?.slug
-          ? `${assetsBase}wyrmspell/${normalizeTypeKey(item.type)}/${item.slug}.png`
-          : null,
-      getDescription: (item, baseDescription) => {
-        const qualities = item?.qualities;
-        const maxEffect =
-          Array.isArray(qualities) && qualities.length > 0
-            ? qualities[qualities.length - 1]?.effect
-            : null;
-        const effectSnippet = maxEffect ? truncateText(maxEffect, 120) : '';
+      getImage: (item) =>
+        makeSquareImage(
+          `wyrmspell/${normalizeTypeKey(item.type)}/${item.slug}.png`,
+          `${item.name} Wyrmspell`
+        ),
+      getDescription: (item, fallback) => {
+        const maxEffect = item.qualities?.at(-1)?.effect;
         return truncateText(
-          `${item?.name ?? 'Wyrmspell'} details. ${effectSnippet ? `${effectSnippet} ` : ''}${baseDescription}`
+          `${item.type ? `${item.type} Wyrmspell. ` : ''}${maxEffect || fallback}`
         );
       },
     },
     {
       pattern: '/howlkins/:allianceName',
       file: 'enUS/golden-alliances.json',
-      getName: (item) => item?.name,
-      getSlug: (item) => item?.slug,
-      getEntityImageUrl: (item) => {
-        if (!assetsBase) return null;
-        const firstMemberSlug = item?.howlkins?.[0];
-        if (!firstMemberSlug) return null;
-        const qualityKey = howlkinQualityMap.get(firstMemberSlug);
-        if (!qualityKey) return null;
-        return `${assetsBase}howlkin/${qualityKey}/${firstMemberSlug}.png`;
+      getImage: (item) => {
+        const memberSlug = item.howlkins?.[0];
+        const quality = howlkinQualityMap.get(memberSlug);
+        return memberSlug && quality
+          ? makeSquareImage(
+              `howlkin/${quality}/${memberSlug}.png`,
+              `${howlkinNameMap.get(memberSlug) ?? item.name} Howlkin`
+            )
+          : null;
       },
-      getDescription: (item, baseDescription) => {
-        const members =
-          Array.isArray(item?.howlkins) && item.howlkins.length > 0
-            ? `Members: ${item.howlkins.slice(0, 4).join(', ')}${item.howlkins.length > 4 ? ` and ${item.howlkins.length - 4} more` : ''}. `
-            : '';
+      getDescription: (item, fallback) => {
+        const members = (item.howlkins ?? [])
+          .slice(0, 4)
+          .map((slug) => howlkinNameMap.get(slug) ?? slug)
+          .join(', ');
+        const remainder = Math.max(0, (item.howlkins?.length ?? 0) - 4);
         return truncateText(
-          `${item?.name ?? 'Golden Alliance'} details. ${members}${baseDescription}`
+          members
+            ? `Golden Alliance members: ${members}${remainder ? `, and ${remainder} more` : ''}.`
+            : fallback
         );
       },
     },
   ];
 
   for (const config of dynamicRouteConfigs) {
-    const baseMeta = routeMetaByPattern.get(config.pattern);
-    if (!baseMeta) {
-      continue;
-    }
+    const fallbackMeta = routeMetaByPattern.get(config.pattern);
+    if (!fallbackMeta) continue;
 
-    const items = readJsonArray(config.file);
-
-    for (const item of items) {
-      const name = config.getName(item);
-      const slug = config.getSlug(item) ?? toEntitySlug(name);
-      if (!slug) {
-        continue;
-      }
-
-      const routePath = config.pattern.replace(/:[^/]+$/, slug);
-      const entityImageUrl = config.getEntityImageUrl?.(item) ?? null;
-      const imageUrl = entityImageUrl ?? defaultImage;
-      const cardType =
-        config.cardType ??
-        (entityImageUrl ? 'summary' : 'summary_large_image');
+    for (const item of readJsonArray(config.file)) {
+      const slug = item.slug ?? toEntitySlug(item.name);
+      if (!slug) continue;
       const meta = {
-        title: String(name ?? baseMeta.title),
-        description: config.getDescription(item, baseMeta.description),
+        title: String(item.name ?? fallbackMeta.title),
+        description: config.getDescription(item, fallbackMeta.description),
       };
-
-      writePage(routePath, meta, imageUrl, cardType);
-      if (item?.legacy_slug && item.legacy_slug !== slug) {
-        const legacyRoutePath = config.pattern.replace(
-          /:[^/]+$/,
-          item.legacy_slug
+      const image = config.getImage?.(item) ?? DEFAULT_SOCIAL_IMAGE;
+      writePage(
+        config.pattern.replace(/:[^/]+$/, slug),
+        meta,
+        image
+      );
+      if (item.legacy_slug && item.legacy_slug !== slug) {
+        writePage(
+          config.pattern.replace(/:[^/]+$/, item.legacy_slug),
+          meta,
+          image
         );
-        writePage(legacyRoutePath, meta, imageUrl, cardType);
       }
     }
   }
 
-  const oracleScrollsMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
-  if (oracleScrollsMeta) {
-    const relicItems = readJsonArray('enUS/relic.json');
+  const oracleMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
+  if (oracleMeta) {
     const scrollsSeen = new Set();
-    for (const item of relicItems) {
-      const scrollName = item?.oracle_scroll;
-      if (!scrollName) continue;
-      const slug = toEntitySlug(scrollName);
+    for (const item of readJsonArray('enUS/relic.json')) {
+      const name = item.oracle_scroll;
+      const slug = toEntitySlug(name);
       if (!slug || scrollsSeen.has(slug)) continue;
       scrollsSeen.add(slug);
-      writePage(
-        `/oracle-scrolls/${slug}`,
-        {
-          title: String(scrollName),
-          description: truncateText(
-            `${scrollName} oracle scroll. ${oracleScrollsMeta.description}`
-          ),
-        },
-        null,
-        'summary_no_image'
-      );
+      writePage(`/oracle-scrolls/${slug}`, {
+        title: String(name),
+        description: truncateText(
+          `${name} Oracle Scroll. ${oracleMeta.description}`
+        ),
+      });
     }
   }
 
-  const fallbackMeta = routeMetaByPattern.get('*') ??
-    routeMetaByPattern.get('/') ?? {
-      title: siteName,
-      description:
-        'A comprehensive wiki for Dragon Traveler game information, characters, resources, and more.',
-    };
-  const notFoundHtml = buildRouteHtml(
-    indexHtml,
-    '/404',
-    fallbackMeta,
-    siteName,
-    baseUrl,
-    defaultImage
+  const fallbackMeta = routeMetaByPattern.get('*') ?? {
+    title: 'Page Not Found',
+    description: 'The requested page could not be found.',
+  };
+  writeFileSync(
+    path.join(distDir, '404.html'),
+    buildRouteHtml(
+      indexHtml,
+      '/404',
+      fallbackMeta,
+      SITE_NAME,
+      BASE_URL,
+      DEFAULT_SOCIAL_IMAGE
+    ),
+    'utf-8'
   );
-  writeFileSync(path.join(distDir, '404.html'), notFoundHtml, 'utf-8');
 }
 
-writeRoutePages();
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  writeRoutePages();
+}
