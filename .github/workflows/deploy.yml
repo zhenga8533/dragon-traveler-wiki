@@ -73,6 +73,7 @@ jobs:
         run: npm run build --ignore-scripts
         env:
           DATA_DIR: private-data/data
+          ASSETS_DIR: private-data/assets
           VITE_APP_BASE: /
           VITE_ASSETS_BASE: ${{ vars.R2_PUBLIC_URL }}
 
