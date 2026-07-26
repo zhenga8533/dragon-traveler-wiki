@@ -38,6 +38,13 @@ const DEFAULT_SOCIAL_IMAGE = {
   cardType: 'summary_large_image',
 };
 
+export const LEGACY_ROUTE_ALIASES = new Map([
+  ['/useful-links', '/toolbox/useful-links'],
+  ...ROUTE_META.filter(({ pattern }) => pattern.startsWith('/toolbox/')).map(
+    ({ pattern }) => [pattern.replace('/toolbox/', '/guides/'), pattern]
+  ),
+]);
+
 export function normalizeTypeKey(value) {
   return String(value ?? '')
     .toLowerCase()
@@ -108,9 +115,31 @@ function readJsonArray(fileName) {
   }
 }
 
+function readAssetManifestPaths() {
+  const manifestPath = path.join(assetsDir, 'manifest.json');
+  if (!existsSync(manifestPath)) return new Set();
+
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+  return new Set(Object.keys(manifest.assets ?? {}));
+}
+
+const assetManifestPaths = readAssetManifestPaths();
+
+export function hasAsset(
+  relativePath,
+  manifestPaths = assetManifestPaths,
+  assetRoot = assetsDir
+) {
+  const normalizedPath = relativePath.replaceAll(path.sep, '/');
+  return (
+    manifestPaths.has(normalizedPath) ||
+    existsSync(path.join(assetRoot, relativePath))
+  );
+}
+
 function getAssetImage(relativePath, options) {
   if (!assetsBase || !relativePath) return null;
-  if (!existsSync(path.join(assetsDir, relativePath))) return null;
+  if (!hasAsset(relativePath)) return null;
 
   return {
     url: new URL(relativePath.replaceAll(path.sep, '/'), assetsBase).href,
@@ -229,8 +258,6 @@ function makeCharacterImage(item) {
   const assetSlugs = [...new Set([item.slug, item.legacy_slug].filter(Boolean))];
   const sceneOptions = {
     alt: `${item.name} default scene illustration`,
-    width: 2340,
-    height: 1080,
     cardType: 'summary_large_image',
   };
   const portraitOptions = {
@@ -271,6 +298,33 @@ function makeWyrmImage(item) {
   ]);
 }
 
+export function findFirstAvailableHowlkinMember(
+  memberSlugs,
+  qualityBySlug,
+  imageExists
+) {
+  return (memberSlugs ?? []).find((slug) => {
+    const quality = qualityBySlug.get(slug);
+    return quality && imageExists(`howlkin/${quality}/${slug}.png`);
+  });
+}
+
+export function getOracleScrollReference(value) {
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    typeof value.name !== 'string' ||
+    typeof value.slug !== 'string'
+  ) {
+    return null;
+  }
+
+  return {
+    name: value.name,
+    slug: value.slug,
+  };
+}
+
 export function writeRoutePages() {
   if (!existsSync(indexHtmlPath)) {
     throw new Error(
@@ -283,7 +337,7 @@ export function writeRoutePages() {
     ROUTE_META.map((route) => [route.pattern, route.meta])
   );
   const writtenPaths = new Set();
-  const writePage = (routePath, meta, image = DEFAULT_SOCIAL_IMAGE) => {
+  const writePage = (routePath, meta, image = null) => {
     if (!routePath || routePath === '/' || writtenPaths.has(routePath)) return;
     writeHtmlForPath(
       routePath,
@@ -293,7 +347,7 @@ export function writeRoutePages() {
         meta,
         SITE_NAME,
         BASE_URL,
-        image ?? DEFAULT_SOCIAL_IMAGE
+        image
       )
     );
     writtenPaths.add(routePath);
@@ -307,6 +361,11 @@ export function writeRoutePages() {
     ) {
       writePage(route.pattern, route.meta);
     }
+  }
+
+  for (const [aliasPath, targetPath] of LEGACY_ROUTE_ALIASES) {
+    const targetMeta = routeMetaByPattern.get(targetPath);
+    if (targetMeta) writePage(aliasPath, targetMeta);
   }
 
   const characterItems = readJsonArray('enUS/characters.json');
@@ -413,7 +472,11 @@ export function writeRoutePages() {
       pattern: '/howlkins/:allianceName',
       file: 'enUS/golden-alliances.json',
       getImage: (item) => {
-        const memberSlug = item.howlkins?.[0];
+        const memberSlug = findFirstAvailableHowlkinMember(
+          item.howlkins,
+          howlkinQualityMap,
+          hasAsset
+        );
         const quality = howlkinQualityMap.get(memberSlug);
         return memberSlug && quality
           ? makeSquareImage(
@@ -448,7 +511,7 @@ export function writeRoutePages() {
         title: String(item.name ?? fallbackMeta.title),
         description: config.getDescription(item, fallbackMeta.description),
       };
-      const image = config.getImage?.(item) ?? DEFAULT_SOCIAL_IMAGE;
+      const image = config.getImage?.(item) ?? null;
       writePage(
         config.pattern.replace(/:[^/]+$/, slug),
         meta,
@@ -468,14 +531,13 @@ export function writeRoutePages() {
   if (oracleMeta) {
     const scrollsSeen = new Set();
     for (const item of readJsonArray('enUS/relic.json')) {
-      const name = item.oracle_scroll;
-      const slug = toEntitySlug(name);
-      if (!slug || scrollsSeen.has(slug)) continue;
-      scrollsSeen.add(slug);
-      writePage(`/oracle-scrolls/${slug}`, {
-        title: String(name),
+      const scroll = getOracleScrollReference(item.oracle_scroll);
+      if (!scroll || scrollsSeen.has(scroll.slug)) continue;
+      scrollsSeen.add(scroll.slug);
+      writePage(`/oracle-scrolls/${scroll.slug}`, {
+        title: scroll.name,
         description: truncateText(
-          `${name} Oracle Scroll. ${oracleMeta.description}`
+          `${scroll.name} Oracle Scroll. ${oracleMeta.description}`
         ),
       });
     }

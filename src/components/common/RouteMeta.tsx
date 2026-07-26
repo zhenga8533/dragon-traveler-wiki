@@ -30,6 +30,10 @@ function upsertMetaTag(
   meta.setAttribute('content', content);
 }
 
+function removeMetaTag(attr: 'name' | 'property', key: string): void {
+  document.querySelector(`meta[${attr}="${key}"]`)?.remove();
+}
+
 function getRouteMeta(pathname: string): RouteMetaType {
   const explicit = getRouteMetaEntry(pathname);
 
@@ -51,6 +55,8 @@ export default function RouteMeta() {
   const { pathname } = useLocation();
 
   const routeMeta = useMemo(() => getRouteMeta(pathname), [pathname]);
+  const showDefaultImage =
+    pathname === '/' || getRouteMetaEntry(pathname) === undefined;
 
   useEffect(() => {
     const pageTitle =
@@ -58,6 +64,16 @@ export default function RouteMeta() {
         ? SITE_NAME
         : `${routeMeta.title} | ${SITE_NAME}`;
     const pageUrl = `${BASE_URL}${pathname}`;
+    const existingPageUrl = document
+      .querySelector<HTMLMetaElement>('meta[property="og:url"]')
+      ?.getAttribute('content');
+    const existingImage = document
+      .querySelector<HTMLMetaElement>('meta[property="og:image"]')
+      ?.getAttribute('content');
+    const preserveRelatedImage =
+      !showDefaultImage &&
+      existingPageUrl === pageUrl &&
+      Boolean(existingImage && existingImage !== DEFAULT_IMAGE);
 
     document.title = pageTitle;
     upsertMetaTag('name', 'description', routeMeta.description);
@@ -67,20 +83,38 @@ export default function RouteMeta() {
     upsertMetaTag('property', 'og:url', pageUrl);
     upsertMetaTag('property', 'og:type', 'website');
     upsertMetaTag('property', 'og:site_name', SITE_NAME);
-    upsertMetaTag('property', 'og:image', DEFAULT_IMAGE);
-    upsertMetaTag('property', 'og:image:width', DEFAULT_IMAGE_WIDTH);
-    upsertMetaTag('property', 'og:image:height', DEFAULT_IMAGE_HEIGHT);
-    upsertMetaTag('property', 'og:image:alt', DEFAULT_IMAGE_ALT);
-
-    const secureUrl = document.querySelector<HTMLMetaElement>('meta[property="og:image:secure_url"]');
-    secureUrl?.remove();
-
-    upsertMetaTag('name', 'twitter:card', 'summary_large_image');
     upsertMetaTag('name', 'twitter:title', pageTitle);
     upsertMetaTag('name', 'twitter:description', routeMeta.description);
-    upsertMetaTag('name', 'twitter:image', DEFAULT_IMAGE);
-    upsertMetaTag('name', 'twitter:image:alt', DEFAULT_IMAGE_ALT);
-  }, [pathname, routeMeta]);
+
+    if (preserveRelatedImage) return;
+
+    if (showDefaultImage) {
+      upsertMetaTag('property', 'og:image', DEFAULT_IMAGE);
+      upsertMetaTag('property', 'og:image:secure_url', DEFAULT_IMAGE);
+      upsertMetaTag('property', 'og:image:width', DEFAULT_IMAGE_WIDTH);
+      upsertMetaTag('property', 'og:image:height', DEFAULT_IMAGE_HEIGHT);
+      upsertMetaTag('property', 'og:image:type', 'image/jpeg');
+      upsertMetaTag('property', 'og:image:alt', DEFAULT_IMAGE_ALT);
+      upsertMetaTag('name', 'twitter:card', 'summary_large_image');
+      upsertMetaTag('name', 'twitter:image', DEFAULT_IMAGE);
+      upsertMetaTag('name', 'twitter:image:alt', DEFAULT_IMAGE_ALT);
+      return;
+    }
+
+    for (const key of [
+      'og:image',
+      'og:image:secure_url',
+      'og:image:width',
+      'og:image:height',
+      'og:image:type',
+      'og:image:alt',
+    ]) {
+      removeMetaTag('property', key);
+    }
+    removeMetaTag('name', 'twitter:image');
+    removeMetaTag('name', 'twitter:image:alt');
+    upsertMetaTag('name', 'twitter:card', 'summary');
+  }, [pathname, routeMeta, showDefaultImage]);
 
   return null;
 }
