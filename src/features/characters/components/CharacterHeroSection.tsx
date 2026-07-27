@@ -137,6 +137,7 @@ export default function CharacterPageHeroSection({
                 style={{ boxShadow: 'var(--mantine-shadow-xl)' }}
                 loading="eager"
                 isNew={isNew}
+                forceSkin
               />
             </Center>
           </Grid.Col>

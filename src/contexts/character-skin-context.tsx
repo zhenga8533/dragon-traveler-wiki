@@ -7,6 +7,11 @@ import {
 } from 'react';
 import { CharacterSkinContext } from './character-skin';
 
+function loadSkinsEnabled(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.localStorage.getItem(STORAGE_KEY.CHARACTER_SKINS_ENABLED) === 'true';
+}
+
 function loadSelectedSkins(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   try {
@@ -26,6 +31,15 @@ function loadSelectedSkins(): Record<string, string> {
 
 export function CharacterSkinProvider({ children }: { children: ReactNode }) {
   const [selectedSkins, setSelectedSkins] = useState(loadSelectedSkins);
+  const [skinsEnabled, setSkinsEnabledState] = useState(loadSkinsEnabled);
+
+  const setSkinsEnabled = useCallback((enabled: boolean) => {
+    setSkinsEnabledState(enabled);
+    window.localStorage.setItem(
+      STORAGE_KEY.CHARACTER_SKINS_ENABLED,
+      String(enabled)
+    );
+  }, []);
 
   const getSelectedSkin = useCallback(
     (characterSlug: string) => selectedSkins[characterSlug] ?? 'default',
@@ -47,8 +61,20 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ selectedSkins, getSelectedSkin, setSelectedSkin }),
-    [getSelectedSkin, selectedSkins, setSelectedSkin]
+    () => ({
+      selectedSkins,
+      getSelectedSkin,
+      setSelectedSkin,
+      skinsEnabled,
+      setSkinsEnabled,
+    }),
+    [
+      getSelectedSkin,
+      selectedSkins,
+      setSelectedSkin,
+      skinsEnabled,
+      setSkinsEnabled,
+    ]
   );
 
   return (

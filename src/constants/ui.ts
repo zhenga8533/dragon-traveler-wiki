@@ -166,6 +166,7 @@ export const STORAGE_KEY = {
   HOME_BANNER_FAVORITES_ONLY: 'home:bannerFavoritesOnly',
   FAVORITE_ILLUSTRATIONS: 'characters:favoriteIllustrations',
   CHARACTER_SKINS: 'characters:selectedSkins',
+  CHARACTER_SKINS_ENABLED: 'characters:skinsEnabled',
   GRADIENT_PALETTE: 'ui:gradientPalette',
   CUSTOM_GRADIENT_COLORS: 'ui:customGradientColors',
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',

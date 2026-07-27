@@ -6,6 +6,7 @@ import type { CustomMantineAccent } from '@/contexts';
 import {
   BannerContext,
   CharacterOwnershipContext,
+  CharacterSkinContext,
   LocaleContext,
   TierListReferenceContext,
   UiOpacityContext,
@@ -120,6 +121,7 @@ export default function SettingsPanel({
     setShowCharacterTiers,
   } = useContext(CharacterOwnershipContext);
   const { locale, setLocale } = useContext(LocaleContext);
+  const { skinsEnabled, setSkinsEnabled } = useContext(CharacterSkinContext);
 
   useEffect(() => {
     if (isMobile || !opened) return;
@@ -447,6 +449,14 @@ export default function SettingsPanel({
             label="Show tier badges"
             checked={showCharacterTiers}
             onChange={(e) => setShowCharacterTiers(e.currentTarget.checked)}
+          />
+          <Switch
+            size={isMobile ? 'md' : 'sm'}
+            color={accent.primary}
+            label="Show character skins"
+            description="Display selected skins on portraits instead of default art"
+            checked={skinsEnabled}
+            onChange={(e) => setSkinsEnabled(e.currentTarget.checked)}
           />
           {showCharacterTiers && (
             <Select
