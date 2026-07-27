@@ -7,9 +7,10 @@ import {
   SimpleGrid,
   Stack,
   Table,
+  Tabs,
   Text,
 } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { CharacterSkinContext } from '@/contexts';
 import { getPortrait } from '@/assets';
 import { getNoblePhantasmIcon } from '@/assets';
@@ -24,13 +25,17 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { getMinWidthStyle } from '@/constants/styles';
-import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useNoblePhantasms, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
+  useFilterPanel,
   useFilteredPageData,
   useGradientAccent,
+  useMobileTooltip,
+  useSecondaryTabList,
+  useTabParam,
 } from '@/hooks';
 import RichText from '@/components/common/RichText';
 import { getLatestTimestamp } from '@/utils';
@@ -39,6 +44,31 @@ import { buildCharacterByIdentityMap } from '@/features/characters/utils/charact
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_ORDER } from '@/constants/quality';
 import type { Quality } from '@/types/quality';
+import NoblePhantasmUsageTab, {
+  type NoblePhantasmUsage,
+  type NoblePhantasmUsageQualityFilter,
+} from '@/features/wiki/noble-phantasms/components/NoblePhantasmUsageTab';
+
+const USAGE_QUALITY_OPTIONS: {
+  value: NoblePhantasmUsageQualityFilter;
+  label: string;
+}[] = [
+  { value: 'ssr-plus', label: 'SSR+ and above' },
+  { value: 'ssr', label: 'SSR and above' },
+  { value: 'all', label: 'All characters' },
+];
+
+const USAGE_QUALITY_THRESHOLD: Record<
+  NoblePhantasmUsageQualityFilter,
+  number
+> = {
+  'ssr-plus': QUALITY_ORDER.indexOf('SSR+'),
+  ssr: QUALITY_ORDER.indexOf('SSR'),
+  all: QUALITY_ORDER.length - 1,
+};
+
+const DEFAULT_USAGE_QUALITY_FILTER: NoblePhantasmUsageQualityFilter =
+  'ssr-plus';
 
 interface NoblePhantasmFilters {
   search: string;
@@ -53,13 +83,25 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 export default function NoblePhantasms() {
   const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { accent } = useGradientAccent();
+  const tooltipProps = useMobileTooltip();
+  const { isOpen: usageFilterOpen, toggle: toggleUsageFilter } =
+    useFilterPanel();
+  const [activeTab, handleTabChange] = useTabParam(
+    'tab',
+    'noble-phantasms',
+    ['noble-phantasms', 'usage']
+  );
   const {
     data: noblePhantasms,
     loading,
     error,
     retry,
   } = useNoblePhantasms();
-  const { data: characters } = useCharacters();
+  const {
+    data: characters,
+    loading: charactersLoading,
+    error: charactersError,
+  } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
@@ -117,6 +159,170 @@ export default function NoblePhantasms() {
     () => buildCharacterByIdentityMap(characters),
     [characters]
   );
+
+  const [usageQualityFilter, setUsageQualityFilter] =
+    useState<NoblePhantasmUsageQualityFilter>(() => {
+      if (typeof window === 'undefined') return DEFAULT_USAGE_QUALITY_FILTER;
+      const stored = window.localStorage.getItem(
+        STORAGE_KEY.NOBLE_PHANTASM_USAGE_QUALITY_FILTER
+      );
+      return USAGE_QUALITY_OPTIONS.some((option) => option.value === stored)
+        ? (stored as NoblePhantasmUsageQualityFilter)
+        : DEFAULT_USAGE_QUALITY_FILTER;
+    });
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      STORAGE_KEY.NOBLE_PHANTASM_USAGE_QUALITY_FILTER,
+      usageQualityFilter
+    );
+  }, [usageQualityFilter]);
+
+  const usageEligibleCharacters = useMemo(() => {
+    const threshold = USAGE_QUALITY_THRESHOLD[usageQualityFilter];
+    return characters.filter(
+      (character) => QUALITY_ORDER.indexOf(character.quality) <= threshold
+    );
+  }, [characters, usageQualityFilter]);
+
+  const noblePhantasmUsage = useMemo<NoblePhantasmUsage[]>(() => {
+    const itemByReference = new Map(
+      noblePhantasms.flatMap((item) => [
+        [item.slug, item] as const,
+        ...(item.legacy_slug
+          ? ([[item.legacy_slug, item]] as const)
+          : []),
+      ])
+    );
+    const charactersByItem = new Map<string, typeof characters>();
+
+    for (const character of usageEligibleCharacters) {
+      const reference = character.recommended_noble_phantasm?.trim();
+      if (!reference) continue;
+
+      const item = itemByReference.get(reference);
+      if (!item) continue;
+
+      const usingCharacters = charactersByItem.get(item.slug) ?? [];
+      usingCharacters.push(character);
+      charactersByItem.set(item.slug, usingCharacters);
+    }
+
+    return noblePhantasms
+      .map((item) => {
+        const usingCharacters = [...(charactersByItem.get(item.slug) ?? [])].sort(
+          (a, b) =>
+            QUALITY_ORDER.indexOf(a.quality) -
+              QUALITY_ORDER.indexOf(b.quality) ||
+            a.name.localeCompare(b.name)
+        );
+        return {
+          item,
+          characters: usingCharacters,
+          count: usingCharacters.length,
+          percentage: usageEligibleCharacters.length
+            ? Math.round(
+                (usingCharacters.length / usageEligibleCharacters.length) * 100
+              )
+            : 0,
+        };
+      })
+      .sort(
+        (a, b) => b.count - a.count || a.item.name.localeCompare(b.item.name)
+      );
+  }, [noblePhantasms, usageEligibleCharacters]);
+
+  const usageSearchFn = useCallback(
+    (entry: NoblePhantasmUsage, query: string) => {
+      const characterName =
+        charNameBySlug.get(entry.item.character_slug ?? '') ?? '';
+      return (
+        entry.item.name.toLowerCase().includes(query) ||
+        characterName.toLowerCase().includes(query)
+      );
+    },
+    [charNameBySlug]
+  );
+
+  const usageSortFn = useCallback(
+    (
+      a: NoblePhantasmUsage,
+      b: NoblePhantasmUsage,
+      col: string | null,
+      dir: 'asc' | 'desc'
+    ) => {
+      let cmp = 0;
+      if (col === 'name') {
+        cmp = a.item.name.localeCompare(b.item.name);
+      } else if (col === 'quality') {
+        cmp =
+          QUALITY_ORDER.indexOf(a.item.quality ?? 'N') -
+            QUALITY_ORDER.indexOf(b.item.quality ?? 'N') ||
+          a.item.name.localeCompare(b.item.name);
+      } else if (col === 'character') {
+        cmp =
+          (charNameBySlug.get(a.item.character_slug ?? '') ?? '').localeCompare(
+            charNameBySlug.get(b.item.character_slug ?? '') ?? ''
+          ) || a.item.name.localeCompare(b.item.name);
+      } else if (col === 'count') {
+        cmp = a.count - b.count;
+      } else {
+        return 0;
+      }
+      return applyDir(cmp, dir);
+    },
+    [charNameBySlug]
+  );
+
+  const {
+    search: usageSearch,
+    setSearch: setUsageSearch,
+    sortCol: usageSortCol,
+    sortDir: usageSortDir,
+    handleSort: handleUsageSort,
+    filtered: filteredUsage,
+    pageItems: usagePageItems,
+    page: usagePage,
+    setPage: setUsagePage,
+    totalPages: usageTotalPages,
+    pageSize: usagePageSize,
+    setPageSize: setUsagePageSize,
+    pageSizeOptions: usagePageSizeOptions,
+  } = useSecondaryTabList(noblePhantasmUsage, {
+    searchFn: usageSearchFn,
+    sortFn: usageSortFn,
+    storageKeys: {
+      search: STORAGE_KEY.NOBLE_PHANTASM_USAGE_SEARCH,
+      sort: STORAGE_KEY.NOBLE_PHANTASM_USAGE_SORT,
+    },
+    pageSize: PAGE_SIZE,
+    extraPaginationKey: usageQualityFilter,
+  });
+
+  const [expandedUsageItems, setExpandedUsageItems] = useState<Set<string>>(
+    () => new Set()
+  );
+
+  const toggleExpandedUsageItem = (slug: string) => {
+    setExpandedUsageItems((current) => {
+      const next = new Set(current);
+      if (next.has(slug)) {
+        next.delete(slug);
+      } else {
+        next.add(slug);
+      }
+      return next;
+    });
+  };
+
+  const usageFilterCount =
+    (usageSearch ? 1 : 0) +
+    (usageQualityFilter !== DEFAULT_USAGE_QUALITY_FILTER ? 1 : 0);
+
+  const resetUsageFilters = () => {
+    setUsageSearch('');
+    setUsageQualityFilter(DEFAULT_USAGE_QUALITY_FILTER);
+  };
 
   const {
     filters,
@@ -195,27 +401,39 @@ export default function NoblePhantasms() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Noble Phantasms" timestamp={mostRecentUpdate}>
-          <Group gap="xs">
-            <ExportButton data={noblePhantasms} filename="noble-phantasm.json" />
-            <SuggestModal
-              buttonLabel="Suggest"
-              modalTitle="Suggest a New Noble Phantasm"
-              issueTitle="[Noble Phantasm] New noble phantasm suggestion"
-              fields={noblePhantasmFields}
-            />
-          </Group>
+          {activeTab === 'usage' ? null : (
+            <Group gap="xs">
+              <ExportButton
+                data={noblePhantasms}
+                filename="noble-phantasm.json"
+              />
+              <SuggestModal
+                buttonLabel="Suggest"
+                modalTitle="Suggest a New Noble Phantasm"
+                issueTitle="[Noble Phantasm] New noble phantasm suggestion"
+                fields={noblePhantasmFields}
+              />
+            </Group>
+          )}
         </ListPageHeader>
 
-        <ListPageShell
-          loading={loading}
-          error={error}
-          onRetry={retry}
-          errorTitle="Could not load noble phantasms"
-          hasData={noblePhantasms.length > 0}
-          emptyMessage="No noble phantasm data available yet."
-          skeletonCards={4}
-        >
-          <FilteredListShell
+        <Tabs value={activeTab} onChange={handleTabChange}>
+          <Tabs.List>
+            <Tabs.Tab value="noble-phantasms">Noble Phantasms</Tabs.Tab>
+            <Tabs.Tab value="usage">Usage</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="noble-phantasms" pt="md">
+            <ListPageShell
+              loading={loading}
+              error={error}
+              onRetry={retry}
+              errorTitle="Could not load noble phantasms"
+              hasData={noblePhantasms.length > 0}
+              emptyMessage="No noble phantasm data available yet."
+              skeletonCards={4}
+            >
+              <FilteredListShell
             count={filtered.length}
             noun="noble phantasm"
             viewMode={viewMode}
@@ -404,8 +622,43 @@ export default function NoblePhantasms() {
                 </Table>
               </ScrollArea>
             }
-          />
-        </ListPageShell>
+              />
+            </ListPageShell>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="usage" pt="md">
+            <NoblePhantasmUsageTab
+              loading={loading || charactersLoading}
+              error={error || charactersError}
+              noblePhantasms={noblePhantasms}
+              filteredUsage={filteredUsage}
+              usageEligibleCharacters={usageEligibleCharacters}
+              usageFilterCount={usageFilterCount}
+              usageFilterOpen={usageFilterOpen}
+              onUsageFilterToggle={toggleUsageFilter}
+              usageSearch={usageSearch}
+              onUsageSearchChange={setUsageSearch}
+              onResetUsageFilters={resetUsageFilters}
+              usageQualityFilter={usageQualityFilter}
+              onUsageQualityFilterChange={setUsageQualityFilter}
+              usageQualityOptions={USAGE_QUALITY_OPTIONS}
+              usageSortCol={usageSortCol}
+              usageSortDir={usageSortDir}
+              onUsageSort={handleUsageSort}
+              usagePageItems={usagePageItems}
+              expandedUsageItems={expandedUsageItems}
+              onToggleExpandedUsageItem={toggleExpandedUsageItem}
+              usagePage={usagePage}
+              usageTotalPages={usageTotalPages}
+              onUsagePageChange={setUsagePage}
+              usagePageSize={usagePageSize}
+              usagePageSizeOptions={usagePageSizeOptions}
+              onUsagePageSizeChange={setUsagePageSize}
+              accent={accent}
+              tooltipProps={tooltipProps}
+            />
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
     </Container>
   );

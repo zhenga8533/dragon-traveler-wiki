@@ -108,7 +108,12 @@ export const STORAGE_KEY = {
   WYRMSPELL_VIEW_MODE: 'wyrmspells:viewMode',
   WYRMSPELL_FILTERS: 'wyrmspells:filters',
   NOBLE_PHANTASM_VIEW_MODE: 'noble-phantasms:viewMode',
+  NOBLE_PHANTASM_TAB: 'noble-phantasms:tab',
   NOBLE_PHANTASM_FILTERS: 'noble-phantasms:filters',
+  NOBLE_PHANTASM_USAGE_QUALITY_FILTER:
+    'noble-phantasms:usageQualityFilter',
+  NOBLE_PHANTASM_USAGE_SEARCH: 'noble-phantasms:usageSearch',
+  NOBLE_PHANTASM_USAGE_SORT: 'noble-phantasms:usageSort',
   RESOURCE_VIEW_MODE: 'resources:viewMode',
   RESOURCE_FILTERS: 'resources:filters',
   SUBCLASS_VIEW_MODE: 'subclasses:viewMode',
