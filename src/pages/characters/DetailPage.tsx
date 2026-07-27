@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import EmptyState from '@/components/ui/EmptyState';
-import { StaticSurface } from '@/components/ui/Surface';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FullBleedSection from '@/components/layout/FullBleedSection';
@@ -33,11 +31,6 @@ import CharacterSkillsSection from '@/features/characters/components/CharacterSk
 import CharacterSubclassPanel from '@/features/characters/components/CharacterSubclassPanel';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
-import {
-  getTeamBenchEntryName,
-  getTeamBenchEntryQuality,
-} from '@/features/teams/utils/team-bench';
-import { IoHourglassOutline } from 'react-icons/io5';
 
 const CharacterModelViewer = lazy(
   () => import('@/features/characters/components/CharacterModelViewer')
@@ -171,22 +164,6 @@ export default function CharacterPage() {
     nextCharacter,
     getSelectedSkin
   );
-  const hasTeamReference = teams.some((team) => {
-    const matchesCharacter = (slug: string, quality?: string) =>
-      (slug === character.slug || slug === character.legacy_slug) &&
-      (!quality || quality === character.quality);
-    return (
-      team.members?.some((member) =>
-        matchesCharacter(member.character_slug, member.character_quality)
-      ) ||
-      team.bench?.some((entry) =>
-        matchesCharacter(
-          getTeamBenchEntryName(entry),
-          getTeamBenchEntryQuality(entry)
-        )
-      )
-    );
-  });
   const hasRightColumnInformation = Boolean(
     character.lore ||
     character.summary ||
@@ -196,7 +173,6 @@ export default function CharacterPage() {
     recommendedGearLoadouts.length > 0 ||
     recommendedSubclassEntries.length > 0 ||
     linkedNoblePhantasm ||
-    hasTeamReference ||
     (selectedTierListName && tierLabel && tierListCharacterNote)
   );
 
@@ -284,15 +260,6 @@ export default function CharacterPage() {
           {/* Right Column */}
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap="xl">
-              {!hasRightColumnInformation && (
-                <StaticSurface p="xl" radius="lg">
-                  <EmptyState
-                    icon={<IoHourglassOutline size={32} />}
-                    title="Character information coming soon"
-                    description="This preview currently includes available artwork and basic details. Skills, lore, and build information will be added when they become available."
-                  />
-                </StaticSurface>
-              )}
               <ErrorBoundary>
                 <CharacterBuildSection
                   character={character}
@@ -309,6 +276,7 @@ export default function CharacterPage() {
                   linkedNoblePhantasm={linkedNoblePhantasm}
                   scrollToSkill={scrollToSkill}
                   scrollToTalent={scrollToTalent}
+                  showInformationComingSoon={!hasRightColumnInformation}
                 />
               </ErrorBoundary>
               <ErrorBoundary>
