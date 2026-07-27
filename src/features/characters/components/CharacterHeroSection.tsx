@@ -99,7 +99,12 @@ export default function CharacterPageHeroSection({
         />
       )}
 
-      {fullBodySrc && <CharacterFullBodyArtwork src={fullBodySrc} />}
+      {fullBodySrc && (
+        <CharacterFullBodyArtwork
+          src={fullBodySrc}
+          characterName={character.name}
+        />
+      )}
 
       <Box
         style={{
