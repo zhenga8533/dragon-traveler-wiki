@@ -11,6 +11,7 @@ import { getNoblePhantasmIcon } from '@/assets';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
   FilterClearButton,
+  FilterMultiSelect,
   FilterSearchInput,
   FilterSection,
 } from '@/components/common/FilterControls';
@@ -64,6 +65,9 @@ interface NoblePhantasmUsageTabProps {
     value: NoblePhantasmUsageQualityFilter;
     label: string;
   }[];
+  linkedCharacterOptions: { value: string; label: string }[];
+  linkedCharacterSlugs: string[];
+  onLinkedCharacterSlugsChange: (values: string[]) => void;
   usageSortCol: string | null;
   usageSortDir: 'asc' | 'desc';
   onUsageSort: (col: string) => void;
@@ -95,6 +99,9 @@ export default function NoblePhantasmUsageTab({
   usageQualityFilter,
   onUsageQualityFilterChange,
   usageQualityOptions,
+  linkedCharacterOptions,
+  linkedCharacterSlugs,
+  onLinkedCharacterSlugsChange,
   usageSortCol,
   usageSortDir,
   onUsageSort,
@@ -160,6 +167,18 @@ export default function NoblePhantasmUsageTab({
                     data={usageQualityOptions}
                     color={accent.primary}
                     size="xs"
+                  />
+                </FilterSection>
+                <FilterSection label="Linked character">
+                  <FilterMultiSelect
+                    data={linkedCharacterOptions}
+                    value={linkedCharacterSlugs}
+                    onChange={onLinkedCharacterSlugsChange}
+                    placeholder="Select linked characters"
+                    searchable
+                    clearable
+                    size="xs"
+                    style={{ flex: 1, minWidth: 220 }}
                   />
                 </FilterSection>
               </Stack>

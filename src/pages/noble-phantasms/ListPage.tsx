@@ -18,6 +18,10 @@ import CharacterTag from '@/features/characters/components/CharacterTag';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityFilter from '@/components/common/EntityFilter';
+import {
+  FilterMultiSelect,
+  FilterSection,
+} from '@/components/common/FilterControls';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -38,7 +42,11 @@ import {
   useTabParam,
 } from '@/hooks';
 import RichText from '@/components/common/RichText';
-import { getLatestTimestamp } from '@/utils';
+import {
+  getLatestTimestamp,
+  readStoredJson,
+  writeStoredJson,
+} from '@/utils';
 import { getCharacterRouteSlug } from '@/features/characters/utils/character-route';
 import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -73,11 +81,13 @@ const DEFAULT_USAGE_QUALITY_FILTER: NoblePhantasmUsageQualityFilter =
 interface NoblePhantasmFilters {
   search: string;
   qualities: Quality[];
+  characterSlugs: string[];
 }
 
 const EMPTY_FILTERS: NoblePhantasmFilters = {
   search: '',
   qualities: [],
+  characterSlugs: [],
 };
 
 export default function NoblePhantasms() {
@@ -160,6 +170,37 @@ export default function NoblePhantasms() {
     [characters]
   );
 
+  const linkedCharacterOptions = useMemo(() => {
+    const linkedCharacters = [
+      ...new Map(
+        noblePhantasms.flatMap((item) => {
+          if (!item.character_slug) return [];
+          const character = charBySlug.get(item.character_slug);
+          return character
+            ? [[item.character_slug, character] as const]
+            : [];
+        })
+      ).entries(),
+    ];
+    const nameCounts = new Map<string, number>();
+    for (const [, character] of linkedCharacters) {
+      nameCounts.set(
+        character.name,
+        (nameCounts.get(character.name) ?? 0) + 1
+      );
+    }
+
+    return linkedCharacters
+      .map(([slug, character]) => ({
+        value: slug,
+        label:
+          (nameCounts.get(character.name) ?? 1) > 1
+            ? `${character.name} (${character.quality})`
+            : character.name,
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }, [charBySlug, noblePhantasms]);
+
   const [usageQualityFilter, setUsageQualityFilter] =
     useState<NoblePhantasmUsageQualityFilter>(() => {
       if (typeof window === 'undefined') return DEFAULT_USAGE_QUALITY_FILTER;
@@ -170,6 +211,17 @@ export default function NoblePhantasms() {
         ? (stored as NoblePhantasmUsageQualityFilter)
         : DEFAULT_USAGE_QUALITY_FILTER;
     });
+  const [usageLinkedCharacterSlugs, setUsageLinkedCharacterSlugs] = useState<
+    string[]
+  >(() =>
+    readStoredJson(
+      STORAGE_KEY.NOBLE_PHANTASM_USAGE_CHARACTERS,
+      [],
+      (value): value is string[] =>
+        Array.isArray(value) &&
+        value.every((item) => typeof item === 'string')
+    )
+  );
 
   useEffect(() => {
     window.localStorage.setItem(
@@ -177,6 +229,13 @@ export default function NoblePhantasms() {
       usageQualityFilter
     );
   }, [usageQualityFilter]);
+
+  useEffect(() => {
+    writeStoredJson(
+      STORAGE_KEY.NOBLE_PHANTASM_USAGE_CHARACTERS,
+      usageLinkedCharacterSlugs
+    );
+  }, [usageLinkedCharacterSlugs]);
 
   const usageEligibleCharacters = useMemo(() => {
     const threshold = USAGE_QUALITY_THRESHOLD[usageQualityFilter];
@@ -244,6 +303,18 @@ export default function NoblePhantasms() {
     [charNameBySlug]
   );
 
+  const usageWithLinkedCharacterFilter = useMemo(
+    () =>
+      usageLinkedCharacterSlugs.length === 0
+        ? noblePhantasmUsage
+        : noblePhantasmUsage.filter(
+            ({ item }) =>
+              item.character_slug &&
+              usageLinkedCharacterSlugs.includes(item.character_slug)
+          ),
+    [noblePhantasmUsage, usageLinkedCharacterSlugs]
+  );
+
   const usageSortFn = useCallback(
     (
       a: NoblePhantasmUsage,
@@ -288,7 +359,7 @@ export default function NoblePhantasms() {
     pageSize: usagePageSize,
     setPageSize: setUsagePageSize,
     pageSizeOptions: usagePageSizeOptions,
-  } = useSecondaryTabList(noblePhantasmUsage, {
+  } = useSecondaryTabList(usageWithLinkedCharacterFilter, {
     searchFn: usageSearchFn,
     sortFn: usageSortFn,
     storageKeys: {
@@ -317,11 +388,13 @@ export default function NoblePhantasms() {
 
   const usageFilterCount =
     (usageSearch ? 1 : 0) +
-    (usageQualityFilter !== DEFAULT_USAGE_QUALITY_FILTER ? 1 : 0);
+    (usageQualityFilter !== DEFAULT_USAGE_QUALITY_FILTER ? 1 : 0) +
+    usageLinkedCharacterSlugs.length;
 
   const resetUsageFilters = () => {
     setUsageSearch('');
     setUsageQualityFilter(DEFAULT_USAGE_QUALITY_FILTER);
+    setUsageLinkedCharacterSlugs([]);
   };
 
   const {
@@ -356,6 +429,12 @@ export default function NoblePhantasms() {
       if (
         filters.qualities.length > 0 &&
         (!np.quality || !filters.qualities.includes(np.quality))
+      )
+        return false;
+      if (
+        filters.characterSlugs.length > 0 &&
+        (!np.character_slug ||
+          !filters.characterSlugs.includes(np.character_slug))
       )
         return false;
       if (!filters.search) return true;
@@ -450,6 +529,23 @@ export default function NoblePhantasms() {
                   setFilters({ ...filters, search: value })
                 }
                 searchPlaceholder="Search by name or character..."
+                hasActiveFilters={activeFilterCount > 0}
+                beforeGroups={
+                  <FilterSection label="Character">
+                    <FilterMultiSelect
+                      data={linkedCharacterOptions}
+                      value={filters.characterSlugs}
+                      onChange={(characterSlugs) =>
+                        setFilters({ ...filters, characterSlugs })
+                      }
+                      placeholder="Select linked characters"
+                      searchable
+                      clearable
+                      size="xs"
+                      style={{ flex: 1, minWidth: 240 }}
+                    />
+                  </FilterSection>
+                }
                 groups={[
                   {
                     key: 'qualities',
@@ -642,6 +738,9 @@ export default function NoblePhantasms() {
               usageQualityFilter={usageQualityFilter}
               onUsageQualityFilterChange={setUsageQualityFilter}
               usageQualityOptions={USAGE_QUALITY_OPTIONS}
+              linkedCharacterOptions={linkedCharacterOptions}
+              linkedCharacterSlugs={usageLinkedCharacterSlugs}
+              onLinkedCharacterSlugsChange={setUsageLinkedCharacterSlugs}
               usageSortCol={usageSortCol}
               usageSortDir={usageSortDir}
               onUsageSort={handleUsageSort}

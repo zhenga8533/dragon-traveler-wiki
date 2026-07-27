@@ -112,6 +112,7 @@ export const STORAGE_KEY = {
   NOBLE_PHANTASM_FILTERS: 'noble-phantasms:filters',
   NOBLE_PHANTASM_USAGE_QUALITY_FILTER:
     'noble-phantasms:usageQualityFilter',
+  NOBLE_PHANTASM_USAGE_CHARACTERS: 'noble-phantasms:usageCharacters',
   NOBLE_PHANTASM_USAGE_SEARCH: 'noble-phantasms:usageSearch',
   NOBLE_PHANTASM_USAGE_SORT: 'noble-phantasms:usageSort',
   RESOURCE_VIEW_MODE: 'resources:viewMode',
