@@ -106,6 +106,11 @@ export default function GearPage() {
   } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
 
+  const gearSetBySlug = useMemo(
+    () => new Map(gearSets.map((entry) => [entry.slug, entry])),
+    [gearSets]
+  );
+
   const gearSetOptions = useMemo(
     () =>
       [...new Set(gearSets.map((entry) => entry.name))].sort((a, b) =>
@@ -196,7 +201,10 @@ export default function GearPage() {
       const matchesSearch =
         !filters.search ||
         item.name.toLowerCase().includes(query) ||
-        item.set.toLowerCase().includes(query);
+        item.set.toLowerCase().includes(query) ||
+        (gearSetBySlug.get(item.set)?.name ?? '')
+          .toLowerCase()
+          .includes(query);
       const matchesType =
         filters.types.length === 0 || filters.types.includes(item.type);
       const matchesQuality =
@@ -216,7 +224,9 @@ export default function GearPage() {
         if (col === 'name') {
           cmp = nameCmp;
         } else if (col === 'set') {
-          cmp = a.set.localeCompare(b.set);
+          cmp = (gearSetBySlug.get(a.set)?.name ?? a.set).localeCompare(
+            gearSetBySlug.get(b.set)?.name ?? b.set
+          );
         } else if (col === 'type') {
           cmp = typeCmp || qualityCmp || nameCmp;
         } else if (col === 'rarity') {
@@ -230,11 +240,6 @@ export default function GearPage() {
       return nameCmp;
     },
   });
-
-  const gearSetByName = useMemo(
-    () => new Map(gearSets.map((entry) => [entry.slug, entry])),
-    [gearSets]
-  );
 
   const gearItemsBySet = useMemo(() => {
     const map = new Map<string, Gear[]>();
@@ -324,10 +329,16 @@ export default function GearPage() {
   }, [gear, usageEligibleCharacters]);
 
   const usageSearchFn = useCallback(
-    (entry: (typeof gearItemUsage)[number], query: string) =>
-      entry.item.name.toLowerCase().includes(query) ||
-      entry.item.set.toLowerCase().includes(query),
-    []
+    (entry: (typeof gearItemUsage)[number], query: string) => {
+      const setName =
+        gearSetBySlug.get(entry.item.set)?.name ?? entry.item.set;
+      return (
+        entry.item.name.toLowerCase().includes(query) ||
+        entry.item.set.toLowerCase().includes(query) ||
+        setName.toLowerCase().includes(query)
+      );
+    },
+    [gearSetBySlug]
   );
 
   const usageSortFn = useCallback(
@@ -347,7 +358,11 @@ export default function GearPage() {
           a.item.name.localeCompare(b.item.name);
       } else if (col === 'set') {
         cmp =
-          a.item.set.localeCompare(b.item.set) ||
+          (
+            gearSetBySlug.get(a.item.set)?.name ?? a.item.set
+          ).localeCompare(
+            gearSetBySlug.get(b.item.set)?.name ?? b.item.set
+          ) ||
           a.item.name.localeCompare(b.item.name);
       } else if (col === 'count') {
         cmp = a.count - b.count;
@@ -356,7 +371,7 @@ export default function GearPage() {
       }
       return applyDir(cmp, dir);
     },
-    []
+    [gearSetBySlug]
   );
 
   const {
@@ -512,7 +527,7 @@ export default function GearPage() {
               sortDir={sortDir}
               onSort={handleSort}
               pageItems={gearPageItems}
-              gearSetByName={gearSetByName}
+              gearSetBySlug={gearSetBySlug}
               accent={accent}
               statusEffects={statusEffects}
             />
@@ -543,6 +558,7 @@ export default function GearPage() {
               loading={loading || gearSetsLoading || charactersLoading}
               error={error || gearSetsError || charactersError}
               gearSets={gearSets}
+              gearSetBySlug={gearSetBySlug}
               filteredGearItemUsage={filteredGearItemUsage}
               usageEligibleCharacters={usageEligibleCharacters}
               usageFilterCount={usageFilterCount}

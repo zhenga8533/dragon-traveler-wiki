@@ -144,6 +144,13 @@ export default function NoblePhantasms() {
         placeholder: 'Noble Phantasm name',
       },
       {
+        name: 'quality',
+        label: 'Quality',
+        type: 'select',
+        required: true,
+        options: QUALITY_ORDER,
+      },
+      {
         name: 'character_slug',
         label: 'Character',
         type: 'select',

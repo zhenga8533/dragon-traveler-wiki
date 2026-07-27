@@ -57,7 +57,7 @@ interface GearTabProps {
   sortDir: 'asc' | 'desc';
   onSort: (col: string) => void;
   pageItems: Gear[];
-  gearSetByName: Map<string, GearSet>;
+  gearSetBySlug: Map<string, GearSet>;
   accent: GradientPaletteAccents;
   statusEffects: StatusEffect[];
 }
@@ -87,7 +87,7 @@ export default function GearTab({
   sortDir,
   onSort,
   pageItems,
-  gearSetByName,
+  gearSetBySlug,
   accent,
   statusEffects,
 }: GearTabProps) {
@@ -149,7 +149,7 @@ export default function GearTab({
         gridContent={
           <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
             {pageItems.map((item) => {
-              const setData = gearSetByName.get(item.set);
+              const setData = gearSetBySlug.get(item.set);
               const setBonus = setData?.set_bonus ?? item.set_bonus;
               const iconSrc = getGearIcon(item.type, item.slug);
               return (
@@ -165,7 +165,7 @@ export default function GearTab({
                     <Group gap="xs" wrap="wrap">
                       <GearTypeTag type={item.type} />
                       <Badge variant="light" size="sm" color={accent.secondary}>
-                        {item.set}
+                        {setData?.name ?? item.set}
                       </Badge>
                       {setBonus && setBonus.quantity > 0 && (
                         <Badge
@@ -235,7 +235,7 @@ export default function GearTab({
               </Table.Thead>
               <Table.Tbody>
                 {pageItems.map((item) => {
-                  const setData = gearSetByName.get(item.set);
+                  const setData = gearSetBySlug.get(item.set);
                   const setBonus = setData?.set_bonus ?? item.set_bonus;
                   const iconSrc = getGearIcon(item.type, item.slug);
                   return (
@@ -260,7 +260,7 @@ export default function GearTab({
                       </Table.Td>
                       <Table.Td>
                         <Badge variant="light" size="sm" color={accent.secondary}>
-                          {item.set}
+                          {setData?.name ?? item.set}
                         </Badge>
                       </Table.Td>
                       <Table.Td>

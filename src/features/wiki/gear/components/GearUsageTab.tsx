@@ -39,6 +39,7 @@ interface GearUsageTabProps {
   loading: boolean;
   error: Error | null;
   gearSets: GearSet[];
+  gearSetBySlug: Map<string, GearSet>;
   filteredGearItemUsage: GearItemUsage[];
   usageEligibleCharacters: Character[];
   usageFilterCount: number;
@@ -70,6 +71,7 @@ export default function GearUsageTab({
   loading,
   error,
   gearSets,
+  gearSetBySlug,
   filteredGearItemUsage,
   usageEligibleCharacters,
   usageFilterCount,
@@ -205,6 +207,8 @@ export default function GearUsageTab({
                   {usagePageItems.map(
                     ({ item, characters: usingCharacters, count, percentage }) => {
                       const iconSrc = getGearIcon(item.type, item.slug);
+                      const setName =
+                        gearSetBySlug.get(item.set)?.name ?? item.set;
                       return (
                         <Table.Tr key={item.name}>
                           <Table.Td>
@@ -227,7 +231,7 @@ export default function GearUsageTab({
                           </Table.Td>
                           <Table.Td>
                             <Badge variant="light" size="sm" color={accent.secondary}>
-                              {item.set}
+                              {setName}
                             </Badge>
                           </Table.Td>
                           <Table.Td>
