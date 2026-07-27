@@ -13,7 +13,7 @@ export interface NoblePhantasm {
   slug: string;
   legacy_slug?: string | null;
   name: string;
-  quality?: Quality | null;
+  quality: Quality;
   character_slug: string | null;
   effects: NoblePhantasmEffect[];
   skills: NoblePhantasmSkill[];

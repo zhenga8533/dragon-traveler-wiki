@@ -207,20 +207,20 @@ export default function NoblePhantasmUsageTab({
                       Name
                     </SortableTh>
                     <SortableTh
-                      sortKey="quality"
-                      sortCol={usageSortCol}
-                      sortDir={usageSortDir}
-                      onSort={onUsageSort}
-                    >
-                      Quality
-                    </SortableTh>
-                    <SortableTh
                       sortKey="character"
                       sortCol={usageSortCol}
                       sortDir={usageSortDir}
                       onSort={onUsageSort}
                     >
                       Character
+                    </SortableTh>
+                    <SortableTh
+                      sortKey="rarity"
+                      sortCol={usageSortCol}
+                      sortDir={usageSortDir}
+                      onSort={onUsageSort}
+                    >
+                      Rarity
                     </SortableTh>
                     <SortableTh
                       sortKey="count"
@@ -267,15 +267,6 @@ export default function NoblePhantasmUsageTab({
                             {item.name}
                           </EntityTableLinkCell>
                           <Table.Td>
-                            {item.quality ? (
-                              <QualityIcon quality={item.quality} />
-                            ) : (
-                              <Text size="sm" c="dimmed">
-                                —
-                              </Text>
-                            )}
-                          </Table.Td>
-                          <Table.Td>
                             {item.character_slug ? (
                               <CharacterTag
                                 slug={item.character_slug}
@@ -287,6 +278,9 @@ export default function NoblePhantasmUsageTab({
                                 —
                               </Text>
                             )}
+                          </Table.Td>
+                          <Table.Td>
+                            <QualityIcon quality={item.quality} />
                           </Table.Td>
                           <Table.Td>
                             <Badge

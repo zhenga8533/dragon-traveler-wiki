@@ -148,11 +148,7 @@ export default function NoblePhantasmPage() {
             >
               {noblePhantasm.name}
             </Title>
-            {noblePhantasm.quality && (
-              <Group gap="xs">
-                <QualityIcon quality={noblePhantasm.quality} size={24} />
-              </Group>
-            )}
+            <QualityIcon quality={noblePhantasm.quality} size={24} />
             <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
 
             {linkedCharacter && (

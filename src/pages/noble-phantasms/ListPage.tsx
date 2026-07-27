@@ -325,10 +325,10 @@ export default function NoblePhantasms() {
       let cmp = 0;
       if (col === 'name') {
         cmp = a.item.name.localeCompare(b.item.name);
-      } else if (col === 'quality') {
+      } else if (col === 'rarity') {
         cmp =
-          QUALITY_ORDER.indexOf(a.item.quality ?? 'N') -
-            QUALITY_ORDER.indexOf(b.item.quality ?? 'N') ||
+          QUALITY_ORDER.indexOf(a.item.quality) -
+            QUALITY_ORDER.indexOf(b.item.quality) ||
           a.item.name.localeCompare(b.item.name);
       } else if (col === 'character') {
         cmp =
@@ -428,7 +428,7 @@ export default function NoblePhantasms() {
     filterFn: (np, filters) => {
       if (
         filters.qualities.length > 0 &&
-        (!np.quality || !filters.qualities.includes(np.quality))
+        !filters.qualities.includes(np.quality)
       )
         return false;
       if (
@@ -456,6 +456,11 @@ export default function NoblePhantasms() {
           if (!cA && cB) return 1;
           if (cA && !cB) return -1;
           cmp = cA.localeCompare(cB);
+        } else if (col === 'rarity') {
+          cmp =
+            QUALITY_ORDER.indexOf(a.quality) -
+              QUALITY_ORDER.indexOf(b.quality) ||
+            a.name.localeCompare(b.name);
         } else if (col === 'effects') {
           cmp = b.effects.length - a.effects.length;
         } else if (col === 'skills') {
@@ -582,9 +587,9 @@ export default function NoblePhantasms() {
                       to={`/noble-phantasms/${np.slug}`}
                       title={np.name}
                       imageSrc={iconSrc}
+                      titleAccessory={<QualityIcon quality={np.quality} />}
                       metadata={
                         <Group gap="xs" wrap="wrap">
-                          {np.quality && <QualityIcon quality={np.quality} />}
                           {np.character_slug && charNameBySlug.get(np.character_slug) && (
                             <CharacterTag
                               slug={np.character_slug}
@@ -622,7 +627,6 @@ export default function NoblePhantasms() {
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>
-                      <Table.Th>Quality</Table.Th>
                       <SortableTh
                         sortKey="name"
                         sortCol={sortCol}
@@ -638,6 +642,14 @@ export default function NoblePhantasms() {
                         onSort={handleSort}
                       >
                         Character
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="rarity"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Rarity
                       </SortableTh>
                       <SortableTh
                         sortKey="effects"
@@ -679,13 +691,6 @@ export default function NoblePhantasms() {
                               </Text>
                             )}
                           </Table.Td>
-                          <Table.Td>
-                            {np.quality ? (
-                              <QualityIcon quality={np.quality} />
-                            ) : (
-                              <Text size="sm" c="dimmed">—</Text>
-                            )}
-                          </Table.Td>
                           <EntityTableLinkCell
                             to={`/noble-phantasms/${np.slug}`}
                           >
@@ -704,6 +709,9 @@ export default function NoblePhantasms() {
                                 —
                               </Text>
                             )}
+                          </Table.Td>
+                          <Table.Td>
+                            <QualityIcon quality={np.quality} />
                           </Table.Td>
                           <Table.Td>
                             <Text size="sm">{np.effects.length}</Text>
