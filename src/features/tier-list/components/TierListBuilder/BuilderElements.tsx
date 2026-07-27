@@ -411,6 +411,11 @@ export function TierNotePopover({
       withinPortal
       zIndex={400}
       offset={6}
+      // Bound against the document instead of the narrow scrollable builder column.
+      middlewares={{
+        shift: { boundary: document.body },
+        flip: { boundary: document.body },
+      }}
     >
       <Popover.Target>
         <div
