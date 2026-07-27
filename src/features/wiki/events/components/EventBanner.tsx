@@ -63,9 +63,7 @@ function useIllustration(characters: string[]): IllustrationState {
         const character = byIdentity.get(slug);
         const list = resolveIllustrations(slug, slug, character?.skins);
         const img =
-          list.find(
-            (il) => il.type === 'image' && il.name.toLowerCase() === 'default'
-          ) ??
+          list.find((il) => il.type === 'image' && il.isDefault) ??
           list.find((il) => il.type === 'image') ??
           list[0];
         return img?.src ?? null;

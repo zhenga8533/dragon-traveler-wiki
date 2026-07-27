@@ -164,8 +164,7 @@ export function useCharacterAssets(
   if (illustrations !== illustrationsForSelection) {
     setIllustrationsForSelection(illustrations);
     const defaultImage =
-      illustrations.find((img) => img.name.toLowerCase() === 'default') ??
-      illustrations[0];
+      illustrations.find((img) => img.isDefault) ?? illustrations[0];
     setSelectedIllustration(defaultImage ?? null);
   }
 

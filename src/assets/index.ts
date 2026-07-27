@@ -220,6 +220,8 @@ export interface Illustration {
   assetPath?: string;
   /** Distinguishes the one-time entrance clip from the repeatable idle clip; only relevant for videos. */
   videoVariant?: 'birth' | 'loop';
+  /** The illustration a skin should open on when first selected, if available. */
+  isDefault?: boolean;
 }
 
 function resolveAssetKey(characterName: string, characterKey?: string): string {
@@ -270,8 +272,6 @@ export function resolveIllustrations(
     `character/${key}/skins/${skinSlug}/${filename}`;
   const candidates: Illustration[] = (skins ?? []).flatMap((skin) => [
     {
-      // Ordered before the birth clip so it remains the illustrations[0] fallback
-      // default (matching the pre-existing single "scene" animation default).
       name: `${skin.name} Animation`,
       src: getCharacterSkinAsset(key, skin.slug, 'loop', 'video')!,
       type: 'video' as const,
@@ -288,11 +288,14 @@ export function resolveIllustrations(
       videoVariant: 'birth' as const,
     },
     {
+      // The scene image is every skin's canonical default illustration — preferred
+      // over the animations when picking what to show on first selection.
       name: skin.name,
       src: getCharacterSkinAsset(key, skin.slug, 'scene')!,
       type: 'image' as const,
       skinSlug: skin.slug,
       assetPath: skinAssetPath(skin.slug, 'scene.png'),
+      isDefault: true,
     },
   ]);
   return candidates;
