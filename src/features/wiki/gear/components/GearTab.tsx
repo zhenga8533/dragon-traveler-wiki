@@ -4,10 +4,6 @@ import { getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
-import {
-  FilterMultiSelect,
-  FilterSection,
-} from '@/components/common/FilterControls';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import FilteredListShell from '@/components/layout/FilteredListShell';
@@ -22,7 +18,6 @@ import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useIsMobile } from '@/hooks';
 
 import {
   Badge,
@@ -37,7 +32,6 @@ export interface GearFilters {
   search: string;
   types: GearType[];
   qualities: Quality[];
-  sets: string[];
 }
 
 interface GearTabProps {
@@ -61,7 +55,6 @@ interface GearTabProps {
   onFiltersChange: (filters: GearFilters) => void;
   emptyFilters: GearFilters;
   filterGroups: ChipFilterGroup[];
-  gearSetOptions: { value: string; label: string }[];
   sortCol: string | null;
   sortDir: 'asc' | 'desc';
   onSort: (col: string) => void;
@@ -92,7 +85,6 @@ export default function GearTab({
   onFiltersChange,
   emptyFilters,
   filterGroups,
-  gearSetOptions,
   sortCol,
   sortDir,
   onSort,
@@ -101,8 +93,6 @@ export default function GearTab({
   accent,
   statusEffects,
 }: GearTabProps) {
-  const isMobile = useIsMobile();
-
   return (
     <ListPageShell
       loading={loading}
@@ -156,23 +146,6 @@ export default function GearTab({
               onFiltersChange({ ...filters, search: value })
             }
             searchPlaceholder="Search by gear or set..."
-            beforeGroups={
-              <FilterSection label="Set">
-                <FilterMultiSelect
-                  data={gearSetOptions}
-                  value={filters.sets}
-                  onChange={(sets) =>
-                    onFiltersChange({ ...filters, sets })
-                  }
-                  placeholder="Select gear sets"
-                  searchable
-                  clearable
-                  size={isMobile ? 'md' : 'xs'}
-                  style={{ flex: 1, minWidth: 220 }}
-                  comboboxProps={{ withinPortal: !isMobile }}
-                />
-              </FilterSection>
-            }
           />
         }
         gridContent={

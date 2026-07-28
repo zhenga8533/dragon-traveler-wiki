@@ -55,7 +55,6 @@ const EMPTY_FILTERS: GearFilters = {
   search: '',
   types: [],
   qualities: [],
-  sets: [],
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
@@ -114,17 +113,6 @@ export default function GearPage() {
       ),
     [gearSets]
   );
-  const gearSetFilterOptions = useMemo(
-    () =>
-      [...new Set(gear.map((item) => item.set))]
-        .map((setSlug) => ({
-          value: setSlug,
-          label: gearSetBySlug.get(setSlug)?.name ?? setSlug,
-        }))
-        .sort((left, right) => left.label.localeCompare(right.label)),
-    [gear, gearSetBySlug]
-  );
-
   const gearFields = useMemo<FieldDef[]>(
     () => [
       {
@@ -199,8 +187,7 @@ export default function GearPage() {
       if (
         !filters.search &&
         filters.types.length === 0 &&
-        filters.qualities.length === 0 &&
-        filters.sets.length === 0
+        filters.qualities.length === 0
       ) {
         return true;
       }
@@ -217,9 +204,7 @@ export default function GearPage() {
       const matchesQuality =
         filters.qualities.length === 0 ||
         filters.qualities.includes(item.quality);
-      const matchesSet =
-        filters.sets.length === 0 || filters.sets.includes(item.set);
-      return matchesSearch && matchesType && matchesQuality && matchesSet;
+      return matchesSearch && matchesType && matchesQuality;
     },
     sortFn: (a, b, col, dir) => {
       const typeCmp =
@@ -532,7 +517,6 @@ export default function GearPage() {
               onFiltersChange={setFilters}
               emptyFilters={EMPTY_FILTERS}
               filterGroups={FILTER_GROUPS}
-              gearSetOptions={gearSetFilterOptions}
               sortCol={sortCol}
               sortDir={sortDir}
               onSort={handleSort}
