@@ -5,6 +5,7 @@ import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
+  createFactionFilterGroup,
   createQualityFilterGroup,
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
@@ -91,12 +92,14 @@ interface WyrmspellFilters {
   search: string;
   types: string[];
   qualities: string[];
+  availability: string[];
 }
 
 const EMPTY_FILTERS: WyrmspellFilters = {
   search: '',
   types: [],
   qualities: [],
+  availability: [],
 };
 
 export default function Wyrmspells() {
@@ -148,6 +151,14 @@ export default function Wyrmspells() {
       if (filters.qualities.length > 0) {
         const maxQ = getMaxQuality(spell)?.quality;
         if (!maxQ || !filters.qualities.includes(maxQ)) return false;
+      }
+      if (
+        filters.availability.length > 0 &&
+        !filters.availability.includes(
+          spell.exclusive_faction ?? 'universal'
+        )
+      ) {
+        return false;
       }
       return true;
     },
@@ -208,6 +219,19 @@ export default function Wyrmspells() {
       QUALITY_ORDER
     );
   }, [wyrmspells]);
+  const availabilityOptions = useMemo(() => {
+    const factions = new Set(
+      wyrmspells.flatMap((spell) =>
+        spell.exclusive_faction ? [spell.exclusive_faction] : []
+      )
+    );
+    return [
+      ...(wyrmspells.some((spell) => !spell.exclusive_faction)
+        ? ['universal']
+        : []),
+      ...FACTION_SLUGS.filter((faction) => factions.has(faction)),
+    ];
+  }, [wyrmspells]);
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
     const groups: ChipFilterGroup[] = [];
@@ -233,8 +257,23 @@ export default function Wyrmspells() {
           options: qualityOptions,
         })
       );
+    if (availabilityOptions.length > 0) {
+      const factionGroup = createFactionFilterGroup();
+      groups.push({
+        ...factionGroup,
+        key: 'availability',
+        label: 'Availability',
+        options: availabilityOptions,
+        labelFn: (value) =>
+          value === 'universal'
+            ? 'Universal'
+            : factionGroup.labelFn?.(value) ?? value,
+        icon: (value) =>
+          value === 'universal' ? null : factionGroup.icon?.(value),
+      });
+    }
     return groups;
-  }, [typeOptions, qualityOptions]);
+  }, [availabilityOptions, typeOptions, qualityOptions]);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(wyrmspells),
@@ -280,6 +319,7 @@ export default function Wyrmspells() {
                 selected={{
                   types: filters.types,
                   qualities: filters.qualities,
+                  availability: filters.availability,
                 }}
                 onChange={(key, values) =>
                   setFilters({ ...filters, [key]: values })

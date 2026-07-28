@@ -6,6 +6,10 @@ import { getRelicIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageShell from '@/components/layout/ListPageShell';
@@ -19,11 +23,13 @@ import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { useIsMobile } from '@/hooks';
 
-interface RelicFilters {
+export interface RelicFilters {
   search: string;
   types: RelicType[];
   qualities: Quality[];
+  oracleScrollMembership: ('member' | 'none')[];
 }
 
 interface RelicsTabProps {
@@ -83,6 +89,8 @@ export default function RelicsTab({
   accent,
   statusEffects,
 }: RelicsTabProps) {
+  const isMobile = useIsMobile();
+
   return (
     <ListPageShell
       loading={loading}
@@ -136,6 +144,31 @@ export default function RelicsTab({
               onFiltersChange({ ...filters, search: value })
             }
             searchPlaceholder="Search by name, oracle scroll, or lore..."
+            beforeGroups={
+              <FilterSection label="Oracle Scroll">
+                <FilterChipGroup
+                  value={filters.oracleScrollMembership}
+                  onChange={(values) =>
+                    onFiltersChange({
+                      ...filters,
+                      oracleScrollMembership:
+                        values.length === 0
+                          ? []
+                          : [
+                              values[
+                                values.length - 1
+                              ] as RelicFilters['oracleScrollMembership'][number],
+                            ],
+                    })
+                  }
+                  size={isMobile ? 'md' : 'xs'}
+                  options={[
+                    { value: 'member', label: 'Member' },
+                    { value: 'none', label: 'Not a member' },
+                  ]}
+                />
+              </FilterSection>
+            }
           />
         }
         gridContent={

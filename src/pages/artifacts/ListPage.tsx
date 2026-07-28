@@ -2,6 +2,8 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
@@ -21,6 +23,7 @@ import {
 } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
+import type { Quality } from '@/types/quality';
 import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
@@ -42,10 +45,14 @@ import { useMemo } from 'react';
 
 interface ArtifactFilters {
   search: string;
+  qualities: Quality[];
+  footprints: string[];
 }
 
 const EMPTY_FILTERS: ArtifactFilters = {
   search: '',
+  qualities: [],
+  footprints: [],
 };
 
 export default function Artifacts() {
@@ -92,6 +99,18 @@ export default function Artifacts() {
       ) {
         return false;
       }
+      if (
+        filters.qualities.length > 0 &&
+        !filters.qualities.includes(a.quality)
+      ) {
+        return false;
+      }
+      if (
+        filters.footprints.length > 0 &&
+        !filters.footprints.includes(`${a.rows}x${a.columns}`)
+      ) {
+        return false;
+      }
       return true;
     },
     sortFn: (a, b, col, dir) => {
@@ -121,6 +140,23 @@ export default function Artifacts() {
     () => getLatestTimestamp(artifacts),
     [artifacts]
   );
+  const filterGroups: ChipFilterGroup[] = useMemo(() => {
+    const footprints = [
+      ...new Set(artifacts.map((artifact) => `${artifact.rows}x${artifact.columns}`)),
+    ].sort((left, right) => {
+      const [leftRows, leftColumns] = left.split('x').map(Number);
+      const [rightRows, rightColumns] = right.split('x').map(Number);
+      return (
+        leftColumns * leftRows - rightColumns * rightRows ||
+        leftColumns - rightColumns ||
+        leftRows - rightRows
+      );
+    });
+    return [
+      createQualityFilterGroup(),
+      { key: 'footprints', label: 'Footprint', options: footprints },
+    ];
+  }, [artifacts]);
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -158,6 +194,21 @@ export default function Artifacts() {
             onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
+                groups={filterGroups}
+                selected={{
+                  qualities: filters.qualities,
+                  footprints: filters.footprints,
+                }}
+                onChange={(key, values) => {
+                  if (key === 'qualities') {
+                    setFilters({
+                      ...filters,
+                      qualities: values as Quality[],
+                    });
+                    return;
+                  }
+                  setFilters({ ...filters, footprints: values });
+                }}
                 onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>

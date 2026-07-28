@@ -32,6 +32,8 @@ import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
 import type { ResourceCategory } from '@/types/resource';
+import type { Quality } from '@/types/quality';
+import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import { getLatestTimestamp } from '@/utils';
 
 const RESOURCE_FIELDS: FieldDef[] = [
@@ -68,11 +70,13 @@ const RESOURCE_FIELDS: FieldDef[] = [
 interface ResourceFilters {
   search: string;
   categories: ResourceCategory[];
+  qualities: Quality[];
 }
 
 const EMPTY_FILTERS: ResourceFilters = {
   search: '',
   categories: [],
+  qualities: [],
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
@@ -81,6 +85,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     label: 'Category',
     options: [...RESOURCE_CATEGORY_ORDER],
   },
+  createQualityFilterGroup(),
 ];
 
 export default function Resources() {
@@ -123,6 +128,12 @@ export default function Resources() {
       if (
         filters.categories.length > 0 &&
         !filters.categories.includes(r.category)
+      ) {
+        return false;
+      }
+      if (
+        filters.qualities.length > 0 &&
+        !filters.qualities.includes(r.quality)
       ) {
         return false;
       }
@@ -197,13 +208,20 @@ export default function Resources() {
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}
-                selected={{ categories: filters.categories }}
-                onChange={(key, values) =>
-                  setFilters({
-                    ...filters,
-                    [key]: values as ResourceCategory[],
-                  })
-                }
+                selected={{
+                  categories: filters.categories,
+                  qualities: filters.qualities,
+                }}
+                onChange={(key, values) => {
+                  if (key === 'categories') {
+                    setFilters({
+                      ...filters,
+                      categories: values as ResourceCategory[],
+                    });
+                    return;
+                  }
+                  setFilters({ ...filters, qualities: values as Quality[] });
+                }}
                 onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>

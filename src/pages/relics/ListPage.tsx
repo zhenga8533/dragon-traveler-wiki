@@ -9,7 +9,9 @@ import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
+import RelicsTab, {
+  type RelicFilters,
+} from '@/features/wiki/relics/components/RelicsTab';
 import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
 import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
 import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
@@ -22,21 +24,15 @@ import {
   useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-
-interface RelicFilters {
-  search: string;
-  types: RelicType[];
-  qualities: Quality[];
-}
 
 const EMPTY_FILTERS: RelicFilters = {
   search: '',
   types: [],
   qualities: [],
+  oracleScrollMembership: [],
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
@@ -72,7 +68,15 @@ export default function RelicPage() {
     error,
   } = useRelics();
   const { data: statusEffects } = useStatusEffects();
-
+  const oracleScrolls = useMemo(() => {
+    const bySlug = new Map<string, OracleScrollRef>();
+    for (const relic of relics) {
+      if (relic.oracle_scroll) {
+        bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
+      }
+    }
+    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }, [relics]);
   const {
     filters,
     setFilters,
@@ -105,7 +109,8 @@ export default function RelicPage() {
       if (
         !filters.search &&
         filters.types.length === 0 &&
-        filters.qualities.length === 0
+        filters.qualities.length === 0 &&
+        filters.oracleScrollMembership.length === 0
       ) {
         return true;
       }
@@ -120,7 +125,17 @@ export default function RelicPage() {
       const matchesQuality =
         filters.qualities.length === 0 ||
         filters.qualities.includes(item.quality);
-      return matchesSearch && matchesType && matchesQuality;
+      const matchesOracleScroll =
+        filters.oracleScrollMembership.length === 0 ||
+        filters.oracleScrollMembership.includes(
+          item.oracle_scroll ? 'member' : 'none'
+        );
+      return (
+        matchesSearch &&
+        matchesType &&
+        matchesQuality &&
+        matchesOracleScroll
+      );
     },
     sortFn: (a, b, col, dir) => {
       const typeCmp =
@@ -156,14 +171,6 @@ export default function RelicPage() {
   useSearchParamFilter(setFilters);
 
   // Oracle Scrolls tab
-  const oracleScrolls = useMemo(() => {
-    const bySlug = new Map<string, OracleScrollRef>();
-    for (const relic of relics) {
-      if (relic.oracle_scroll) bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
-    }
-    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
-  }, [relics]);
-
   const relicsByOracle = useMemo(() => {
     const map = new Map<string, Relic[]>();
     for (const relic of relics) {

@@ -16,11 +16,17 @@ import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/c
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
+import { useIsMobile } from '@/hooks';
 import type { Quality } from '@/types/quality';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
 
-interface HowlkinFilters {
+export interface HowlkinFilters {
   search: string;
   qualities: Quality[];
+  allianceMembership: ('member' | 'none')[];
 }
 
 interface HowlkinsTabProps {
@@ -80,6 +86,8 @@ export default function HowlkinsTab({
   howlkinToAlliance,
   accent,
 }: HowlkinsTabProps) {
+  const isMobile = useIsMobile();
+
   return (
     <>
       {loading && (
@@ -135,6 +143,31 @@ export default function HowlkinsTab({
                 onFiltersChange({ ...filters, search: value })
               }
               searchPlaceholder="Search by name..."
+              beforeGroups={
+                <FilterSection label="Golden Alliance">
+                  <FilterChipGroup
+                    size={isMobile ? 'md' : 'xs'}
+                    value={filters.allianceMembership}
+                    onChange={(values) =>
+                      onFiltersChange({
+                        ...filters,
+                        allianceMembership:
+                          values.length === 0
+                            ? []
+                            : [
+                                values[
+                                  values.length - 1
+                                ] as HowlkinFilters['allianceMembership'][number],
+                              ],
+                      })
+                    }
+                    options={[
+                      { value: 'member', label: 'Member' },
+                      { value: 'none', label: 'Not a member' },
+                    ]}
+                  />
+                </FilterSection>
+              }
             />
           }
           gridContent={

@@ -13,7 +13,9 @@ import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { STORAGE_KEY, PAGE_SIZE } from '@/constants/ui';
-import GearTab from '@/features/wiki/gear/components/GearTab';
+import GearTab, {
+  type GearFilters,
+} from '@/features/wiki/gear/components/GearTab';
 import GearSetsTab from '@/features/wiki/gear/components/GearSetsTab';
 import GearUsageTab, {
   type GearItemUsage,
@@ -30,7 +32,6 @@ import {
   useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 
 import { Container, Group, Stack, Tabs } from '@mantine/core';
@@ -50,16 +51,11 @@ const USAGE_QUALITY_THRESHOLD: Record<UsageQualityFilter, number> = {
 
 const DEFAULT_USAGE_QUALITY_FILTER: UsageQualityFilter = 'ssr-plus';
 
-interface GearFilters {
-  search: string;
-  types: GearType[];
-  qualities: Quality[];
-}
-
 const EMPTY_FILTERS: GearFilters = {
   search: '',
   types: [],
   qualities: [],
+  sets: [],
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
@@ -117,6 +113,16 @@ export default function GearPage() {
         a.localeCompare(b)
       ),
     [gearSets]
+  );
+  const gearSetFilterOptions = useMemo(
+    () =>
+      [...new Set(gear.map((item) => item.set))]
+        .map((setSlug) => ({
+          value: setSlug,
+          label: gearSetBySlug.get(setSlug)?.name ?? setSlug,
+        }))
+        .sort((left, right) => left.label.localeCompare(right.label)),
+    [gear, gearSetBySlug]
   );
 
   const gearFields = useMemo<FieldDef[]>(
@@ -193,7 +199,8 @@ export default function GearPage() {
       if (
         !filters.search &&
         filters.types.length === 0 &&
-        filters.qualities.length === 0
+        filters.qualities.length === 0 &&
+        filters.sets.length === 0
       ) {
         return true;
       }
@@ -210,7 +217,9 @@ export default function GearPage() {
       const matchesQuality =
         filters.qualities.length === 0 ||
         filters.qualities.includes(item.quality);
-      return matchesSearch && matchesType && matchesQuality;
+      const matchesSet =
+        filters.sets.length === 0 || filters.sets.includes(item.set);
+      return matchesSearch && matchesType && matchesQuality && matchesSet;
     },
     sortFn: (a, b, col, dir) => {
       const typeCmp =
@@ -523,6 +532,7 @@ export default function GearPage() {
               onFiltersChange={setFilters}
               emptyFilters={EMPTY_FILTERS}
               filterGroups={FILTER_GROUPS}
+              gearSetOptions={gearSetFilterOptions}
               sortCol={sortCol}
               sortDir={sortDir}
               onSort={handleSort}

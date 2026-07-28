@@ -15,7 +15,9 @@ import {
 import { QUALITY_ORDER } from '@/constants/quality';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
-import HowlkinsTab from '@/features/wiki/howlkins/components/HowlkinsTab';
+import HowlkinsTab, {
+  type HowlkinFilters,
+} from '@/features/wiki/howlkins/components/HowlkinsTab';
 import GoldenAlliancesTab from '@/features/wiki/howlkins/components/GoldenAlliancesTab';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
@@ -27,19 +29,14 @@ import {
   useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 
-interface HowlkinFilters {
-  search: string;
-  qualities: Quality[];
-}
-
 const EMPTY_FILTERS: HowlkinFilters = {
   search: '',
   qualities: [],
+  allianceMembership: [],
 };
 
 export default function Howlkins() {
@@ -60,7 +57,18 @@ export default function Howlkins() {
     data: goldenAlliances,
     loading: alliancesLoading,
     error: alliancesError,
+    retry: retryAlliances,
   } = useGoldenAlliances();
+
+  const howlkinToAlliance = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const alliance of goldenAlliances) {
+      for (const slug of alliance.howlkins) {
+        map.set(slug, alliance.slug);
+      }
+    }
+    return map;
+  }, [goldenAlliances]);
 
   const {
     filters,
@@ -102,6 +110,12 @@ export default function Howlkins() {
         !filters.qualities.includes(howlkin.quality)
       ) {
         return false;
+      }
+      if (filters.allianceMembership.length > 0) {
+        const membership = howlkinToAlliance.has(howlkin.slug)
+          ? 'member'
+          : 'none';
+        if (!filters.allianceMembership.includes(membership)) return false;
       }
       return true;
     },
@@ -154,16 +168,6 @@ export default function Howlkins() {
     }
     return map;
   }, [howlkins]);
-
-  const howlkinToAlliance = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const alliance of goldenAlliances) {
-      for (const slug of alliance.howlkins) {
-        map.set(slug, alliance.slug);
-      }
-    }
-    return map;
-  }, [goldenAlliances]);
 
   const allianceSearchFn = useCallback(
     (alliance: GoldenAlliance, query: string) =>
@@ -233,9 +237,12 @@ export default function Howlkins() {
 
           <Tabs.Panel value="howlkins" pt="md">
             <HowlkinsTab
-              loading={howlkinsLoading}
-              error={howlkinsError}
-              onRetry={retryHowlkins}
+              loading={howlkinsLoading || alliancesLoading}
+              error={howlkinsError || alliancesError}
+              onRetry={() => {
+                retryHowlkins();
+                retryAlliances();
+              }}
               howlkins={howlkins}
               filtered={filtered}
               viewMode={viewMode}
