@@ -20,6 +20,10 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Team } from '@/features/teams/types';
 import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
+import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
   getCharacterRouteSlug,
@@ -169,7 +173,11 @@ export function useCharacterPageData(
 
   const selectedTierList = useMemo(() => {
     if (!selectedTierListName) return null;
-    return tierLists.find((list) => list.name === selectedTierListName) ?? null;
+    const tierList =
+      tierLists.find((list) => list.name === selectedTierListName) ?? null;
+    return tierList && getTierListEntityType(tierList) === 'character'
+      ? tierList
+      : null;
   }, [tierLists, selectedTierListName]);
 
   const isPreferredCharacterForNameReferences = useMemo(() => {
@@ -190,7 +198,9 @@ export function useCharacterPageData(
       return null;
     return (
       selectedTierList.entries.find(
-        (entry) => characterByIdentity.get(entry.character_slug) === character
+        (entry) =>
+          isCharacterTierEntry(entry) &&
+          characterByIdentity.get(entry.character_slug) === character
       ) ?? null
     );
   }, [selectedTierList, character, characterByIdentity, isPreferredCharacterForNameReferences]);

@@ -11,6 +11,10 @@ import {
 } from '@/features/characters/utils/character-route';
 import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
 import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
+import {
   compareCharactersByQualityThenName,
   EMPTY_FILTERS,
   extractAllEffectRefs,
@@ -173,8 +177,9 @@ export function useCharacterListData(
     const map = new Map<string, string>();
     if (!selectedTierListName) return map;
     const list = tierLists.find((l) => l.name === selectedTierListName);
-    if (!list) return map;
+    if (!list || getTierListEntityType(list) !== 'character') return map;
     for (const entry of list.entries) {
+      if (!isCharacterTierEntry(entry)) continue;
       const resolved = resolveCharacterByNameAndQuality(
         entry.character_slug,
         entry.character_quality,

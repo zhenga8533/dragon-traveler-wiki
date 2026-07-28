@@ -9,7 +9,10 @@
 } from 'react';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
-import type { TierList as TierListType } from '@/features/tier-list/types';
+import {
+  getTierListEntityType,
+  type TierList as TierListType,
+} from '@/features/tier-list/types';
 import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
 import { loadSavedFromStorage } from '@/utils/saved-storage';
 
@@ -43,9 +46,18 @@ export function TierListReferenceProvider({
 }: {
   children: ReactNode;
 }) {
-  const { data: tierLists, loading } = useTierLists();
+  const { data: allTierLists, loading } = useTierLists();
+  const tierLists = useMemo(
+    () =>
+      allTierLists.filter(
+        (tierList) => getTierListEntityType(tierList) === 'character'
+      ),
+    [allTierLists]
+  );
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
-    readSavedTierLists()
+    readSavedTierLists().filter(
+      (tierList) => getTierListEntityType(tierList) === 'character'
+    )
   );
   const [selectedTierListName, setSelectedTierListName] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -56,7 +68,11 @@ export function TierListReferenceProvider({
   });
 
   const refreshSaved = useCallback(() => {
-    setSavedTierLists(readSavedTierLists());
+    setSavedTierLists(
+      readSavedTierLists().filter(
+        (tierList) => getTierListEntityType(tierList) === 'character'
+      )
+    );
   }, []);
 
   useEffect(() => {

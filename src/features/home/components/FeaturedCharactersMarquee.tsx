@@ -9,6 +9,10 @@ import {
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
 import styles from '@/features/home/styles/marquee.module.css';
 import {
   Badge,
@@ -55,8 +59,12 @@ export default function FeaturedCharactersMarquee() {
     );
   }
 
+  const characterTierLists = tierLists.filter(
+    (tierList) => getTierListEntityType(tierList) === 'character'
+  );
   const tierList =
-    tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
+    characterTierLists.find((t) => t.name === selectedTierListName) ??
+    characterTierLists[0];
   if (!tierList) return null;
 
   const charMap = buildPreferredCharacterByNameMap(characters);
@@ -65,9 +73,9 @@ export default function FeaturedCharactersMarquee() {
     tierList.tiers && tierList.tiers.length >= 2
       ? [tierList.tiers[0].name, tierList.tiers[1].name]
       : ['S+', 'S'];
-  const topEntries = tierList.entries.filter((e) =>
-    topTierNames.includes(e.tier)
-  );
+  const topEntries = tierList.entries
+    .filter(isCharacterTierEntry)
+    .filter((entry) => topTierNames.includes(entry.tier));
 
   if (topEntries.length === 0) return null;
 

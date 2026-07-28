@@ -89,7 +89,7 @@ See [`src/README.md`](src/README.md) for a full breakdown of the source architec
 | `/status-effects` | Status effects list |
 | `/resources` | Resources directory |
 | `/useful-links` | Community links directory |
-| `/tier-list` | Tier list viewer/builder |
+| `/tier-list` | Character and Noble Phantasm tier list viewer/builder |
 | `/teams` / `/teams/:teamName` / `/teams/saved/:teamSlug` | Team list / detail / saved team |
 | `/codes` | Redemption codes tracker |
 | `/events` | Game events tracker |

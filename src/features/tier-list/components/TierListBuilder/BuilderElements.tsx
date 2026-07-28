@@ -29,28 +29,34 @@ import {
   TRANSITION,
 } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
-import type { Character } from '@/features/characters/types';
-import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
-import CharacterCard from '@/features/characters/components/CharacterCard';
+import TierListEntityCard from '@/features/tier-list/components/TierListEntityCard';
+import type {
+  TierListEntityType,
+  TierListRankableEntity,
+} from '@/features/tier-list/types';
 
 export const TierListMetaFields = memo(function TierListMetaFields({
   name,
   author,
   categoryName,
   description,
+  entityType,
   onNameCommit,
   onAuthorCommit,
   onCategoryChange,
   onDescriptionCommit,
+  onEntityTypeChange,
 }: {
   name: string;
   author: string;
   categoryName: ContentType;
   description: string;
+  entityType: TierListEntityType;
   onNameCommit: (value: string) => void;
   onAuthorCommit: (value: string) => void;
   onCategoryChange: (value: string | null) => void;
   onDescriptionCommit: (value: string) => void;
+  onEntityTypeChange: (value: TierListEntityType) => void;
 }) {
   const [nameInput, setNameInput] = useInputCommit(name, onNameCommit);
   const [authorInput, setAuthorInput] = useInputCommit(author, onAuthorCommit);
@@ -69,6 +75,21 @@ export const TierListMetaFields = memo(function TierListMetaFields({
         value={authorInput}
         onChange={(e) => setAuthorInput(e.currentTarget.value)}
         style={{ flex: 1, minWidth: 120 }}
+      />
+      <Select
+        placeholder="Entity type..."
+        data={[
+          { value: 'character', label: 'Characters' },
+          { value: 'noble_phantasm', label: 'Noble Phantasms' },
+        ]}
+        value={entityType}
+        onChange={(value) => {
+          if (value === 'character' || value === 'noble_phantasm') {
+            onEntityTypeChange(value);
+          }
+        }}
+        allowDeselect={false}
+        style={{ flex: 1, minWidth: 150 }}
       />
       <Select
         placeholder="Content type..."
@@ -152,31 +173,29 @@ export const AddTierRow = memo(function AddTierRow({
   );
 });
 
-export function DraggableCharCard({
+export function DraggableTierEntityCard({
   name,
-  label,
-  charKey,
-  char,
+  entityKey,
+  entity,
   overlay,
   tier,
   size,
 }: {
   name: string;
-  label?: string;
-  charKey?: string;
-  char: Character | undefined;
+  entityKey?: string;
+  entity: TierListRankableEntity | undefined;
   overlay?: boolean;
   tier?: string;
   size?: number;
 }) {
-  const dragKey = charKey ?? name;
+  const dragKey = entityKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: dragKey,
     data: { tier },
   });
   const { setNodeRef: setDropRef, isOver } = useDroppable({
     id: `char-${dragKey}`,
-    data: { characterKey: dragKey, tier },
+    data: { entityKey: dragKey, tier },
   });
 
   const style: CSSProperties = overlay
@@ -187,9 +206,6 @@ export function DraggableCharCard({
         transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         touchAction: 'none',
       };
-
-  const routePath =
-    char ? getCharacterRoutePath(char) : undefined;
 
   return (
     <div
@@ -209,13 +225,11 @@ export function DraggableCharCard({
       }}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
-      <CharacterCard
-        name={name}
-        label={label}
-        quality={char?.quality}
+      <TierListEntityCard
+        entity={entity}
+        fallbackName={name}
         disableLink
         size={size}
-        routePath={routePath}
       />
     </div>
   );
@@ -517,11 +531,13 @@ export function UnrankedPool({
   filterHeader,
   paginationControl,
   cols,
+  emptyLabel = 'N/A Characters',
 }: {
   children: React.ReactNode;
   filterHeader?: React.ReactNode;
   paginationControl?: React.ReactNode;
   cols?: number;
+  emptyLabel?: string;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
 
@@ -542,7 +558,7 @@ export function UnrankedPool({
       <Stack gap="sm">
         {filterHeader || (
           <Text size="sm" fw={600} c="dimmed">
-            N/A Characters
+            {emptyLabel}
           </Text>
         )}
         <SimpleGrid

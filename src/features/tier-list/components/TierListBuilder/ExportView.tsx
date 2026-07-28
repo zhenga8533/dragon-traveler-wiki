@@ -1,16 +1,15 @@
 ﻿import { Badge, Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
-import CharacterCard from '@/features/characters/components/CharacterCard';
+import TierListEntityCard from '@/features/tier-list/components/TierListEntityCard';
+import type { TierListRankableEntity } from '@/features/tier-list/types';
 import { getTierColor } from '@/constants/tier-colors';
-import type { Quality } from '@/types/quality';
 
 export interface TierExportRow {
   tier: string;
   tierIndex: number;
   note?: string;
   entries: Array<{
-    characterName: string;
-    characterQuality?: Quality | null;
-    label?: string;
+    entityName: string;
+    entity?: TierListRankableEntity;
   }>;
 }
 
@@ -53,11 +52,10 @@ export function TierListExportView({
                 </Stack>
                 <SimpleGrid cols={4} spacing="xs">
                   {entries.map((entry, i) => (
-                    <CharacterCard
+                    <TierListEntityCard
                       key={i}
-                      name={entry.characterName}
-                      label={entry.label}
-                      quality={entry.characterQuality ?? undefined}
+                      entity={entry.entity}
+                      fallbackName={entry.entityName}
                       disableLink
                     />
                   ))}

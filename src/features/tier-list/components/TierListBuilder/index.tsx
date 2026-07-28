@@ -4,14 +4,31 @@ import { getTierColor } from '@/constants/tier-colors';
 import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
+import PoolLayoutToggle from '@/components/common/PoolLayoutToggle';
+import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import type { Character } from '@/features/characters/types';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import {
+  buildCharacterByIdentityMap,
   getCharacterIdentityKey,
 } from '@/features/characters/utils/character-route';
 import CharacterNoteButton from '@/components/common/CharacterNoteButton';
 import { useTierListState } from '@/features/tier-list/hooks/use-tier-list-state';
-import type { TierList } from '@/features/tier-list/types';
-import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
+import type {
+  TierList,
+  TierListEntityType,
+} from '@/features/tier-list/types';
+import NoblePhantasmFilter from '@/features/wiki/noble-phantasms/components/NoblePhantasmFilter';
+import {
+  EMPTY_NOBLE_PHANTASM_FILTERS,
+  matchesNoblePhantasmFilters,
+} from '@/features/wiki/noble-phantasms/utils/filter-noble-phantasms';
+import {
+  countActiveFilters,
+  useDarkMode,
+  useGradientAccent,
+  useIsMobile,
+} from '@/hooks';
 import type { PoolLayout } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -30,13 +47,13 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Box, Flex, Stack } from '@mantine/core';
+import { Box, Flex, Group, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   AddTierRow,
-  DraggableCharCard,
+  DraggableTierEntityCard,
   TierDropZone,
   TierListMetaFields,
   UnrankedPool,
@@ -47,6 +64,7 @@ import TierListBuilderToolbar from './TierListBuilderToolbar';
 interface TierListBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
+  noblePhantasms: NoblePhantasm[];
   initialData?: TierList | null;
   poolLayout: PoolLayout;
   onPoolLayoutChange: (layout: PoolLayout) => void;
@@ -56,6 +74,7 @@ interface TierListBuilderProps {
 export default function TierListBuilder({
   characters,
   charMap,
+  noblePhantasms,
   initialData,
   poolLayout: layout,
   onPoolLayoutChange: setLayout,
@@ -68,17 +87,26 @@ export default function TierListBuilder({
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
+  const [
+    noblePhantasmFilterOpen,
+    { toggle: toggleNoblePhantasmFilter },
+  ] = useDisclosure(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [noblePhantasmFilters, setNoblePhantasmFilters] = useState(
+    EMPTY_NOBLE_PHANTASM_FILTERS
+  );
   const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
     string | null
   >(null);
+  const [pendingEntityType, setPendingEntityType] =
+    useState<TierListEntityType | null>(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const actionButtonSize = isMobile ? 'md' : 'sm';
   const {
     activeId,
-    getCharacterFromKey,
+    getEntityFromKey,
     handleAddTier,
     handleAuthorCommit,
     handleCategoryChange,
@@ -86,6 +114,7 @@ export default function TierListBuilder({
     handleClear,
     handleDeleteTier,
     handleDescriptionCommit,
+    handleEntityTypeChange,
     handleDragEnd,
     handleDragStart,
     handleMoveTierDown,
@@ -103,10 +132,11 @@ export default function TierListBuilder({
     tierDefs,
     tierExportRows,
     tierListData,
-    unrankedCharacters,
+    unrankedEntities,
   } = useTierListState({
     characters,
     charMap,
+    noblePhantasms,
     initialData,
   });
   const sensors = useSensors(
@@ -117,6 +147,24 @@ export default function TierListBuilder({
     // Basic keyboard drag support (no grid-aware coordinateGetter yet)
     useSensor(KeyboardSensor)
   );
+  const characterBySlug = useMemo(
+    () => buildCharacterByIdentityMap(characters),
+    [characters]
+  );
+  const visibleUnrankedNoblePhantasms = useMemo(
+    () =>
+      unrankedEntities.filter(
+        (entity) =>
+          entity.noblePhantasm &&
+          matchesNoblePhantasmFilters(
+            entity.noblePhantasm,
+            noblePhantasmFilters,
+            characterBySlug
+          )
+      ),
+    [characterBySlug, noblePhantasmFilters, unrankedEntities]
+  );
+  const noblePhantasmFilterCount = countActiveFilters(noblePhantasmFilters);
 
   const { issueUrl: tierListIssueUrl, emptyIssueUrl: tierListEmptyIssueUrl } =
     useMemo(
@@ -210,6 +258,14 @@ export default function TierListBuilder({
     }
   }
 
+  function requestEntityTypeChange(entityType: TierListEntityType) {
+    if (!hasAnyBuilderData) {
+      handleEntityTypeChange(entityType);
+      return;
+    }
+    setPendingEntityType(entityType);
+  }
+
   return (
     <>
       <DndContext
@@ -223,10 +279,12 @@ export default function TierListBuilder({
             author={meta.author}
             categoryName={meta.categoryName}
             description={meta.description}
+            entityType={meta.entityType}
             onNameCommit={handleNameCommit}
             onAuthorCommit={handleAuthorCommit}
             onCategoryChange={handleCategoryChange}
             onDescriptionCommit={handleDescriptionCommit}
+            onEntityTypeChange={requestEntityTypeChange}
           />
 
           <TierListBuilderToolbar
@@ -272,7 +330,7 @@ export default function TierListBuilder({
                     canDelete={tierDefs.length > 1}
                   >
                     {names.map((n) => {
-                      const character = getCharacterFromKey(n);
+                      const entity = getEntityFromKey(n);
                       return (
                         <Box
                           key={n}
@@ -281,11 +339,14 @@ export default function TierListBuilder({
                             display: 'inline-block',
                           }}
                         >
-                          <DraggableCharCard
-                            name={character?.name ?? n}
-                            label={undefined}
-                            charKey={n}
-                            char={character}
+                          <DraggableTierEntityCard
+                            name={
+                              entity?.character?.name ??
+                              entity?.noblePhantasm?.name ??
+                              n
+                            }
+                            entityKey={n}
+                            entity={entity}
                             tier={tier}
                             size={isMobile ? 56 : undefined}
                           />
@@ -324,33 +385,78 @@ export default function TierListBuilder({
                   : undefined
               }
             >
-              <FilterableCharacterPool
-                characters={unrankedCharacters}
-                layout={layout}
-                onLayoutChange={setLayout}
-                canToggleLayout={canUseSideLayout}
-              >
-                {(filtered, filterHeader, paginationControl, cols) => (
+              {meta.entityType === 'character' ? (
+                <FilterableCharacterPool
+                  characters={unrankedEntities.flatMap((entity) =>
+                    entity.character ? [entity.character] : []
+                  )}
+                  layout={layout}
+                  onLayoutChange={setLayout}
+                  canToggleLayout={canUseSideLayout}
+                >
+                  {(filtered, filterHeader, paginationControl, cols) => (
                   <UnrankedPool
                     filterHeader={filterHeader}
                     paginationControl={paginationControl}
                     cols={cols}
                   >
                     {filtered.map((c) => {
+                      const key = getCharacterIdentityKey(c);
                       return (
-                        <DraggableCharCard
-                          key={getCharacterIdentityKey(c)}
+                        <DraggableTierEntityCard
+                          key={key}
                           name={c.name}
-                          label={undefined}
-                          charKey={getCharacterIdentityKey(c)}
-                          char={c}
+                          entityKey={key}
+                          entity={getEntityFromKey(key)}
                           size={isMobile ? 56 : undefined}
                         />
                       );
                     })}
                   </UnrankedPool>
-                )}
-              </FilterableCharacterPool>
+                  )}
+                </FilterableCharacterPool>
+              ) : (
+                <UnrankedPool
+                  emptyLabel="N/A Noble Phantasms"
+                  filterHeader={
+                    <Group justify="space-between" align="center" wrap="wrap">
+                      <Text size="sm" c="dimmed">
+                        {visibleUnrankedNoblePhantasms.length} available Noble
+                        Phantasm
+                        {visibleUnrankedNoblePhantasms.length !== 1 ? 's' : ''}
+                      </Text>
+                      <Group gap="xs" wrap="nowrap">
+                        {canUseSideLayout && (
+                          <PoolLayoutToggle
+                            layout={layout}
+                            onChange={setLayout}
+                          />
+                        )}
+                        <FilterPopoverButton
+                          filterCount={noblePhantasmFilterCount}
+                          filterOpen={noblePhantasmFilterOpen}
+                          onFilterToggle={toggleNoblePhantasmFilter}
+                        >
+                          <NoblePhantasmFilter
+                            filters={noblePhantasmFilters}
+                            onChange={setNoblePhantasmFilters}
+                          />
+                        </FilterPopoverButton>
+                      </Group>
+                    </Group>
+                  }
+                >
+                  {visibleUnrankedNoblePhantasms.map((entity) => (
+                    <DraggableTierEntityCard
+                      key={entity.key}
+                      name={entity.noblePhantasm?.name ?? entity.key}
+                      entityKey={entity.key}
+                      entity={entity}
+                      size={isMobile ? 56 : undefined}
+                    />
+                  ))}
+                </UnrankedPool>
+              )}
             </Box>
           </Flex>
         </Stack>
@@ -360,13 +466,16 @@ export default function TierListBuilder({
               <DragOverlay dropAnimation={null}>
                 {activeId
                   ? (() => {
-                      const activeChar = getCharacterFromKey(activeId);
+                      const activeEntity = getEntityFromKey(activeId);
                       return (
-                        <DraggableCharCard
-                          name={activeChar?.name ?? activeId}
-                          label={undefined}
-                          charKey={activeId}
-                          char={activeChar}
+                        <DraggableTierEntityCard
+                          name={
+                            activeEntity?.character?.name ??
+                            activeEntity?.noblePhantasm?.name ??
+                            activeId
+                          }
+                          entityKey={activeId}
+                          entity={activeEntity}
                           overlay
                         />
                       );
@@ -391,7 +500,7 @@ export default function TierListBuilder({
           opened={clearConfirmOpened}
           onCancel={closeClearConfirm}
           title="Clear tier list builder?"
-          message="This will remove all ranked characters, notes, custom tier changes, and metadata fields (name, author, category, and description) in the builder."
+          message="This will remove all ranked entities, notes, custom tier changes, and metadata fields (name, author, category, and description) in the builder."
           confirmLabel="Clear All"
           confirmColor="red"
           onConfirm={() => {
@@ -401,12 +510,23 @@ export default function TierListBuilder({
         />
 
         <ConfirmActionModal
+          opened={pendingEntityType !== null}
+          onCancel={() => setPendingEntityType(null)}
+          title="Change ranked entity type?"
+          message="Changing between characters and Noble Phantasms clears the current placements, notes, tiers, and metadata."
+          confirmLabel="Change Type"
+          onConfirm={() => {
+            if (pendingEntityType) handleEntityTypeChange(pendingEntityType);
+            setPendingEntityType(null);
+          }}
+        />
+
+        <ConfirmActionModal
           opened={pendingSaveOverwrite !== null}
           onCancel={() => setPendingSaveOverwrite(null)}
           title="Overwrite saved tier list?"
           message={`A saved tier list named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
           confirmLabel="Overwrite"
-          confirmColor="blue"
           onConfirm={() => {
             if (pendingSaveOverwrite)
               executeSaveToMySaved(pendingSaveOverwrite);

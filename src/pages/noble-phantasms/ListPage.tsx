@@ -17,11 +17,6 @@ import { getNoblePhantasmIcon } from '@/assets';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
-import EntityFilter from '@/components/common/EntityFilter';
-import {
-  FilterMultiSelect,
-  FilterSection,
-} from '@/components/common/FilterControls';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -51,11 +46,15 @@ import { getCharacterRouteSlug } from '@/features/characters/utils/character-rou
 import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_ORDER } from '@/constants/quality';
-import type { Quality } from '@/types/quality';
 import NoblePhantasmUsageTab, {
   type NoblePhantasmUsage,
   type NoblePhantasmUsageQualityFilter,
 } from '@/features/wiki/noble-phantasms/components/NoblePhantasmUsageTab';
+import NoblePhantasmFilter from '@/features/wiki/noble-phantasms/components/NoblePhantasmFilter';
+import {
+  EMPTY_NOBLE_PHANTASM_FILTERS,
+  matchesNoblePhantasmFilters,
+} from '@/features/wiki/noble-phantasms/utils/filter-noble-phantasms';
 
 const USAGE_QUALITY_OPTIONS: {
   value: NoblePhantasmUsageQualityFilter;
@@ -77,18 +76,6 @@ const USAGE_QUALITY_THRESHOLD: Record<
 
 const DEFAULT_USAGE_QUALITY_FILTER: NoblePhantasmUsageQualityFilter =
   'ssr-plus';
-
-interface NoblePhantasmFilters {
-  search: string;
-  qualities: Quality[];
-  characterSlugs: string[];
-}
-
-const EMPTY_FILTERS: NoblePhantasmFilters = {
-  search: '',
-  qualities: [],
-  characterSlugs: [],
-};
 
 export default function NoblePhantasms() {
   const { getSelectedSkin } = useContext(CharacterSkinContext);
@@ -425,33 +412,15 @@ export default function NoblePhantasms() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(noblePhantasms, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_NOBLE_PHANTASM_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.NOBLE_PHANTASM_FILTERS,
       viewMode: STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE,
       sort: STORAGE_KEY.NOBLE_PHANTASM_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (np, filters) => {
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(np.quality)
-      )
-        return false;
-      if (
-        filters.characterSlugs.length > 0 &&
-        (!np.character_slug ||
-          !filters.characterSlugs.includes(np.character_slug))
-      )
-        return false;
-      if (!filters.search) return true;
-      const q = filters.search.toLowerCase();
-      const charName = charNameBySlug.get(np.character_slug ?? '') ?? '';
-      return (
-        np.name.toLowerCase().includes(q) ||
-        charName.toLowerCase().includes(q)
-      );
-    },
+    filterFn: (np, filters) =>
+      matchesNoblePhantasmFilters(np, filters, charBySlug),
     sortFn: (a, b, col, dir) => {
       if (col) {
         let cmp = 0;
@@ -534,47 +503,9 @@ export default function NoblePhantasms() {
             onFilterToggle={toggleFilter}
             onResetFilters={resetFilters}
             filterContent={
-              <EntityFilter
-                onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search by name or character..."
-                hasActiveFilters={activeFilterCount > 0}
-                beforeGroups={
-                  <FilterSection label="Character">
-                    <FilterMultiSelect
-                      data={linkedCharacterOptions}
-                      value={filters.characterSlugs}
-                      onChange={(characterSlugs) =>
-                        setFilters({ ...filters, characterSlugs })
-                      }
-                      placeholder="Select linked characters"
-                      searchable
-                      clearable
-                      size="xs"
-                      style={{ flex: 1, minWidth: 240 }}
-                    />
-                  </FilterSection>
-                }
-                groups={[
-                  {
-                    key: 'qualities',
-                    label: 'Quality',
-                    options: [...QUALITY_ORDER],
-                    icon: (quality) => (
-                      <QualityIcon quality={quality as Quality} size={16} />
-                    ),
-                  },
-                ]}
-                selected={{ qualities: filters.qualities }}
-                onChange={(key, values) =>
-                  setFilters({
-                    ...filters,
-                    [key]: values as Quality[],
-                  })
-                }
+              <NoblePhantasmFilter
+                filters={filters}
+                onChange={setFilters}
               />
             }
             page={page}

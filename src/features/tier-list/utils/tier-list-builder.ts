@@ -1,7 +1,10 @@
 ﻿import { normalizeContentType } from '@/constants/content-types';
 import { DEFAULT_TIER_DEFINITIONS } from '@/constants/tier-colors';
 import type { Quality } from '@/types/quality';
-import type { TierList } from '@/features/tier-list/types';
+import type {
+  TierList,
+  TierListEntityType,
+} from '@/features/tier-list/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
@@ -12,6 +15,7 @@ interface LegacyTierEntry {
   character_slug?: string;
   character_name?: string;
   character_quality?: Quality;
+  noble_phantasm_slug?: string;
   tier: string;
   note?: string;
 }
@@ -25,7 +29,12 @@ export function isTierEntryLike(value: unknown): value is LegacyTierEntry {
 
   const hasSlug = typeof value.character_slug === 'string';
   const hasLegacyName = typeof value.character_name === 'string';
-  if ((!hasSlug && !hasLegacyName) || typeof value.tier !== 'string') {
+  const hasNoblePhantasmSlug =
+    typeof value.noble_phantasm_slug === 'string';
+  if (
+    (!hasSlug && !hasLegacyName && !hasNoblePhantasmSlug) ||
+    typeof value.tier !== 'string'
+  ) {
     return false;
   }
 
@@ -50,11 +59,26 @@ export function normalizeTierListFromPartial(
   partial: TierListPatch,
   fallback: TierList
 ): TierList {
+  const inferredEntityType: TierListEntityType =
+    partial.entity_type === 'character' ||
+    partial.entity_type === 'noble_phantasm'
+      ? partial.entity_type
+      : partial.entries && partial.entries.length > 0
+        ? partial.entries.some(
+            (entry) => typeof entry.noble_phantasm_slug === 'string'
+          )
+          ? 'noble_phantasm'
+          : 'character'
+        : (fallback.entity_type ?? 'character');
   const getEntryIdentity = (entry: {
     character_slug?: string;
     character_name?: string;
     character_quality?: string;
+    noble_phantasm_slug?: string;
   }): string => {
+    if (inferredEntityType === 'noble_phantasm') {
+      return (entry.noble_phantasm_slug ?? '').toLowerCase();
+    }
     const slug =
       entry.character_slug ?? toEntitySlug(entry.character_name ?? '');
     return `${slug}__${entry.character_quality ?? ''}`.toLowerCase();
@@ -76,14 +100,34 @@ export function normalizeTierListFromPartial(
 
   const normalizedEntries = Array.isArray(partial.entries)
     ? (() => {
-        const seenCharacters = new Set<string>();
+        const seenEntities = new Set<string>();
         const entries: TierList['entries'] = [];
         for (const entry of partial.entries) {
           if (!isTierEntryLike(entry)) continue;
+          if (
+            inferredEntityType === 'noble_phantasm' &&
+            typeof entry.noble_phantasm_slug !== 'string'
+          ) {
+            continue;
+          }
+          if (
+            inferredEntityType === 'character' &&
+            typeof entry.noble_phantasm_slug === 'string'
+          ) {
+            continue;
+          }
           const identity = getEntryIdentity(entry);
-          if (seenCharacters.has(identity)) continue;
-          seenCharacters.add(identity);
+          if (!identity || seenEntities.has(identity)) continue;
+          seenEntities.add(identity);
           const normalizedEntryNote = normalizeOptionalNote(entry.note);
+          if (inferredEntityType === 'noble_phantasm') {
+            entries.push({
+              noble_phantasm_slug: entry.noble_phantasm_slug as string,
+              tier: entry.tier,
+              ...(normalizedEntryNote ? { note: normalizedEntryNote } : {}),
+            });
+            continue;
+          }
           const normalizedQuality = toQuality(entry.character_quality);
           const slug =
             entry.character_slug ?? toEntitySlug(entry.character_name ?? '');
@@ -104,6 +148,14 @@ export function normalizeTierListFromPartial(
   return {
     ...fallback,
     ...(typeof partial.name === 'string' ? { name: partial.name } : {}),
+    slug:
+      typeof partial.slug === 'string'
+        ? partial.slug
+        : fallback.slug ||
+          toEntitySlug(
+            typeof partial.name === 'string' ? partial.name : fallback.name
+          ),
+    entity_type: inferredEntityType,
     ...(typeof partial.author === 'string' ? { author: partial.author } : {}),
     ...(typeof partial.description === 'string'
       ? { description: partial.description }
@@ -123,6 +175,8 @@ export function normalizeTierListFromPartial(
 
 const TIER_LIST_MIGRATION_FALLBACK: TierList = {
   name: '',
+  slug: '',
+  entity_type: 'character',
   author: '',
   content_type: 'All',
   description: '',

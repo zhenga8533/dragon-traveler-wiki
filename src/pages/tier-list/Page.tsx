@@ -20,11 +20,20 @@ import {
 } from '@/constants/content-types';
 import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
-import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
+import {
+  getCharacterIdentityKey,
+  resolveCharacterByNameAndQuality,
+} from '@/features/characters/utils/character-route';
 import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
-import type { TierList as TierListType } from '@/features/tier-list/types';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+  isNoblePhantasmTierEntry,
+  type TierListRankableEntity,
+  type TierList as TierListType,
+} from '@/features/tier-list/types';
 import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
 import {
   countActiveFilters,
@@ -35,6 +44,7 @@ import {
   useFilters,
   useGradientAccent,
   useIsMobile,
+  useNoblePhantasms,
   usePoolLayout,
   useTierListChanges,
   useTierLists,
@@ -71,6 +81,13 @@ function matchesTierListFilters(
   }
 
   if (
+    viewFilters.entityTypes.length > 0 &&
+    !viewFilters.entityTypes.includes(getTierListEntityType(tierList))
+  ) {
+    return false;
+  }
+
+  if (
     !matchesContentTypeFilters(tierList.content_type, viewFilters.contentTypes)
   ) {
     return false;
@@ -93,10 +110,17 @@ export default function TierList() {
     error: charactersError,
     retry: retryCharacters,
   } = useCharacters();
+  const {
+    data: noblePhantasms,
+    loading: loadingNoblePhantasms,
+    error: noblePhantasmsError,
+    retry: retryNoblePhantasms,
+  } = useNoblePhantasms();
   const { data: tierListChanges } = useTierListChanges();
   interface TierListViewFilters {
     [key: string]: string[];
     contentTypes: string[];
+    entityTypes: string[];
     factions: string[];
     classes: string[];
     qualities: string[];
@@ -106,6 +130,7 @@ export default function TierList() {
     useFilters<TierListViewFilters>({
       emptyFilters: {
         contentTypes: [],
+        entityTypes: [],
         factions: [],
         classes: [],
         qualities: [],
@@ -153,8 +178,8 @@ export default function TierList() {
     setLayout: setPoolLayout,
     canUseSideLayout: canUseSidePoolLayout,
   } = usePoolLayout();
-  const loading = loadingTiers || loadingChars;
-  const error = tierListsError || charactersError;
+  const loading = loadingTiers || loadingChars || loadingNoblePhantasms;
+  const error = tierListsError || charactersError || noblePhantasmsError;
 
   const {
     preferredByName: preferredCharacterByName,
@@ -163,19 +188,57 @@ export default function TierList() {
 
   const charMap = preferredCharacterByName;
 
+  const noblePhantasmBySlug = useMemo(() => {
+    const result = new Map(noblePhantasms.map((item) => [item.slug, item]));
+    for (const item of noblePhantasms) {
+      if (item.legacy_slug) result.set(item.legacy_slug, item);
+    }
+    return result;
+  }, [noblePhantasms]);
+
   const resolveTierEntryCharacter = useCallback(
     (entry: TierListType['entries'][number]) =>
-      resolveCharacterByNameAndQuality(
-        entry.character_slug,
-        entry.character_quality,
-        preferredCharacterByName,
-        characterByIdentity
-      ),
+      isCharacterTierEntry(entry)
+        ? resolveCharacterByNameAndQuality(
+            entry.character_slug,
+            entry.character_quality,
+            preferredCharacterByName,
+            characterByIdentity
+          )
+        : null,
     [preferredCharacterByName, characterByIdentity]
   );
 
+  const resolveTierEntryEntity = useCallback(
+    (
+      entry: TierListType['entries'][number]
+    ): TierListRankableEntity | undefined => {
+      if (isNoblePhantasmTierEntry(entry)) {
+        const noblePhantasm = noblePhantasmBySlug.get(
+          entry.noble_phantasm_slug
+        );
+        return noblePhantasm
+          ? {
+              key: noblePhantasm.slug,
+              entityType: 'noble_phantasm',
+              noblePhantasm,
+            }
+          : undefined;
+      }
+      const character = resolveTierEntryCharacter(entry);
+      return character
+        ? {
+            key: getCharacterIdentityKey(character),
+            entityType: 'character',
+            character,
+          }
+        : undefined;
+    },
+    [noblePhantasmBySlug, resolveTierEntryCharacter]
+  );
+
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
-  const hasCharacterFilters =
+  const hasEntityFilters =
     viewFilters.factions.length > 0 ||
     viewFilters.classes.length > 0 ||
     viewFilters.qualities.length > 0;
@@ -210,6 +273,32 @@ export default function TierList() {
     [viewFilters.factions, viewFilters.classes, viewFilters.qualities]
   );
 
+  const matchesEntityViewFilters = useCallback(
+    (entity: TierListRankableEntity) => {
+      if (entity.character) {
+        return matchesCharacterViewFilters(entity.character);
+      }
+      const noblePhantasm = entity.noblePhantasm;
+      if (!noblePhantasm) return false;
+      if (
+        viewFilters.factions.length > 0 ||
+        viewFilters.classes.length > 0
+      ) {
+        return false;
+      }
+      return (
+        viewFilters.qualities.length === 0 ||
+        viewFilters.qualities.includes(noblePhantasm.quality)
+      );
+    },
+    [
+      matchesCharacterViewFilters,
+      viewFilters.classes.length,
+      viewFilters.factions.length,
+      viewFilters.qualities,
+    ]
+  );
+
   useEffect(() => {
     const deduped = normalizeContentTypeFilters(viewFilters.contentTypes);
     const unchanged =
@@ -227,6 +316,13 @@ export default function TierList() {
         key: 'contentTypes',
         label: 'Content Type',
         options: contentTypeOptions,
+      },
+      {
+        key: 'entityTypes',
+        label: 'Entity Type',
+        options: ['character', 'noble_phantasm'],
+        labelFn: (value) =>
+          value === 'noble_phantasm' ? 'Noble Phantasms' : 'Characters',
       },
       createFactionFilterGroup(),
       createClassFilterGroup(),
@@ -250,6 +346,7 @@ export default function TierList() {
   const handleClearFilters = useCallback(() => {
     setViewFilters({
       contentTypes: [],
+      entityTypes: [],
       factions: [],
       classes: [],
       qualities: [],
@@ -300,39 +397,39 @@ export default function TierList() {
   const visibleTierLists = useMemo(() => {
     return tierLists.filter((tierList) => {
       if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
-      if (!hasCharacterFilters) return true;
+      if (!hasEntityFilters) return true;
 
       return tierList.entries.some((entry) => {
-        const character = resolveTierEntryCharacter(entry);
-        return character ? matchesCharacterViewFilters(character) : false;
+        const entity = resolveTierEntryEntity(entry);
+        return entity ? matchesEntityViewFilters(entity) : false;
       });
     });
   }, [
     tierLists,
     search,
     viewFilters,
-    hasCharacterFilters,
-    resolveTierEntryCharacter,
-    matchesCharacterViewFilters,
+    hasEntityFilters,
+    resolveTierEntryEntity,
+    matchesEntityViewFilters,
   ]);
 
   const visibleSavedTierLists = useMemo(() => {
     return savedTierLists.filter((tierList) => {
       if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
-      if (!hasCharacterFilters) return true;
+      if (!hasEntityFilters) return true;
 
       return tierList.entries.some((entry) => {
-        const character = resolveTierEntryCharacter(entry);
-        return character ? matchesCharacterViewFilters(character) : false;
+        const entity = resolveTierEntryEntity(entry);
+        return entity ? matchesEntityViewFilters(entity) : false;
       });
     });
   }, [
     savedTierLists,
     search,
     viewFilters,
-    hasCharacterFilters,
-    resolveTierEntryCharacter,
-    matchesCharacterViewFilters,
+    hasEntityFilters,
+    resolveTierEntryEntity,
+    matchesEntityViewFilters,
   ]);
 
   const handleRequestExport = useCallback(
@@ -437,6 +534,7 @@ export default function TierList() {
             onRetry={() => {
               retryTierLists();
               retryCharacters();
+              retryNoblePhantasms();
             }}
           />
         )}
@@ -464,7 +562,8 @@ export default function TierList() {
               <TierListViewTab
                 visibleTierLists={visibleTierLists}
                 characters={characters}
-                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                noblePhantasms={noblePhantasms}
+                resolveTierEntryEntity={resolveTierEntryEntity}
                 viewMode={viewMode}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
@@ -473,8 +572,8 @@ export default function TierList() {
                 onRequestExport={handleRequestExport}
                 isExporting={isCapturingTierList}
                 exportRefCallback={exportRefCallback}
-                characterFilter={matchesCharacterViewFilters}
-                hasCharacterFilters={hasCharacterFilters}
+                entityFilter={matchesEntityViewFilters}
+                hasEntityFilters={hasEntityFilters}
               />
             )}
 
@@ -482,7 +581,7 @@ export default function TierList() {
               <TierListSavedTab
                 savedTierLists={savedTierLists}
                 visibleSavedTierLists={visibleSavedTierLists}
-                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                resolveTierEntryEntity={resolveTierEntryEntity}
                 viewMode={viewMode}
                 search={search}
                 onClearFilters={handleClearFilters}
@@ -493,8 +592,8 @@ export default function TierList() {
                 exportRefCallback={exportRefCallback}
                 onRequestDelete={setPendingDeleteSavedTierList}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
-                characterFilter={matchesCharacterViewFilters}
-                hasCharacterFilters={hasCharacterFilters}
+                entityFilter={matchesEntityViewFilters}
+                hasEntityFilters={hasEntityFilters}
               />
             )}
 
@@ -502,6 +601,7 @@ export default function TierList() {
               <TierListBuilder
                 characters={characters}
                 charMap={charMap}
+                noblePhantasms={noblePhantasms}
                 initialData={editData}
                 poolLayout={poolLayout}
                 onPoolLayoutChange={setPoolLayout}

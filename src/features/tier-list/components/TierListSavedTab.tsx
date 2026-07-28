@@ -10,16 +10,16 @@ import { IoCreate } from 'react-icons/io5';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
-import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import TierListContent from '@/features/tier-list/components/TierListContent';
+import type { TierListRankableEntity } from '@/features/tier-list/types';
 
 interface TierListSavedTabProps {
   savedTierLists: TierListType[];
   visibleSavedTierLists: TierListType[];
-  resolveTierEntryCharacter: (
+  resolveTierEntryEntity: (
     entry: TierListType['entries'][number]
-  ) => Character | null | undefined;
+  ) => TierListRankableEntity | undefined;
   viewMode: string;
   search: string;
   onClearFilters: () => void;
@@ -30,14 +30,14 @@ interface TierListSavedTabProps {
   exportRefCallback: (name: string, node: HTMLDivElement | null) => void;
   onRequestDelete: (name: string) => void;
   onGoToBuilder: () => void;
-  characterFilter: (character: Character) => boolean;
-  hasCharacterFilters: boolean;
+  entityFilter: (entity: TierListRankableEntity) => boolean;
+  hasEntityFilters: boolean;
 }
 
 export default function TierListSavedTab({
   savedTierLists,
   visibleSavedTierLists,
-  resolveTierEntryCharacter,
+  resolveTierEntryEntity,
   viewMode,
   search,
   onClearFilters,
@@ -48,8 +48,8 @@ export default function TierListSavedTab({
   exportRefCallback,
   onRequestDelete,
   onGoToBuilder,
-  characterFilter,
-  hasCharacterFilters,
+  entityFilter,
+  hasEntityFilters,
 }: TierListSavedTabProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
@@ -135,14 +135,14 @@ export default function TierListSavedTab({
             <Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
               <TierListContent
                 tierList={tierList}
-                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                resolveTierEntryEntity={resolveTierEntryEntity}
                 viewMode={viewMode}
                 headerActions={headerActions}
                 disableNameClamp={isExporting === tierList.name}
                 exportRefCallback={(node) =>
                   exportRefCallback(tierList.name, node)
                 }
-                characterFilter={hasCharacterFilters ? characterFilter : undefined}
+                entityFilter={hasEntityFilters ? entityFilter : undefined}
               />
             </Tabs.Panel>
           );

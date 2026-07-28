@@ -28,6 +28,10 @@ import {
 import PaginationControl from '@/components/ui/PaginationControl';
 import CharacterFilter from '@/features/characters/components/CharacterFilter';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
 
 const ROWS_PER_PAGE = 6;
 
@@ -142,8 +146,9 @@ export default function FilterableCharacterPool({
     const map = new Map<string, string>();
     if (!selectedTierListName) return map;
     const list = tierLists.find((l) => l.name === selectedTierListName);
-    if (!list) return map;
+    if (!list || getTierListEntityType(list) !== 'character') return map;
     for (const entry of list.entries) {
+      if (!isCharacterTierEntry(entry)) continue;
       const resolved = resolveCharacterByNameAndQuality(
         entry.character_slug,
         entry.character_quality,
