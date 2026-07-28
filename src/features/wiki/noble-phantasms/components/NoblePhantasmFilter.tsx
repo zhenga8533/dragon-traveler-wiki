@@ -38,7 +38,7 @@ export default function NoblePhantasmFilter({
       onSearchChange={(search) => onChange({ ...filters, search })}
       searchPlaceholder="Search by name or character..."
       beforeGroups={
-        <FilterSection label="Linked Character">
+        <FilterSection label="Character">
           <FilterChipGroup
             size={isMobile ? 'md' : 'xs'}
             value={filters.characterLinks}
@@ -52,8 +52,8 @@ export default function NoblePhantasmFilter({
               })
             }
             options={[
-              { value: 'valid', label: 'Yes' },
-              { value: 'invalid', label: 'No' },
+              { value: 'valid', label: 'Linked' },
+              { value: 'invalid', label: 'Not linked' },
             ]}
           />
         </FilterSection>
