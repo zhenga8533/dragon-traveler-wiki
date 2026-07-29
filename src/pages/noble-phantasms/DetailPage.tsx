@@ -140,15 +140,17 @@ export default function NoblePhantasmPage() {
           )}
 
           <Stack gap={6} style={{ flex: 1 }}>
-            <Title
-              order={1}
-              c={isDark ? 'white' : 'dark'}
-              fz={{ base: '1.5rem', sm: '2.125rem' }}
-              style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
-            >
-              {noblePhantasm.name}
-            </Title>
-            <QualityIcon quality={noblePhantasm.quality} size={24} />
+            <Group gap="sm" align="center" wrap="wrap">
+              <Title
+                order={1}
+                c={isDark ? 'white' : 'dark'}
+                fz={{ base: '1.5rem', sm: '2.125rem' }}
+                style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
+              >
+                {noblePhantasm.name}
+              </Title>
+              <QualityIcon quality={noblePhantasm.quality} size={32} />
+            </Group>
             <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
 
             {linkedCharacter && (
