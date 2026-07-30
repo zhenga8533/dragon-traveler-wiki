@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
 import {
   IoBook,
   IoCalculatorOutline,

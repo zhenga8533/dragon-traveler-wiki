@@ -31,7 +31,7 @@ import {
 } from '@/utils/entity-slug';
 import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function TeamPage() {
   const tooltipProps = useMobileTooltip();

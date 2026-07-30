@@ -12,7 +12,7 @@ import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import { Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface WyrmspellCardProps {
   name: string;

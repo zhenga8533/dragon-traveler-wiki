@@ -40,7 +40,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCreate, IoTrash } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export function TeamHeroSection({
   team,

@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { GEAR_TYPE_ICON_MAP, getGearIcon, getPortrait } from '@/assets';
 import { getSubclassIcon } from '@/assets';
 import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';

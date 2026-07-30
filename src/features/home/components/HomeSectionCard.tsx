@@ -10,7 +10,7 @@ import {
   type MantineColor,
 } from '@mantine/core';
 import type { ComponentType, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface HomeSectionCardProps {
   title: string;

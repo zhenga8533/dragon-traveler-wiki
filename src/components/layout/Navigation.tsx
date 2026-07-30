@@ -10,7 +10,7 @@ import { IMAGE_SIZE, NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { useGradientAccent, useNavBadgeCounts } from '@/hooks';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
 import { useEffect, useState, type ComponentType } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 const collapsedNavStyles = {
   root: {

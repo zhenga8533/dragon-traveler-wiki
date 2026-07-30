@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { FACTION_WYRM_MAP } from '@/assets';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import FactionTag from '@/components/ui/FactionTag';

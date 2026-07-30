@@ -1,5 +1,5 @@
 import { Group, ScrollArea, Table, Text, UnstyledButton } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
 import {

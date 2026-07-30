@@ -26,7 +26,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export function BenchSection({
   bench,

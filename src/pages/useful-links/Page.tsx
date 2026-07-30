@@ -18,7 +18,7 @@ import { getStableTagColor } from '@/constants/tag-colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { useUsefulLinks } from '@/features/wiki/hooks/use-wiki-data';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { toEntitySlug } from '@/utils/entity-slug';
 
 const LINK_FIELDS: FieldDef[] = [

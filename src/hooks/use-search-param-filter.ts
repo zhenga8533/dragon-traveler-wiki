@@ -1,5 +1,5 @@
 import { useEffect, type Dispatch, type SetStateAction } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 
 /** Applies a global-search destination query without replacing saved filters. */
 export function useSearchParamFilter<F extends { search: string }>(

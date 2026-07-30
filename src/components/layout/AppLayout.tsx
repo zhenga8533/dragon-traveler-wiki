@@ -22,7 +22,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 import BannerBackground from './BannerBackground';
 import Footer from './Footer';
 import HeaderNav from './HeaderNav';

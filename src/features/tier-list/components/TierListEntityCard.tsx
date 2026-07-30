@@ -6,7 +6,7 @@ import { CHARACTER_CARD } from '@/constants/ui';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import type { TierListRankableEntity } from '@/features/tier-list/types';
 import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface TierListEntityCardProps {
   entity?: TierListRankableEntity;

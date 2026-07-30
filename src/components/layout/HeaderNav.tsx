@@ -20,7 +20,7 @@ import {
 } from '@mantine/core';
 import type { ComponentType } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;

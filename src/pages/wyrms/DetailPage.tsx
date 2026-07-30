@@ -46,7 +46,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function phaseIndex(phase: WyrmPhase): number {
   return WYRM_PHASE_ORDER.indexOf(phase);

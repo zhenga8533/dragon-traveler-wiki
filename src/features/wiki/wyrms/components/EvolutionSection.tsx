@@ -8,7 +8,7 @@ import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
 
 import { Badge, Group, Paper, Stack, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Juvenile Phase': 'violet',

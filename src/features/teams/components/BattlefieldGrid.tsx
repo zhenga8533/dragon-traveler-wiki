@@ -9,7 +9,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoFlash } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';

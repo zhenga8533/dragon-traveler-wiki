@@ -11,7 +11,7 @@ import {
   Routes,
   useLocation,
   useParams,
-} from 'react-router-dom';
+} from 'react-router';
 
 const Home = lazy(() => import('@/pages/home/Page'));
 const Artifacts = lazy(() => import('@/pages/artifacts/ListPage'));

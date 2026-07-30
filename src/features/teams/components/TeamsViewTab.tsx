@@ -11,7 +11,7 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { FACTION_WYRM_MAP } from '@/assets';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import FactionTag from '@/components/ui/FactionTag';

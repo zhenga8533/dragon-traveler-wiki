@@ -9,7 +9,7 @@ import SafeImage from './SafeImage';
 import FactionTag from './FactionTag';
 import IconBadge from './IconBadge';
 import QualityIcon from './QualityIcon';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export interface WyrmspellBadgeProps {
   /** Wyrmspell slug (e.g. "agility_aura") — the canonical key in wyrmspells.json. */

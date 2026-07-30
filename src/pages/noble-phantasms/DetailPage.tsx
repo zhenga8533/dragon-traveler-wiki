@@ -30,7 +30,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { IoHourglassOutline } from 'react-icons/io5';
 
 export default function NoblePhantasmPage() {

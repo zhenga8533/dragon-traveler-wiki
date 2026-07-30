@@ -40,7 +40,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 const SSR_AND_ABOVE: Quality[] = ['UR+', 'UR', 'SSR EX', 'SSR+', 'SSR'];
 

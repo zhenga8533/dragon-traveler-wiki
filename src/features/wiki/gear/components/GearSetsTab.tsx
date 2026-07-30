@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Badge, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import ListPageShell from '@/components/layout/ListPageShell';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';

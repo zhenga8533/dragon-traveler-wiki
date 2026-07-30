@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { lazy, Suspense, useCallback, useContext, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';

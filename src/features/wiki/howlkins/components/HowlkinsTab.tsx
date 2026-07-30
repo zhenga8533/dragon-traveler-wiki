@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { Group, Paper, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';

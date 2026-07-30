@@ -34,7 +34,7 @@ import {
   IoShield,
   IoTrophy,
 } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useContext, useMemo, type ComponentType } from 'react';
 
 const HOME_CTA_BUTTON_STYLES = {

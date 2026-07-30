@@ -42,7 +42,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const WYRMSPELL_TYPE_FILTER_ORDER = [
   'Breach',

@@ -21,7 +21,7 @@ import {
   IoSparkles,
   IoEgg,
 } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import LastUpdated from '@/components/common/LastUpdated';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {

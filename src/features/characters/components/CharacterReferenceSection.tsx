@@ -9,7 +9,7 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { useGradientAccent } from '@/hooks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import FactionTag from '@/components/ui/FactionTag';
 import { normalizeContentType } from '@/constants/content-types';

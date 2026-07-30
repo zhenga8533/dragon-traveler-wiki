@@ -8,7 +8,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import { Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useMobileTooltip } from '@/hooks';
 
 interface CharacterPortraitProps {

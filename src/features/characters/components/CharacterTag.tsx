@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Badge } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useGradientAccent } from '@/hooks';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {

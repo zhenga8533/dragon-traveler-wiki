@@ -30,7 +30,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function OracleScrollPage() {
   const { accent } = useGradientAccent();
