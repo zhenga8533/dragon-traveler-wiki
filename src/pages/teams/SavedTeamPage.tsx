@@ -126,11 +126,7 @@ export default function SavedTeamPage() {
   });
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!team) {

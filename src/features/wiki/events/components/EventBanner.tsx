@@ -51,7 +51,7 @@ interface IllustrationState {
 }
 
 function useIllustration(characters: string[]): IllustrationState {
-  const { data: characterData } = useCharacters();
+  const { data: characterData, loading } = useCharacters();
   const byIdentity = useMemo(
     () => buildCharacterByIdentityMap(characterData),
     [characterData]
@@ -70,8 +70,6 @@ function useIllustration(characters: string[]): IllustrationState {
       })
       .filter((s): s is string => s !== null);
   }, [characters, byIdentity]);
-
-  const loading = characterData.length === 0;
 
   const [srcsForIdx, setSrcsForIdx] = useState<string[] | null>(null);
   const [idx, setIdx] = useState(0);
@@ -129,9 +127,10 @@ export default function EventBanner({
         flex: width ? `0 0 ${width}px` : undefined,
       }}
       visibleFrom={visibleFrom}
+      aria-busy={loading || undefined}
     >
       {loading ? (
-        <Skeleton height={height} radius={radius} />
+        <Skeleton height={height} radius={radius} aria-hidden="true" />
       ) : (
         <SafeImage
           src={src ?? namedImage ?? placeholderEventImage}

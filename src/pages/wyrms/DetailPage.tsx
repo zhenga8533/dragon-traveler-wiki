@@ -98,11 +98,7 @@ export default function WyrmPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!wyrm) {

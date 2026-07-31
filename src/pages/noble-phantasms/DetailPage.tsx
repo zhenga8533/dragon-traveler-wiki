@@ -93,11 +93,7 @@ export default function NoblePhantasmPage() {
   }, [characters, noblePhantasm]);
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!noblePhantasm) {

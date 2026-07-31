@@ -4,6 +4,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { getOracleScrollVideo, getRelicIcon } from '@/assets';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
@@ -52,7 +53,9 @@ export default function OracleScrollsTab({
       errorTitle="Could not load oracle scrolls"
       hasData={oracleScrolls.length > 0}
       emptyMessage="No oracle scroll data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <CardGridLoading cardHeight={160} showPagination />
+      }
     >
       <SearchableGridPanel
         search={search}

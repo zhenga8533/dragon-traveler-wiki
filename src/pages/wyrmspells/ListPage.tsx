@@ -13,6 +13,7 @@ import RichText from '@/components/common/RichText';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
@@ -302,7 +303,14 @@ export default function Wyrmspells() {
           errorTitle="Could not load wyrmspells"
           hasData={wyrmspells.length > 0}
           emptyMessage="No wyrmspell data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

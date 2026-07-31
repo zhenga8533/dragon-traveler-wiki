@@ -14,6 +14,7 @@ import RichText from '@/components/common/RichText';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -264,7 +265,14 @@ export default function WyrmsListPage() {
           errorTitle="Could not load wyrms"
           hasData={wyrms.length > 0}
           emptyMessage="No wyrm data available yet."
-          skeletonCards={6}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

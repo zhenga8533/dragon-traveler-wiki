@@ -257,7 +257,7 @@ export default function DataHistoryTab() {
     />
   );
 
-  if (loading) return <ListPageLoading cards={4} />;
+  if (loading) return <ListPageLoading showPagination />;
 
   if (events.length === 0) {
     return (

@@ -3,6 +3,7 @@ import { getCardHoverProps } from '@/constants/styles';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import EventBanner from '@/features/wiki/events/components/EventBanner';
 import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
+import { EventCardsLoading } from '@/components/layout/PageLoadingSkeleton';
 import { useEvents } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent } from '@/hooks';
 import type { GameEvent } from '@/types';
@@ -12,7 +13,6 @@ import {
   Card,
   Group,
   SimpleGrid,
-  Skeleton,
   Stack,
   Text,
 } from '@mantine/core';
@@ -30,13 +30,7 @@ export default function ActiveEventsSection() {
   }, [events]);
 
   if (loading) {
-    return (
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="sm">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} height={180} radius="md" />
-        ))}
-      </SimpleGrid>
-    );
+    return <EventCardsLoading cards={3} bannerHeight={130} spacing="sm" />;
   }
 
   if (activeEvents.length === 0) {

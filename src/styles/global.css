@@ -48,4 +48,8 @@
   .dt-safe-media--loading {
     animation: none;
   }
+
+  .mantine-Skeleton-root[data-animate]::after {
+    animation: none;
+  }
 }

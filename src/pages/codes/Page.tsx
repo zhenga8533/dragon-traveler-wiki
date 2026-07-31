@@ -555,7 +555,14 @@ export default function Codes() {
         )}
 
         {loading && (
-          <ViewModeLoading viewMode={viewMode} cards={5} cardHeight={180} />
+          <ViewModeLoading
+            viewMode={viewMode}
+            cards={9}
+            cardHeight={180}
+            gridCols={{ base: 1, xs: 2, sm: 3 }}
+            showPagination
+            label="Loading codes"
+          />
         )}
 
         {!loading && !error && filtered.length === 0 && (

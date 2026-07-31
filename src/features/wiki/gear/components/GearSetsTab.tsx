@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Badge, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
@@ -49,7 +50,9 @@ export default function GearSetsTab({
       errorTitle="Could not load gear sets"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <CardGridLoading cardHeight={180} showPagination />
+      }
     >
       <SearchableGridPanel
         search={search}

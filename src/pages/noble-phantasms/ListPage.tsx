@@ -21,6 +21,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -491,7 +492,14 @@ export default function NoblePhantasms() {
               errorTitle="Could not load noble phantasms"
               hasData={noblePhantasms.length > 0}
               emptyMessage="No noble phantasm data available yet."
-              skeletonCards={4}
+              loadingFallback={
+                <ViewModeLoading
+                  viewMode={viewMode}
+                  listType="table"
+                  withToolbar
+                  showPagination
+                />
+              }
             >
               <FilteredListShell
             count={filtered.length}

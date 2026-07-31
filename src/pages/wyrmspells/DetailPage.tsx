@@ -82,11 +82,7 @@ export default function WyrmspellPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!wyrmspell) {

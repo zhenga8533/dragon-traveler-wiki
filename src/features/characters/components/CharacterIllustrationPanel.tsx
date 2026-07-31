@@ -3,6 +3,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { StaticSurface } from '@/components/ui/Surface';
 import { NAV_ITEM_HEIGHT } from '@/constants/ui';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
@@ -67,12 +68,14 @@ export default function CharacterIllustrationPanel({
 
   if (loading) {
     return (
-      <StaticSurface p="md" radius="lg">
-        <Stack gap="xs">
-          <Skeleton height={18} width="35%" />
-          <Skeleton height={300} radius="md" />
-        </Stack>
-      </StaticSurface>
+      <LoadingRegion label="Loading character illustrations">
+        <StaticSurface p="md" radius="lg">
+          <Stack gap="xs">
+            <Skeleton height={18} width="35%" />
+            <Skeleton height={300} radius="md" />
+          </Stack>
+        </StaticSurface>
+      </LoadingRegion>
     );
   }
 

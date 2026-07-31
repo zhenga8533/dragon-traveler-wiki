@@ -2,6 +2,7 @@
 import { normalizeContentType } from '@/constants/content-types';
 import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
 import CharacterCard from '@/features/characters/components/CharacterCard';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import {
   buildCharacterByIdentityMap,
   buildPreferredCharacterByNameMap,
@@ -36,26 +37,28 @@ export default function FeaturedCharactersMarquee() {
 
   if (loading) {
     return (
-      <Box
-        style={{
-          overflowX: 'hidden',
-          width: '100%',
-          padding: '8px 0',
-          maskImage:
-            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-        }}
-      >
-        <Group gap="md" wrap="nowrap" justify="center">
-          {Array.from({ length: 8 }, (_, i) => (
-            <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
-              <Skeleton height={64} width={64} radius="50%" />
-              <Skeleton height={18} width={36} radius="sm" />
-            </Stack>
-          ))}
-        </Group>
-      </Box>
+      <LoadingRegion label="Loading featured characters">
+        <Box
+          style={{
+            overflowX: 'hidden',
+            width: '100%',
+            padding: '8px 0',
+            maskImage:
+              'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+          }}
+        >
+          <Group gap="md" wrap="nowrap" justify="center">
+            {Array.from({ length: 8 }, (_, i) => (
+              <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
+                <Skeleton height={64} circle />
+                <Skeleton height={18} width={36} radius="sm" />
+              </Stack>
+            ))}
+          </Group>
+        </Box>
+      </LoadingRegion>
     );
   }
 

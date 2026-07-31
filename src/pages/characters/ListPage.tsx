@@ -1,5 +1,6 @@
 import {
   CharacterList,
+  CharacterListLoading,
   EmptyState,
   ListPageHeader,
   ListPageShell,
@@ -7,7 +8,6 @@ import {
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
 import { CHARACTER_FIELDS } from '@/features/characters/form-fields';
-import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import { CharacterOwnershipContext } from '@/contexts';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -100,10 +100,9 @@ export default function Characters() {
           errorTitle="Could not load characters"
           hasData={characters.length > 0}
           emptyMessage="No character data available yet."
-          skeletonType="grid"
-          skeletonCards={12}
-          skeletonCardHeight={110}
-          skeletonCols={CHARACTER_GRID_COLS}
+          loadingFallback={
+            <CharacterListLoading viewMode={listData.viewMode} />
+          }
         >
           {characters.length === 0 ? (
             <EmptyState

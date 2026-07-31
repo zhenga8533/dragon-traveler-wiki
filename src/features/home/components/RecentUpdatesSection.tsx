@@ -1,5 +1,6 @@
 import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
 import { getCardHoverProps } from '@/constants/styles';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
 interface ChangelogEntry {
@@ -24,11 +25,22 @@ export default function RecentUpdatesSection() {
 
   if (loading) {
     return (
-      <Stack gap="xs">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} height={60} radius="md" />
-        ))}
-      </Stack>
+      <LoadingRegion label="Loading recent updates">
+        <Stack gap="xs">
+          {[1, 2, 3].map((i) => (
+            <Paper key={i} p="xs" radius="md" withBorder>
+              <Group justify="space-between" mb={6} wrap="nowrap">
+                <Skeleton height={12} width={72} radius="sm" />
+                <Skeleton height={18} width={64} radius="xl" />
+              </Group>
+              <Stack gap={4}>
+                <Skeleton height={12} width="88%" radius="sm" />
+                <Skeleton height={12} width="68%" radius="sm" />
+              </Stack>
+            </Paper>
+          ))}
+        </Stack>
+      </LoadingRegion>
     );
   }
 

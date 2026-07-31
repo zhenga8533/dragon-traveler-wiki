@@ -86,11 +86,7 @@ export default function GoldenAllianceDetailPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!alliance) {

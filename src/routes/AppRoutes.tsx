@@ -1,9 +1,19 @@
 import {
+  BuilderPageLoading,
+  CardGridLoading,
+  CharacterDetailPageLoading,
+  CharacterListLoading,
+  ContentPageLoading,
   DetailPageLoading,
+  EventCardsLoading,
+  HomePageLoading,
+  ListRouteLoading,
   ListPageLoading,
+  ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
-import { Container } from '@mantine/core';
+import { Container, Group, Skeleton, Stack } from '@mantine/core';
 import { isDetailRoute } from '@/constants/route-meta';
+import { STORAGE_KEY } from '@/constants/ui';
 import { lazy, Suspense } from 'react';
 import {
   Navigate,
@@ -63,18 +73,297 @@ function GuidesLegacyRedirect() {
   return <Navigate to={`/toolbox/${rest}`} replace />;
 }
 
-function RouteFallback() {
-  const { pathname } = useLocation();
-  const isDetail = isDetailRoute(pathname);
-  return isDetail ? (
-    <Container size="xl" py="xl">
-      <DetailPageLoading />
-    </Container>
-  ) : (
-    <Container size="md" py="xl">
-      <ListPageLoading cards={4} />
+function CharacterListRouteFallback() {
+  const viewMode = getStoredViewMode(STORAGE_KEY.CHARACTER_VIEW_MODE, 'grid');
+
+  return (
+    <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
+      <Stack gap="md">
+        <Group justify="space-between" align="center" wrap="wrap">
+          <Skeleton height={42} width={190} radius="md" aria-hidden="true" />
+          <Group gap="xs" aria-hidden="true">
+            <Skeleton height={30} width={110} radius="md" />
+            <Skeleton height={30} width={72} radius="md" />
+            <Skeleton height={30} width={72} radius="md" />
+          </Group>
+        </Group>
+        <CharacterListLoading viewMode={viewMode} />
+      </Stack>
     </Container>
   );
+}
+
+type ViewMode = 'grid' | 'list';
+
+function getStoredViewMode(storageKey: string, fallback: ViewMode): ViewMode {
+  if (typeof window === 'undefined') return fallback;
+  const stored = window.localStorage.getItem(storageKey);
+  return stored === 'grid' || stored === 'list' ? stored : fallback;
+}
+
+function getRouteTab(search: string, fallback: string, validTabs: string[]) {
+  const tab = new URLSearchParams(search).get('tab');
+  return tab && validTabs.includes(tab) ? tab : fallback;
+}
+
+function FilteredListRouteFallback({
+  storageKey,
+  defaultViewMode,
+  tabs = 0,
+}: {
+  storageKey: string;
+  defaultViewMode: ViewMode;
+  tabs?: number;
+}) {
+  const viewMode = getStoredViewMode(storageKey, defaultViewMode);
+  return (
+    <ListRouteLoading tabs={tabs}>
+      <ViewModeLoading
+        viewMode={viewMode}
+        listType="table"
+        withToolbar
+        showPagination
+      />
+    </ListRouteLoading>
+  );
+}
+
+function RouteFallback() {
+  const { pathname, search } = useLocation();
+  if (pathname === '/') {
+    return <HomePageLoading />;
+  }
+
+  if (pathname === '/characters') {
+    return <CharacterListRouteFallback />;
+  }
+
+  if (pathname.startsWith('/characters/')) {
+    return <CharacterDetailPageLoading />;
+  }
+
+  const isDetail = isDetailRoute(pathname);
+  if (isDetail) return <DetailPageLoading />;
+
+  if (pathname === '/artifacts') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.ARTIFACT_VIEW_MODE}
+        defaultViewMode="grid"
+      />
+    );
+  }
+
+  if (pathname === '/wyrmspells') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.WYRMSPELL_VIEW_MODE}
+        defaultViewMode="grid"
+      />
+    );
+  }
+
+  if (pathname === '/wyrms') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.WYRM_VIEW_MODE}
+        defaultViewMode="grid"
+      />
+    );
+  }
+
+  if (pathname === '/resources') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.RESOURCE_VIEW_MODE}
+        defaultViewMode="list"
+      />
+    );
+  }
+
+  if (pathname === '/status-effects') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.STATUS_EFFECT_VIEW_MODE}
+        defaultViewMode="list"
+      />
+    );
+  }
+
+  if (pathname === '/subclasses') {
+    return (
+      <FilteredListRouteFallback
+        storageKey={STORAGE_KEY.SUBCLASS_VIEW_MODE}
+        defaultViewMode="list"
+      />
+    );
+  }
+
+  if (pathname === '/gear') {
+    const tab = getRouteTab(search, 'gear', ['gear', 'gear-sets', 'usage']);
+    const content =
+      tab === 'gear-sets' ? (
+        <CardGridLoading cardHeight={180} showPagination />
+      ) : tab === 'usage' ? (
+        <ViewModeLoading
+          viewMode="list"
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      ) : (
+        <ViewModeLoading
+          viewMode={getStoredViewMode(STORAGE_KEY.GEAR_VIEW_MODE, 'grid')}
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      );
+    return <ListRouteLoading tabs={3}>{content}</ListRouteLoading>;
+  }
+
+  if (pathname === '/relics') {
+    const tab = getRouteTab(search, 'relics', ['relics', 'oracle-scrolls']);
+    return (
+      <ListRouteLoading tabs={2}>
+        {tab === 'oracle-scrolls' ? (
+          <CardGridLoading cardHeight={160} showPagination />
+        ) : (
+          <ViewModeLoading
+            viewMode={getStoredViewMode(STORAGE_KEY.RELIC_VIEW_MODE, 'grid')}
+            listType="table"
+            withToolbar
+            showPagination
+          />
+        )}
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/howlkins') {
+    const tab = getRouteTab(search, 'howlkins', [
+      'howlkins',
+      'golden-alliances',
+    ]);
+    return (
+      <ListRouteLoading tabs={2}>
+        {tab === 'golden-alliances' ? (
+          <CardGridLoading cardHeight={180} showPagination />
+        ) : (
+          <ViewModeLoading
+            viewMode={getStoredViewMode(STORAGE_KEY.HOWLKIN_VIEW_MODE, 'grid')}
+            cardHeight={180}
+            listType="table"
+            withToolbar
+            showPagination
+          />
+        )}
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/noble-phantasms') {
+    const tab = getRouteTab(search, 'noble-phantasms', [
+      'noble-phantasms',
+      'usage',
+    ]);
+    return (
+      <ListRouteLoading tabs={2}>
+        <ViewModeLoading
+          viewMode={
+            tab === 'usage'
+              ? 'list'
+              : getStoredViewMode(
+                  STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE,
+                  'grid'
+                )
+          }
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/events') {
+    return (
+      <ListRouteLoading containerSize="lg" tabs={2}>
+        <EventCardsLoading
+          viewMode={getStoredViewMode(STORAGE_KEY.EVENT_VIEW_MODE, 'grid')}
+          showPagination
+        />
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/codes') {
+    return (
+      <ListRouteLoading tabs={2}>
+        <ViewModeLoading
+          viewMode={getStoredViewMode(STORAGE_KEY.CODES_VIEW_MODE, 'list')}
+          cards={9}
+          gridCols={{ base: 1, xs: 2, sm: 3 }}
+          cardHeight={180}
+          showPagination
+          label="Loading codes"
+        />
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/teams' || pathname === '/tier-list') {
+    const mode = new URLSearchParams(search).get('mode');
+    const isTeams = pathname === '/teams';
+    const viewMode = getStoredViewMode(
+      isTeams ? STORAGE_KEY.TEAMS_VIEW_MODE : STORAGE_KEY.TIER_LIST_VIEW_MODE,
+      'grid'
+    );
+    return (
+      <ListRouteLoading containerSize="lg">
+        <Stack gap="md">
+          <Skeleton height={36} radius="md" aria-hidden="true" />
+          {mode === 'builder' ? (
+            <BuilderPageLoading />
+          ) : (
+            <ViewModeLoading
+              viewMode={viewMode}
+              cardHeight={isTeams ? 200 : 180}
+              showPagination
+              label={isTeams ? 'Loading teams' : 'Loading tier lists'}
+            />
+          )}
+        </Stack>
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/changelog') {
+    const tab = getRouteTab(search, 'site', ['site', 'data']);
+    return (
+      <ListRouteLoading tabs={2} description actions={false}>
+        {tab === 'data' ? (
+          <ListPageLoading showPagination />
+        ) : (
+          <ViewModeLoading
+            viewMode="list"
+            showPagination
+            label="Loading updates"
+          />
+        )}
+      </ListRouteLoading>
+    );
+  }
+
+  if (pathname === '/toolbox/useful-links') {
+    return (
+      <ListRouteLoading>
+        <ViewModeLoading viewMode="list" />
+      </ListRouteLoading>
+    );
+  }
+
+  return <ContentPageLoading />;
 }
 
 export default function AppRoutes() {

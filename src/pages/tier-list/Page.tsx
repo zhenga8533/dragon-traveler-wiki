@@ -8,7 +8,7 @@ import {
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
-  ListPageLoading,
+  BuilderPageLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
@@ -57,6 +57,7 @@ import {
   Container,
   Group,
   SegmentedControl,
+  Skeleton,
   Stack,
   Title,
 } from '@mantine/core';
@@ -530,12 +531,21 @@ export default function TierList() {
           </PageFilterHeaderControls>
         )}
 
-        {loading &&
-          (mode === 'builder' ? (
-            <ListPageLoading cards={3} />
-          ) : (
-            <ViewModeLoading viewMode={viewMode} cards={3} cardHeight={180} />
-          ))}
+        {loading && (
+          <Stack gap="md">
+            <Skeleton height={36} radius="md" aria-hidden="true" />
+            {mode === 'builder' ? (
+              <BuilderPageLoading />
+            ) : (
+              <ViewModeLoading
+                viewMode={viewMode}
+                cardHeight={180}
+                showPagination
+                label="Loading tier lists"
+              />
+            )}
+          </Stack>
+        )}
 
         {!loading && error && (
           <DataFetchError

@@ -6,6 +6,7 @@ import { createClassFilterGroup } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import { SUBCLASS_FIELDS } from '@/features/wiki/subclasses/form-fields';
@@ -162,7 +163,14 @@ export default function Subclasses() {
           errorTitle="Could not load subclasses"
           hasData={subclasses.length > 0}
           emptyMessage="No subclass data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

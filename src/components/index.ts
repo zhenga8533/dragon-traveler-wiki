@@ -71,7 +71,7 @@ export { default as Footer } from './layout/Footer';
 export { default as FullBleedSection } from './layout/FullBleedSection';
 export { default as ListPageHeader } from './layout/ListPageHeader';
 export { default as ListPageShell } from './layout/ListPageShell';
-export { DetailPageLoading, ListPageLoading } from './layout/PageLoadingSkeleton';
+export { CharacterListLoading } from './layout/PageLoadingSkeleton';
 
 // ── Tools ─────────────────────────────────────────────────────────────────────
 export { default as JsonModal } from './tools/JsonModal';

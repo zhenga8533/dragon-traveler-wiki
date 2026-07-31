@@ -18,6 +18,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/status-effect-colors';
@@ -174,7 +175,14 @@ export default function StatusEffects() {
           errorTitle="Could not load status effects"
           hasData={effects.length > 0}
           emptyMessage="No status effect data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

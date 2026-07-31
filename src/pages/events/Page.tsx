@@ -13,6 +13,7 @@ import {
 } from '@/components/common/FilterControls';
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
+import { EventCardsLoading } from '@/components/layout/PageLoadingSkeleton';
 import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
@@ -408,26 +409,6 @@ function renderEvents(items: EventEntry[], viewMode: ViewMode) {
   );
 }
 
-function EventGridSkeleton() {
-  return (
-    <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
-      {[1, 2, 3].map((i) => (
-        <Skeleton key={i} height={240} radius="md" />
-      ))}
-    </SimpleGrid>
-  );
-}
-
-function EventListSkeleton() {
-  return (
-    <Stack gap="md">
-      {[1, 2, 3].map((i) => (
-        <Skeleton key={i} height={140} radius="md" />
-      ))}
-    </Stack>
-  );
-}
-
 export default function Events() {
   const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { accent } = useGradientAccent();
@@ -635,7 +616,17 @@ export default function Events() {
               />
             </PageFilterHeaderControls>
           )}
+          {!isPageMobile && loading && (
+            <Group gap="xs" wrap="nowrap" aria-hidden="true">
+              <Skeleton height={30} width={72} radius="md" />
+              <Skeleton height={30} width={36} radius="md" />
+            </Group>
+          )}
         </Group>
+
+        {isPageMobile && loading && (
+          <Skeleton height={38} radius="md" aria-hidden="true" />
+        )}
 
         {isPageMobile && !loading && !error && (
           <PageFilterHeaderControls
@@ -700,12 +691,9 @@ export default function Events() {
           </ScrollArea>
         </Tabs>
 
-        {loading &&
-          (eventViewMode === 'list' ? (
-            <EventListSkeleton />
-          ) : (
-            <EventGridSkeleton />
-          ))}
+        {loading && (
+          <EventCardsLoading viewMode={eventViewMode} showPagination />
+        )}
 
         {!loading && error && (
           <DataFetchError

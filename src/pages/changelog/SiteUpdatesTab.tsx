@@ -9,7 +9,7 @@ import {
   Timeline,
 } from '@mantine/core';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
@@ -78,7 +78,9 @@ export default function SiteUpdatesTab({
 }: SiteUpdatesTabProps) {
   return (
     <Stack gap="lg">
-      {loading && <ListPageLoading cards={4} />}
+      {loading && (
+        <ViewModeLoading viewMode="list" showPagination label="Loading updates" />
+      )}
 
       {!loading && changelog.length === 0 && (
         <Text c="dimmed" ta="center" py="lg">

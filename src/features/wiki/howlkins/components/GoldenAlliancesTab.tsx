@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { Badge, Group, Paper, SimpleGrid, Stack, Table, Text } from '@mantine/core';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
@@ -51,9 +52,9 @@ export default function GoldenAlliancesTab({
       hasData={goldenAlliances.length > 0}
       emptyMessage="Golden alliance data hasn't been added yet."
       errorTitle="Could not load golden alliances"
-      skeletonCards={4}
-      skeletonType="grid"
-      skeletonCardHeight={180}
+      loadingFallback={
+        <CardGridLoading cardHeight={180} showPagination />
+      }
     >
       <SearchableGridPanel
         search={search}

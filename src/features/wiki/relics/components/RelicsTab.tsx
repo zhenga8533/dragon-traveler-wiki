@@ -13,6 +13,7 @@ import {
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
@@ -98,7 +99,14 @@ export default function RelicsTab({
       errorTitle="Could not load relics"
       hasData={relics.length > 0}
       emptyMessage="No relic data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode={viewMode}
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <FilteredListShell
         count={filtered.length}

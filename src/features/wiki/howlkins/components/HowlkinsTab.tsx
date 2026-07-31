@@ -91,7 +91,13 @@ export default function HowlkinsTab({
   return (
     <>
       {loading && (
-        <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={180} />
+        <ViewModeLoading
+          viewMode={viewMode}
+          cardHeight={180}
+          listType="table"
+          withToolbar
+          showPagination
+        />
       )}
 
       {!loading && error && (

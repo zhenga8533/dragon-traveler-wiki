@@ -17,6 +17,7 @@ import {
 } from '@/components/common/FilterControls';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import type { Character } from '@/features/characters/types';
@@ -124,7 +125,14 @@ export default function NoblePhantasmUsageTab({
       errorTitle="Could not load noble phantasm usage"
       hasData={noblePhantasms.length > 0}
       emptyMessage="No noble phantasm data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode="list"
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <StaticSurface p="md" data-no-hover>
         <Stack gap="md">

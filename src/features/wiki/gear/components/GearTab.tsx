@@ -8,6 +8,7 @@ import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -100,7 +101,14 @@ export default function GearTab({
       errorTitle="Could not load gear"
       hasData={gear.length > 0}
       emptyMessage="No gear data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode={viewMode}
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <FilteredListShell
         count={filtered.length}

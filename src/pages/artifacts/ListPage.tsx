@@ -9,6 +9,7 @@ import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
@@ -181,7 +182,14 @@ export default function Artifacts() {
           errorTitle="Could not load artifacts"
           hasData={artifacts.length > 0}
           emptyMessage="No artifact data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

@@ -25,6 +25,7 @@ import {
   type FieldDef,
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
@@ -194,7 +195,14 @@ export default function Resources() {
           errorTitle="Could not load resources"
           hasData={resources.length > 0}
           emptyMessage="No resource data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}

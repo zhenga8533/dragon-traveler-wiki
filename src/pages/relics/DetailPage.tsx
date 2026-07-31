@@ -115,11 +115,7 @@ export default function OracleScrollPage() {
   }, [scrollRelics, accent.primary]);
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!currentScroll || scrollRelics.length === 0) {

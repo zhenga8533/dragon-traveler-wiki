@@ -6,7 +6,7 @@ import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { CharacterDetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FullBleedSection from '@/components/layout/FullBleedSection';
 import { BREAKPOINTS } from '@/constants/ui';
 import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
@@ -131,11 +131,7 @@ export default function CharacterPage() {
   }, []);
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <CharacterDetailPageLoading />;
   }
 
   if (!character) {

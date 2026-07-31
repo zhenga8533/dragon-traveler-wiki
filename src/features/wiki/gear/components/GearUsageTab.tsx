@@ -8,6 +8,7 @@ import {
 } from '@/components/common/FilterControls';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import {
@@ -105,7 +106,14 @@ export default function GearUsageTab({
       errorTitle="Could not load gear usage"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode="list"
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <StaticSurface p="md" data-no-hover>
         <Stack gap="md">
