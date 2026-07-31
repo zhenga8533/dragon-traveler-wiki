@@ -316,7 +316,7 @@ export default function NoblePhantasms() {
       col: string | null,
       dir: 'asc' | 'desc'
     ) => {
-      let cmp = 0;
+      let cmp: number;
       if (col === 'name') {
         cmp = a.item.name.localeCompare(b.item.name);
       } else if (col === 'rarity') {

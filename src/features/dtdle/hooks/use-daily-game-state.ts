@@ -31,13 +31,9 @@ export function useDailyGameState<T extends { date: string }>(
   const [state, setState] = useState<T>(() =>
     readStoredJson(storageKey, freshState(todayStr), isValid)
   );
-
-  useEffect(() => {
-    if (state.date !== todayStr) {
-      setState(freshState(todayStr));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todayStr]);
+  if (state.date !== todayStr) {
+    setState(freshState(todayStr));
+  }
 
   useEffect(() => {
     writeStoredJson(storageKey, state);

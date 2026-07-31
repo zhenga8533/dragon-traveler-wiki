@@ -1,5 +1,5 @@
 ﻿import { Box, Container } from '@mantine/core';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import EntityNotFound from '@/components/ui/EntityNotFound';
@@ -86,10 +86,11 @@ export default function SavedTeamPage() {
   const [team, setTeam] = useState<Team | null>(() =>
     readSavedTeamBySlug(slug)
   );
-
-  useEffect(() => {
+  const [loadedSlug, setLoadedSlug] = useState(slug);
+  if (slug !== loadedSlug) {
+    setLoadedSlug(slug);
     setTeam(readSavedTeamBySlug(slug));
-  }, [slug]);
+  }
 
   const { data: characters, loading: loadingChars } = useCharacters();
   const { data: wyrmspells, loading: loadingSpells } = useWyrmspells();

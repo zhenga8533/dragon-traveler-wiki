@@ -161,7 +161,15 @@ export default function TierList() {
     draftStorageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
     setSearchParams,
   });
-  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>([]);
+  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
+    mode === 'saved'
+      ? loadSavedFromStorage<TierListType>(
+          STORAGE_KEY.TIER_LIST_MY_SAVED,
+          (v) => Array.isArray(v.entries),
+          migrateStoredTierList
+        )
+      : []
+  );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
@@ -366,9 +374,11 @@ export default function TierList() {
     );
   }, []);
 
-  useEffect(() => {
+  const [prevMode, setPrevMode] = useState(mode);
+  if (mode !== prevMode) {
+    setPrevMode(mode);
     if (mode === 'saved') refreshSavedTierLists();
-  }, [mode, refreshSavedTierLists]);
+  }
 
   function deleteSavedTierList(name: string) {
     try {

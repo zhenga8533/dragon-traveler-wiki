@@ -81,11 +81,13 @@ function useIllustration(characters: string[]): IllustrationState {
   }
 
   const sharedTick = useSharedBannerTick(srcs.length > 1);
-  useEffect(() => {
-    if (srcs.length <= 1) return;
-    setIdx((i) => (i + 1) % srcs.length);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sharedTick]);
+  const [tickForIdx, setTickForIdx] = useState(sharedTick);
+  if (sharedTick !== tickForIdx) {
+    setTickForIdx(sharedTick);
+    if (srcs.length > 1) {
+      setIdx((i) => (i + 1) % srcs.length);
+    }
+  }
 
   return {
     src: srcs.length > 0 ? srcs[idx] : null,

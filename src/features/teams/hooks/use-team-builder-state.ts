@@ -245,7 +245,7 @@ function toBuilderState(
 
     // A malformed/duplicate/wrong-row position falls back to the next open
     // valid-row slot instead of silently dropping the character.
-    let slotIndex = -1;
+    let slotIndex: number;
     if (member.position) {
       const candidate = member.position.row * 3 + member.position.col;
       const candidateValid =
