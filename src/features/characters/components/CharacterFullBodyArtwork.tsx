@@ -66,9 +66,9 @@ export default function CharacterFullBodyArtwork({
             width: '40%',
             height: 'calc(100% - 32px)',
             maskImage:
-              'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
+              'linear-gradient(to right, transparent 0%, black 24%, black 76%, transparent 100%)',
             WebkitMaskImage:
-              'linear-gradient(to right, transparent 0%, black 24%, black 100%)',
+              'linear-gradient(to right, transparent 0%, black 24%, black 76%, transparent 100%)',
           }}
         >
           <SafeImage
@@ -86,14 +86,16 @@ export default function CharacterFullBodyArtwork({
             }}
             style={{
               position: 'absolute',
-              right: 0,
+              left: '50%',
               top: 0,
               width: 'auto',
               maxWidth: 'none',
               height: `${height ?? 140}%`,
               opacity: height == null ? 0 : 1,
-              transform: hovered ? 'scale(1.02)' : 'scale(1)',
-              transformOrigin: 'right top',
+              transform: hovered
+                ? 'translateX(-50%) scale(1.02)'
+                : 'translateX(-50%) scale(1)',
+              transformOrigin: 'center top',
               filter: hovered ? 'brightness(1.08)' : undefined,
               transition:
                 'opacity 160ms ease, transform 180ms ease, filter 180ms ease',
