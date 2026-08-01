@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { addLinkedCharacterNames } from '../src/features/search/noble-phantasm-search.ts';
+import { rankAndLimitSearchResults } from '../src/features/search/search-ranking.ts';
 
 test('noble phantasm search items resolve linked character names', () => {
   const characters = new Map([
@@ -18,4 +19,30 @@ test('noble phantasm search items resolve linked character names', () => {
     { ...items[1], characterName: 'Athena' },
     { ...items[2], characterName: undefined },
   ]);
+});
+
+test('search results rank title matches while preserving category groups', () => {
+  const results = [
+    { type: 'character', title: 'Beta Knight' },
+    { type: 'character', title: 'Alpha' },
+    { type: 'page', title: 'The Alpha Guide' },
+    { type: 'page', title: 'Alpha Database' },
+    { type: 'gear', title: 'Unrelated' },
+  ];
+
+  assert.deepEqual(rankAndLimitSearchResults(results, 'alpha', 4), [
+    results[1],
+    results[0],
+    results[3],
+    results[2],
+  ]);
+});
+
+test('search result ranking observes the global result limit', () => {
+  const results = Array.from({ length: 5 }, (_, index) => ({
+    type: `category-${index}`,
+    title: `Result ${index}`,
+  }));
+
+  assert.equal(rankAndLimitSearchResults(results, 'result', 3).length, 3);
 });
