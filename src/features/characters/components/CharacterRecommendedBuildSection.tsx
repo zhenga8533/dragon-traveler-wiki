@@ -36,14 +36,14 @@ import { toQuality } from '@/utils/quality';
 interface CharacterRecommendedBuildSectionProps {
   recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  linkedNoblePhantasm: NoblePhantasm | null;
+  linkedNoblePhantasms: NoblePhantasm[];
   statusEffects: StatusEffect[];
 }
 
 export default function CharacterRecommendedBuildSection({
   recommendedGearLoadouts,
   recommendedSubclassEntries,
-  linkedNoblePhantasm,
+  linkedNoblePhantasms,
   statusEffects,
 }: CharacterRecommendedBuildSectionProps) {
   const { accent } = useGradientAccent();
@@ -57,7 +57,7 @@ export default function CharacterRecommendedBuildSection({
   if (
     recommendedGearLoadouts.length === 0 &&
     recommendedSubclassEntries.length === 0 &&
-    linkedNoblePhantasm === null
+    linkedNoblePhantasms.length === 0
   ) {
     return null;
   }
@@ -79,46 +79,54 @@ export default function CharacterRecommendedBuildSection({
       }
     >
       <Stack gap="md">
-        {linkedNoblePhantasm && (() => {
-          const npIcon = getNoblePhantasmIcon(linkedNoblePhantasm.slug);
-          const topEffect = linkedNoblePhantasm.effects[0];
-          return (
-            <Stack gap="sm">
-              <Text fw={600} size="sm">
-                Recommended Noble Phantasm
-              </Text>
-              <Link
-                to={`/noble-phantasms/${linkedNoblePhantasm.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
-                  <Group gap="sm" wrap="nowrap">
-                    {npIcon && (
-                      <SafeImage
-                        src={npIcon}
-                        alt={linkedNoblePhantasm.name}
-                        w={IMAGE_SIZE.CARD_ICON_SM}
-                        h={IMAGE_SIZE.CARD_ICON_SM}
-                        fit="contain"
-                        loading="lazy"
-                      />
-                    )}
-                    <Stack gap={2} style={{ minWidth: 0 }}>
-                      <Text size="sm" fw={600} truncate>
-                        {linkedNoblePhantasm.name}
-                      </Text>
-                      {topEffect && (
-                        <ExpandableText size="xs">
-                          <RichText text={topEffect.description} statusEffects={statusEffects} />
-                        </ExpandableText>
-                      )}
-                    </Stack>
-                  </Group>
-                </Paper>
-              </Link>
-            </Stack>
-          );
-        })()}
+        {linkedNoblePhantasms.length > 0 && (
+          <Stack gap="sm">
+            <Text fw={600} size="sm">
+              Recommended Noble Phantasms
+            </Text>
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+              {linkedNoblePhantasms.map((noblePhantasm) => {
+                const npIcon = getNoblePhantasmIcon(noblePhantasm.slug);
+                const topEffect = noblePhantasm.effects[0];
+                return (
+                  <Link
+                    key={noblePhantasm.slug}
+                    to={`/noble-phantasms/${noblePhantasm.slug}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+                      <Group gap="sm" wrap="nowrap">
+                        {npIcon && (
+                          <SafeImage
+                            src={npIcon}
+                            alt={noblePhantasm.name}
+                            w={IMAGE_SIZE.CARD_ICON_SM}
+                            h={IMAGE_SIZE.CARD_ICON_SM}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                        <Stack gap={2} style={{ minWidth: 0 }}>
+                          <Text size="sm" fw={600} truncate>
+                            {noblePhantasm.name}
+                          </Text>
+                          {topEffect && (
+                            <ExpandableText size="xs">
+                              <RichText
+                                text={topEffect.description}
+                                statusEffects={statusEffects}
+                              />
+                            </ExpandableText>
+                          )}
+                        </Stack>
+                      </Group>
+                    </Paper>
+                  </Link>
+                );
+              })}
+            </SimpleGrid>
+          </Stack>
+        )}
 
         {recommendedSubclassEntries.length > 0 && (
           <Stack gap="sm">

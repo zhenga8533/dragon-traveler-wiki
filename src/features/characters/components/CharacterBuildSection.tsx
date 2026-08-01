@@ -23,7 +23,7 @@ interface CharacterPageBuildSectionProps {
   statusEffects: StatusEffect[];
   recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  linkedNoblePhantasm: NoblePhantasm | null;
+  linkedNoblePhantasms: NoblePhantasm[];
   scrollToSkill: (skillName: string) => void;
   scrollToTalent: () => void;
   showInformationComingSoon?: boolean;
@@ -39,7 +39,7 @@ export default function CharacterPageBuildSection({
   statusEffects,
   recommendedGearLoadouts,
   recommendedSubclassEntries,
-  linkedNoblePhantasm,
+  linkedNoblePhantasms,
   scrollToSkill,
   scrollToTalent,
   showInformationComingSoon = false,
@@ -75,7 +75,7 @@ export default function CharacterPageBuildSection({
       <CharacterRecommendedBuildSection
         recommendedGearLoadouts={recommendedGearLoadouts}
         recommendedSubclassEntries={recommendedSubclassEntries}
-        linkedNoblePhantasm={linkedNoblePhantasm}
+        linkedNoblePhantasms={linkedNoblePhantasms}
         statusEffects={statusEffects}
       />
     </>

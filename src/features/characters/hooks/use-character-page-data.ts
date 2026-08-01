@@ -100,7 +100,7 @@ export interface CharacterPageData {
   tierLabel: string | null;
   tierListCharacterNote: string | null;
   selectedTierListName: string | null;
-  linkedNoblePhantasm: NoblePhantasm | null;
+  linkedNoblePhantasms: NoblePhantasm[];
   subclassBySlug: Map<string, Subclass>;
   recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
@@ -247,15 +247,21 @@ export function useCharacterPageData(
     return getCharacterRouteSlug(character);
   }, [character]);
 
-  const linkedNoblePhantasm = useMemo(() => {
-    if (!character?.recommended_noble_phantasm) return null;
-    return (
-      noblePhantasms.find(
-        (np) =>
-          np.slug === character.recommended_noble_phantasm ||
-          np.legacy_slug === character.recommended_noble_phantasm
-      ) ?? null
+  const linkedNoblePhantasms = useMemo(() => {
+    const references = character?.recommended_noble_phantasm ?? [];
+    const noblePhantasmByReference = new Map(
+      noblePhantasms.flatMap((noblePhantasm) => [
+        [noblePhantasm.slug, noblePhantasm] as const,
+        ...(noblePhantasm.legacy_slug
+          ? ([[noblePhantasm.legacy_slug, noblePhantasm]] as const)
+          : []),
+      ])
     );
+
+    return references.flatMap((reference) => {
+      const noblePhantasm = noblePhantasmByReference.get(reference);
+      return noblePhantasm ? [noblePhantasm] : [];
+    });
   }, [character, noblePhantasms]);
 
   const subclassBySlug = useMemo(() => {
@@ -416,7 +422,7 @@ export function useCharacterPageData(
     tierLabel,
     tierListCharacterNote,
     selectedTierListName,
-    linkedNoblePhantasm,
+    linkedNoblePhantasms,
     subclassBySlug,
     recommendedGearLoadouts,
     recommendedSubclassEntries,

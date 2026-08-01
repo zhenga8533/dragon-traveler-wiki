@@ -251,15 +251,15 @@ export default function NoblePhantasms() {
     const charactersByItem = new Map<string, typeof characters>();
 
     for (const character of usageEligibleCharacters) {
-      const reference = character.recommended_noble_phantasm?.trim();
-      if (!reference) continue;
+      const references = new Set(character.recommended_noble_phantasm ?? []);
+      for (const reference of references) {
+        const item = itemByReference.get(reference);
+        if (!item) continue;
 
-      const item = itemByReference.get(reference);
-      if (!item) continue;
-
-      const usingCharacters = charactersByItem.get(item.slug) ?? [];
-      usingCharacters.push(character);
-      charactersByItem.set(item.slug, usingCharacters);
+        const usingCharacters = charactersByItem.get(item.slug) ?? [];
+        usingCharacters.push(character);
+        charactersByItem.set(item.slug, usingCharacters);
+      }
     }
 
     return noblePhantasms

@@ -71,7 +71,7 @@ export default function CharacterPage() {
     tierLabel,
     tierListCharacterNote,
     selectedTierListName,
-    linkedNoblePhantasm,
+    linkedNoblePhantasms,
     subclassBySlug,
     recommendedGearLoadouts,
     recommendedSubclassEntries,
@@ -168,7 +168,7 @@ export default function CharacterPage() {
     (character.divinity?.length ?? 0) > 0 ||
     recommendedGearLoadouts.length > 0 ||
     recommendedSubclassEntries.length > 0 ||
-    linkedNoblePhantasm ||
+    linkedNoblePhantasms.length > 0 ||
     (selectedTierListName && tierLabel && tierListCharacterNote)
   );
 
@@ -269,7 +269,7 @@ export default function CharacterPage() {
                   statusEffects={statusEffects}
                   recommendedGearLoadouts={recommendedGearLoadouts}
                   recommendedSubclassEntries={recommendedSubclassEntries}
-                  linkedNoblePhantasm={linkedNoblePhantasm}
+                  linkedNoblePhantasms={linkedNoblePhantasms}
                   scrollToSkill={scrollToSkill}
                   scrollToTalent={scrollToTalent}
                   showInformationComingSoon={!hasRightColumnInformation}
