@@ -17,9 +17,13 @@ import {
   useWyrmspells,
 } from '@/hooks';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
+import {
+  getSavedTeam,
+  removeSavedTeam,
+} from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
-import { migrateStoredTeam } from '@/features/teams/utils/team-builder';
 import { toEntitySlug } from '@/utils/entity-slug';
+import { showErrorToast } from '@/utils/toast';
 import {
   exportTeamCompositionAsImage,
   hasTeamBuilderDraft,
@@ -28,46 +32,7 @@ import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
 import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
 
 function readSavedTeamBySlug(slug: string): Team | null {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-    if (!raw) return null;
-    const saves = JSON.parse(raw) as Record<string, unknown>;
-    const val = saves[slug];
-    if (
-      val !== null &&
-      typeof val === 'object' &&
-      ('members' in (val as object) &&
-      Array.isArray((val as Team).members))
-    ) {
-      const migrated = migrateStoredTeam(val as Partial<Team>);
-      if ((migrated.last_updated ?? 0) <= 0) {
-        migrated.last_updated = Math.floor(Date.now() / 1000);
-      }
-      saves[slug] = migrated;
-      window.localStorage.setItem(
-        STORAGE_KEY.TEAMS_MY_SAVED,
-        JSON.stringify(saves)
-      );
-      return migrated;
-    }
-    return null;
-  } catch {
-    return null;
-  }
-}
-
-function deleteSavedTeamFromStorage(name: string) {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-    const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
-    delete saves[toEntitySlug(name)];
-    window.localStorage.setItem(
-      STORAGE_KEY.TEAMS_MY_SAVED,
-      JSON.stringify(saves)
-    );
-  } catch {
-    // ignore
-  }
+  return getSavedTeam(slug);
 }
 
 export default function SavedTeamPage() {
@@ -153,8 +118,15 @@ export default function SavedTeamPage() {
   };
 
   const handleDelete = () => {
-    deleteSavedTeamFromStorage(team.name);
-    navigate('/teams?mode=saved', { replace: true });
+    try {
+      removeSavedTeam(toEntitySlug(team.name));
+      navigate('/teams?mode=saved', { replace: true });
+    } catch {
+      showErrorToast({
+        title: 'Could not delete team',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
+    }
   };
 
   const exportAsImage = async () => {

@@ -15,12 +15,16 @@ import { normalizeContentType } from '@/constants/content-types';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
+import {
+  buildCharacterByIdentityMap,
+  getCharacterRoutePath,
+} from '@/features/characters/utils/character-route';
 import {
   clearRecentSearches,
   loadRecentSearches,
   saveRecentSearch,
 } from '@/features/search/recent-searches';
+import { addLinkedCharacterNames } from '@/features/search/noble-phantasm-search';
 import { SEARCH_PAGES } from '@/features/search/search-pages';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
@@ -213,6 +217,15 @@ function SearchModalContent({
   } = useContext(SearchDataContext);
   const isSearchPending = query.trim() !== debouncedQuery.trim();
 
+  const characterByIdentity = useMemo(
+    () => buildCharacterByIdentityMap(characters),
+    [characters]
+  );
+  const noblePhantasmSearchItems = useMemo(
+    () => addLinkedCharacterNames(noblePhantasms, characterByIdentity),
+    [characterByIdentity, noblePhantasms]
+  );
+
   const searchShortcutHint = 'Search (/)';
 
   useHotkeys(
@@ -311,9 +324,9 @@ function SearchModalContent({
             threshold: 0.3,
           })
         : null,
-      noblePhantasms: noblePhantasms.length
-        ? new Fuse(noblePhantasms, {
-            keys: ['name', 'character', 'lore'],
+      noblePhantasms: noblePhantasmSearchItems.length
+        ? new Fuse(noblePhantasmSearchItems, {
+            keys: ['name', 'characterName', 'lore'],
             threshold: 0.3,
           })
         : null,
@@ -366,7 +379,7 @@ function SearchModalContent({
       subclasses,
       wyrms,
       wyrmspells,
-      noblePhantasms,
+      noblePhantasmSearchItems,
       teams,
       codes,
       events,
@@ -535,7 +548,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'noble-phantasm' as const,
             title: r.item.name,
-            subtitle: r.item.character_slug || 'Noble Phantasm',
+            subtitle: r.item.characterName || 'Noble Phantasm',
             path: `/noble-phantasms/${r.item.slug}`,
             icon: getNoblePhantasmIcon(r.item.slug) ?? IoFlashOutline,
             color: 'teal',

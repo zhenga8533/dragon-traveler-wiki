@@ -179,9 +179,9 @@ export function getStatusEffectIcon(
 
 // ── Subclass ─────────────────────────────────────────────────────────────────
 
-export function getSubclassIcon(subclassName: string, characterClass?: string): string | undefined {
-  if (!subclassName || !characterClass) return undefined;
-  const subclassKey = normalizeKey(subclassName);
+export function getSubclassIcon(subclassSlug: string, characterClass?: string): string | undefined {
+  if (!subclassSlug || !characterClass) return undefined;
+  const subclassKey = normalizeKey(subclassSlug);
   return `${BASE}subclass/${normalizeKey(characterClass)}/${subclassKey}.png`;
 }
 

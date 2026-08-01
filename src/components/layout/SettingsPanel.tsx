@@ -1,7 +1,7 @@
 import JsonModal from '@/components/tools/JsonModal';
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
-import { STORAGE_KEY, TRANSITION, Z_INDEX } from '@/constants/ui';
+import { TRANSITION, Z_INDEX } from '@/constants/ui';
 import type { CustomMantineAccent } from '@/contexts';
 import {
   BannerContext,
@@ -17,6 +17,11 @@ import {
   PALETTE_SWATCHES,
   RANDOM_MODE_LABEL,
 } from '@/features/settings/options';
+import {
+  buildSettingsExport,
+  importSettings,
+} from '@/features/settings/settings-storage';
+import { SETTINGS_STORAGE_KEYS } from '@/features/settings/settings-storage-keys';
 import {
   useDarkMode,
   useEffectiveNavLayout,
@@ -47,23 +52,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
-
-const SETTINGS_EXPORT_VERSION = 1;
-const SETTINGS_EXPORT_EXCLUDE = new Set<string>([
-  STORAGE_KEY.TEAMS_BUILDER_DRAFT,
-  STORAGE_KEY.TEAMS_BUILDER_SLOTS,
-  STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
-  STORAGE_KEY.TIER_LIST_BUILDER_SLOTS,
-]);
-const SETTINGS_IMPORT_KEYS = new Set<string>(
-  Object.values(STORAGE_KEY).filter(
-    (key) => !SETTINGS_EXPORT_EXCLUDE.has(key)
-  )
-);
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
+import { showErrorToast } from '@/utils/toast';
 
 export default function SettingsPanel({
   initiallyOpened = false,
@@ -167,55 +156,23 @@ export default function SettingsPanel({
   const [exportJson, setExportJson] = useState('');
 
   const handleOpenExport = () => {
-    const data: Record<string, string> = {};
-    for (const key of Object.values(STORAGE_KEY)) {
-      if (SETTINGS_EXPORT_EXCLUDE.has(key)) continue;
-      const val = localStorage.getItem(key);
-      if (val !== null) data[key] = val;
+    try {
+      setExportJson(buildSettingsExport(localStorage, SETTINGS_STORAGE_KEYS));
+      openExportModal();
+    } catch {
+      showErrorToast({
+        title: 'Could not export settings',
+        message: 'Browser storage is unavailable. Please try again.',
+      });
     }
-    setExportJson(
-      JSON.stringify(
-        {
-          version: SETTINGS_EXPORT_VERSION,
-          savedAt: new Date().toISOString(),
-          data,
-        },
-        null,
-        2
-      )
-    );
-    openExportModal();
   };
 
   const handleImport = (text: string): string | null => {
-    try {
-      const parsed: unknown = JSON.parse(text);
-      if (
-        !isRecord(parsed) ||
-        parsed.version !== SETTINGS_EXPORT_VERSION ||
-        !isRecord(parsed.data)
-      ) {
-        return 'Invalid settings file.';
-      }
-
-      const entries = Object.entries(parsed.data);
-      if (
-        entries.some(
-          ([key, value]) =>
-            !SETTINGS_IMPORT_KEYS.has(key) || typeof value !== 'string'
-        )
-      ) {
-        return 'Settings file contains unsupported keys or values.';
-      }
-
-      for (const [key, value] of entries) {
-        localStorage.setItem(key, value as string);
-      }
+    const error = importSettings(text, localStorage, SETTINGS_STORAGE_KEYS);
+    if (!error) {
       window.location.reload();
-      return null;
-    } catch {
-      return 'Could not parse JSON. Make sure you pasted the full settings export.';
     }
+    return error;
   };
 
   const settingsContent = (

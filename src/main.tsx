@@ -1,4 +1,4 @@
-import { MantineProvider } from '@mantine/core';
+import { localStorageColorSchemeManager, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { Notifications } from '@mantine/notifications';
@@ -8,6 +8,11 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import './styles/global.css';
 import { theme } from './theme';
+import { STORAGE_KEY } from './constants/ui';
+
+const colorSchemeManager = localStorageColorSchemeManager({
+  key: STORAGE_KEY.COLOR_SCHEME,
+});
 
 if (import.meta.env.PROD) {
   const script = document.createElement('script');
@@ -19,7 +24,11 @@ if (import.meta.env.PROD) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <MantineProvider theme={theme} defaultColorScheme="auto">
+    <MantineProvider
+      theme={theme}
+      defaultColorScheme="auto"
+      colorSchemeManager={colorSchemeManager}
+    >
       <Notifications position="bottom-right" />
       <App />
     </MantineProvider>

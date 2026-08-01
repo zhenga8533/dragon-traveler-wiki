@@ -5,7 +5,7 @@ import ClassicMode from '@/features/dtdle/components/ClassicMode';
 import IllustrationMode from '@/features/dtdle/components/IllustrationMode';
 import QuoteMode from '@/features/dtdle/components/QuoteMode';
 import { useTabParam } from '@/hooks';
-import GuideHeroCard from './components/GuideHeroCard';
+import GuideHeroCard from '@/features/guides/components/GuideHeroCard';
 
 const VALID_MODES = ['classic', 'quote', 'ability', 'illustration'];
 

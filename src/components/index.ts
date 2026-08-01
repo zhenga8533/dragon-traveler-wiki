@@ -12,7 +12,6 @@ export { default as FilterableCharacterPool } from './common/FilterableCharacter
 export { default as GearTypeTag } from '@/features/wiki/gear/components/GearTypeTag';
 export { default as HowlkinBadge } from '@/features/wiki/howlkins/components/HowlkinBadge';
 export { default as HowlkinStats } from '@/features/wiki/howlkins/components/HowlkinStats';
-export { default as StatusEffectBadge } from '@/features/wiki/status-effects/components/StatusEffectBadge';
 export { default as WyrmspellCard } from '@/features/wiki/wyrmspells/components/WyrmspellCard';
 
 // ── Teams / Tier list ─────────────────────────────────────────────────────────

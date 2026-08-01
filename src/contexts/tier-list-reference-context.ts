@@ -13,8 +13,7 @@ import {
   getTierListEntityType,
   type TierList as TierListType,
 } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
-import { loadSavedFromStorage } from '@/utils/saved-storage';
+import { loadSavedTierLists } from '@/features/tier-list/saved-tier-lists';
 
 export interface TierListReferenceContextValue {
   tierLists: TierListType[];
@@ -34,11 +33,7 @@ export const TierListReferenceContext =
   });
 
 function readSavedTierLists(): TierListType[] {
-  return loadSavedFromStorage<TierListType>(
-    STORAGE_KEY.TIER_LIST_MY_SAVED,
-    (v) => Array.isArray(v.entries),
-    migrateStoredTierList
-  );
+  return loadSavedTierLists();
 }
 
 export function TierListReferenceProvider({

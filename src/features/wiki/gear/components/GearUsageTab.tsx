@@ -1,21 +1,11 @@
-import { Badge, Group, ScrollArea, SegmentedControl, Stack, Table, Text } from '@mantine/core';
+import { Badge, Group, ScrollArea, Stack, Table, Text } from '@mantine/core';
 import { getGearIcon } from '@/assets';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
-import {
-  FilterClearButton,
-  FilterSearchInput,
-  FilterSection,
-} from '@/components/common/FilterControls';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
-import {
-  getCharacterRoutePath,
-  getCharacterRouteSlug,
-} from '@/features/characters/utils/character-route';
-import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
@@ -26,15 +16,14 @@ import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { useMobileTooltip } from '@/hooks';
+import type {
+  EntityUsage,
+  UsageQualityFilter,
+} from '@/features/wiki/usage/entity-usage';
+import UsageCharacterPortraits from '@/features/wiki/usage/components/UsageCharacterPortraits';
+import UsageFilterControls from '@/features/wiki/usage/components/UsageFilterControls';
 
-export type UsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
-
-export interface GearItemUsage {
-  item: Gear;
-  characters: Character[];
-  count: number;
-  percentage: number;
-}
+type GearItemUsage = EntityUsage<Gear, Character>;
 
 interface GearUsageTabProps {
   loading: boolean;
@@ -129,37 +118,17 @@ export default function GearUsageTab({
               filterOpen={usageFilterOpen}
               onFilterToggle={onUsageFilterToggle}
             >
-              <Stack gap={8}>
-                <Group gap="xs" align="center" wrap="wrap">
-                  <FilterSearchInput
-                    placeholder="Search by gear or set..."
-                    value={usageSearch}
-                    onSearch={onUsageSearchChange}
-                    size="xs"
-                    style={{ flex: 1, minWidth: 180 }}
-                  />
-                  {usageFilterCount > 0 && (
-                    <FilterClearButton
-                      size="compact-xs"
-                      onClick={onResetUsageFilters}
-                    />
-                  )}
-                </Group>
-                <FilterSection label="Quality">
-                  <SegmentedControl
-                    value={usageQualityFilter}
-                    onChange={(value) =>
-                      onUsageQualityFilterChange(value as UsageQualityFilter)
-                    }
-                    data={usageQualityOptions.map((option) => ({
-                      value: option.value,
-                      label: option.label,
-                    }))}
-                    color={accent.primary}
-                    size="xs"
-                  />
-                </FilterSection>
-              </Stack>
+              <UsageFilterControls
+                search={usageSearch}
+                onSearchChange={onUsageSearchChange}
+                searchPlaceholder="Search by gear or set..."
+                filterCount={usageFilterCount}
+                onReset={onResetUsageFilters}
+                qualityFilter={usageQualityFilter}
+                onQualityFilterChange={onUsageQualityFilterChange}
+                qualityOptions={usageQualityOptions}
+                accent={accent}
+              />
             </FilterPopoverButton>
           </Group>
 
@@ -249,43 +218,15 @@ export default function GearUsageTab({
                           </Table.Td>
                           <Table.Td>
                             {usingCharacters.length > 0 ? (
-                              (() => {
-                                const isExpanded = expandedUsageItems.has(item.slug);
-                                const shown = isExpanded
-                                  ? usingCharacters
-                                  : usingCharacters.slice(0, 6);
-                                const remaining = usingCharacters.length - 6;
-                                return (
-                                  <Group gap={4} wrap="wrap">
-                                    {shown.map((character) => (
-                                      <CharacterPortrait
-                                        key={`${item.name}-${character.name}-${character.quality}`}
-                                        name={character.name}
-                                        size={32}
-                                        quality={character.quality}
-                                        assetKey={getCharacterRouteSlug(character)}
-                                        routePath={getCharacterRoutePath(character)}
-                                        link
-                                        tooltip={character.name}
-                                        tooltipProps={tooltipProps}
-                                      />
-                                    ))}
-                                    {remaining > 0 && (
-                                      <Badge
-                                        variant="light"
-                                        color="gray"
-                                        size="sm"
-                                        style={CURSOR_POINTER_STYLE}
-                                        onClick={() =>
-                                          onToggleExpandedUsageItem(item.slug)
-                                        }
-                                      >
-                                        {isExpanded ? 'Show less' : `+${remaining} more`}
-                                      </Badge>
-                                    )}
-                                  </Group>
-                                );
-                              })()
+                              <UsageCharacterPortraits
+                                itemSlug={item.slug}
+                                characters={usingCharacters}
+                                expanded={expandedUsageItems.has(item.slug)}
+                                onToggleExpanded={() =>
+                                  onToggleExpandedUsageItem(item.slug)
+                                }
+                                tooltipProps={tooltipProps}
+                              />
                             ) : (
                               <Text size="sm" c="dimmed">
                                 —

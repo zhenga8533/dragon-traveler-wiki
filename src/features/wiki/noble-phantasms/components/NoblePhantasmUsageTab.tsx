@@ -2,7 +2,6 @@ import {
   Badge,
   Group,
   ScrollArea,
-  SegmentedControl,
   Stack,
   Table,
   Text,
@@ -10,22 +9,14 @@ import {
 import { getNoblePhantasmIcon } from '@/assets';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
-  FilterClearButton,
   FilterMultiSelect,
-  FilterSearchInput,
   FilterSection,
 } from '@/components/common/FilterControls';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import type { Character } from '@/features/characters/types';
-import {
-  getCharacterRoutePath,
-  getCharacterRouteSlug,
-} from '@/features/characters/utils/character-route';
-import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
@@ -36,51 +27,16 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { useMobileTooltip } from '@/hooks';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
-
-export type NoblePhantasmUsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
-
-export interface NoblePhantasmUsage {
-  item: NoblePhantasm;
-  characters: Character[];
-  count: number;
-  percentage: number;
-}
+import type { useNoblePhantasmUsage } from '@/features/wiki/noble-phantasms/hooks/use-noble-phantasm-usage';
+import { USAGE_QUALITY_OPTIONS } from '@/features/wiki/usage/entity-usage';
+import UsageCharacterPortraits from '@/features/wiki/usage/components/UsageCharacterPortraits';
+import UsageFilterControls from '@/features/wiki/usage/components/UsageFilterControls';
 
 interface NoblePhantasmUsageTabProps {
   loading: boolean;
   error: Error | null;
   noblePhantasms: NoblePhantasm[];
-  filteredUsage: NoblePhantasmUsage[];
-  usageEligibleCharacters: Character[];
-  usageFilterCount: number;
-  usageFilterOpen: boolean;
-  onUsageFilterToggle: () => void;
-  usageSearch: string;
-  onUsageSearchChange: (value: string) => void;
-  onResetUsageFilters: () => void;
-  usageQualityFilter: NoblePhantasmUsageQualityFilter;
-  onUsageQualityFilterChange: (
-    value: NoblePhantasmUsageQualityFilter
-  ) => void;
-  usageQualityOptions: {
-    value: NoblePhantasmUsageQualityFilter;
-    label: string;
-  }[];
-  linkedCharacterOptions: { value: string; label: string }[];
-  linkedCharacterSlugs: string[];
-  onLinkedCharacterSlugsChange: (values: string[]) => void;
-  usageSortCol: string | null;
-  usageSortDir: 'asc' | 'desc';
-  onUsageSort: (col: string) => void;
-  usagePageItems: NoblePhantasmUsage[];
-  expandedUsageItems: Set<string>;
-  onToggleExpandedUsageItem: (slug: string) => void;
-  usagePage: number;
-  usageTotalPages: number;
-  onUsagePageChange: (page: number) => void;
-  usagePageSize: number;
-  usagePageSizeOptions: readonly number[];
-  onUsagePageSizeChange: (pageSize: number) => void;
+  usage: ReturnType<typeof useNoblePhantasmUsage>;
   accent: GradientPaletteAccents;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }
@@ -89,35 +45,37 @@ export default function NoblePhantasmUsageTab({
   loading,
   error,
   noblePhantasms,
-  filteredUsage,
-  usageEligibleCharacters,
-  usageFilterCount,
-  usageFilterOpen,
-  onUsageFilterToggle,
-  usageSearch,
-  onUsageSearchChange,
-  onResetUsageFilters,
-  usageQualityFilter,
-  onUsageQualityFilterChange,
-  usageQualityOptions,
-  linkedCharacterOptions,
-  linkedCharacterSlugs,
-  onLinkedCharacterSlugsChange,
-  usageSortCol,
-  usageSortDir,
-  onUsageSort,
-  usagePageItems,
-  expandedUsageItems,
-  onToggleExpandedUsageItem,
-  usagePage,
-  usageTotalPages,
-  onUsagePageChange,
-  usagePageSize,
-  usagePageSizeOptions,
-  onUsagePageSizeChange,
+  usage,
   accent,
   tooltipProps,
 }: NoblePhantasmUsageTabProps) {
+  const {
+    filtered: filteredUsage,
+    eligibleCharacters: usageEligibleCharacters,
+    filterCount: usageFilterCount,
+    filterOpen: usageFilterOpen,
+    toggleFilter: onUsageFilterToggle,
+    search: usageSearch,
+    setSearch: onUsageSearchChange,
+    resetFilters: onResetUsageFilters,
+    qualityFilter: usageQualityFilter,
+    setQualityFilter: onUsageQualityFilterChange,
+    linkedCharacterOptions,
+    linkedCharacterSlugs,
+    setLinkedCharacterSlugs: onLinkedCharacterSlugsChange,
+    sortCol: usageSortCol,
+    sortDir: usageSortDir,
+    handleSort: onUsageSort,
+    pageItems: usagePageItems,
+    expandedItems: expandedUsageItems,
+    toggleExpandedItem: onToggleExpandedUsageItem,
+    page: usagePage,
+    totalPages: usageTotalPages,
+    setPage: onUsagePageChange,
+    pageSize: usagePageSize,
+    pageSizeOptions: usagePageSizeOptions,
+    setPageSize: onUsagePageSizeChange,
+  } = usage;
   return (
     <ListPageShell
       loading={loading}
@@ -148,35 +106,17 @@ export default function NoblePhantasmUsageTab({
               filterOpen={usageFilterOpen}
               onFilterToggle={onUsageFilterToggle}
             >
-              <Stack gap={8}>
-                <Group gap="xs" align="center" wrap="wrap">
-                  <FilterSearchInput
-                    placeholder="Search by noble phantasm or character..."
-                    value={usageSearch}
-                    onSearch={onUsageSearchChange}
-                    size="xs"
-                    style={{ flex: 1, minWidth: 220 }}
-                  />
-                  {usageFilterCount > 0 && (
-                    <FilterClearButton
-                      size="compact-xs"
-                      onClick={onResetUsageFilters}
-                    />
-                  )}
-                </Group>
-                <FilterSection label="Character quality">
-                  <SegmentedControl
-                    value={usageQualityFilter}
-                    onChange={(value) =>
-                      onUsageQualityFilterChange(
-                        value as NoblePhantasmUsageQualityFilter
-                      )
-                    }
-                    data={usageQualityOptions}
-                    color={accent.primary}
-                    size="xs"
-                  />
-                </FilterSection>
+              <UsageFilterControls
+                search={usageSearch}
+                onSearchChange={onUsageSearchChange}
+                searchPlaceholder="Search by noble phantasm or character..."
+                filterCount={usageFilterCount}
+                onReset={onResetUsageFilters}
+                qualityFilter={usageQualityFilter}
+                onQualityFilterChange={onUsageQualityFilterChange}
+                qualityOptions={USAGE_QUALITY_OPTIONS}
+                accent={accent}
+              >
                 <FilterSection label="Linked character">
                   <FilterMultiSelect
                     data={linkedCharacterOptions}
@@ -189,7 +129,7 @@ export default function NoblePhantasmUsageTab({
                     style={{ flex: 1, minWidth: 220 }}
                   />
                 </FilterSection>
-              </Stack>
+              </UsageFilterControls>
             </FilterPopoverButton>
           </Group>
 
@@ -246,10 +186,6 @@ export default function NoblePhantasmUsageTab({
                     ({ item, characters, count, percentage }) => {
                       const iconSrc = getNoblePhantasmIcon(item.slug);
                       const isExpanded = expandedUsageItems.has(item.slug);
-                      const shownCharacters = isExpanded
-                        ? characters
-                        : characters.slice(0, 6);
-                      const remaining = characters.length - 6;
 
                       return (
                         <Table.Tr key={item.slug}>
@@ -301,36 +237,15 @@ export default function NoblePhantasmUsageTab({
                           </Table.Td>
                           <Table.Td>
                             {characters.length > 0 ? (
-                              <Group gap={4} wrap="wrap">
-                                {shownCharacters.map((character) => (
-                                  <CharacterPortrait
-                                    key={`${item.slug}-${getCharacterRouteSlug(character)}`}
-                                    name={character.name}
-                                    size={32}
-                                    quality={character.quality}
-                                    assetKey={getCharacterRouteSlug(character)}
-                                    routePath={getCharacterRoutePath(character)}
-                                    link
-                                    tooltip={character.name}
-                                    tooltipProps={tooltipProps}
-                                  />
-                                ))}
-                                {remaining > 0 && (
-                                  <Badge
-                                    variant="light"
-                                    color="gray"
-                                    size="sm"
-                                    style={CURSOR_POINTER_STYLE}
-                                    onClick={() =>
-                                      onToggleExpandedUsageItem(item.slug)
-                                    }
-                                  >
-                                    {isExpanded
-                                      ? 'Show less'
-                                      : `+${remaining} more`}
-                                  </Badge>
-                                )}
-                              </Group>
+                              <UsageCharacterPortraits
+                                itemSlug={item.slug}
+                                characters={characters}
+                                expanded={isExpanded}
+                                onToggleExpanded={() =>
+                                  onToggleExpandedUsageItem(item.slug)
+                                }
+                                tooltipProps={tooltipProps}
+                              />
                             ) : (
                               <Text size="sm" c="dimmed">
                                 —

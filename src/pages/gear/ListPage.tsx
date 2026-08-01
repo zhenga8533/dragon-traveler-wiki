@@ -10,6 +10,7 @@ import {
   GEAR_STATS_ARRAY_FIELDS,
 } from '@/features/wiki/gear/form-fields';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import type { Character } from '@/features/characters/types';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { STORAGE_KEY, PAGE_SIZE } from '@/constants/ui';
@@ -17,11 +18,15 @@ import GearTab, {
   type GearFilters,
 } from '@/features/wiki/gear/components/GearTab';
 import GearSetsTab from '@/features/wiki/gear/components/GearSetsTab';
-import GearUsageTab, {
-  type GearItemUsage,
-  type UsageQualityFilter,
-} from '@/features/wiki/gear/components/GearUsageTab';
+import GearUsageTab from '@/features/wiki/gear/components/GearUsageTab';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
+import {
+  compareEntityUsage,
+  DEFAULT_USAGE_QUALITY_FILTER,
+  type EntityUsage,
+  USAGE_QUALITY_OPTIONS,
+} from '@/features/wiki/usage/entity-usage';
+import { useEntityUsage } from '@/features/wiki/usage/use-entity-usage';
 import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
@@ -35,21 +40,17 @@ import {
 import { getLatestTimestamp } from '@/utils';
 
 import { Container, Group, Stack, Tabs } from '@mantine/core';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 
-const USAGE_QUALITY_OPTIONS: { value: UsageQualityFilter; label: string }[] = [
-  { value: 'ssr-plus', label: 'SSR+ and above' },
-  { value: 'ssr', label: 'SSR and above' },
-  { value: 'all', label: 'All characters' },
-];
+function getGearUsageReferences(character: Character): string[] {
+  return (character.recommended_gear ?? []).flatMap((loadout) =>
+    Object.values(loadout.slots).flatMap((slug) => (slug ? [slug] : []))
+  );
+}
 
-const USAGE_QUALITY_THRESHOLD: Record<UsageQualityFilter, number> = {
-  'ssr-plus': QUALITY_ORDER.indexOf('SSR+'),
-  ssr: QUALITY_ORDER.indexOf('SSR'),
-  all: QUALITY_ORDER.length - 1,
-};
-
-const DEFAULT_USAGE_QUALITY_FILTER: UsageQualityFilter = 'ssr-plus';
+function getCharacterName(character: Character): string {
+  return character.name;
+}
 
 const EMPTY_FILTERS: GearFilters = {
   search: '',
@@ -253,77 +254,8 @@ export default function GearPage() {
     return map;
   }, [gear]);
 
-  const [usageQualityFilter, setUsageQualityFilter] =
-    useState<UsageQualityFilter>(() => {
-      if (typeof window === 'undefined') return DEFAULT_USAGE_QUALITY_FILTER;
-      const stored = window.localStorage.getItem(
-        STORAGE_KEY.GEAR_USAGE_QUALITY_FILTER
-      );
-      return USAGE_QUALITY_OPTIONS.some((option) => option.value === stored)
-        ? (stored as UsageQualityFilter)
-        : DEFAULT_USAGE_QUALITY_FILTER;
-    });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      STORAGE_KEY.GEAR_USAGE_QUALITY_FILTER,
-      usageQualityFilter
-    );
-  }, [usageQualityFilter]);
-
-  const usageEligibleCharacters = useMemo(() => {
-    const threshold = USAGE_QUALITY_THRESHOLD[usageQualityFilter];
-    return characters.filter(
-      (character) => QUALITY_ORDER.indexOf(character.quality) <= threshold
-    );
-  }, [characters, usageQualityFilter]);
-
-  const gearItemUsage = useMemo<GearItemUsage[]>(() => {
-    const charactersByItem = new Map<string, Set<string>>();
-    for (const character of usageEligibleCharacters) {
-      const usedItems = new Set<string>();
-      for (const loadout of character.recommended_gear ?? []) {
-        for (const slug of Object.values(loadout.slots)) {
-          if (slug) usedItems.add(slug.trim());
-        }
-      }
-      for (const slug of usedItems) {
-        const bucket = charactersByItem.get(slug) ?? new Set<string>();
-        bucket.add(character.name);
-        charactersByItem.set(slug, bucket);
-      }
-    }
-
-    return gear
-      .map((item) => {
-        const charNames = Array.from(
-          charactersByItem.get(item.slug) ?? []
-        );
-        const usingCharacters = usageEligibleCharacters
-          .filter((character) => charNames.includes(character.name))
-          .sort(
-            (a, b) =>
-              QUALITY_ORDER.indexOf(a.quality) -
-                QUALITY_ORDER.indexOf(b.quality) || a.name.localeCompare(b.name)
-          );
-        return {
-          item,
-          characters: usingCharacters,
-          count: usingCharacters.length,
-          percentage: usageEligibleCharacters.length
-            ? Math.round(
-                (usingCharacters.length / usageEligibleCharacters.length) * 100
-              )
-            : 0,
-        };
-      })
-      .sort(
-        (a, b) => b.count - a.count || a.item.name.localeCompare(b.item.name)
-      );
-  }, [gear, usageEligibleCharacters]);
-
   const usageSearchFn = useCallback(
-    (entry: (typeof gearItemUsage)[number], query: string) => {
+    (entry: { item: Gear }, query: string) => {
       const setName =
         gearSetBySlug.get(entry.item.set)?.name ?? entry.item.set;
       return (
@@ -337,34 +269,28 @@ export default function GearPage() {
 
   const usageSortFn = useCallback(
     (
-      a: (typeof gearItemUsage)[number],
-      b: (typeof gearItemUsage)[number],
+      a: EntityUsage<Gear, Character>,
+      b: EntityUsage<Gear, Character>,
       col: string | null,
       dir: 'asc' | 'desc'
-    ) => {
-      let cmp: number;
-      if (col === 'name') {
-        cmp = a.item.name.localeCompare(b.item.name);
-      } else if (col === 'type') {
-        cmp =
-          GEAR_TYPE_ORDER.indexOf(a.item.type) -
-            GEAR_TYPE_ORDER.indexOf(b.item.type) ||
-          a.item.name.localeCompare(b.item.name);
-      } else if (col === 'set') {
-        cmp =
-          (
-            gearSetBySlug.get(a.item.set)?.name ?? a.item.set
-          ).localeCompare(
-            gearSetBySlug.get(b.item.set)?.name ?? b.item.set
-          ) ||
-          a.item.name.localeCompare(b.item.name);
-      } else if (col === 'count') {
-        cmp = a.count - b.count;
-      } else {
-        return 0;
-      }
-      return applyDir(cmp, dir);
-    },
+    ) =>
+      compareEntityUsage(a, b, col, dir, (left, right, column) => {
+        if (column === 'type') {
+          return (
+            GEAR_TYPE_ORDER.indexOf(left.item.type) -
+              GEAR_TYPE_ORDER.indexOf(right.item.type) ||
+            left.item.name.localeCompare(right.item.name)
+          );
+        }
+        if (column === 'set') {
+          return (
+            (gearSetBySlug.get(left.item.set)?.name ?? left.item.set).localeCompare(
+              gearSetBySlug.get(right.item.set)?.name ?? right.item.set
+            ) || left.item.name.localeCompare(right.item.name)
+          );
+        }
+        return null;
+      }),
     [gearSetBySlug]
   );
 
@@ -382,32 +308,25 @@ export default function GearPage() {
     pageSize: usagePageSize,
     setPageSize: setUsagePageSize,
     pageSizeOptions: usagePageSizeOptions,
-  } = useSecondaryTabList(gearItemUsage, {
+    eligibleCharacters: usageEligibleCharacters,
+    qualityFilter: usageQualityFilter,
+    setQualityFilter: setUsageQualityFilter,
+    expandedItems: expandedUsageItems,
+    toggleExpandedItem: toggleExpandedUsageItem,
+  } = useEntityUsage({
+    items: gear,
+    characters,
+    getCharacterReferences: getGearUsageReferences,
+    getCharacterGroupKey: getCharacterName,
     searchFn: usageSearchFn,
     sortFn: usageSortFn,
     storageKeys: {
+      quality: STORAGE_KEY.GEAR_USAGE_QUALITY_FILTER,
       search: STORAGE_KEY.GEAR_USAGE_SEARCH,
       sort: STORAGE_KEY.GEAR_USAGE_SORT,
     },
     pageSize: PAGE_SIZE,
-    extraPaginationKey: usageQualityFilter,
   });
-
-  const [expandedUsageItems, setExpandedUsageItems] = useState<Set<string>>(
-    () => new Set()
-  );
-
-  const toggleExpandedUsageItem = (slug: string) => {
-    setExpandedUsageItems((current) => {
-      const next = new Set(current);
-      if (next.has(slug)) {
-        next.delete(slug);
-      } else {
-        next.add(slug);
-      }
-      return next;
-    });
-  };
 
   const usageFilterCount =
     (usageSearch ? 1 : 0) +

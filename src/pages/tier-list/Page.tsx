@@ -28,13 +28,16 @@ import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
 import {
+  loadSavedTierLists,
+  removeSavedTierList,
+} from '@/features/tier-list/saved-tier-lists';
+import {
   getTierListEntityType,
   isCharacterTierEntry,
   isNoblePhantasmTierEntry,
   type TierListRankableEntity,
   type TierList as TierListType,
 } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
 import {
   countActiveFilters,
   useBuilderEditState,
@@ -50,9 +53,10 @@ import {
   useTierLists,
   useViewMode,
 } from '@/hooks';
-import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsImage } from '@/utils/export-image';
+import { showErrorToast } from '@/utils/toast';
 import {
   Container,
   Group,
@@ -163,13 +167,7 @@ export default function TierList() {
     setSearchParams,
   });
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
-    mode === 'saved'
-      ? loadSavedFromStorage<TierListType>(
-          STORAGE_KEY.TIER_LIST_MY_SAVED,
-          (v) => Array.isArray(v.entries),
-          migrateStoredTierList
-        )
-      : []
+    mode === 'saved' ? loadSavedTierLists() : []
   );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
@@ -368,11 +366,7 @@ export default function TierList() {
   }, [search]);
 
   const refreshSavedTierLists = useCallback(() => {
-    setSavedTierLists(
-      loadSavedFromStorage<TierListType>(STORAGE_KEY.TIER_LIST_MY_SAVED,
-        (v) => Array.isArray(v.entries), migrateStoredTierList
-      )
-    );
+    setSavedTierLists(loadSavedTierLists());
   }, []);
 
   const [prevMode, setPrevMode] = useState(mode);
@@ -383,17 +377,14 @@ export default function TierList() {
 
   function deleteSavedTierList(name: string) {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
-      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
-      delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(
-        STORAGE_KEY.TIER_LIST_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      removeSavedTierList(toEntitySlug(name));
       setSavedTierLists((prev) => prev.filter((t) => t.name !== name));
       window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not delete tier list',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 

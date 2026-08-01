@@ -17,7 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import GuideHeroCard from './components/GuideHeroCard';
+import GuideHeroCard from '@/features/guides/components/GuideHeroCard';
 
 const FACTION_GIFTS: {
   faction: string;

@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 
 const checkedExtensions = /\.(?:css|js|json|jsx|mjs|ts|tsx|yaml|yml)$/;
 const files = execFileSync(
@@ -8,7 +8,7 @@ const files = execFileSync(
   { encoding: 'utf8' }
 )
   .split(/\r?\n/)
-  .filter((file) => checkedExtensions.test(file));
+  .filter((file) => checkedExtensions.test(file) && existsSync(file));
 
 const errors = [];
 for (const file of files) {

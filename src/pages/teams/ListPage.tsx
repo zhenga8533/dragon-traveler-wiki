@@ -18,8 +18,11 @@ import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui'
 import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
+import {
+  loadSavedTeams,
+  removeSavedTeam,
+} from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
-import { migrateStoredTeam } from '@/features/teams/utils/team-builder';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
@@ -36,8 +39,9 @@ import {
   useViewMode,
   useWyrmspells,
 } from '@/hooks';
-import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
+import { showErrorToast } from '@/utils/toast';
 import {
   Container,
   Group,
@@ -137,11 +141,7 @@ export default function Teams() {
     canUseSideLayout: canUseSidePoolLayout,
   } = usePoolLayout();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
-    mode === 'saved'
-      ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
-          Array.isArray(v.members), migrateStoredTeam
-        )
-      : []
+    mode === 'saved' ? loadSavedTeams() : []
   );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
@@ -203,16 +203,13 @@ export default function Teams() {
 
   function deleteSavedTeam(name: string) {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
-      delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(
-        STORAGE_KEY.TEAMS_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      removeSavedTeam(toEntitySlug(name));
       setSavedTeams((prev) => prev.filter((team) => team.name !== name));
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not delete team',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 
@@ -357,13 +354,7 @@ export default function Teams() {
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
                 if (newMode === 'saved') {
-                  setSavedTeams(
-                    loadSavedFromStorage<Team>(
-                      STORAGE_KEY.TEAMS_MY_SAVED,
-                      (v) => Array.isArray(v.members),
-                      migrateStoredTeam
-                    )
-                  );
+                  setSavedTeams(loadSavedTeams());
                 }
                 setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);

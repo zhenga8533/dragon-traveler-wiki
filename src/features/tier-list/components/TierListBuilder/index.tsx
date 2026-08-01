@@ -2,7 +2,6 @@
 import JsonModal from '@/components/tools/JsonModal';
 import { getTierColor } from '@/constants/tier-colors';
 import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import PoolLayoutToggle from '@/components/common/PoolLayoutToggle';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
@@ -14,6 +13,10 @@ import {
 } from '@/features/characters/utils/character-route';
 import CharacterNoteButton from '@/components/common/CharacterNoteButton';
 import { useTierListState } from '@/features/tier-list/hooks/use-tier-list-state';
+import {
+  hasSavedTierList,
+  saveTierList,
+} from '@/features/tier-list/saved-tier-lists';
 import type {
   TierList,
   TierListEntityType,
@@ -37,7 +40,11 @@ import {
   LIGHT_BACKGROUND,
 } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
-import { showSuccessToast, showWarningToast } from '@/utils/toast';
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from '@/utils/toast';
 import {
   DndContext,
   DragOverlay,
@@ -218,44 +225,27 @@ export default function TierListBuilder({
     try {
       const now = Math.floor(Date.now() / 1000);
       const normalized: TierList = { ...tierListData, last_updated: now };
-      const stored = window.localStorage.getItem(
-        STORAGE_KEY.TIER_LIST_MY_SAVED
-      );
-      const saves: Record<string, TierList> = stored
-        ? (JSON.parse(stored) as Record<string, TierList>)
-        : {};
-      saves[key] = normalized;
-      window.localStorage.setItem(
-        STORAGE_KEY.TIER_LIST_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      saveTierList(key, normalized);
       window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
       showSuccessToast({
         title: 'Saved!',
         message: `"${key}" saved to My Saved Tier Lists.`,
       });
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not save tier list',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 
   function handleSaveToMySaved() {
-    try {
-      const key = toEntitySlug(tierListData.name?.trim() || 'Untitled');
-      const stored = window.localStorage.getItem(
-        STORAGE_KEY.TIER_LIST_MY_SAVED
-      );
-      const saves: Record<string, TierList> = stored
-        ? (JSON.parse(stored) as Record<string, TierList>)
-        : {};
-      if (saves[key]) {
-        setPendingSaveOverwrite(key);
-        return;
-      }
-      executeSaveToMySaved(key);
-    } catch {
-      // ignore
+    const key = toEntitySlug(tierListData.name?.trim() || 'Untitled');
+    if (hasSavedTierList(key)) {
+      setPendingSaveOverwrite(key);
+      return;
     }
+    executeSaveToMySaved(key);
   }
 
   function requestEntityTypeChange(entityType: TierListEntityType) {

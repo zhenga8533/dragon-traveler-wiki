@@ -1,18 +1,25 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
+import { getStatusEffectIcon } from '@/assets';
+import { STATE_COLOR } from '@/constants/status-effect-colors';
 import {
   CURSOR_POINTER_STYLE,
   RICH_TEXT_BADGE_STYLE,
   WHITE_SPACE_PRE_LINE_STYLE,
 } from '@/constants/styles';
-import { POPOVER_MAX_WIDTH } from '@/constants/ui';
+import {
+  IMAGE_SIZE,
+  POPOVER_BADGE_WIDTH,
+  POPOVER_MAX_WIDTH,
+} from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
 import { normalizeName, splitEffectRefs } from '@/utils';
+import IconBadge from '@/components/ui/IconBadge';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
+import SafeImage from '@/components/ui/SafeImage';
 
 export interface RichTextProps {
   text: string;
@@ -118,6 +125,100 @@ const findByName = <T extends { name: string }>(
   const candidates = fuzzyNames(name);
   return items?.find((item) => candidates.includes(normalizeName(item.name)));
 };
+
+interface StatusEffectBadgeProps {
+  slug: string;
+  statusEffects: StatusEffect[];
+  displayName?: string;
+  disablePopover?: boolean;
+}
+
+function StatusEffectBadge({
+  slug,
+  statusEffects,
+  displayName,
+  disablePopover,
+}: StatusEffectBadgeProps) {
+  const effect = statusEffects.find((item) => item.slug === slug);
+  const label = displayName ?? effect?.name ?? slug;
+
+  if (!effect) {
+    return (
+      <Badge
+        variant="light"
+        color="gray"
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
+        {label}
+      </Badge>
+    );
+  }
+
+  const effectColor = STATE_COLOR[effect.type];
+  const iconSrc =
+    effect.icon !== false
+      ? getStatusEffectIcon(effect.slug, effect.type)
+      : undefined;
+
+  if (disablePopover) {
+    return (
+      <Badge
+        variant="light"
+        color={effectColor}
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
+        {label}
+      </Badge>
+    );
+  }
+
+  return (
+    <IconBadge
+      label={label}
+      color={effectColor}
+      size="sm"
+      iconSrc={iconSrc}
+      component="span"
+      popoverContent={
+        <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
+          <Group gap="xs" wrap="nowrap">
+            <SafeImage
+              src={iconSrc}
+              alt={effect.name}
+              w={IMAGE_SIZE.ICON_LG}
+              h={IMAGE_SIZE.ICON_LG}
+            />
+            <Text fw={600} size="sm">
+              {effect.name}
+            </Text>
+            <Badge variant="light" color={effectColor} size="xs">
+              {effect.type}
+            </Badge>
+          </Group>
+          <RichText
+            text={effect.effect}
+            statusEffects={statusEffects}
+            disablePopovers
+          />
+          {effect.remark && (
+            <Text
+              size="xs"
+              c="dimmed"
+              fs="italic"
+              style={WHITE_SPACE_PRE_LINE_STYLE}
+            >
+              {effect.remark}
+            </Text>
+          )}
+        </Stack>
+      }
+    />
+  );
+}
 
 export default function RichText({
   text,

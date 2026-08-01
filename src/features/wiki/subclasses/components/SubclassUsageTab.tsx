@@ -2,7 +2,6 @@ import {
   Badge,
   Group,
   ScrollArea,
-  SegmentedControl,
   Stack,
   Table,
   Text,
@@ -10,20 +9,13 @@ import {
 import { CLASS_ICON_MAP, getSubclassIcon } from '@/assets';
 import {
   FilterChipGroup,
-  FilterClearButton,
-  FilterSearchInput,
   FilterSection,
 } from '@/components/common/FilterControls';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import type { Character, CharacterClass } from '@/features/characters/types';
-import {
-  getCharacterRoutePath,
-  getCharacterRouteSlug,
-} from '@/features/characters/utils/character-route';
-import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
+import type { CharacterClass } from '@/features/characters/types';
+import { getMinWidthStyle } from '@/constants/styles';
 import { CLASS_ORDER } from '@/constants/class-colors';
 import { IMAGE_SIZE } from '@/constants/ui';
 import SafeImage from '@/components/ui/SafeImage';
@@ -36,8 +28,10 @@ import TierBadge from '@/components/ui/TierBadge';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { useMobileTooltip } from '@/hooks';
 import type { Subclass } from '@/features/wiki/subclasses/types';
-
-export type SubclassUsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
+import type { useSubclassUsage } from '@/features/wiki/subclasses/hooks/use-subclass-usage';
+import { USAGE_QUALITY_OPTIONS } from '@/features/wiki/usage/entity-usage';
+import UsageCharacterPortraits from '@/features/wiki/usage/components/UsageCharacterPortraits';
+import UsageFilterControls from '@/features/wiki/usage/components/UsageFilterControls';
 
 const USAGE_CLASS_OPTIONS = CLASS_ORDER.map((characterClass) => ({
   value: characterClass,
@@ -57,45 +51,11 @@ const USAGE_CLASS_OPTIONS = CLASS_ORDER.map((characterClass) => ({
   ),
 }));
 
-export interface SubclassUsage {
-  item: Subclass;
-  characters: Character[];
-  count: number;
-  percentage: number;
-}
-
 interface SubclassUsageTabProps {
   loading: boolean;
   error: Error | null;
   subclasses: Subclass[];
-  filteredUsage: SubclassUsage[];
-  usageEligibleCharacters: Character[];
-  usageFilterCount: number;
-  usageFilterOpen: boolean;
-  onUsageFilterToggle: () => void;
-  usageSearch: string;
-  onUsageSearchChange: (value: string) => void;
-  onResetUsageFilters: () => void;
-  usageQualityFilter: SubclassUsageQualityFilter;
-  onUsageQualityFilterChange: (value: SubclassUsageQualityFilter) => void;
-  usageQualityOptions: {
-    value: SubclassUsageQualityFilter;
-    label: string;
-  }[];
-  usageClasses: CharacterClass[];
-  onUsageClassesChange: (values: CharacterClass[]) => void;
-  usageSortCol: string | null;
-  usageSortDir: 'asc' | 'desc';
-  onUsageSort: (col: string) => void;
-  usagePageItems: SubclassUsage[];
-  expandedUsageItems: Set<string>;
-  onToggleExpandedUsageItem: (slug: string) => void;
-  usagePage: number;
-  usageTotalPages: number;
-  onUsagePageChange: (page: number) => void;
-  usagePageSize: number;
-  usagePageSizeOptions: readonly number[];
-  onUsagePageSizeChange: (pageSize: number) => void;
+  usage: ReturnType<typeof useSubclassUsage>;
   accent: GradientPaletteAccents;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }
@@ -104,34 +64,36 @@ export default function SubclassUsageTab({
   loading,
   error,
   subclasses,
-  filteredUsage,
-  usageEligibleCharacters,
-  usageFilterCount,
-  usageFilterOpen,
-  onUsageFilterToggle,
-  usageSearch,
-  onUsageSearchChange,
-  onResetUsageFilters,
-  usageQualityFilter,
-  onUsageQualityFilterChange,
-  usageQualityOptions,
-  usageClasses,
-  onUsageClassesChange,
-  usageSortCol,
-  usageSortDir,
-  onUsageSort,
-  usagePageItems,
-  expandedUsageItems,
-  onToggleExpandedUsageItem,
-  usagePage,
-  usageTotalPages,
-  onUsagePageChange,
-  usagePageSize,
-  usagePageSizeOptions,
-  onUsagePageSizeChange,
+  usage,
   accent,
   tooltipProps,
 }: SubclassUsageTabProps) {
+  const {
+    filtered: filteredUsage,
+    eligibleCharacters: usageEligibleCharacters,
+    filterCount: usageFilterCount,
+    filterOpen: usageFilterOpen,
+    toggleFilter: onUsageFilterToggle,
+    search: usageSearch,
+    setSearch: onUsageSearchChange,
+    resetFilters: onResetUsageFilters,
+    qualityFilter: usageQualityFilter,
+    setQualityFilter: onUsageQualityFilterChange,
+    classes: usageClasses,
+    setClasses: onUsageClassesChange,
+    sortCol: usageSortCol,
+    sortDir: usageSortDir,
+    handleSort: onUsageSort,
+    pageItems: usagePageItems,
+    expandedItems: expandedUsageItems,
+    toggleExpandedItem: onToggleExpandedUsageItem,
+    page: usagePage,
+    totalPages: usageTotalPages,
+    setPage: onUsagePageChange,
+    pageSize: usagePageSize,
+    pageSizeOptions: usagePageSizeOptions,
+    setPageSize: onUsagePageSizeChange,
+  } = usage;
   return (
     <ListPageShell
       loading={loading}
@@ -162,35 +124,17 @@ export default function SubclassUsageTab({
               filterOpen={usageFilterOpen}
               onFilterToggle={onUsageFilterToggle}
             >
-              <Stack gap={8}>
-                <Group gap="xs" align="center" wrap="wrap">
-                  <FilterSearchInput
-                    placeholder="Search by subclass or class..."
-                    value={usageSearch}
-                    onSearch={onUsageSearchChange}
-                    size="xs"
-                    style={{ flex: 1, minWidth: 220 }}
-                  />
-                  {usageFilterCount > 0 && (
-                    <FilterClearButton
-                      size="compact-xs"
-                      onClick={onResetUsageFilters}
-                    />
-                  )}
-                </Group>
-                <FilterSection label="Character quality">
-                  <SegmentedControl
-                    value={usageQualityFilter}
-                    onChange={(value) =>
-                      onUsageQualityFilterChange(
-                        value as SubclassUsageQualityFilter
-                      )
-                    }
-                    data={usageQualityOptions}
-                    color={accent.primary}
-                    size="xs"
-                  />
-                </FilterSection>
+              <UsageFilterControls
+                search={usageSearch}
+                onSearchChange={onUsageSearchChange}
+                searchPlaceholder="Search by subclass or class..."
+                filterCount={usageFilterCount}
+                onReset={onResetUsageFilters}
+                qualityFilter={usageQualityFilter}
+                onQualityFilterChange={onUsageQualityFilterChange}
+                qualityOptions={USAGE_QUALITY_OPTIONS}
+                accent={accent}
+              >
                 <FilterSection label="Subclass class">
                   <FilterChipGroup
                     options={USAGE_CLASS_OPTIONS}
@@ -201,7 +145,7 @@ export default function SubclassUsageTab({
                     size="xs"
                   />
                 </FilterSection>
-              </Stack>
+              </UsageFilterControls>
             </FilterPopoverButton>
           </Group>
 
@@ -258,10 +202,6 @@ export default function SubclassUsageTab({
                     ({ item, characters, count, percentage }) => {
                       const iconSrc = getSubclassIcon(item.slug, item.class);
                       const isExpanded = expandedUsageItems.has(item.slug);
-                      const shownCharacters = isExpanded
-                        ? characters
-                        : characters.slice(0, 6);
-                      const remaining = characters.length - 6;
 
                       return (
                         <Table.Tr key={item.slug}>
@@ -308,36 +248,15 @@ export default function SubclassUsageTab({
                           </Table.Td>
                           <Table.Td>
                             {characters.length > 0 ? (
-                              <Group gap={4} wrap="wrap">
-                                {shownCharacters.map((character) => (
-                                  <CharacterPortrait
-                                    key={`${item.slug}-${getCharacterRouteSlug(character)}`}
-                                    name={character.name}
-                                    size={32}
-                                    quality={character.quality}
-                                    assetKey={getCharacterRouteSlug(character)}
-                                    routePath={getCharacterRoutePath(character)}
-                                    link
-                                    tooltip={character.name}
-                                    tooltipProps={tooltipProps}
-                                  />
-                                ))}
-                                {remaining > 0 && (
-                                  <Badge
-                                    variant="light"
-                                    color="gray"
-                                    size="sm"
-                                    style={CURSOR_POINTER_STYLE}
-                                    onClick={() =>
-                                      onToggleExpandedUsageItem(item.slug)
-                                    }
-                                  >
-                                    {isExpanded
-                                      ? 'Show less'
-                                      : `+${remaining} more`}
-                                  </Badge>
-                                )}
-                              </Group>
+                              <UsageCharacterPortraits
+                                itemSlug={item.slug}
+                                characters={characters}
+                                expanded={isExpanded}
+                                onToggleExpanded={() =>
+                                  onToggleExpandedUsageItem(item.slug)
+                                }
+                                tooltipProps={tooltipProps}
+                              />
                             ) : (
                               <Text size="sm" c="dimmed">
                                 —

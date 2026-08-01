@@ -1,4 +1,4 @@
-import GuideHeroCard from './components/GuideHeroCard';
+import GuideHeroCard from '@/features/guides/components/GuideHeroCard';
 import {
   getCardHoverProps,
   getMinWidthStyle,

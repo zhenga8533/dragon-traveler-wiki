@@ -98,6 +98,8 @@ export const POPOVER_MAX_WIDTH = 320;
 export const POPOVER_BADGE_WIDTH = 280;
 
 export const STORAGE_KEY = {
+  LOCALE: 'dragon-traveler-wiki:locale',
+  COLOR_SCHEME: 'mantine-color-scheme-value',
   CHARACTER_VIEW_MODE: 'characters:viewMode',
   CHARACTER_FILTERS: 'characters:filters',
   CHARACTER_TIER_LIST_REFERENCE: 'characters:tierListReference',

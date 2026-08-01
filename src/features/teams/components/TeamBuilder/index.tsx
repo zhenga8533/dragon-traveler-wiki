@@ -1,6 +1,5 @@
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';
@@ -11,6 +10,7 @@ import {
 import { BattlefieldGrid } from '@/features/teams/components/BattlefieldGrid';
 import { BenchSection } from '@/features/teams/components/BenchSection';
 import { useTeamBuilderState } from '@/features/teams/hooks/use-team-builder-state';
+import { hasSavedTeam, saveTeam } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDarkMode, useIsMobile, useMobileTooltip } from '@/hooks';
@@ -22,7 +22,11 @@ import {
   LIGHT_BACKGROUND,
 } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
-import { showSuccessToast, showWarningToast } from '@/utils/toast';
+import {
+  showErrorToast,
+  showSuccessToast,
+  showWarningToast,
+} from '@/utils/toast';
 import {
   DndContext,
   DragOverlay,
@@ -170,39 +174,26 @@ export default function TeamBuilder({
     try {
       const now = Math.floor(Date.now() / 1000);
       const normalized: Team = { ...teamData, last_updated: now };
-      const stored = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      const saves: Record<string, Team> = stored
-        ? (JSON.parse(stored) as Record<string, Team>)
-        : {};
-      saves[key] = normalized;
-      window.localStorage.setItem(
-        STORAGE_KEY.TEAMS_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      saveTeam(key, normalized);
       showSuccessToast({
         title: 'Saved!',
         message: `"${key}" saved to My Saved Teams.`,
       });
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not save team',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 
   function handleSaveToMySaved() {
-    try {
-      const key = toEntitySlug(teamData.name?.trim() || 'Untitled');
-      const stored = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      const saves: Record<string, Team> = stored
-        ? (JSON.parse(stored) as Record<string, Team>)
-        : {};
-      if (saves[key]) {
-        setPendingSaveOverwrite(key);
-        return;
-      }
-      executeSaveToMySaved(key);
-    } catch {
-      // ignore
+    const key = toEntitySlug(teamData.name?.trim() || 'Untitled');
+    if (hasSavedTeam(key)) {
+      setPendingSaveOverwrite(key);
+      return;
     }
+    executeSaveToMySaved(key);
   }
 
   function handleSubmitSuggestion() {

@@ -32,3 +32,7 @@ export function showWarningToast(input: ToastInput) {
 export function showInfoToast(input: ToastInput) {
   showToast('gray', input);
 }
+
+export function showErrorToast(input: ToastInput) {
+  showToast('red', input);
+}
