@@ -191,11 +191,20 @@ function RouteFallback() {
   }
 
   if (pathname === '/subclasses') {
+    const tab = getRouteTab(search, 'subclasses', ['subclasses', 'usage']);
     return (
-      <FilteredListRouteFallback
-        storageKey={STORAGE_KEY.SUBCLASS_VIEW_MODE}
-        defaultViewMode="list"
-      />
+      <ListRouteLoading tabs={2}>
+        <ViewModeLoading
+          viewMode={
+            tab === 'usage'
+              ? 'list'
+              : getStoredViewMode(STORAGE_KEY.SUBCLASS_VIEW_MODE, 'list')
+          }
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      </ListRouteLoading>
     );
   }
 
