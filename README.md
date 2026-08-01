@@ -20,7 +20,7 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 ## Tech Stack
 
 - **Framework**: React 19, TypeScript, Vite 7, Mantine v8
-- **Routing**: React Router DOM 7
+- **Routing**: React Router 8
 - **Drag-and-drop**: @dnd-kit/core
 - **Hosting**: GitHub Pages with automated deployment and custom domain (`dtwiki.org`)
 
@@ -81,25 +81,26 @@ See [`src/README.md`](src/README.md) for a full breakdown of the source architec
 | `/characters` / `/characters/:name` | Character list / detail |
 | `/gear` / `/gear-sets/:setName` | Gear list / gear set detail |
 | `/relics` / `/oracle-scrolls/:scrollName` | Relic list / oracle scroll detail |
-| `/howlkins` / `/howlkins/:allianceName` | Howlkin list / golden alliance detail |
+| `/howlkins` / `/howlkins/:allianceSlug` | Howlkin list / golden alliance detail |
 | `/noble-phantasms` / `/noble-phantasms/:name` | Noble phantasm list / detail |
 | `/wyrms` / `/wyrms/:name` | Wyrm list / detail |
 | `/wyrmspells` / `/wyrmspells/:name` | Wyrmspell list / detail |
 | `/subclasses` | Subclass list |
 | `/status-effects` | Status effects list |
 | `/resources` | Resources directory |
-| `/useful-links` | Community links directory |
+| `/toolbox/useful-links` | Community links directory |
 | `/tier-list` | Character and Noble Phantasm tier list viewer/builder |
 | `/teams` / `/teams/:teamName` / `/teams/saved/:teamSlug` | Team list / detail / saved team |
 | `/codes` | Redemption codes tracker |
 | `/events` | Game events tracker |
 | `/changelog` | Changelog |
-| `/guides/beginner-qa` | Beginner Q&A |
-| `/guides/faq` | FAQ |
-| `/guides/star-upgrade-calculator` | Star upgrade calculator |
-| `/guides/mythic-summon-calculator` | Mythic summon calculator |
-| `/guides/diamond-calculator` | Diamond calculator |
-| `/guides/shovel-event` | Shovel event guide |
+| `/toolbox/beginner-qa` | Beginner Q&A |
+| `/toolbox/faq` | FAQ |
+| `/toolbox/star-upgrade-calculator` | Star upgrade calculator |
+| `/toolbox/mythic-summon-calculator` | Mythic summon calculator |
+| `/toolbox/diamond-calculator` | Diamond calculator |
+| `/toolbox/shovel-event` | Shovel event guide |
+| `/toolbox/dtdle` | Daily character guessing game |
 
 ## Contributing
 
