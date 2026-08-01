@@ -3,7 +3,7 @@ import LazySearchModal from '@/components/tools/LazySearchModal';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { getGlassStyles } from '@/constants/glass';
 import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
-import { isDetailRoute } from '@/constants/route-meta';
+import { isDetailRoute, ROUTE_PATH } from '@/constants/route-meta';
 import { HEADER_HEIGHT, IMAGE_SIZE, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
 import { useDarkMode, useEffectiveNavLayout, useIsMobile, useSidebar } from '@/hooks';
@@ -41,7 +41,7 @@ export default function AppLayout() {
   const useHeaderNav = effectiveNavLayout === 'header';
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
-  const isHome = location.pathname === '/';
+  const isHome = location.pathname === ROUTE_PATH.home;
   const showBanner =
     selectedBanner !== null &&
     (isHome || (showOnAllRoutes && !isDetailRoute(location.pathname)));

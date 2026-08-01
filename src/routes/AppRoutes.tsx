@@ -12,7 +12,10 @@ import {
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import { Container, Group, Skeleton, Stack } from '@mantine/core';
-import { isDetailRoute } from '@/constants/route-meta';
+import {
+  getRouteFallbackKind,
+  ROUTE_PATH,
+} from '@/constants/route-meta';
 import { STORAGE_KEY } from '@/constants/ui';
 import { lazy, Suspense } from 'react';
 import {
@@ -130,22 +133,23 @@ function FilteredListRouteFallback({
 
 function RouteFallback() {
   const { pathname, search } = useLocation();
-  if (pathname === '/') {
+  const fallbackKind = getRouteFallbackKind(pathname);
+
+  if (fallbackKind === 'home') {
     return <HomePageLoading />;
   }
 
-  if (pathname === '/characters') {
+  if (fallbackKind === 'character-list') {
     return <CharacterListRouteFallback />;
   }
 
-  if (pathname.startsWith('/characters/')) {
+  if (fallbackKind === 'character-detail') {
     return <CharacterDetailPageLoading />;
   }
 
-  const isDetail = isDetailRoute(pathname);
-  if (isDetail) return <DetailPageLoading />;
+  if (fallbackKind === 'detail') return <DetailPageLoading />;
 
-  if (pathname === '/artifacts') {
+  if (fallbackKind === 'artifact-list') {
     return (
       <FilteredListRouteFallback
         storageKey={STORAGE_KEY.ARTIFACT_VIEW_MODE}
@@ -154,7 +158,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/wyrmspells') {
+  if (fallbackKind === 'wyrmspell-list') {
     return (
       <FilteredListRouteFallback
         storageKey={STORAGE_KEY.WYRMSPELL_VIEW_MODE}
@@ -163,7 +167,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/wyrms') {
+  if (fallbackKind === 'wyrm-list') {
     return (
       <FilteredListRouteFallback
         storageKey={STORAGE_KEY.WYRM_VIEW_MODE}
@@ -172,7 +176,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/resources') {
+  if (fallbackKind === 'resource-list') {
     return (
       <FilteredListRouteFallback
         storageKey={STORAGE_KEY.RESOURCE_VIEW_MODE}
@@ -181,7 +185,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/status-effects') {
+  if (fallbackKind === 'status-effect-list') {
     return (
       <FilteredListRouteFallback
         storageKey={STORAGE_KEY.STATUS_EFFECT_VIEW_MODE}
@@ -190,7 +194,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/subclasses') {
+  if (fallbackKind === 'subclass-list') {
     const tab = getRouteTab(search, 'subclasses', ['subclasses', 'usage']);
     return (
       <ListRouteLoading tabs={2}>
@@ -208,7 +212,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/gear') {
+  if (fallbackKind === 'gear-list') {
     const tab = getRouteTab(search, 'gear', ['gear', 'gear-sets', 'usage']);
     const content =
       tab === 'gear-sets' ? (
@@ -231,7 +235,7 @@ function RouteFallback() {
     return <ListRouteLoading tabs={3}>{content}</ListRouteLoading>;
   }
 
-  if (pathname === '/relics') {
+  if (fallbackKind === 'relic-list') {
     const tab = getRouteTab(search, 'relics', ['relics', 'oracle-scrolls']);
     return (
       <ListRouteLoading tabs={2}>
@@ -249,7 +253,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/howlkins') {
+  if (fallbackKind === 'howlkin-list') {
     const tab = getRouteTab(search, 'howlkins', [
       'howlkins',
       'golden-alliances',
@@ -271,7 +275,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/noble-phantasms') {
+  if (fallbackKind === 'noble-phantasm-list') {
     const tab = getRouteTab(search, 'noble-phantasms', [
       'noble-phantasms',
       'usage',
@@ -295,7 +299,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/events') {
+  if (fallbackKind === 'event-list') {
     return (
       <ListRouteLoading containerSize="lg" tabs={2}>
         <EventCardsLoading
@@ -306,7 +310,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/codes') {
+  if (fallbackKind === 'code-list') {
     return (
       <ListRouteLoading tabs={2}>
         <ViewModeLoading
@@ -321,9 +325,9 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/teams' || pathname === '/tier-list') {
+  if (fallbackKind === 'team-list' || fallbackKind === 'tier-list') {
     const mode = new URLSearchParams(search).get('mode');
-    const isTeams = pathname === '/teams';
+    const isTeams = fallbackKind === 'team-list';
     const viewMode = getStoredViewMode(
       isTeams ? STORAGE_KEY.TEAMS_VIEW_MODE : STORAGE_KEY.TIER_LIST_VIEW_MODE,
       'grid'
@@ -347,7 +351,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/changelog') {
+  if (fallbackKind === 'changelog') {
     const tab = getRouteTab(search, 'site', ['site', 'data']);
     return (
       <ListRouteLoading tabs={2} description actions={false}>
@@ -364,7 +368,7 @@ function RouteFallback() {
     );
   }
 
-  if (pathname === '/toolbox/useful-links') {
+  if (fallbackKind === 'useful-links') {
     return (
       <ListRouteLoading>
         <ViewModeLoading viewMode="list" />
@@ -379,56 +383,56 @@ export default function AppRoutes() {
   return (
     <Suspense fallback={<RouteFallback />}>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/artifacts" element={<Artifacts />} />
-        <Route path="/artifacts/:name" element={<ArtifactPage />} />
-        <Route path="/characters" element={<Characters />} />
-        <Route path="/characters/:name" element={<CharacterPage />} />
-        <Route path="/gear" element={<GearPage />} />
-        <Route path="/gear-sets/:setName" element={<GearSetPage />} />
-        <Route path="/relics" element={<RelicPage />} />
+        <Route path={ROUTE_PATH.home} element={<Home />} />
+        <Route path={ROUTE_PATH.artifacts} element={<Artifacts />} />
+        <Route path={ROUTE_PATH.artifactDetail} element={<ArtifactPage />} />
+        <Route path={ROUTE_PATH.characters} element={<Characters />} />
+        <Route path={ROUTE_PATH.characterDetail} element={<CharacterPage />} />
+        <Route path={ROUTE_PATH.gear} element={<GearPage />} />
+        <Route path={ROUTE_PATH.gearSetDetail} element={<GearSetPage />} />
+        <Route path={ROUTE_PATH.relics} element={<RelicPage />} />
         <Route
-          path="/oracle-scrolls/:scrollName"
+          path={ROUTE_PATH.oracleScrollDetail}
           element={<OracleScrollPage />}
         />
-        <Route path="/howlkins" element={<Howlkins />} />
+        <Route path={ROUTE_PATH.howlkins} element={<Howlkins />} />
         <Route
-          path="/howlkins/:allianceSlug"
+          path={ROUTE_PATH.howlkinDetail}
           element={<GoldenAlliancePage />}
         />
-        <Route path="/noble-phantasms" element={<NoblePhantasms />} />
-        <Route path="/noble-phantasms/:name" element={<NoblePhantasmPage />} />
-        <Route path="/resources" element={<Resources />} />
-        <Route path="/subclasses" element={<Subclasses />} />
-        <Route path="/status-effects" element={<StatusEffects />} />
-        <Route path="/wyrmspells" element={<DragonSpells />} />
-        <Route path="/wyrmspells/:name" element={<WyrmspellPage />} />
-        <Route path="/wyrms" element={<WyrmsListPage />} />
-        <Route path="/wyrms/:name" element={<WyrmPage />} />
-        <Route path="/tier-list" element={<TierList />} />
-        <Route path="/teams" element={<Teams />} />
-        <Route path="/teams/saved/:teamSlug" element={<SavedTeamPage />} />
-        <Route path="/teams/:teamName" element={<TeamPage />} />
-        <Route path="/codes" element={<Codes />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/toolbox/useful-links" element={<UsefulLinks />} />
-        <Route path="/changelog" element={<Changelog />} />
-        <Route path="/toolbox/faq" element={<FAQ />} />
-        <Route path="/toolbox/beginner-qa" element={<BeginnerQA />} />
+        <Route path={ROUTE_PATH.noblePhantasms} element={<NoblePhantasms />} />
+        <Route path={ROUTE_PATH.noblePhantasmDetail} element={<NoblePhantasmPage />} />
+        <Route path={ROUTE_PATH.resources} element={<Resources />} />
+        <Route path={ROUTE_PATH.subclasses} element={<Subclasses />} />
+        <Route path={ROUTE_PATH.statusEffects} element={<StatusEffects />} />
+        <Route path={ROUTE_PATH.wyrmspells} element={<DragonSpells />} />
+        <Route path={ROUTE_PATH.wyrmspellDetail} element={<WyrmspellPage />} />
+        <Route path={ROUTE_PATH.wyrms} element={<WyrmsListPage />} />
+        <Route path={ROUTE_PATH.wyrmDetail} element={<WyrmPage />} />
+        <Route path={ROUTE_PATH.tierList} element={<TierList />} />
+        <Route path={ROUTE_PATH.teams} element={<Teams />} />
+        <Route path={ROUTE_PATH.savedTeam} element={<SavedTeamPage />} />
+        <Route path={ROUTE_PATH.teamDetail} element={<TeamPage />} />
+        <Route path={ROUTE_PATH.codes} element={<Codes />} />
+        <Route path={ROUTE_PATH.events} element={<Events />} />
+        <Route path={ROUTE_PATH.usefulLinks} element={<UsefulLinks />} />
+        <Route path={ROUTE_PATH.changelog} element={<Changelog />} />
+        <Route path={ROUTE_PATH.faq} element={<FAQ />} />
+        <Route path={ROUTE_PATH.beginnerQa} element={<BeginnerQA />} />
         <Route
-          path="/toolbox/star-upgrade-calculator"
+          path={ROUTE_PATH.starUpgradeCalculator}
           element={<StarUpgradeCalculator />}
         />
         <Route
-          path="/toolbox/mythic-summon-calculator"
+          path={ROUTE_PATH.mythicSummonCalculator}
           element={<MythicSummonCalculator />}
         />
         <Route
-          path="/toolbox/diamond-calculator"
+          path={ROUTE_PATH.diamondCalculator}
           element={<DiamondCalculator />}
         />
-        <Route path="/toolbox/shovel-event" element={<ShovelEventGuide />} />
-        <Route path="/toolbox/dtdle" element={<Dtdle />} />
+        <Route path={ROUTE_PATH.shovelEvent} element={<ShovelEventGuide />} />
+        <Route path={ROUTE_PATH.dtdle} element={<Dtdle />} />
 
         {/* Legacy redirects: preserve old bookmarked/shared links */}
         <Route
@@ -437,7 +441,7 @@ export default function AppRoutes() {
         />
         <Route path="/guides/*" element={<GuidesLegacyRedirect />} />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path={ROUTE_PATH.notFound} element={<NotFound />} />
       </Routes>
     </Suspense>
   );

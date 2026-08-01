@@ -72,9 +72,9 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 2. **Data hook** — add `useMounts()` to `features/wiki/hooks/use-wiki-data.ts`
 3. **Components** — create `features/wiki/mounts/components/` with list card and detail components
 4. **Pages** — create `pages/mounts/ListPage.tsx` (and `DetailPage.tsx` if needed), keeping reusable domain logic in the feature folder
-5. **Route** — add `<Route path="/mounts" element={<Mounts />} />` in `routes/AppRoutes.tsx`, add its metadata to `constants/route-meta.ts`, and add a tailored suspense fallback in `RouteFallback` when the generic content fallback is not suitable
-6. **Navigation** — add an entry to `NAV_ITEMS` in `constants/nav-items.ts`
-7. **Search** — add to `SearchDataContextValue` interface, call `useMounts()` in `SearchDataProvider`, and wire up a result type + renderer in `src/components/tools/SearchModal.tsx`
+5. **Route catalog** — add a stable route ID, path, metadata, optional search keywords, and optional fallback kind to `ROUTE_CATALOG` in `constants/route-meta.ts`; mount the lazy page through `ROUTE_PATH` in `routes/AppRoutes.tsx`
+6. **Navigation** — add the catalog route ID through `routeLeaf()` in `constants/nav-items.ts`
+7. **Search** — add to `SearchDataContextValue`, load it in `SearchDataProvider`, and add its typed adapter to `features/search/search-registry.ts`
 
 ## Key Shared Hooks
 

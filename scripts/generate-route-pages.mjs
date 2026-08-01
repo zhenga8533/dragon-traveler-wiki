@@ -10,6 +10,7 @@ import {
   BASE_URL,
   DEFAULT_IMAGE,
   ROUTE_META,
+  ROUTE_PATH,
   SITE_NAME,
 } from '../src/constants/route-meta.ts';
 import { loadProjectEnv } from './project-env.mjs';
@@ -388,7 +389,7 @@ export function writeRoutePages() {
 
   const dynamicRouteConfigs = [
     {
-      pattern: '/characters/:name',
+      pattern: ROUTE_PATH.characterDetail,
       file: 'enUS/characters.json',
       getImage: makeCharacterImage,
       getDescription: (item, fallback) =>
@@ -398,7 +399,7 @@ export function writeRoutePages() {
         ),
     },
     {
-      pattern: '/artifacts/:name',
+      pattern: ROUTE_PATH.artifactDetail,
       file: 'enUS/artifacts.json',
       getImage: (item) =>
         makeSquareImage(
@@ -411,7 +412,7 @@ export function writeRoutePages() {
         ),
     },
     {
-      pattern: '/noble-phantasms/:name',
+      pattern: ROUTE_PATH.noblePhantasmDetail,
       file: 'enUS/noble-phantasm.json',
       getImage: (item) =>
         makeSquareImage(
@@ -427,7 +428,7 @@ export function writeRoutePages() {
       },
     },
     {
-      pattern: '/teams/:teamName',
+      pattern: ROUTE_PATH.teamDetail,
       file: 'global/teams.json',
       getDescription: (item, fallback) =>
         truncateText(
@@ -435,7 +436,7 @@ export function writeRoutePages() {
         ),
     },
     {
-      pattern: '/gear-sets/:setName',
+      pattern: ROUTE_PATH.gearSetDetail,
       file: 'enUS/gear-sets.json',
       getDescription: (item, fallback) =>
         truncateText(
@@ -445,7 +446,7 @@ export function writeRoutePages() {
         ),
     },
     {
-      pattern: '/wyrms/:name',
+      pattern: ROUTE_PATH.wyrmDetail,
       file: 'enUS/wyrms.json',
       getImage: makeWyrmImage,
       getDescription: (item, fallback) =>
@@ -454,7 +455,7 @@ export function writeRoutePages() {
         ),
     },
     {
-      pattern: '/wyrmspells/:name',
+      pattern: ROUTE_PATH.wyrmspellDetail,
       file: 'enUS/wyrmspells.json',
       getImage: (item) =>
         makeSquareImage(
@@ -469,7 +470,7 @@ export function writeRoutePages() {
       },
     },
     {
-      pattern: '/howlkins/:allianceName',
+      pattern: ROUTE_PATH.howlkinDetail,
       file: 'enUS/golden-alliances.json',
       getImage: (item) => {
         const memberSlug = findFirstAvailableHowlkinMember(
@@ -527,7 +528,7 @@ export function writeRoutePages() {
     }
   }
 
-  const oracleMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
+  const oracleMeta = routeMetaByPattern.get(ROUTE_PATH.oracleScrollDetail);
   if (oracleMeta) {
     const scrollsSeen = new Set();
     for (const item of readJsonArray('enUS/relic.json')) {

@@ -7,7 +7,8 @@ import {
   DEFAULT_IMAGE_ALT,
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_WIDTH,
-  ROUTE_META,
+  getRouteById,
+  ROUTE_PATH,
   getRouteMetaEntry,
   SITE_NAME,
   type RouteMeta as RouteMetaType,
@@ -41,7 +42,7 @@ function getRouteMeta(pathname: string): RouteMetaType {
     return explicit.meta;
   }
 
-  const notFound = ROUTE_META.find(({ pattern }) => pattern === '*');
+  const notFound = getRouteById('notFound');
 
   return (
     notFound?.meta ?? {
@@ -56,7 +57,7 @@ export default function RouteMeta() {
 
   const routeMeta = useMemo(() => getRouteMeta(pathname), [pathname]);
   const showDefaultImage =
-    pathname === '/' || getRouteMetaEntry(pathname) === undefined;
+    pathname === ROUTE_PATH.home || getRouteMetaEntry(pathname) === undefined;
 
   useEffect(() => {
     const pageTitle =

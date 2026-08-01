@@ -6,10 +6,37 @@ export type RouteMeta = {
 };
 
 export type RouteMetaEntry = {
+  id: string;
   pattern: string;
   kind?: 'list' | 'detail';
+  fallback?: RouteFallbackKind;
+  navigationParent?: string;
+  searchKeywords?: string;
   meta: RouteMeta;
 };
+
+export type RouteFallbackKind =
+  | 'home'
+  | 'character-list'
+  | 'character-detail'
+  | 'detail'
+  | 'artifact-list'
+  | 'wyrmspell-list'
+  | 'wyrm-list'
+  | 'resource-list'
+  | 'status-effect-list'
+  | 'subclass-list'
+  | 'gear-list'
+  | 'relic-list'
+  | 'howlkin-list'
+  | 'noble-phantasm-list'
+  | 'event-list'
+  | 'code-list'
+  | 'team-list'
+  | 'tier-list'
+  | 'changelog'
+  | 'useful-links'
+  | 'content';
 
 export const SITE_NAME = 'Dragon Traveler Wiki';
 export const DEFAULT_DESCRIPTION =
@@ -20,9 +47,11 @@ export const DEFAULT_IMAGE_ALT = 'Dragon Traveler Wiki banner';
 export const DEFAULT_IMAGE_WIDTH = '1200';
 export const DEFAULT_IMAGE_HEIGHT = '630';
 
-export const ROUTE_META: RouteMetaEntry[] = [
+export const ROUTE_CATALOG = [
   {
+    id: 'home',
     pattern: '/',
+    fallback: 'home',
     meta: {
       title: 'Home',
       description:
@@ -30,7 +59,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'artifacts',
     pattern: '/artifacts',
+    fallback: 'artifact-list',
+    searchKeywords: 'artifacts database relic equipment',
     meta: {
       title: 'Artifacts',
       description:
@@ -38,6 +70,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'artifactDetail',
     pattern: '/artifacts/:name',
     kind: 'detail',
     meta: {
@@ -47,7 +80,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'characters',
     pattern: '/characters',
+    fallback: 'character-list',
+    searchKeywords: 'characters database hero heroes',
     meta: {
       title: 'Characters',
       description:
@@ -55,7 +91,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'characterDetail',
     pattern: '/characters/:name',
+    fallback: 'character-detail',
     kind: 'detail',
     meta: {
       title: 'Character Details',
@@ -64,7 +102,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'gear',
     pattern: '/gear',
+    fallback: 'gear-list',
+    searchKeywords: 'gear equipment set headgear chestplate bracers boots weapon accessory',
     meta: {
       title: 'Gear',
       description:
@@ -72,7 +113,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'gearSetDetail',
     pattern: '/gear-sets/:setName',
+    navigationParent: 'gear',
     kind: 'detail',
     meta: {
       title: 'Gear Set Details',
@@ -81,7 +124,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'howlkins',
     pattern: '/howlkins',
+    fallback: 'howlkin-list',
+    searchKeywords: 'howlkins database pot howlkin refinement',
     meta: {
       title: 'Howlkins',
       description:
@@ -89,7 +135,8 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/howlkins/:allianceName',
+    id: 'howlkinDetail',
+    pattern: '/howlkins/:allianceSlug',
     kind: 'detail',
     meta: {
       title: 'Golden Alliance Details',
@@ -98,7 +145,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'noblePhantasms',
     pattern: '/noble-phantasms',
+    fallback: 'noble-phantasm-list',
+    searchKeywords: 'noble phantasm noble phantasms database',
     meta: {
       title: 'Noble Phantasms',
       description:
@@ -106,6 +156,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'noblePhantasmDetail',
     pattern: '/noble-phantasms/:name',
     kind: 'detail',
     meta: {
@@ -115,7 +166,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'relics',
     pattern: '/relics',
+    fallback: 'relic-list',
+    searchKeywords: 'relics sanctuary fated legendary ritual vessel oracle scroll',
     meta: {
       title: 'Relics',
       description:
@@ -123,7 +177,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'oracleScrollDetail',
     pattern: '/oracle-scrolls/:scrollName',
+    navigationParent: 'relics',
     kind: 'detail',
     meta: {
       title: 'Oracle Scroll Details',
@@ -132,7 +188,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'resources',
     pattern: '/resources',
+    fallback: 'resource-list',
+    searchKeywords: 'resources materials currency items',
     meta: {
       title: 'Resources',
       description:
@@ -140,7 +199,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'subclasses',
     pattern: '/subclasses',
+    fallback: 'subclass-list',
+    searchKeywords: 'subclasses class talents tier bonuses effects',
     meta: {
       title: 'Subclasses',
       description:
@@ -148,7 +210,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'statusEffects',
     pattern: '/status-effects',
+    fallback: 'status-effect-list',
+    searchKeywords: 'status effects buffs debuffs',
     meta: {
       title: 'Status Effects',
       description:
@@ -156,7 +221,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'wyrms',
     pattern: '/wyrms',
+    fallback: 'wyrm-list',
+    searchKeywords: 'wyrms dragons dragon companions battle faction',
     meta: {
       title: 'Wyrms',
       description:
@@ -164,6 +232,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'wyrmDetail',
     pattern: '/wyrms/:name',
     kind: 'detail',
     meta: {
@@ -173,7 +242,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'wyrmspells',
     pattern: '/wyrmspells',
+    fallback: 'wyrmspell-list',
+    searchKeywords: 'wyrmspells dragon spells magic',
     meta: {
       title: 'Wyrmspells',
       description:
@@ -181,6 +253,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'wyrmspellDetail',
     pattern: '/wyrmspells/:name',
     kind: 'detail',
     meta: {
@@ -190,7 +263,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'tierList',
     pattern: '/tier-list',
+    fallback: 'tier-list',
+    searchKeywords: 'tier list ranking meta best',
     meta: {
       title: 'Tier List',
       description:
@@ -198,7 +274,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'teams',
     pattern: '/teams',
+    fallback: 'team-list',
+    searchKeywords: 'teams compositions squad party',
     meta: {
       title: 'Teams',
       description:
@@ -206,6 +285,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'teamDetail',
     pattern: '/teams/:teamName',
     kind: 'detail',
     meta: {
@@ -215,6 +295,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'savedTeam',
     pattern: '/teams/saved/:teamSlug',
     kind: 'detail',
     meta: {
@@ -224,7 +305,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'codes',
     pattern: '/codes',
+    fallback: 'code-list',
+    searchKeywords: 'codes redeem rewards gifts',
     meta: {
       title: 'Codes',
       description:
@@ -232,7 +316,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'events',
     pattern: '/events',
+    fallback: 'event-list',
+    searchKeywords: 'events special event in-game limited time active',
     meta: {
       title: 'Events',
       description:
@@ -240,7 +327,10 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'usefulLinks',
     pattern: '/toolbox/useful-links',
+    fallback: 'useful-links',
+    searchKeywords: 'links resources tools external',
     meta: {
       title: 'Useful Links',
       description:
@@ -248,7 +338,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'changelog',
     pattern: '/changelog',
+    fallback: 'changelog',
     meta: {
       title: 'Changelog',
       description:
@@ -256,7 +348,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'faq',
     pattern: '/toolbox/faq',
+    searchKeywords: 'faq frequently asked questions help guide beginner',
     meta: {
       title: 'FAQ',
       description:
@@ -264,7 +358,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'beginnerQa',
     pattern: '/toolbox/beginner-qa',
+    searchKeywords: 'beginner guide faq help tutorial',
     meta: {
       title: 'Beginner Q&A Guide',
       description:
@@ -272,7 +368,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'starUpgradeCalculator',
     pattern: '/toolbox/star-upgrade-calculator',
+    searchKeywords: 'calculator star upgrade cost',
     meta: {
       title: 'Star Upgrade Calculator',
       description:
@@ -280,7 +378,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'mythicSummonCalculator',
     pattern: '/toolbox/mythic-summon-calculator',
+    searchKeywords: 'mythic summon calculator pull rates rewards pity simulation',
     meta: {
       title: 'Mythic Summon Calculator',
       description:
@@ -288,7 +388,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'diamondCalculator',
     pattern: '/toolbox/diamond-calculator',
+    searchKeywords: 'diamond calculator income spending budget projection',
     meta: {
       title: 'Diamond Calculator',
       description:
@@ -296,7 +398,9 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'shovelEvent',
     pattern: '/toolbox/shovel-event',
+    searchKeywords: 'shovel event digging layers efficiency bombs rockets',
     meta: {
       title: 'Shovel Event Guide',
       description:
@@ -304,6 +408,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'dtdle',
     pattern: '/toolbox/dtdle',
     meta: {
       title: 'DTdle',
@@ -312,6 +417,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    id: 'notFound',
     pattern: '*',
     meta: {
       title: 'Page Not Found',
@@ -319,10 +425,28 @@ export const ROUTE_META: RouteMetaEntry[] = [
         'The requested page could not be found. Explore the Dragon Traveler Wiki from the homepage.',
     },
   },
-];
+] as const satisfies readonly RouteMetaEntry[];
 
-export function getRouteMetaEntry(pathname: string): RouteMetaEntry | undefined {
-  return ROUTE_META.find(
+export type RouteId = (typeof ROUTE_CATALOG)[number]['id'];
+export type RouteCatalogEntry = (typeof ROUTE_CATALOG)[number];
+
+// Retained for metadata generation and existing external scripts.
+export const ROUTE_META: readonly RouteCatalogEntry[] = ROUTE_CATALOG;
+
+export const ROUTE_PATH = Object.fromEntries(
+  ROUTE_CATALOG.map(({ id, pattern }) => [id, pattern])
+) as Record<RouteId, string>;
+
+export function getRouteById(id: RouteId): RouteCatalogEntry {
+  const route = ROUTE_CATALOG.find((entry) => entry.id === id);
+  if (!route) throw new Error(`Unknown route id: ${id}`);
+  return route;
+}
+
+export function getRouteMetaEntry(
+  pathname: string
+): RouteCatalogEntry | undefined {
+  return ROUTE_CATALOG.find(
     ({ pattern }) =>
       pattern !== '*' &&
       matchPath({ path: pattern, end: true }, pathname) !== null
@@ -330,5 +454,21 @@ export function getRouteMetaEntry(pathname: string): RouteMetaEntry | undefined 
 }
 
 export function isDetailRoute(pathname: string): boolean {
-  return getRouteMetaEntry(pathname)?.kind === 'detail';
+  const route = getRouteMetaEntry(pathname);
+  return Boolean(route && 'kind' in route && route.kind === 'detail');
+}
+
+export function getRouteFallbackKind(pathname: string): RouteFallbackKind {
+  const route = getRouteMetaEntry(pathname);
+  if (!route) return 'content';
+  if ('fallback' in route) return route.fallback;
+  return 'kind' in route && route.kind === 'detail' ? 'detail' : 'content';
+}
+
+export function getNavigationPatterns(routeId: RouteId): string[] {
+  return ROUTE_CATALOG.filter(
+    (entry) =>
+      entry.id === routeId ||
+      ('navigationParent' in entry && entry.navigationParent === routeId)
+  ).map(({ pattern }) => pattern);
 }
