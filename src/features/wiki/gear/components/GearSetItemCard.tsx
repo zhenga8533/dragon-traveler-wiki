@@ -45,12 +45,14 @@ export default function GearSetItemCard({
             />
           )}
           <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-            <Text fw={700} size="lg" className="dt-link-text" lineClamp={1}>
-              {item.name}
-            </Text>
+            <Group gap="sm" wrap="wrap">
+              <Text fw={700} size="lg" className="dt-link-text" lineClamp={1}>
+                {item.name}
+              </Text>
+              <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
+            </Group>
             <Group gap="xs" wrap="wrap">
               <GearTypeTag type={item.type} />
-              <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
             </Group>
             <ExpandableText size="sm">
               <RichText text={item.lore} statusEffects={statusEffects} italic />
