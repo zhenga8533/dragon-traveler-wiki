@@ -29,7 +29,7 @@ import {
   getCharacterRouteSlug,
   resolveCharacterRoute,
 } from '@/features/characters/utils/character-route';
-import { compareCharactersByQualityThenName } from '@/features/characters/utils/filter-characters';
+import { compareCharactersByQualityThenName } from '@/features/characters/filters';
 import { useCharacterResolution } from './use-character-resolution';
 import {
   useCharacterChanges,

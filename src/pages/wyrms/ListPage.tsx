@@ -29,10 +29,14 @@ import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
+import {
+  compareWyrms,
+  EMPTY_WYRM_FILTERS,
+  matchesWyrmFilters,
+} from '@/features/wiki/wyrms/filters';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useFilteredPageData } from '@/hooks';
+import { useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { compareQuality } from '@/utils/quality';
 
 import {
   Badge,
@@ -136,24 +140,6 @@ const WYRM_ARRAY_FIELDS: ArrayFieldDef[] = [
   },
 ];
 
-interface WyrmFilters {
-  search: string;
-  phases: string[];
-  qualities: string[];
-  factions: string[];
-}
-
-const EMPTY_FILTERS: WyrmFilters = {
-  search: '',
-  phases: [],
-  qualities: [],
-  factions: [],
-};
-
-function phaseIndex(phase: WyrmPhase): number {
-  return WYRM_PHASE_ORDER.indexOf(phase);
-}
-
 export default function WyrmsListPage() {
   const { data: statusEffects } = useStatusEffects();
   const { data: wyrms, loading, error, retry } = useWyrms();
@@ -179,40 +165,15 @@ export default function WyrmsListPage() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(wyrms, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_WYRM_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.WYRM_FILTERS,
       viewMode: STORAGE_KEY.WYRM_VIEW_MODE,
       sort: STORAGE_KEY.WYRM_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (wyrm, f) => {
-      if (f.search && !wyrm.name.toLowerCase().includes(f.search.toLowerCase()))
-        return false;
-      if (f.phases.length > 0 && !f.phases.includes(wyrm.phase)) return false;
-      if (f.qualities.length > 0 && !f.qualities.includes(wyrm.quality))
-        return false;
-      if (f.factions.length > 0 && !f.factions.includes(wyrm.faction))
-        return false;
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') cmp = a.name.localeCompare(b.name);
-        else if (col === 'phase') cmp = phaseIndex(a.phase) - phaseIndex(b.phase);
-        else if (col === 'quality')
-          cmp = compareQuality(a.quality, b.quality);
-        else if (col === 'faction') cmp = a.faction.localeCompare(b.faction);
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: faction → phase → name
-      const fCmp = a.faction.localeCompare(b.faction);
-      if (fCmp !== 0) return fCmp;
-      const pCmp = phaseIndex(a.phase) - phaseIndex(b.phase);
-      if (pCmp !== 0) return pCmp;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesWyrmFilters,
+    sortFn: compareWyrms,
   });
 
   const phaseOptions = useMemo(() => {

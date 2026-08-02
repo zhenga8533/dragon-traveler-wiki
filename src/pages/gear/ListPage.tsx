@@ -13,13 +13,15 @@ import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import type { Character } from '@/features/characters/types';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { compareQuality } from '@/utils/quality';
 import { STORAGE_KEY, PAGE_SIZE } from '@/constants/ui';
-import GearTab, {
-  type GearFilters,
-} from '@/features/wiki/gear/components/GearTab';
+import GearTab from '@/features/wiki/gear/components/GearTab';
 import GearSetsTab from '@/features/wiki/gear/components/GearSetsTab';
 import GearUsageTab from '@/features/wiki/gear/components/GearUsageTab';
+import {
+  compareGear,
+  EMPTY_GEAR_FILTERS,
+  matchesGearFilters,
+} from '@/features/wiki/gear/filters';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
 import {
   compareEntityUsage,
@@ -30,7 +32,6 @@ import {
 import { useEntityUsage } from '@/features/wiki/usage/use-entity-usage';
 import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  applyDir,
   useFilterPanel,
   useFilteredPageData,
   useGradientAccent,
@@ -52,12 +53,6 @@ function getGearUsageReferences(character: Character): string[] {
 function getCharacterName(character: Character): string {
   return character.name;
 }
-
-const EMPTY_FILTERS: GearFilters = {
-  search: '',
-  types: [],
-  qualities: [],
-};
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
@@ -178,62 +173,17 @@ export default function GearPage() {
     pageSizeOptions: gearPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(gear, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_GEAR_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.GEAR_FILTERS,
       viewMode: STORAGE_KEY.GEAR_VIEW_MODE,
       sort: STORAGE_KEY.GEAR_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (item, filters) => {
-      if (
-        !filters.search &&
-        filters.types.length === 0 &&
-        filters.qualities.length === 0
-      ) {
-        return true;
-      }
-      const query = filters.search.toLowerCase();
-      const matchesSearch =
-        !filters.search ||
-        item.name.toLowerCase().includes(query) ||
-        item.set.toLowerCase().includes(query) ||
-        (gearSetBySlug.get(item.set)?.name ?? '')
-          .toLowerCase()
-          .includes(query);
-      const matchesType =
-        filters.types.length === 0 || filters.types.includes(item.type);
-      const matchesQuality =
-        filters.qualities.length === 0 ||
-        filters.qualities.includes(item.quality);
-      return matchesSearch && matchesType && matchesQuality;
-    },
-    sortFn: (a, b, col, dir) => {
-      const typeCmp =
-        GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
-      const qualityCmp = compareQuality(a.quality, b.quality);
-      const nameCmp = a.name.localeCompare(b.name);
-
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = nameCmp;
-        } else if (col === 'set') {
-          cmp = (gearSetBySlug.get(a.set)?.name ?? a.set).localeCompare(
-            gearSetBySlug.get(b.set)?.name ?? b.set
-          );
-        } else if (col === 'type') {
-          cmp = typeCmp || qualityCmp || nameCmp;
-        } else if (col === 'rarity') {
-          cmp = qualityCmp || typeCmp || nameCmp;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-
-      if (typeCmp !== 0) return typeCmp;
-      if (qualityCmp !== 0) return qualityCmp;
-      return nameCmp;
-    },
+    filterFn: (item, currentFilters) =>
+      matchesGearFilters(item, currentFilters, gearSetBySlug),
+    sortFn: (left, right, column, direction) =>
+      compareGear(left, right, column, direction, gearSetBySlug),
   });
 
   const gearItemsBySet = useMemo(() => {
@@ -434,7 +384,7 @@ export default function GearPage() {
               onPageSizeChange={setGearPageSize}
               filters={filters}
               onFiltersChange={setFilters}
-              emptyFilters={EMPTY_FILTERS}
+              emptyFilters={EMPTY_GEAR_FILTERS}
               filterGroups={FILTER_GROUPS}
               sortCol={sortCol}
               sortDir={sortDir}

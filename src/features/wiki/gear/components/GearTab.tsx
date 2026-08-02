@@ -15,6 +15,7 @@ import { getMinWidthStyle } from '@/constants/styles';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
+import type { GearFilters } from '@/features/wiki/gear/filters';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
@@ -28,12 +29,6 @@ import {
   Table,
   Text,
 } from '@mantine/core';
-
-export interface GearFilters {
-  search: string;
-  types: GearType[];
-  qualities: Quality[];
-}
 
 interface GearTabProps {
   loading: boolean;

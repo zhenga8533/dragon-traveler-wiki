@@ -11,23 +11,18 @@ import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
-import { useIsMobile } from '@/hooks';
 import type { Quality } from '@/types/quality';
+import { useIsMobile } from '@/hooks';
 import {
   FilterChipGroup,
   FilterSection,
 } from '@/components/common/FilterControls';
-
-export interface HowlkinFilters {
-  search: string;
-  qualities: Quality[];
-  allianceMembership: ('member' | 'none')[];
-}
 
 interface HowlkinsTabProps {
   loading: boolean;

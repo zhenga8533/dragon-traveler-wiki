@@ -17,6 +17,7 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
+import type { RelicFilters } from '@/features/wiki/relics/filters';
 import type { Relic, RelicType } from '@/features/wiki/relics/types';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -25,13 +26,6 @@ import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useIsMobile } from '@/hooks';
-
-export interface RelicFilters {
-  search: string;
-  types: RelicType[];
-  qualities: Quality[];
-  oracleScrollMembership: ('member' | 'none')[];
-}
 
 interface RelicsTabProps {
   loading: boolean;

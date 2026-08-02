@@ -18,13 +18,13 @@ import {
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
 import {
-  EMPTY_FILTERS,
+  EMPTY_CHARACTER_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
   sortCharactersByQuality,
-} from '@/features/characters/utils/filter-characters';
+} from '@/features/characters/filters';
 import PaginationControl from '@/components/ui/PaginationControl';
 import CharacterFilter from '@/features/characters/components/CharacterFilter';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
@@ -62,7 +62,9 @@ export default function FilterableCharacterPool({
     TierListReferenceContext
   );
   const { data: statusEffects } = useStatusEffects();
-  const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
+  const [filters, setFilters] = useState<CharacterFilters>(
+    EMPTY_CHARACTER_FILTERS
+  );
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
   // Mirror the SimpleGrid breakpoints: base: 2, xs: 3, sm: 4, md: 6

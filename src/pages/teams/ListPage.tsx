@@ -11,13 +11,17 @@ import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
-  matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
 import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
 import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
+import {
+  EMPTY_TEAM_FILTERS,
+  matchesTeamFilters,
+  type TeamFilters,
+} from '@/features/teams/filters';
 import {
   loadSavedTeams,
   removeSavedTeam,
@@ -60,26 +64,6 @@ const TEAM_PAGE_SIZE_OPTIONS = {
   list: [10, 20, 30, 50],
 } as const;
 
-function matchesTeamFilters(
-  team: Team,
-  search: string,
-  viewFilters: Record<string, string[]>
-) {
-  if (search && !team.name.toLowerCase().includes(search.toLowerCase())) {
-    return false;
-  }
-  if (
-    viewFilters.factions.length > 0 &&
-    !viewFilters.factions.includes(team.faction)
-  ) {
-    return false;
-  }
-  if (!matchesContentTypeFilters(team.content_type, viewFilters.contentTypes)) {
-    return false;
-  }
-  return true;
-}
-
 export default function Teams() {
   const { accent } = useGradientAccent();
   const navigate = useNavigate();
@@ -103,10 +87,9 @@ export default function Teams() {
     error: wyrmspellsError,
     retry: retryWyrmspells,
   } = useWyrmspells();
-  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
-    Record<string, string[]>
-  >({
-    emptyFilters: { factions: [], contentTypes: [] },
+  const { filters: viewFilters, setFilters: setViewFilters } =
+    useFilters<TeamFilters>({
+    emptyFilters: EMPTY_TEAM_FILTERS,
     storageKey: STORAGE_KEY.TEAMS_FILTERS,
   });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
@@ -197,7 +180,7 @@ export default function Teams() {
   );
 
   const handleClearFilters = useCallback(() => {
-    setViewFilters({ factions: [], contentTypes: [] });
+    setViewFilters(EMPTY_TEAM_FILTERS);
     setSearch('');
   }, [setViewFilters]);
 

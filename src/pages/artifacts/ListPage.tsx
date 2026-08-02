@@ -18,7 +18,11 @@ import {
   ARTIFACT_EFFECT_ARRAY_FIELDS,
   ARTIFACT_FIELDS,
 } from '@/features/wiki/artifacts/form-fields';
-import { compareQuality, compareQualityThenName } from '@/utils/quality';
+import {
+  compareArtifacts,
+  EMPTY_ARTIFACT_FILTERS,
+  matchesArtifactFilters,
+} from '@/features/wiki/artifacts/filters';
 import {
   getMinWidthStyle,
 } from '@/constants/styles';
@@ -27,7 +31,6 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import type { Quality } from '@/types/quality';
 import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  applyDir,
   useFilteredPageData,
   useGradientAccent,
 } from '@/hooks';
@@ -43,18 +46,6 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-
-interface ArtifactFilters {
-  search: string;
-  qualities: Quality[];
-  footprints: string[];
-}
-
-const EMPTY_FILTERS: ArtifactFilters = {
-  search: '',
-  qualities: [],
-  footprints: [],
-};
 
 export default function Artifacts() {
   const { accent } = useGradientAccent();
@@ -86,56 +77,15 @@ export default function Artifacts() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(artifacts, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_ARTIFACT_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.ARTIFACT_FILTERS,
       viewMode: STORAGE_KEY.ARTIFACT_VIEW_MODE,
       sort: STORAGE_KEY.ARTIFACT_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (a, filters) => {
-      if (
-        filters.search &&
-        !a.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(a.quality)
-      ) {
-        return false;
-      }
-      if (
-        filters.footprints.length > 0 &&
-        !filters.footprints.includes(`${a.rows}x${a.columns}`)
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          cmp = compareQuality(a.quality, b.quality);
-        } else if (col === 'size') {
-          cmp = a.rows * a.columns - b.rows * b.columns;
-        } else if (col === 'treasures') {
-          cmp = b.treasures.length - a.treasures.length;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: quality > name
-      return compareQualityThenName(
-        a.quality,
-        b.quality,
-        a.name,
-        b.name
-      );
-    },
+    filterFn: matchesArtifactFilters,
+    sortFn: compareArtifacts,
   });
 
   const mostRecentUpdate = useMemo(

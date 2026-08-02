@@ -28,11 +28,16 @@ import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
+import {
+  compareWyrmspells,
+  EMPTY_WYRMSPELL_FILTERS,
+  matchesWyrmspellFilters,
+  WYRMSPELL_TYPE_FILTER_ORDER,
+} from '@/features/wiki/wyrmspells/filters';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useFilteredPageData } from '@/hooks';
+import { useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { compareQuality } from '@/utils/quality';
 import {
   Container,
   Group,
@@ -45,13 +50,6 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
-
-const WYRMSPELL_TYPE_FILTER_ORDER = [
-  'Breach',
-  'Refuge',
-  'Wildcry',
-  "Dragon's Call",
-] as const;
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -90,20 +88,6 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
   },
 ];
 
-interface WyrmspellFilters {
-  search: string;
-  types: string[];
-  qualities: string[];
-  availability: string[];
-}
-
-const EMPTY_FILTERS: WyrmspellFilters = {
-  search: '',
-  types: [],
-  qualities: [],
-  availability: [],
-};
-
 export default function Wyrmspells() {
   const { data: statusEffects } = useStatusEffects();
   const {
@@ -133,68 +117,15 @@ export default function Wyrmspells() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(wyrmspells, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_WYRMSPELL_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.WYRMSPELL_FILTERS,
       viewMode: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
       sort: STORAGE_KEY.WYRMSPELL_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (spell, filters) => {
-      if (
-        filters.search &&
-        !spell.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
-        return false;
-      }
-      if (filters.qualities.length > 0) {
-        const maxQ = getMaxQuality(spell)?.quality;
-        if (!maxQ || !filters.qualities.includes(maxQ)) return false;
-      }
-      if (
-        filters.availability.length > 0 &&
-        !filters.availability.includes(
-          spell.exclusive_faction ?? 'universal'
-        )
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'type') {
-          cmp = a.type.localeCompare(b.type);
-        } else if (col === 'quality') {
-          cmp = compareQuality(
-            getMaxQuality(a)?.quality,
-            getMaxQuality(b)?.quality
-          );
-        } else if (col === 'faction') {
-          const fA = a.exclusive_faction ?? '';
-          const fB = b.exclusive_faction ?? '';
-          if (!fA && fB) return 1;
-          if (fA && !fB) return -1;
-          cmp = fA.localeCompare(fB);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: type > quality > name
-      const typeCmp = a.type.localeCompare(b.type);
-      if (typeCmp !== 0) return typeCmp;
-      const qualityComparison = compareQuality(
-        getMaxQuality(a)?.quality,
-        getMaxQuality(b)?.quality
-      );
-      if (qualityComparison !== 0) return qualityComparison;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesWyrmspellFilters,
+    sortFn: compareWyrmspells,
   });
 
   const typeOptions = useMemo(() => {

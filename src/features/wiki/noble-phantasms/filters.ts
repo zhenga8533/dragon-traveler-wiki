@@ -1,6 +1,8 @@
 import type { Character } from '@/features/characters/types';
+import { applyDir } from '@/hooks/use-sort';
 import type { Quality } from '@/types/quality';
-import type { NoblePhantasm } from '../types';
+import { compareQualityThenName } from '@/utils/quality';
+import type { NoblePhantasm } from './types';
 
 export type CharacterLinkFilter = 'valid' | 'invalid';
 
@@ -52,5 +54,43 @@ export function matchesNoblePhantasmFilters(
   return (
     noblePhantasm.name.toLowerCase().includes(query) ||
     characterName.toLowerCase().includes(query)
+  );
+}
+
+export function compareNoblePhantasms(
+  left: NoblePhantasm,
+  right: NoblePhantasm,
+  column: string | null,
+  direction: 'asc' | 'desc',
+  characterNames: ReadonlyMap<string, string>
+): number {
+  const leftCharacterName =
+    characterNames.get(left.character_slug ?? '') ?? '';
+  const rightCharacterName =
+    characterNames.get(right.character_slug ?? '') ?? '';
+
+  let comparison = 0;
+  if (column === 'name') comparison = left.name.localeCompare(right.name);
+  else if (column === 'character') {
+    if (!leftCharacterName && rightCharacterName) comparison = 1;
+    else if (leftCharacterName && !rightCharacterName) comparison = -1;
+    else comparison = leftCharacterName.localeCompare(rightCharacterName);
+  } else if (column === 'rarity') {
+    comparison = compareQualityThenName(
+      left.quality,
+      right.quality,
+      left.name,
+      right.name
+    );
+  } else if (column === 'effects') {
+    comparison = right.effects.length - left.effects.length;
+  } else if (column === 'skills') {
+    comparison = right.skills.length - left.skills.length;
+  }
+
+  if (comparison) return applyDir(comparison, direction);
+  return (
+    leftCharacterName.localeCompare(rightCharacterName) ||
+    left.name.localeCompare(right.name)
   );
 }

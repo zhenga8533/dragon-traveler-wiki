@@ -10,9 +10,9 @@ import {
   FilterMultiSelect,
   FilterSection,
 } from '@/components/common/FilterControls';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
-import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
+import { EMPTY_CHARACTER_FILTERS } from '@/features/characters/filters';
 import { useIsMobile } from '@/hooks';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Divider, Group, Select, SimpleGrid, Text } from '@mantine/core';
@@ -97,7 +97,7 @@ export default function CharacterFilter({
         tiers: filters.tiers,
       }}
       onChange={handleGroupChange}
-      onClear={() => onChange(EMPTY_FILTERS)}
+      onClear={() => onChange(EMPTY_CHARACTER_FILTERS)}
       hasActiveFilters={
         filters.search !== '' ||
         filters.qualities.length > 0 ||

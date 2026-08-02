@@ -6,18 +6,19 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
-import { compareQuality } from '@/utils/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import RelicsTab, {
-  type RelicFilters,
-} from '@/features/wiki/relics/components/RelicsTab';
+import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
 import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
 import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
+import {
+  compareRelics,
+  EMPTY_RELIC_FILTERS,
+  matchesRelicFilters,
+} from '@/features/wiki/relics/filters';
 import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
 import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  applyDir,
   useFilteredPageData,
   useGradientAccent,
   useSearchParamFilter,
@@ -27,13 +28,6 @@ import {
 import { getLatestTimestamp } from '@/utils';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-
-const EMPTY_FILTERS: RelicFilters = {
-  search: '',
-  types: [],
-  qualities: [],
-  oracleScrollMembership: [],
-};
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
@@ -98,74 +92,15 @@ export default function RelicPage() {
     pageSizeOptions: relicPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(relics, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_RELIC_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.RELIC_FILTERS,
       viewMode: STORAGE_KEY.RELIC_VIEW_MODE,
       sort: STORAGE_KEY.RELIC_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (item, filters) => {
-      if (
-        !filters.search &&
-        filters.types.length === 0 &&
-        filters.qualities.length === 0 &&
-        filters.oracleScrollMembership.length === 0
-      ) {
-        return true;
-      }
-      const query = filters.search.toLowerCase();
-      const matchesSearch =
-        !filters.search ||
-        item.name.toLowerCase().includes(query) ||
-        (item.oracle_scroll?.name ?? '').toLowerCase().includes(query) ||
-        item.lore.toLowerCase().includes(query);
-      const matchesType =
-        filters.types.length === 0 || filters.types.includes(item.type);
-      const matchesQuality =
-        filters.qualities.length === 0 ||
-        filters.qualities.includes(item.quality);
-      const matchesOracleScroll =
-        filters.oracleScrollMembership.length === 0 ||
-        filters.oracleScrollMembership.includes(
-          item.oracle_scroll ? 'member' : 'none'
-        );
-      return (
-        matchesSearch &&
-        matchesType &&
-        matchesQuality &&
-        matchesOracleScroll
-      );
-    },
-    sortFn: (a, b, col, dir) => {
-      const typeCmp =
-        getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
-        getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
-      const qualityCmp = compareQuality(a.quality, b.quality);
-      const oracleCmp = (a.oracle_scroll?.name ?? '').localeCompare(
-        b.oracle_scroll?.name ?? ''
-      );
-      const nameCmp = a.name.localeCompare(b.name);
-
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = nameCmp;
-        } else if (col === 'type') {
-          cmp = typeCmp || qualityCmp || oracleCmp || nameCmp;
-        } else if (col === 'rarity') {
-          cmp = qualityCmp || oracleCmp || typeCmp || nameCmp;
-        } else if (col === 'oracle') {
-          cmp = oracleCmp || typeCmp || nameCmp;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-
-      if (qualityCmp !== 0) return qualityCmp;
-      if (oracleCmp !== 0) return oracleCmp;
-      if (typeCmp !== 0) return typeCmp;
-      return nameCmp;
-    },
+    filterFn: matchesRelicFilters,
+    sortFn: compareRelics,
   });
   useSearchParamFilter(setFilters);
 
@@ -262,7 +197,7 @@ export default function RelicPage() {
               onPageSizeChange={setRelicPageSize}
               filters={filters}
               onFiltersChange={setFilters}
-              emptyFilters={EMPTY_FILTERS}
+              emptyFilters={EMPTY_RELIC_FILTERS}
               filterGroups={FILTER_GROUPS}
               sortCol={sortCol}
               sortDir={sortDir}

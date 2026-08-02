@@ -31,12 +31,16 @@ import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/re
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
-import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import { useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import {
+  compareResources,
+  EMPTY_RESOURCE_FILTERS,
+  matchesResourceFilters,
+} from '@/features/wiki/resources/filters';
 import type { ResourceCategory } from '@/types/resource';
 import type { Quality } from '@/types/quality';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import { getLatestTimestamp } from '@/utils';
-import { compareQuality } from '@/utils/quality';
 
 const RESOURCE_FIELDS: FieldDef[] = [
   {
@@ -68,18 +72,6 @@ const RESOURCE_FIELDS: FieldDef[] = [
     placeholder: 'Describe the resource',
   },
 ];
-
-interface ResourceFilters {
-  search: string;
-  categories: ResourceCategory[];
-  qualities: Quality[];
-}
-
-const EMPTY_FILTERS: ResourceFilters = {
-  search: '',
-  categories: [],
-  qualities: [],
-};
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
@@ -113,56 +105,15 @@ export default function Resources() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(resources, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_RESOURCE_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.RESOURCE_FILTERS,
       viewMode: STORAGE_KEY.RESOURCE_VIEW_MODE,
       sort: STORAGE_KEY.RESOURCE_SORT,
     },
     defaultViewMode: 'list',
-    filterFn: (r, filters) => {
-      if (
-        filters.search &&
-        !r.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.categories.length > 0 &&
-        !filters.categories.includes(r.category)
-      ) {
-        return false;
-      }
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(r.quality)
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          cmp = compareQuality(a.quality, b.quality);
-        } else if (col === 'category') {
-          cmp =
-            RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
-            RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: category > quality > name
-      const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
-      const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-      if (catA !== catB) return catA - catB;
-      const qualityComparison = compareQuality(a.quality, b.quality);
-      if (qualityComparison !== 0) return qualityComparison;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesResourceFilters,
+    sortFn: compareResources,
   });
   useSearchParamFilter(setFilters);
 

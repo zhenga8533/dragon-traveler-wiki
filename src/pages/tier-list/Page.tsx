@@ -15,7 +15,6 @@ import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
-  matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
 import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
@@ -28,11 +27,15 @@ import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
 import {
+  EMPTY_TIER_LIST_VIEW_FILTERS,
+  matchesTierListFilters,
+  type TierListViewFilters,
+} from '@/features/tier-list/filters';
+import {
   loadSavedTierLists,
   removeSavedTierList,
 } from '@/features/tier-list/saved-tier-lists';
 import {
-  getTierListEntityType,
   isCharacterTierEntry,
   isNoblePhantasmTierEntry,
   type TierListRankableEntity,
@@ -70,37 +73,6 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router';
 import { useSearchParamText } from '@/hooks';
 
-function matchesTierListFilters(
-  tierList: TierListType,
-  search: string,
-  viewFilters: Record<string, string[]>
-) {
-  if (
-    search &&
-    ![tierList.name, tierList.author, tierList.description ?? '']
-      .join(' ')
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  ) {
-    return false;
-  }
-
-  if (
-    viewFilters.entityTypes.length > 0 &&
-    !viewFilters.entityTypes.includes(getTierListEntityType(tierList))
-  ) {
-    return false;
-  }
-
-  if (
-    !matchesContentTypeFilters(tierList.content_type, viewFilters.contentTypes)
-  ) {
-    return false;
-  }
-
-  return true;
-}
-
 export default function TierList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const {
@@ -122,24 +94,9 @@ export default function TierList() {
     retry: retryNoblePhantasms,
   } = useNoblePhantasms();
   const { data: tierListChanges } = useTierListChanges();
-  interface TierListViewFilters {
-    [key: string]: string[];
-    contentTypes: string[];
-    entityTypes: string[];
-    factions: string[];
-    classes: string[];
-    qualities: string[];
-  }
-
   const { filters: viewFilters, setFilters: setViewFilters } =
     useFilters<TierListViewFilters>({
-      emptyFilters: {
-        contentTypes: [],
-        entityTypes: [],
-        factions: [],
-        classes: [],
-        qualities: [],
-      },
+      emptyFilters: EMPTY_TIER_LIST_VIEW_FILTERS,
       storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
     });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);

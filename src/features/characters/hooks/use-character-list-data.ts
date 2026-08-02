@@ -9,17 +9,17 @@ import {
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
 import {
   getTierListEntityType,
   isCharacterTierEntry,
 } from '@/features/tier-list/types';
 import {
   compareCharactersByQualityThenName,
-  EMPTY_FILTERS,
+  EMPTY_CHARACTER_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
-} from '@/features/characters/utils/filter-characters';
+} from '@/features/characters/filters';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
@@ -84,7 +84,7 @@ export function useCharacterListData(
   );
 
   const { filters, setFilters } = useFilters<CharacterFilters>({
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_CHARACTER_FILTERS,
     storageKey: STORAGE_KEY.CHARACTER_FILTERS,
   });
   const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();

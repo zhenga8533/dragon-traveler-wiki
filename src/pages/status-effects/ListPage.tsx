@@ -25,7 +25,12 @@ import { STATE_COLOR, STATE_ORDER } from '@/constants/status-effect-colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import {
+  compareStatusEffects,
+  EMPTY_STATUS_EFFECT_FILTERS,
+  matchesStatusEffectFilters,
+} from '@/features/wiki/status-effects/filters';
+import { useFilteredPageData, useSearchParamFilter } from '@/hooks';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { getLatestTimestamp } from '@/utils';
 
@@ -65,16 +70,6 @@ const STATUS_EFFECT_FIELDS: FieldDef[] = [
   },
 ];
 
-interface StatusEffectFilters {
-  search: string;
-  types: StatusEffectType[];
-}
-
-const EMPTY_FILTERS: StatusEffectFilters = {
-  search: '',
-  types: [],
-};
-
 export default function StatusEffects() {
   const {
     data: effects,
@@ -103,41 +98,15 @@ export default function StatusEffects() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(effects, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_STATUS_EFFECT_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.STATUS_EFFECT_FILTERS,
       viewMode: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
       sort: STORAGE_KEY.STATUS_EFFECT_SORT,
     },
     defaultViewMode: 'list',
-    filterFn: (effect, filters) => {
-      if (
-        filters.search &&
-        !effect.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filters.types.length > 0 && !filters.types.includes(effect.type)) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'type') {
-          cmp = STATE_ORDER.indexOf(a.type) - STATE_ORDER.indexOf(b.type);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: type > name
-      const typeIndexA = STATE_ORDER.indexOf(a.type);
-      const typeIndexB = STATE_ORDER.indexOf(b.type);
-      if (typeIndexA !== typeIndexB) return typeIndexA - typeIndexB;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesStatusEffectFilters,
+    sortFn: compareStatusEffects,
   });
   useSearchParamFilter(setFilters);
 

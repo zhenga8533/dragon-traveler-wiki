@@ -13,17 +13,18 @@ import {
   HOWLKIN_STATS_FIELDS,
 } from '@/features/wiki/howlkins/form-fields';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { compareQuality, compareQualityThenName } from '@/utils/quality';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
-import HowlkinsTab, {
-  type HowlkinFilters,
-} from '@/features/wiki/howlkins/components/HowlkinsTab';
+import HowlkinsTab from '@/features/wiki/howlkins/components/HowlkinsTab';
 import GoldenAlliancesTab from '@/features/wiki/howlkins/components/GoldenAlliancesTab';
+import {
+  compareHowlkins,
+  EMPTY_HOWLKIN_FILTERS,
+  matchesHowlkinFilters,
+} from '@/features/wiki/howlkins/filters';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  applyDir,
   useFilteredPageData,
   useGradientAccent,
   useSearchParamFilter,
@@ -33,12 +34,6 @@ import {
 import { getLatestTimestamp } from '@/utils';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-
-const EMPTY_FILTERS: HowlkinFilters = {
-  search: '',
-  qualities: [],
-  allianceMembership: [],
-};
 
 export default function Howlkins() {
   const { accent } = useGradientAccent();
@@ -92,52 +87,16 @@ export default function Howlkins() {
     pageSizeOptions: howlkinPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(howlkins, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_HOWLKIN_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.HOWLKIN_FILTERS,
       viewMode: STORAGE_KEY.HOWLKIN_VIEW_MODE,
       sort: STORAGE_KEY.HOWLKIN_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (howlkin, filters) => {
-      if (
-        filters.search &&
-        !howlkin.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(howlkin.quality)
-      ) {
-        return false;
-      }
-      if (filters.allianceMembership.length > 0) {
-        const membership = howlkinToAlliance.has(howlkin.slug)
-          ? 'member'
-          : 'none';
-        if (!filters.allianceMembership.includes(membership)) return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          cmp = compareQuality(a.quality, b.quality);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: quality > name
-      return compareQualityThenName(
-        a.quality,
-        b.quality,
-        a.name,
-        b.name
-      );
-    },
+    filterFn: (howlkin, currentFilters) =>
+      matchesHowlkinFilters(howlkin, currentFilters, howlkinToAlliance),
+    sortFn: compareHowlkins,
   });
   useSearchParamFilter(setFilters);
 

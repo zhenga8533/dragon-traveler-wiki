@@ -7,7 +7,7 @@ import {
 import {
   EMPTY_NOBLE_PHANTASM_FILTERS,
   type NoblePhantasmFilters,
-} from '@/features/wiki/noble-phantasms/utils/filter-noble-phantasms';
+} from '@/features/wiki/noble-phantasms/filters';
 import { useIsMobile } from '@/hooks';
 
 interface NoblePhantasmFilterProps {

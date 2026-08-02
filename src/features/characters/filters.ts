@@ -6,7 +6,7 @@ import type {
 } from '@/features/characters/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
-import { getCharacterIdentityKey } from './character-route';
+import { getCharacterIdentityKey } from './utils/character-route';
 import { parseEffectRefs } from '@/utils/parse-effect-refs';
 import { compareQualityThenName } from '@/utils/quality';
 
@@ -26,7 +26,7 @@ export interface CharacterFilters {
   maxStarLevel: string | null;
 }
 
-export const EMPTY_FILTERS: CharacterFilters = {
+export const EMPTY_CHARACTER_FILTERS: CharacterFilters = {
   search: '',
   qualities: [],
   classes: [],

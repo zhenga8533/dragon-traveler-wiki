@@ -26,7 +26,7 @@ import NoblePhantasmFilter from '@/features/wiki/noble-phantasms/components/Nobl
 import {
   EMPTY_NOBLE_PHANTASM_FILTERS,
   matchesNoblePhantasmFilters,
-} from '@/features/wiki/noble-phantasms/utils/filter-noble-phantasms';
+} from '@/features/wiki/noble-phantasms/filters';
 import {
   countActiveFilters,
   useDarkMode,
