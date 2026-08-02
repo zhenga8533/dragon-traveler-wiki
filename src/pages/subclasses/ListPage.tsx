@@ -19,6 +19,7 @@ import {
   useTabParam,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
 export default function Subclasses() {
   const { accent } = useGradientAccent();
@@ -37,6 +38,7 @@ export default function Subclasses() {
     data: characters,
     loading: charactersLoading,
     error: charactersError,
+    retry: retryCharacters,
   } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
   const catalog = useSubclassCatalog(subclasses);
@@ -85,6 +87,12 @@ export default function Subclasses() {
             <SubclassUsageTab
               loading={loading || charactersLoading}
               error={error || charactersError}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [error, retry],
+                  [charactersError, retryCharacters]
+                )
+              }
               subclasses={subclasses}
               usage={usage}
               accent={accent}

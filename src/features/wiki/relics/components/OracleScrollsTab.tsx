@@ -15,6 +15,7 @@ import type { GradientPaletteAccents } from '@/contexts';
 interface OracleScrollsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   oracleScrolls: OracleScrollRef[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -33,6 +34,7 @@ interface OracleScrollsTabProps {
 export default function OracleScrollsTab({
   loading,
   error,
+  onRetry,
   oracleScrolls,
   search,
   onSearchChange,
@@ -51,6 +53,7 @@ export default function OracleScrollsTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load oracle scrolls"
       hasData={oracleScrolls.length > 0}
       emptyMessage="No oracle scroll data available yet."

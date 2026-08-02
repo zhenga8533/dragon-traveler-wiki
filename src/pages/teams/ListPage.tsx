@@ -46,6 +46,7 @@ import {
 import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { showErrorToast } from '@/utils/toast';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import {
   Container,
   Group,
@@ -319,11 +320,13 @@ export default function Teams() {
           <DataFetchError
             title="Could not load teams data"
             message={error.message}
-            onRetry={() => {
-              retryTeams();
-              retryCharacters();
-              retryWyrmspells();
-            }}
+            onRetry={() =>
+              retryFailedDataSources(
+                [teamsError, retryTeams],
+                [charactersError, retryCharacters],
+                [wyrmspellsError, retryWyrmspells]
+              )
+            }
           />
         )}
 

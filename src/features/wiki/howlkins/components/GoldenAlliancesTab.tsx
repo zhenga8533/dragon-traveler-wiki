@@ -13,6 +13,7 @@ import { compareQuality } from '@/utils/quality';
 interface GoldenAlliancesTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   goldenAlliances: GoldenAlliance[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -31,6 +32,7 @@ interface GoldenAlliancesTabProps {
 export default function GoldenAlliancesTab({
   loading,
   error,
+  onRetry,
   goldenAlliances,
   search,
   onSearchChange,
@@ -49,6 +51,7 @@ export default function GoldenAlliancesTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       hasData={goldenAlliances.length > 0}
       emptyMessage="Golden alliance data hasn't been added yet."
       errorTitle="Could not load golden alliances"

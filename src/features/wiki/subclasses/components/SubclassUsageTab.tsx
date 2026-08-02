@@ -54,6 +54,7 @@ const USAGE_CLASS_OPTIONS = CLASS_ORDER.map((characterClass) => ({
 interface SubclassUsageTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   subclasses: Subclass[];
   usage: ReturnType<typeof useSubclassUsage>;
   accent: GradientPaletteAccents;
@@ -63,6 +64,7 @@ interface SubclassUsageTabProps {
 export default function SubclassUsageTab({
   loading,
   error,
+  onRetry,
   subclasses,
   usage,
   accent,
@@ -98,6 +100,7 @@ export default function SubclassUsageTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load subclass usage"
       hasData={subclasses.length > 0}
       emptyMessage="No subclass data available yet."

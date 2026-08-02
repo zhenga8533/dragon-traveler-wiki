@@ -60,6 +60,7 @@ import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsImage } from '@/utils/export-image';
 import { showErrorToast } from '@/utils/toast';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import {
   Container,
   Group,
@@ -499,11 +500,13 @@ export default function TierList() {
           <DataFetchError
             title="Could not load tier lists"
             message={error.message}
-            onRetry={() => {
-              retryTierLists();
-              retryCharacters();
-              retryNoblePhantasms();
-            }}
+            onRetry={() =>
+              retryFailedDataSources(
+                [tierListsError, retryTierLists],
+                [charactersError, retryCharacters],
+                [noblePhantasmsError, retryNoblePhantasms]
+              )
+            }
           />
         )}
 

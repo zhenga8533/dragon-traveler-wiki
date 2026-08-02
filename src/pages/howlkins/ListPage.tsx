@@ -32,6 +32,7 @@ import {
   useTabParam,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
 
@@ -200,10 +201,12 @@ export default function Howlkins() {
             <HowlkinsTab
               loading={howlkinsLoading || alliancesLoading}
               error={howlkinsError || alliancesError}
-              onRetry={() => {
-                retryHowlkins();
-                retryAlliances();
-              }}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [howlkinsError, retryHowlkins],
+                  [alliancesError, retryAlliances]
+                )
+              }
               howlkins={howlkins}
               filtered={filtered}
               viewMode={viewMode}
@@ -234,6 +237,7 @@ export default function Howlkins() {
             <GoldenAlliancesTab
               loading={alliancesLoading}
               error={alliancesError}
+              onRetry={retryAlliances}
               goldenAlliances={goldenAlliances}
               search={allianceSearch}
               onSearchChange={setAllianceSearch}

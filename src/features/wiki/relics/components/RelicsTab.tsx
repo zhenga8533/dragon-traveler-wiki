@@ -30,6 +30,7 @@ import { useIsMobile } from '@/hooks';
 interface RelicsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   relics: Relic[];
   filtered: Relic[];
   viewMode: ViewMode;
@@ -59,6 +60,7 @@ interface RelicsTabProps {
 export default function RelicsTab({
   loading,
   error,
+  onRetry,
   relics,
   filtered,
   viewMode,
@@ -90,6 +92,7 @@ export default function RelicsTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load relics"
       hasData={relics.length > 0}
       emptyMessage="No relic data available yet."

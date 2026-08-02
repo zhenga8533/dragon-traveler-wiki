@@ -40,6 +40,7 @@ import {
   useTabParam,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
@@ -85,16 +86,19 @@ export default function GearPage() {
     data: gear,
     loading,
     error,
+    retry: retryGear,
   } = useGear();
   const {
     data: gearSets,
     loading: gearSetsLoading,
     error: gearSetsError,
+    retry: retryGearSets,
   } = useGearSets();
   const {
     data: characters,
     loading: charactersLoading,
     error: charactersError,
+    retry: retryCharacters,
   } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
 
@@ -368,6 +372,7 @@ export default function GearPage() {
             <GearTab
               loading={loading}
               error={error}
+              onRetry={retryGear}
               gear={gear}
               filtered={filtered}
               viewMode={viewMode}
@@ -400,6 +405,7 @@ export default function GearPage() {
             <GearSetsTab
               loading={gearSetsLoading}
               error={gearSetsError}
+              onRetry={retryGearSets}
               gearSets={gearSets}
               search={gearSetSearch}
               onSearchChange={setGearSetSearch}
@@ -420,6 +426,13 @@ export default function GearPage() {
             <GearUsageTab
               loading={loading || gearSetsLoading || charactersLoading}
               error={error || gearSetsError || charactersError}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [error, retryGear],
+                  [gearSetsError, retryGearSets],
+                  [charactersError, retryCharacters]
+                )
+              }
               gearSets={gearSets}
               gearSetBySlug={gearSetBySlug}
               filteredGearItemUsage={filteredGearItemUsage}

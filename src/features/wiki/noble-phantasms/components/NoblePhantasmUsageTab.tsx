@@ -35,6 +35,7 @@ import UsageFilterControls from '@/features/wiki/usage/components/UsageFilterCon
 interface NoblePhantasmUsageTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   noblePhantasms: NoblePhantasm[];
   usage: ReturnType<typeof useNoblePhantasmUsage>;
   accent: GradientPaletteAccents;
@@ -44,6 +45,7 @@ interface NoblePhantasmUsageTabProps {
 export default function NoblePhantasmUsageTab({
   loading,
   error,
+  onRetry,
   noblePhantasms,
   usage,
   accent,
@@ -80,6 +82,7 @@ export default function NoblePhantasmUsageTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load noble phantasm usage"
       hasData={noblePhantasms.length > 0}
       emptyMessage="No noble phantasm data available yet."

@@ -20,6 +20,7 @@ import {
   useTabParam,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
 export default function NoblePhantasms() {
   const { accent } = useGradientAccent();
@@ -39,6 +40,7 @@ export default function NoblePhantasms() {
     data: characters,
     loading: charactersLoading,
     error: charactersError,
+    retry: retryCharacters,
   } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
   const characterIndex = useNoblePhantasmCharacterIndex(characters);
@@ -103,6 +105,12 @@ export default function NoblePhantasms() {
             <NoblePhantasmUsageTab
               loading={loading || charactersLoading}
               error={error || charactersError}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [error, retry],
+                  [charactersError, retryCharacters]
+                )
+              }
               noblePhantasms={noblePhantasms}
               usage={usage}
               accent={accent}

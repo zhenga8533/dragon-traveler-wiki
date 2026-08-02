@@ -33,6 +33,7 @@ import {
 interface GearTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   gear: Gear[];
   filtered: Gear[];
   viewMode: ViewMode;
@@ -63,6 +64,7 @@ interface GearTabProps {
 export default function GearTab({
   loading,
   error,
+  onRetry,
   gear,
   filtered,
   viewMode,
@@ -93,6 +95,7 @@ export default function GearTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load gear"
       hasData={gear.length > 0}
       emptyMessage="No gear data available yet."

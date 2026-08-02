@@ -12,6 +12,7 @@ import type { GradientPaletteAccents } from '@/contexts';
 interface GearSetsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   gearSets: GearSet[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -30,6 +31,7 @@ interface GearSetsTabProps {
 export default function GearSetsTab({
   loading,
   error,
+  onRetry,
   gearSets,
   search,
   onSearchChange,
@@ -48,6 +50,7 @@ export default function GearSetsTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load gear sets"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."

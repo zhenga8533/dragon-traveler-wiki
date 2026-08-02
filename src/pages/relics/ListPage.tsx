@@ -60,6 +60,7 @@ export default function RelicPage() {
     data: relics,
     loading,
     error,
+    retry,
   } = useRelics();
   const { data: statusEffects } = useStatusEffects();
   const oracleScrolls = useMemo(() => {
@@ -181,6 +182,7 @@ export default function RelicPage() {
             <RelicsTab
               loading={loading}
               error={error}
+              onRetry={retry}
               relics={relics}
               filtered={filtered}
               viewMode={viewMode}
@@ -212,6 +214,7 @@ export default function RelicPage() {
             <OracleScrollsTab
               loading={loading}
               error={error}
+              onRetry={retry}
               oracleScrolls={oracleScrolls}
               search={oracleSearch}
               onSearchChange={setOracleSearch}

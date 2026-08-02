@@ -28,6 +28,7 @@ type GearItemUsage = EntityUsage<Gear, Character>;
 interface GearUsageTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   gearSets: GearSet[];
   gearSetBySlug: Map<string, GearSet>;
   filteredGearItemUsage: GearItemUsage[];
@@ -60,6 +61,7 @@ interface GearUsageTabProps {
 export default function GearUsageTab({
   loading,
   error,
+  onRetry,
   gearSets,
   gearSetBySlug,
   filteredGearItemUsage,
@@ -92,6 +94,7 @@ export default function GearUsageTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load gear usage"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."

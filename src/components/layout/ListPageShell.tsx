@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 interface ListPageShellProps {
   loading: boolean;
   error?: Error | null;
-  onRetry?: () => void;
+  onRetry: () => void;
   hasData: boolean;
   emptyMessage: string;
   errorTitle?: string;
@@ -31,7 +31,7 @@ export default function ListPageShell({
       <DataFetchError
         title={errorTitle}
         message={error.message}
-        onRetry={onRetry ?? (() => window.location.reload())}
+        onRetry={onRetry}
       />
     );
   }
