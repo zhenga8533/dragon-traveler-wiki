@@ -19,10 +19,8 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  LuBox,
   LuPause,
   LuPlay,
   LuRefreshCw,
@@ -72,6 +70,7 @@ interface ModelMetadata {
 interface CharacterModelViewerProps {
   characterSlug: string;
   skinSlug: string | null;
+  onViewerClose: () => void;
 }
 
 const vertexShader = /* glsl */ `
@@ -389,6 +388,7 @@ function parseMetadata(raw: unknown): ModelMetadata {
 export default function CharacterModelViewer({
   characterSlug,
   skinSlug,
+  onViewerClose,
 }: CharacterModelViewerProps) {
   const { accent } = useGradientAccent();
   const manifest = useAssetManifest();
@@ -409,10 +409,9 @@ export default function CharacterModelViewer({
   const [paused, setPaused] = useState(false);
   const [cameraFitRequest, setCameraFitRequest] = useState(0);
   const [modelReady, setModelReady] = useState(false);
-  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
-    if (!opened || !metadataEntry) return;
+    if (!metadataEntry) return;
     const controller = new AbortController();
     fetch(versionedUrl(metadataPath, metadataEntry), {
       signal: controller.signal,
@@ -442,7 +441,7 @@ export default function CharacterModelViewer({
         });
       });
     return () => controller.abort();
-  }, [metadataEntry, metadataPath, opened]);
+  }, [metadataEntry, metadataPath]);
 
   const selectAnimation = useCallback((animation: string) => {
     setSelectedAnimation(animation);
@@ -456,14 +455,10 @@ export default function CharacterModelViewer({
       animations[0]?.name;
     if (fallback) selectAnimation(fallback);
   }, [loadedMetadata.value, selectAnimation]);
-  const openViewer = useCallback(() => {
-    setModelReady(false);
-    open();
-  }, [open]);
   const closeViewer = useCallback(() => {
     setModelReady(false);
-    close();
-  }, [close]);
+    onViewerClose();
+  }, [onViewerClose]);
   const handleInitialCameraFit = useCallback(() => {
     setModelReady(true);
   }, []);
@@ -480,158 +475,136 @@ export default function CharacterModelViewer({
   const rootPath = metadataPath.slice(0, metadataPath.lastIndexOf('/'));
 
   return (
-    <>
-      <Tooltip label="Open 3D model">
-        <ActionIcon
-          aria-label="Open 3D model viewer"
-          color={accent.primary}
-          onClick={openViewer}
-          size="sm"
-          variant="subtle"
-        >
-          <LuBox />
-        </ActionIcon>
-      </Tooltip>
-
-      <Modal
-        centered
-        onClose={closeViewer}
-        onEnterTransitionEnd={handleViewerOpened}
-        opened={opened}
-        size="xl"
-        title={<Text fw={700}>3D Model</Text>}
-      >
-        {!metadata ? (
-          <Stack align="center" justify="center" mih={440}>
-            {currentMetadataError ? (
-              <>
-                <Text fw={600}>The model could not be loaded</Text>
-                <Text c="dimmed" size="sm" ta="center">
-                  {currentMetadataError}
-                </Text>
-              </>
-            ) : (
-              <>
-                <Loader color={accent.primary} />
-                <Text c="dimmed" size="sm">
-                  Loading model data…
-                </Text>
-              </>
-            )}
-          </Stack>
-        ) : (
-          <Box style={{ overflow: 'hidden' }}>
-            <Group justify="space-between" gap="sm" mb="sm">
-              <Group gap={6} wrap="nowrap">
-                <LuRotate3D aria-hidden size={13} />
-                <Text c="dimmed" size="xs">
-                  Drag to rotate · Scroll to zoom
-                </Text>
-              </Group>
-              <Group gap="xs" wrap="nowrap">
-                {metadata.animations.length > 1 && (
-                  <Select
-                    aria-label="Model animation"
-                    data={metadata.animations.map((animation) => ({
-                      value: animation.name,
-                      label: animation.label,
-                    }))}
-                    value={selectedAnimation}
-                    onChange={(value) => value && selectAnimation(value)}
-                    size="xs"
-                    w={{ base: 145, sm: 190 }}
-                    allowDeselect={false}
-                  />
-                )}
-                <Tooltip
-                  label={paused ? 'Resume animation' : 'Pause animation'}
-                >
-                  <ActionIcon
-                    aria-label={paused ? 'Resume animation' : 'Pause animation'}
-                    color={accent.primary}
-                    onClick={() => setPaused((value) => !value)}
-                    variant="subtle"
-                  >
-                    {paused ? <LuPlay /> : <LuPause />}
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label="Replay animation">
-                  <ActionIcon
-                    aria-label="Replay animation"
-                    color={accent.primary}
-                    onClick={() => {
-                      setPaused(false);
-                      setAnimationRun((run) => run + 1);
-                    }}
-                    variant="subtle"
-                  >
-                    <LuRefreshCw />
-                  </ActionIcon>
-                </Tooltip>
-                <Tooltip label="Reset camera">
-                  <ActionIcon
-                    aria-label="Reset model camera"
-                    color={accent.primary}
-                    onClick={() =>
-                      setCameraFitRequest((request) => request + 1)
-                    }
-                    variant="subtle"
-                  >
-                    <LuScan />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
+    <Modal
+      centered
+      onClose={closeViewer}
+      onEnterTransitionEnd={handleViewerOpened}
+      opened
+      size="xl"
+      title={<Text fw={700}>3D Model</Text>}
+    >
+      {!metadata ? (
+        <Stack align="center" justify="center" mih={440}>
+          {currentMetadataError ? (
+            <>
+              <Text fw={600}>The model could not be loaded</Text>
+              <Text c="dimmed" size="sm" ta="center">
+                {currentMetadataError}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Loader color={accent.primary} />
+              <Text c="dimmed" size="sm">
+                Loading model data…
+              </Text>
+            </>
+          )}
+        </Stack>
+      ) : (
+        <Box style={{ overflow: 'hidden' }}>
+          <Group justify="space-between" gap="sm" mb="sm">
+            <Group gap={6} wrap="nowrap">
+              <LuRotate3D aria-hidden size={13} />
+              <Text c="dimmed" size="xs">
+                Drag to rotate · Scroll to zoom
+              </Text>
             </Group>
-            <Box h={{ base: 440, sm: 620 }} pos="relative">
-              {!modelReady && (
-                <Stack
-                  align="center"
-                  gap="xs"
-                  inset={0}
-                  justify="center"
-                  pos="absolute"
-                >
-                  <Loader color={accent.primary} size="sm" />
-                  <Text c="dimmed" size="sm">
-                    Preparing viewer…
-                  </Text>
-                </Stack>
-              )}
-              <Canvas
-                camera={{ position: [0, 0.9, 2.2], fov: 32 }}
-                dpr={[1, 2]}
-                style={{ opacity: modelReady ? 1 : 0 }}
-              >
-                {/* three.js scene background — can't reference CSS vars; intentionally static across light/dark */}
-                <color attach="background" args={['#15111d']} />
-                <OrbitControls
-                  makeDefault
-                  enablePan={false}
-                  minDistance={0.5}
+            <Group gap="xs" wrap="nowrap">
+              {metadata.animations.length > 1 && (
+                <Select
+                  aria-label="Model animation"
+                  data={metadata.animations.map((animation) => ({
+                    value: animation.name,
+                    label: animation.label,
+                  }))}
+                  value={selectedAnimation}
+                  onChange={(value) => value && selectAnimation(value)}
+                  size="xs"
+                  w={{ base: 145, sm: 190 }}
+                  allowDeselect={false}
                 />
-                <Suspense fallback={<ModelLoadingState />}>
-                  <Bounds clip observe margin={1.12}>
-                    <CharacterModel
-                      key={`${rootPath}/${metadata.model}`}
-                      metadata={metadata}
-                      rootPath={rootPath}
-                      entries={manifest.data.assets}
-                      selectedAnimation={selectedAnimation}
-                      animationRun={animationRun}
-                      paused={paused}
-                      onAnimationFinished={handleAnimationFinished}
-                    />
-                    <CameraFit
-                      request={cameraFitRequest}
-                      onReady={handleInitialCameraFit}
-                    />
-                  </Bounds>
-                </Suspense>
-              </Canvas>
-            </Box>
+              )}
+              <Tooltip label={paused ? 'Resume animation' : 'Pause animation'}>
+                <ActionIcon
+                  aria-label={paused ? 'Resume animation' : 'Pause animation'}
+                  color={accent.primary}
+                  onClick={() => setPaused((value) => !value)}
+                  variant="subtle"
+                >
+                  {paused ? <LuPlay /> : <LuPause />}
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Replay animation">
+                <ActionIcon
+                  aria-label="Replay animation"
+                  color={accent.primary}
+                  onClick={() => {
+                    setPaused(false);
+                    setAnimationRun((run) => run + 1);
+                  }}
+                  variant="subtle"
+                >
+                  <LuRefreshCw />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip label="Reset camera">
+                <ActionIcon
+                  aria-label="Reset model camera"
+                  color={accent.primary}
+                  onClick={() => setCameraFitRequest((request) => request + 1)}
+                  variant="subtle"
+                >
+                  <LuScan />
+                </ActionIcon>
+              </Tooltip>
+            </Group>
+          </Group>
+          <Box h={{ base: 440, sm: 620 }} pos="relative">
+            {!modelReady && (
+              <Stack
+                align="center"
+                gap="xs"
+                inset={0}
+                justify="center"
+                pos="absolute"
+              >
+                <Loader color={accent.primary} size="sm" />
+                <Text c="dimmed" size="sm">
+                  Preparing viewer…
+                </Text>
+              </Stack>
+            )}
+            <Canvas
+              camera={{ position: [0, 0.9, 2.2], fov: 32 }}
+              dpr={[1, 2]}
+              style={{ opacity: modelReady ? 1 : 0 }}
+            >
+              {/* three.js scene background — can't reference CSS vars; intentionally static across light/dark */}
+              <color attach="background" args={['#15111d']} />
+              <OrbitControls makeDefault enablePan={false} minDistance={0.5} />
+              <Suspense fallback={<ModelLoadingState />}>
+                <Bounds clip observe margin={1.12}>
+                  <CharacterModel
+                    key={`${rootPath}/${metadata.model}`}
+                    metadata={metadata}
+                    rootPath={rootPath}
+                    entries={manifest.data.assets}
+                    selectedAnimation={selectedAnimation}
+                    animationRun={animationRun}
+                    paused={paused}
+                    onAnimationFinished={handleAnimationFinished}
+                  />
+                  <CameraFit
+                    request={cameraFitRequest}
+                    onReady={handleInitialCameraFit}
+                  />
+                </Bounds>
+              </Suspense>
+            </Canvas>
           </Box>
-        )}
-      </Modal>
-    </>
+        </Box>
+      )}
+    </Modal>
   );
 }

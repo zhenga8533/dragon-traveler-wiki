@@ -41,8 +41,8 @@ import CharacterSubclassPanel from '@/features/characters/components/CharacterSu
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 
-const CharacterModelViewer = lazy(
-  () => import('@/features/characters/components/CharacterModelViewer'),
+const CharacterModelLauncher = lazy(
+  () => import('@/features/characters/components/CharacterModelLauncher'),
 );
 
 export default function CharacterPage() {
@@ -227,7 +227,7 @@ export default function CharacterPage() {
                 modelAction={
                   <ErrorBoundary>
                     <Suspense fallback={null}>
-                      <CharacterModelViewer
+                      <CharacterModelLauncher
                         characterSlug={characterAssetKey || character.slug}
                         skinSlug={selectedSkinSlug}
                       />

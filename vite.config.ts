@@ -162,7 +162,21 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (id.includes('vite/preload-helper')) return 'vite-runtime';
             if (id.includes('node_modules/@mantine/')) return 'mantine';
+            if (id.includes('node_modules/three/build/three.core.js')) {
+              return 'three-core';
+            }
+            if (id.includes('node_modules/three/build/three.module.js')) {
+              return 'three-renderer';
+            }
+            if (
+              id.includes('node_modules/@react-three/') ||
+              id.includes('node_modules/three-stdlib/') ||
+              id.includes('node_modules/three/examples/')
+            ) {
+              return 'react-three';
+            }
             if (
               id.includes('node_modules/react/') ||
               id.includes('node_modules/react-dom/') ||
