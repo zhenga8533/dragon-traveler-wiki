@@ -18,6 +18,7 @@ import type { Character } from '@/features/characters/types';
 import NoblePhantasmFilter from '@/features/wiki/noble-phantasms/components/NoblePhantasmFilter';
 import type { useNoblePhantasmCatalog } from '@/features/wiki/noble-phantasms/hooks/use-noble-phantasm-catalog';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import { getNoblePhantasmPreviewDescription } from '@/features/wiki/noble-phantasms/utils';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 
 interface NoblePhantasmCatalogTabProps {
@@ -106,6 +107,8 @@ export default function NoblePhantasmCatalogTab({
               const linkedCharacter = item.character_slug
                 ? characterByIdentity.get(item.character_slug)
                 : undefined;
+              const previewDescription =
+                getNoblePhantasmPreviewDescription(item);
               return (
                 <EntitySummaryCard
                   key={item.slug}
@@ -127,15 +130,10 @@ export default function NoblePhantasmCatalogTab({
                     </Group>
                   }
                   description={
-                    (item.effects[0]?.description ||
-                      item.skills[0]?.description) && (
+                    previewDescription && (
                       <ExpandableText size="xs">
                         <RichText
-                          text={
-                            item.effects[0]?.description ??
-                            item.skills[0]?.description ??
-                            ''
-                          }
+                          text={previewDescription}
                           statusEffects={statusEffects}
                           skills={linkedCharacter?.skills}
                           talent={linkedCharacter?.talent}

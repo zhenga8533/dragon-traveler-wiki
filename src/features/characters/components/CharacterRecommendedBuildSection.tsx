@@ -29,6 +29,7 @@ import type {
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import { getNoblePhantasmPreviewDescription } from '@/features/wiki/noble-phantasms/utils';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { toQuality } from '@/utils/quality';
@@ -88,7 +89,8 @@ export default function CharacterRecommendedBuildSection({
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
               {linkedNoblePhantasms.map((noblePhantasm) => {
                 const npIcon = getNoblePhantasmIcon(noblePhantasm.slug);
-                const topEffect = noblePhantasm.effects[0];
+                const previewDescription =
+                  getNoblePhantasmPreviewDescription(noblePhantasm);
                 return (
                   <Link
                     key={noblePhantasm.slug}
@@ -111,10 +113,10 @@ export default function CharacterRecommendedBuildSection({
                           <Text size="sm" fw={600} truncate>
                             {noblePhantasm.name}
                           </Text>
-                          {topEffect && (
+                          {previewDescription && (
                             <ExpandableText size="xs">
                               <RichText
-                                text={topEffect.description}
+                                text={previewDescription}
                                 statusEffects={statusEffects}
                               />
                             </ExpandableText>
