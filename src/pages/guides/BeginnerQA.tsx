@@ -1,15 +1,14 @@
 import ResolvedHowlkinBadge from '@/components/ui/ResolvedHowlkinBadge';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import WyrmspellBadge from '@/components/ui/WyrmspellBadge';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { getMinWidthStyle } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import {
   Alert,
   Anchor,
-  Card,
   Container,
   Group,
-  Paper,
   ScrollArea,
   Stack,
   Table,
@@ -163,7 +162,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
 
 function QA({ q, children }: { q: string; children: React.ReactNode }) {
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="xs">
         <Group align="flex-start" gap={6} wrap="nowrap">
           <Text fw={700}>Q:</Text>
@@ -185,7 +184,7 @@ function QA({ q, children }: { q: string; children: React.ReactNode }) {
           </Text>
         </Group>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -218,7 +217,7 @@ export default function BeginnerQA() {
           </Alert>
         </GuideHeroCard>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Summoning &amp; Characters</Title>
 
@@ -258,9 +257,9 @@ export default function BeginnerQA() {
               want to prioritize different characters.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Economy &amp; Shopping</Title>
 
@@ -301,9 +300,9 @@ export default function BeginnerQA() {
               resources available in each cycle, but feel free to save them.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Progression &amp; Mechanics</Title>
 
@@ -333,9 +332,9 @@ export default function BeginnerQA() {
               <br />• Healer: CD Reduction &gt; Healing Power &gt; HP.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Events &amp; Guilds</Title>
 
@@ -407,9 +406,9 @@ export default function BeginnerQA() {
               </ScrollArea>
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Affection Gifts</Title>
             <Text size="sm" c="dimmed">
@@ -465,9 +464,9 @@ export default function BeginnerQA() {
               </Table>
             </ScrollArea>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Combat Strategy</Title>
 
@@ -480,7 +479,7 @@ export default function BeginnerQA() {
               often more common.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
       </Stack>
     </Container>
   );

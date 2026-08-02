@@ -2,7 +2,6 @@
   Anchor,
   Badge,
   Box,
-  Card,
   Container,
   Group,
   Stack,
@@ -15,8 +14,8 @@ import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '@/components';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
+import { StaticSurface } from '@/components/ui/Surface';
 import { getStableTagColor } from '@/constants/tag-colors';
-import { getCardHoverProps } from '@/constants/styles';
 import { useUsefulLinks } from '@/features/wiki/hooks/use-wiki-data';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router';
@@ -110,13 +109,10 @@ export default function UsefulLinks() {
           {links.map((link) => {
             const Icon = ICON_MAP[link.icon] ?? IoLinkOutline;
             return (
-              <Card
+              <StaticSurface
                 key={link.link}
                 id={toEntitySlug(link.name)}
-                padding="lg"
-                radius="md"
-                withBorder
-                {...getCardHoverProps()}
+                p="lg"
               >
                 <Group>
                   <Text size="xl" lh={1}>
@@ -145,7 +141,7 @@ export default function UsefulLinks() {
                     </Text>
                   </Box>
                 </Group>
-              </Card>
+              </StaticSurface>
             );
           })}
         </ListPageShell>

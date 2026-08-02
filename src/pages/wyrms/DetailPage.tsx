@@ -14,7 +14,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { BREAKPOINTS, IMAGE_SIZE } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
@@ -39,7 +39,6 @@ import {
   Container,
   Grid,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Title,
@@ -166,11 +165,9 @@ export default function WyrmPage() {
         </Group>
 
         {wyrm.description && (
-          <Paper
+          <StaticSurface
             p="md"
-            radius="md"
-            withBorder
-            {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+            style={getLoreGlassStyles(isDark)}
           >
             <Stack gap="xs">
               <RichText text={wyrm.description} statusEffects={statusEffects} italic lineHeight={1.6} />
@@ -178,7 +175,7 @@ export default function WyrmPage() {
                 <RichText text={wyrm.battle_description} statusEffects={statusEffects} />
               )}
             </Stack>
-          </Paper>
+          </StaticSurface>
         )}
       </DetailPageHero>
 

@@ -9,7 +9,8 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
-import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { CURSOR_POINTER_STYLE } from '@/constants/styles';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
   getCharacterRouteSlug,
@@ -34,7 +35,6 @@ import {
   Box,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -228,13 +228,9 @@ export default function GearSetPage() {
         </Stack>
 
         {setBonus && setBonus.quantity > 0 && (
-          <Paper
+          <StaticSurface
             p="md"
-            radius="md"
-            withBorder
-            {...getCardHoverProps({
-              style: getLoreGlassStyles(isDark),
-            })}
+            style={getLoreGlassStyles(isDark)}
           >
             <Stack gap={4}>
               <Text fw={600} size="sm">
@@ -246,7 +242,7 @@ export default function GearSetPage() {
                 <RichText text={setBonus.description} statusEffects={statusEffects} />
               </Text>
             </Stack>
-          </Paper>
+          </StaticSurface>
         )}
 
         {recommendedCharacters.length > 0 && (

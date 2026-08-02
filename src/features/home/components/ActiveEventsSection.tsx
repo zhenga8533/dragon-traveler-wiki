@@ -1,5 +1,5 @@
 import ExpandableText from '@/components/ui/ExpandableText';
-import { getCardHoverProps } from '@/constants/styles';
+import { STATIC_SURFACE_CLASS_NAME } from '@/components/ui/Surface';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import EventBanner from '@/features/wiki/events/components/EventBanner';
 import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
@@ -62,10 +62,10 @@ export default function ActiveEventsSection() {
           return (
             <Card
               key={id}
+              className={STATIC_SURFACE_CLASS_NAME}
               padding={0}
               radius="md"
               withBorder
-              {...getCardHoverProps()}
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               <Card.Section>

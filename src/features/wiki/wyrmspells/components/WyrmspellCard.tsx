@@ -1,7 +1,7 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
-import { getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -9,7 +9,7 @@ import type { Wyrmspell, WyrmspellType } from '@/features/wiki/wyrmspells/types'
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import WyrmspellTypeTag from './WyrmspellTypeTag';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { Group, Paper, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Link } from 'react-router';
@@ -36,13 +36,11 @@ export default function WyrmspellCard({
   const maxQuality = getMaxQuality(wyrmspell);
 
   return (
-    <Paper
+    <InteractiveSurface
       component={Link}
       to={`/wyrmspells/${wyrmspell.slug}`}
       p="sm"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({ interactive: true, style: LINK_BLOCK_RESET_STYLE })}
+      style={LINK_BLOCK_RESET_STYLE}
     >
       <Stack gap="xs" align="center">
         {iconSrc && (
@@ -73,6 +71,6 @@ export default function WyrmspellCard({
           </ExpandableText>
         )}
       </Stack>
-    </Paper>
+    </InteractiveSurface>
   );
 }

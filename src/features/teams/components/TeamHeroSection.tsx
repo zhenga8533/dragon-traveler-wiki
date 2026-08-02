@@ -15,7 +15,10 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import {
+  InteractiveSurface,
+  StaticSurface,
+} from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -32,7 +35,6 @@ import {
   Button,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -143,28 +145,20 @@ export function TeamHeroSection({
           </Group>
 
           {team.description && (
-            <Paper
+            <StaticSurface
               p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
+              style={getLoreGlassStyles(isDark)}
             >
               <Text size="sm" lh={1.6}>
                 {team.description}
               </Text>
-            </Paper>
+            </StaticSurface>
           )}
 
           {factionInfo && (
-            <Paper
+            <StaticSurface
               p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
+              style={getLoreGlassStyles(isDark)}
             >
               <Stack gap="sm">
                 <Title order={2} size="h3">
@@ -194,11 +188,9 @@ export function TeamHeroSection({
                               to={`/artifacts/${artifactSlug}`}
                               style={{ textDecoration: 'none' }}
                             >
-                              <Paper
+                              <InteractiveSurface
+                                component="div"
                                 p="sm"
-                                radius="md"
-                                withBorder
-                                {...getCardHoverProps({ interactive: true })}
                               >
                                 <Group
                                   gap="sm"
@@ -274,7 +266,7 @@ export function TeamHeroSection({
                                     Artifact info unavailable
                                   </Text>
                                 )}
-                              </Paper>
+                              </InteractiveSurface>
                             </Link>
                           </Tooltip>
                         );
@@ -283,7 +275,7 @@ export function TeamHeroSection({
                   </Stack>
                 )}
               </Stack>
-            </Paper>
+            </StaticSurface>
           )}
         </Stack>
       </Container>

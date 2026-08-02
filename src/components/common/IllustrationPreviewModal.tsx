@@ -5,7 +5,6 @@ import {
   Center,
   Group,
   Modal,
-  Paper,
   Stack,
   Text,
   Tooltip,
@@ -32,7 +31,7 @@ import {
   IoStarOutline,
 } from 'react-icons/io5';
 import type { Illustration } from '@/assets';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 
@@ -242,23 +241,20 @@ export default function IllustrationPreviewModal({
             </Group>
           </Group>
 
-          <Paper
+          <StaticSurface
             ref={mediaContainerRef}
-            withBorder
             radius="lg"
             p={0}
-            {...getCardHoverProps({
-              style: {
-                position: 'relative',
-                maxHeight: isFullscreen ? '100dvh' : '70vh',
-                overflow: isFullscreen ? 'hidden' : 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: isFullscreen ? 'black' : undefined,
-                borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
-              },
-            })}
+            style={{
+              position: 'relative',
+              maxHeight: isFullscreen ? '100dvh' : '70vh',
+              overflow: isFullscreen ? 'hidden' : 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: isFullscreen ? 'black' : undefined,
+              borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
+            }}
           >
             {activeIllustration.type === 'video' ? (
               <SafeVideo
@@ -348,7 +344,7 @@ export default function IllustrationPreviewModal({
                 </Box>
               </>
             )}
-          </Paper>
+          </StaticSurface>
 
           {hasMultipleIllustrations && (
             <>

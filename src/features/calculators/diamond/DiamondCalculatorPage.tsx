@@ -1,4 +1,4 @@
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { parseNumberInput } from '@/utils';
 import { useGradientAccent } from '@/hooks';
 import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
@@ -6,7 +6,6 @@ import { isRecord } from '@/utils/type-guards';
 import {
   Alert,
   Button,
-  Card,
   Container,
   Group,
   NumberInput,
@@ -700,7 +699,7 @@ export default function DiamondCalculatorPage() {
           </Alert>
         </GuideHeroCard>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -800,7 +799,7 @@ export default function DiamondCalculatorPage() {
               </Button>
             </Group>
           </Stack>
-        </Card>
+        </StaticSurface>
 
         <SimpleGrid cols={{ base: 1, lg: 2 }} spacing="lg">
           <DiamondSourceTable

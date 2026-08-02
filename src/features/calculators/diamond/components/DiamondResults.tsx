@@ -1,7 +1,7 @@
-import { Card, SimpleGrid, Stack, Table, Text, Title } from '@mantine/core';
+import { SimpleGrid, Stack, Table, Text, Title } from '@mantine/core';
 import { IoDiamond, IoTrendingDown, IoTrendingUp } from 'react-icons/io5';
 import StatCard from '@/components/ui/StatCard';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 
 function formatNumber(value: number): string {
   return value.toLocaleString(undefined, { maximumFractionDigits: 2 });
@@ -40,7 +40,7 @@ export default function DiamondResults({
   runOutDate,
 }: DiamondResultsProps) {
   return (
-    <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+    <StaticSurface p="lg">
       <Stack gap="md">
         <Title order={2} size="h3">
           Results
@@ -117,6 +117,6 @@ export default function DiamondResults({
           </Table.Tbody>
         </Table>
       </Stack>
-    </Card>
+    </StaticSurface>
   );
 }

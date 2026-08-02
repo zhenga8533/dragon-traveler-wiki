@@ -7,17 +7,14 @@ import {
   type DropRate,
 } from '@/features/calculators/mythic-summon/drop-rates';
 import StatCard from '@/components/ui/StatCard';
+import { StaticSurface } from '@/components/ui/Surface';
 import { parseNumberInput } from '@/utils';
-import {
-  getCardHoverProps,
-} from '@/constants/styles';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import { useGradientAccent } from '@/hooks';
 import {
   Alert,
   Badge,
   Button,
-  Card,
   Container,
   Divider,
   Group,
@@ -435,12 +432,7 @@ export default function MythicSummonCalculatorPage() {
           </Alert>
         </GuideHeroCard>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -514,14 +506,9 @@ export default function MythicSummonCalculatorPage() {
               </Stack>
             )}
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -578,14 +565,9 @@ export default function MythicSummonCalculatorPage() {
               </Text>
             </Group>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="md">
             <Group justify="space-between" align="flex-start" wrap="wrap">
               <Stack gap={4}>
@@ -720,7 +702,7 @@ export default function MythicSummonCalculatorPage() {
               </>
             )}
           </Stack>
-        </Card>
+        </StaticSurface>
 
         {nextMilestone && (
           <Alert variant="light" color={accent.primary} icon={<IoStar />}>

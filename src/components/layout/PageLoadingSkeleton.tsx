@@ -64,13 +64,13 @@ function PaginationSkeleton() {
 
 function ListItemSkeleton() {
   return (
-    <Paper p="md" radius="md" withBorder className="card-surface-static">
+    <StaticSurface p="md">
       <Stack gap="xs">
         <Skeleton height={18} width="40%" radius="sm" />
         <Skeleton height={14} width="90%" radius="sm" />
         <Skeleton height={14} width="75%" radius="sm" />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -412,7 +412,7 @@ export function HomePageLoading() {
 
 function EventCardSkeleton({ bannerHeight = 160 }: { bannerHeight?: number }) {
   return (
-    <Paper radius="md" withBorder className="card-surface-static">
+    <StaticSurface>
       <Skeleton height={bannerHeight} radius="md" />
       <Stack gap="xs" p="md">
         <Group gap="xs">
@@ -423,7 +423,7 @@ function EventCardSkeleton({ bannerHeight = 160 }: { bannerHeight?: number }) {
         <Skeleton height={14} width="92%" radius="sm" />
         <Skeleton height={14} width="54%" radius="sm" />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -452,12 +452,9 @@ export function EventCardsLoading({
         ) : (
           <Stack gap={spacing}>
             {Array.from({ length: cards }, (_, index) => (
-              <Paper
+              <StaticSurface
                 key={index}
                 p="md"
-                radius="md"
-                withBorder
-                className="card-surface-static"
               >
                 <Group align="stretch" gap="md" wrap="nowrap">
                   <Skeleton
@@ -473,7 +470,7 @@ export function EventCardsLoading({
                     <Skeleton height={14} width="55%" radius="sm" />
                   </Stack>
                 </Group>
-              </Paper>
+              </StaticSurface>
             ))}
           </Stack>
         )}

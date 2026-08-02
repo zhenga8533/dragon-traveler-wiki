@@ -2,14 +2,16 @@ import {
   Badge,
   Card,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
 } from '@mantine/core';
 import ExpandableText from '@/components/ui/ExpandableText';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import { getCardHoverProps } from '@/constants/styles';
+import {
+  STATIC_SURFACE_CLASS_NAME,
+  StaticSurface,
+} from '@/components/ui/Surface';
 import type { Character } from '@/features/characters/types';
 import EventBanner from '@/features/wiki/events/components/EventBanner';
 import { EventCharacterAvatarList } from '@/features/wiki/events/components/EventCharacterAvatars';
@@ -95,10 +97,10 @@ function EventCard({
   const { active, event } = entry;
   return (
     <Card
+      className={STATIC_SURFACE_CLASS_NAME}
       radius="md"
       withBorder
       padding={0}
-      {...getCardHoverProps()}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       <Card.Section style={{ position: 'relative' }}>
@@ -144,7 +146,7 @@ function EventListItem({
 }) {
   const { active, event } = entry;
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Group align="stretch" gap="md" wrap="nowrap">
         <EventBanner
           characters={event.characters}
@@ -174,7 +176,7 @@ function EventListItem({
           <EventDates event={event} active={active} />
         </Stack>
       </Group>
-    </Paper>
+    </StaticSurface>
   );
 }
 

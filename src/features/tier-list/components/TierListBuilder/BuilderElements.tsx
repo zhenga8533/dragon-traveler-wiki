@@ -5,7 +5,6 @@ import {
   Button,
   Group,
   type MantineSize,
-  Paper,
   Popover,
   Select,
   SimpleGrid,
@@ -23,7 +22,7 @@ import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
 } from '@/constants/content-types';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import {
   CHARACTER_GRID_SPACING,
   TRANSITION,
@@ -267,18 +266,14 @@ export function TierDropZone({
   const mobileTooltip = useMobileTooltip();
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? `var(--mantine-color-${color}-5)` : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? `var(--mantine-color-${color}-5)` : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         <Group justify="space-between" align="flex-start" wrap="nowrap">
@@ -360,7 +355,7 @@ export function TierDropZone({
           {children}
         </SimpleGrid>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -542,18 +537,14 @@ export function UnrankedPool({
   const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         {filterHeader || (
@@ -570,6 +561,6 @@ export function UnrankedPool({
         </SimpleGrid>
         {paginationControl}
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

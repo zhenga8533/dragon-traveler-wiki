@@ -21,9 +21,9 @@ import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import {
   LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
   getMinWidthStyle,
 } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -41,7 +41,6 @@ import { getLatestTimestamp } from '@/utils';
 import {
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -283,17 +282,12 @@ export default function Wyrmspells() {
                   const iconSrc = getWyrmspellIcon(spell.slug, spell.type);
                   const maxQuality = getMaxQuality(spell);
                   return (
-                    <Paper
+                    <InteractiveSurface
                       key={spell.name}
                       component={Link}
                       to={`/wyrmspells/${spell.slug}`}
                       p="md"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps({
-                        interactive: true,
-                        style: LINK_BLOCK_RESET_STYLE,
-                      })}
+                      style={LINK_BLOCK_RESET_STYLE}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
@@ -335,7 +329,7 @@ export default function Wyrmspells() {
                           )}
                         </Stack>
                       </Group>
-                    </Paper>
+                    </InteractiveSurface>
                   );
                 })}
               </SimpleGrid>

@@ -5,7 +5,6 @@ import {
   Center,
   Divider,
   Group,
-  Paper,
   SegmentedControl,
   SimpleGrid,
   Stack,
@@ -21,7 +20,8 @@ import TierBadge from '@/components/ui/TierBadge';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getNoblePhantasmIcon } from '@/assets';
-import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { RICH_TOOLTIP_STYLES } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_MAX_WIDTH } from '@/constants/ui';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type {
@@ -94,7 +94,7 @@ export default function CharacterRecommendedBuildSection({
                     to={`/noble-phantasms/${noblePhantasm.slug}`}
                     style={{ textDecoration: 'none' }}
                   >
-                    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+                    <StaticSurface p="sm">
                       <Group gap="sm" wrap="nowrap">
                         {npIcon && (
                           <SafeImage
@@ -120,7 +120,7 @@ export default function CharacterRecommendedBuildSection({
                           )}
                         </Stack>
                       </Group>
-                    </Paper>
+                    </StaticSurface>
                   </Link>
                 );
               })}
@@ -178,11 +178,8 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <Paper
+                    <StaticSurface
                       p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
                     >
                       <Group gap="sm" align="flex-start" wrap="nowrap">
                         {entry.icon && (
@@ -229,7 +226,7 @@ export default function CharacterRecommendedBuildSection({
                           )}
                         </Stack>
                       </Group>
-                    </Paper>
+                    </StaticSurface>
                   </Tooltip>
                 );
               })}
@@ -381,11 +378,8 @@ export default function CharacterRecommendedBuildSection({
                         to={`/gear-sets/${entry.setName}`}
                         style={{ textDecoration: 'none', width: '100%', display: 'block' }}
                       >
-                        <Paper
+                        <StaticSurface
                           p="sm"
-                          radius="md"
-                          withBorder
-                          {...getCardHoverProps()}
                         >
                           <Group gap="sm" wrap="nowrap">
                             <SafeImage
@@ -408,15 +402,12 @@ export default function CharacterRecommendedBuildSection({
                               )}
                             </Stack>
                           </Group>
-                        </Paper>
+                        </StaticSurface>
                       </Link>
                     ) : (
-                      <Paper
+                      <StaticSurface
                         p="sm"
-                        radius="md"
-                        withBorder
                         style={{ width: '100%' }}
-                        {...getCardHoverProps()}
                       >
                         <Group gap="sm" wrap="nowrap">
                           <SafeImage
@@ -439,7 +430,7 @@ export default function CharacterRecommendedBuildSection({
                             )}
                           </Stack>
                         </Group>
-                      </Paper>
+                      </StaticSurface>
                     )}
                   </Tooltip>
                 );
@@ -495,11 +486,8 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <Paper
+                    <StaticSurface
                       p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
                     >
                       <Stack gap={4}>
                         <Group justify="space-between" gap="xs">
@@ -521,7 +509,7 @@ export default function CharacterRecommendedBuildSection({
                           <RichText text={setBonus.description} statusEffects={statusEffects} />
                         </ExpandableText>
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   </Tooltip>
                 );
               })}

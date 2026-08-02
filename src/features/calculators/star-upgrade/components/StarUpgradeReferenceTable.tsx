@@ -1,6 +1,5 @@
 import {
   Badge,
-  Card,
   Collapse,
   Group,
   Stack,
@@ -11,7 +10,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IoChevronDown, IoChevronUp, IoStatsChart } from 'react-icons/io5';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { STAR_TIER_BADGE_COLORS } from '@/features/calculators/star-upgrade/star-upgrade-model';
 import type { StarLevel } from '@/types/star-level';
@@ -32,7 +31,7 @@ export default function StarUpgradeReferenceTable({
   const [opened, handlers] = useDisclosure(false);
 
   return (
-    <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+    <StaticSurface p="lg">
       <Stack gap="sm">
         <UnstyledButton onClick={handlers.toggle}>
           <Group justify="space-between" align="center">
@@ -125,6 +124,6 @@ export default function StarUpgradeReferenceTable({
           </Table.ScrollContainer>
         </Collapse>
       </Stack>
-    </Card>
+    </StaticSurface>
   );
 }

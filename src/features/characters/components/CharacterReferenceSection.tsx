@@ -1,7 +1,6 @@
 import {
   Badge,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -13,7 +12,7 @@ import { Link } from 'react-router';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import FactionTag from '@/components/ui/FactionTag';
 import { normalizeContentType } from '@/constants/content-types';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import type { Character } from '@/features/characters/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Team, TeamMemberPosition } from '@/features/teams/types';
@@ -165,7 +164,7 @@ export default function CharacterReferenceSection({
     >
       <Stack gap="md">
         {hasTierContext && (
-          <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+          <StaticSurface p="sm">
             <Stack gap={6}>
               <Group gap="xs" wrap="wrap">
                 <Text fw={600} size="sm">
@@ -184,7 +183,7 @@ export default function CharacterReferenceSection({
                 {tierListCharacterNote}
               </Text>
             </Stack>
-          </Paper>
+          </StaticSurface>
         )}
 
         {hasTeamContext && (
@@ -197,12 +196,9 @@ export default function CharacterReferenceSection({
                 const placement = formatPosition(entry.position);
 
                 return (
-                  <Paper
+                  <StaticSurface
                     key={`${entry.teamName}-${entry.role}`}
                     p="sm"
-                    radius="md"
-                    withBorder
-                    {...getCardHoverProps()}
                   >
                     <Stack gap={6}>
                       <Group
@@ -260,7 +256,7 @@ export default function CharacterReferenceSection({
                         </Text>
                       )}
                     </Stack>
-                  </Paper>
+                  </StaticSurface>
                 );
               })}
             </SimpleGrid>

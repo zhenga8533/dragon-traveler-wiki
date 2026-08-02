@@ -1,6 +1,5 @@
 import {
   Alert,
-  Card,
   SimpleGrid,
   Stack,
   Table,
@@ -8,7 +7,7 @@ import {
   Title,
 } from '@mantine/core';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import {
   calculateConditionalGuaranteedValue,
   calculateExpectedValue,
@@ -41,7 +40,7 @@ function DropRateCard({
   noteColor,
 }: DropRateCardProps) {
   return (
-    <Card withBorder radius="md" p="md" {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="xs">
         <Text fw={600}>
           <ResourceBadge slug={resourceSlug} />
@@ -79,7 +78,7 @@ function DropRateCard({
           </Alert>
         ) : null}
       </Stack>
-    </Card>
+    </StaticSurface>
   );
 }
 
@@ -165,7 +164,7 @@ export default function MythicSummonReference({
       <Title order={2} size="h3">
         Milestone Rewards
       </Title>
-      <Card withBorder radius="md" p="md" {...getCardHoverProps()}>
+      <StaticSurface p="md">
         <Stack gap="xs">
           <Text fw={600}>
             Milestone rewards (
@@ -202,7 +201,7 @@ export default function MythicSummonReference({
             </Table.Tbody>
           </Table>
         </Stack>
-      </Card>
+      </StaticSurface>
     </>
   );
 }

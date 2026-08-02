@@ -2,11 +2,11 @@
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
-import { getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { getWyrmIcon } from '@/assets';
 import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
 
-import { Badge, Group, Paper, Stack, Text, Title } from '@mantine/core';
+import { Badge, Group, Stack, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
 
@@ -22,20 +22,15 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
   const phaseColor = WYRM_PHASE_COLOR[w.phase];
 
   return (
-    <Paper
+    <InteractiveSurface
       component={Link}
       to={`/wyrms/${w.slug}`}
       p="lg"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        interactive: true,
-        style: {
-          textDecoration: 'none',
-          flex: 1,
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        textDecoration: 'none',
+        flex: 1,
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="sm">
         <Text size="xs" tt="uppercase" fw={700} c={`${qualityColor}.${isDark ? 4 : 6}`} style={{ letterSpacing: '0.06em' }}>
@@ -66,7 +61,7 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
           </Stack>
         </Group>
       </Stack>
-    </Paper>
+    </InteractiveSurface>
   );
 }
 

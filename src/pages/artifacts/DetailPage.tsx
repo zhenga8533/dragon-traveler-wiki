@@ -12,7 +12,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
 import TreasureCard from '@/features/wiki/artifacts/components/TreasureCard';
@@ -27,7 +27,6 @@ import {
   Box,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -163,16 +162,12 @@ export default function ArtifactPage() {
           </Stack>
         </Group>
 
-        <Paper
+        <StaticSurface
           p="md"
-          radius="md"
-          withBorder
-          {...getCardHoverProps({
-            style: getLoreGlassStyles(isDark),
-          })}
+          style={getLoreGlassStyles(isDark)}
         >
           <RichText text={artifact.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
-        </Paper>
+        </StaticSurface>
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>

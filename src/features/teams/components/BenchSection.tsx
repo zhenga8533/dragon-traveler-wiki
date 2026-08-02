@@ -2,7 +2,7 @@ import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import {
@@ -19,7 +19,6 @@ import {
   Badge,
   Box,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -82,16 +81,12 @@ export function BenchSection({
           const benchNote = getTeamBenchEntryNote(benchEntry);
 
           return (
-            <Paper
+            <StaticSurface
               key={`${benchName}-${benchQuality ?? ''}`}
               p={isMobile ? 'xs' : 'sm'}
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: {
-                  borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
-                },
-              })}
+              style={{
+                borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
+              }}
             >
               <Stack gap={6} align="center">
                 <Box pos="relative">
@@ -155,7 +150,7 @@ export function BenchSection({
                   </Group>
                 )}
               </Stack>
-            </Paper>
+            </StaticSurface>
           );
         })}
       </SimpleGrid>

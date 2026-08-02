@@ -1,7 +1,6 @@
 import {
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -13,7 +12,8 @@ import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { CHARACTER_CARD } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import {
@@ -57,11 +57,9 @@ export default function CharacterVariantSelector({
                 to={routePath}
                 style={LINK_BLOCK_RESET_STYLE}
               >
-                <Paper
-                  withBorder
-                  radius="md"
+                <InteractiveSurface
+                  component="div"
                   p="sm"
-                  {...getCardHoverProps({ interactive: true })}
                 >
                   <Group gap="sm" align="flex-start" wrap="nowrap">
                     <CharacterPortrait
@@ -118,7 +116,7 @@ export default function CharacterVariantSelector({
                       </Text>
                     </Stack>
                   </Group>
-                </Paper>
+                </InteractiveSurface>
               </UnstyledButton>
             );
           })}

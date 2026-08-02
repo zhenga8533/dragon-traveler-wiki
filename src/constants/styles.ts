@@ -21,29 +21,9 @@ export const RICH_TEXT_BADGE_STYLE = {
   verticalAlign: 'middle',
 } as const satisfies CSSProperties;
 
-type CardHoverPropsOptions = {
-  interactive?: boolean;
-  style?: CSSProperties;
-};
-
 type CharacterPortraitHoverOptions = {
   isSubstitute?: boolean;
 };
-
-/**
- * Legacy adapter for Mantine Card and composition-heavy surfaces.
- *
- * @deprecated Prefer `StaticSurface` or `InteractiveSurface`. When a Mantine
- * `Card` must be retained (for example, because it uses `Card.Section`), use
- * this only until that composition has a dedicated surface component.
- */
-export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
-  const { interactive = false, style } = options;
-  const className = interactive
-    ? 'card-hover card-hover-interactive'
-    : 'card-surface-static';
-  return style ? { className, style } : { className };
-}
 
 /**
  * Returns a CSS class for character portrait hover effect (scale + shadow).

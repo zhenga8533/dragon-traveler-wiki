@@ -1,11 +1,12 @@
 import { Link } from 'react-router';
-import { Badge, Group, Paper, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { Badge, Group, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import type { GradientPaletteAccents } from '@/contexts';
 import { compareQuality } from '@/utils/quality';
 
@@ -73,17 +74,12 @@ export default function GoldenAlliancesTab({
       >
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
           {pageItems.map((alliance) => (
-            <Paper
+            <InteractiveSurface
               key={alliance.name}
               component={Link}
               to={`/howlkins/${alliance.slug}`}
               p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                interactive: true,
-                style: LINK_BLOCK_RESET_STYLE,
-              })}
+              style={LINK_BLOCK_RESET_STYLE}
             >
               <Stack gap="sm">
                 <Text fw={700} size="lg" className="dt-link-text">
@@ -158,7 +154,7 @@ export default function GoldenAlliancesTab({
                   </Table>
                 </div>
               </Stack>
-            </Paper>
+            </InteractiveSurface>
           ))}
         </SimpleGrid>
       </SearchableGridPanel>

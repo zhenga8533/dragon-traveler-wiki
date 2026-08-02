@@ -1,9 +1,10 @@
 import { Link } from 'react-router';
-import { Badge, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import ListPageShell from '@/components/layout/ListPageShell';
 import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import type { GradientPaletteAccents } from '@/contexts';
@@ -77,17 +78,12 @@ export default function GearSetsTab({
             const bonusQuantity = setBonus?.quantity ?? 0;
             const bonusDescription = setBonus?.description ?? '';
             return (
-              <Paper
+              <InteractiveSurface
                 key={set.name}
                 component={Link}
                 to={`/gear-sets/${set.slug}`}
                 p="md"
-                radius="md"
-                withBorder
-                {...getCardHoverProps({
-                  interactive: true,
-                  style: LINK_BLOCK_RESET_STYLE,
-                })}
+                style={LINK_BLOCK_RESET_STYLE}
               >
                 <Stack gap="xs">
                   <Group justify="space-between" align="center">
@@ -117,7 +113,7 @@ export default function GearSetsTab({
                     ))}
                   </Group>
                 </Stack>
-              </Paper>
+              </InteractiveSurface>
             );
           })}
         </SimpleGrid>

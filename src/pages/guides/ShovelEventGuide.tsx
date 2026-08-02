@@ -1,17 +1,13 @@
 import GuideHeroCard from '@/features/guides/components/GuideHeroCard';
-import {
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { getMinWidthStyle } from '@/constants/styles';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
   Alert,
   Anchor,
   Badge,
-  Card,
   Container,
   Divider,
-  Paper,
   ScrollArea,
   Stack,
   Table,
@@ -91,20 +87,10 @@ export default function ShovelEventGuide() {
           </Alert>
         </GuideHeroCard>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Main Conclusion &amp; Schedule</Title>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            <StaticSurface p="md">
               <Stack gap="xs">
                 <Text>
                   • Daily buy: 800-
@@ -122,26 +108,16 @@ export default function ShovelEventGuide() {
                   fast as possible to advance layers.
                 </Text>
               </Stack>
-            </Paper>
+            </StaticSurface>
           </Stack>
-        </Card>
+        </StaticSurface>
 
         <Divider />
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Event Targets</Title>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            <StaticSurface p="md">
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
                 <Table striped highlightOnHover style={getMinWidthStyle(540)}>
                   <Table.Thead>
@@ -166,30 +142,20 @@ export default function ShovelEventGuide() {
                   </Table.Tbody>
                 </Table>
               </ScrollArea>
-            </Paper>
+            </StaticSurface>
             <Text size="sm" c="dimmed">
               Priority is layer push, not stars. Stars carry over to next event;
               layers do not.
             </Text>
           </Stack>
-        </Card>
+        </StaticSurface>
 
         <Divider />
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Efficiency &amp; Investment Check</Title>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            <StaticSurface p="md">
               <Stack gap="xs">
                 <Text>
                   Formula:{' '}
@@ -207,13 +173,8 @@ export default function ShovelEventGuide() {
                   income only (364 total over 7 days).
                 </Text>
               </Stack>
-            </Paper>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            </StaticSurface>
+            <StaticSurface p="md">
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
                 <Table striped highlightOnHover style={getMinWidthStyle(500)}>
                   <Table.Thead>
@@ -236,26 +197,16 @@ export default function ShovelEventGuide() {
                   </Table.Tbody>
                 </Table>
               </ScrollArea>
-            </Paper>
+            </StaticSurface>
           </Stack>
-        </Card>
+        </StaticSurface>
 
         <Divider />
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Pro Digging Tips</Title>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            <StaticSurface p="md">
               <Stack gap="xs">
                 <Text>
                   1) Trade up, never waste explosives: bombs/rockets are worth
@@ -275,26 +226,16 @@ export default function ShovelEventGuide() {
                   buys. If 4.0+, you can often save thousands of diamonds.
                 </Text>
               </Stack>
-            </Paper>
+            </StaticSurface>
           </Stack>
-        </Card>
+        </StaticSurface>
 
         <Divider />
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Diamond Value Note</Title>
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-            >
+            <StaticSurface p="md">
               <Stack gap="xs">
                 <Text>
                   If you have surplus diamonds (roughly 20,000–30,000), pushing
@@ -306,9 +247,9 @@ export default function ShovelEventGuide() {
                   packs.
                 </Text>
               </Stack>
-            </Paper>
+            </StaticSurface>
           </Stack>
-        </Card>
+        </StaticSurface>
       </Stack>
     </Container>
   );

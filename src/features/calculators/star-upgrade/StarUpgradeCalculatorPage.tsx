@@ -2,7 +2,7 @@
 import { QUALITY_ICON_MAP } from '@/assets';
 import { parseNumberInput } from '@/utils';
 import StatCard from '@/components/ui/StatCard';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { useGradientAccent, useStarLevels } from '@/hooks';
 import { buildStarLevels } from '@/types/star-level';
 import {
@@ -14,12 +14,10 @@ import {
 import {
   Alert,
   Badge,
-  Card,
   Container,
   Divider,
   Group,
   NumberInput,
-  Paper,
   Progress,
   SegmentedControl,
   Select,
@@ -149,7 +147,7 @@ export default function StarUpgradeCalculatorPage() {
           </Alert>
         </GuideHeroCard>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -234,10 +232,10 @@ export default function StarUpgradeCalculatorPage() {
               </>
             )}
           </Stack>
-        </Card>
+        </StaticSurface>
 
         {isValidSelection && copiesNeeded > 0 && (
-          <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+          <StaticSurface p="lg">
             <Stack gap="md">
               <Title order={2} size="h3">
                 <Group gap="xs">
@@ -384,7 +382,7 @@ export default function StarUpgradeCalculatorPage() {
               </SimpleGrid>
 
               <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+                <StaticSurface p="md">
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Daily Shards
@@ -393,8 +391,8 @@ export default function StarUpgradeCalculatorPage() {
                       {shardsPerDay}/day
                     </Text>
                   </Stack>
-                </Paper>
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+                </StaticSurface>
+                <StaticSurface p="md">
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Total Needed
@@ -403,8 +401,8 @@ export default function StarUpgradeCalculatorPage() {
                       {totalShardsNeeded}
                     </Text>
                   </Stack>
-                </Paper>
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+                </StaticSurface>
+                <StaticSurface p="md">
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Remaining
@@ -413,11 +411,11 @@ export default function StarUpgradeCalculatorPage() {
                       {shardsRemaining}
                     </Text>
                   </Stack>
-                </Paper>
+                </StaticSurface>
               </SimpleGrid>
 
               {daysNeeded > 0 && (
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+                <StaticSurface p="md">
                   <Group gap="sm" wrap="nowrap">
                     <IoCalendar size={16} />
                     <Stack gap={2}>
@@ -427,7 +425,7 @@ export default function StarUpgradeCalculatorPage() {
                       <Text fw={700}>{completionDate}</Text>
                     </Stack>
                   </Group>
-                </Paper>
+                </StaticSurface>
               )}
 
               <Divider />
@@ -439,7 +437,7 @@ export default function StarUpgradeCalculatorPage() {
                 <HeartTrialRateTable />
               </Stack>
             </Stack>
-          </Card>
+          </StaticSurface>
         )}
 
         <StarUpgradeReferenceTable

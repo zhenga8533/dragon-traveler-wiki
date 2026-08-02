@@ -2,7 +2,6 @@ import {
   Badge,
   Box,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -15,7 +14,7 @@ import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TeamMember } from '@/features/teams/types';
@@ -145,20 +144,16 @@ export function BattlefieldGrid({
             {row.map((member, colIdx) => {
               if (!member) {
                 return (
-                  <Paper
+                  <StaticSurface
                     key={colIdx}
-                    radius="md"
-                    withBorder
-                    {...getCardHoverProps({
-                      style: {
-                        minHeight: isMobile ? 72 : 80,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        opacity: 0.25,
-                        borderStyle: 'dashed',
-                      },
-                    })}
+                    style={{
+                      minHeight: isMobile ? 72 : 80,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: 0.25,
+                      borderStyle: 'dashed',
+                    }}
                   >
                     <Stack gap={2} align="center">
                       <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
@@ -168,7 +163,7 @@ export function BattlefieldGrid({
                         —
                       </Text>
                     </Stack>
-                  </Paper>
+                  </StaticSurface>
                 );
               }
 
@@ -185,16 +180,10 @@ export function BattlefieldGrid({
               const resolvedName = character?.name ?? member.character_slug;
 
               return (
-                <Paper
+                <StaticSurface
                   key={colIdx}
                   p={isMobile ? 'xs' : 'sm'}
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps({
-                    style: {
-                      borderTop: `3px solid ${accentColor}`,
-                    },
-                  })}
+                  style={{ borderTop: `3px solid ${accentColor}` }}
                 >
                   <Stack gap={6} align="center">
                     <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
@@ -296,7 +285,7 @@ export function BattlefieldGrid({
                       </Group>
                     )}
                   </Stack>
-                </Paper>
+                </StaticSurface>
               );
             })}
           </SimpleGrid>

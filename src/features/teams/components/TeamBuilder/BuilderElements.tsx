@@ -32,7 +32,7 @@ import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
 } from '@/constants/content-types';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import {
   CHARACTER_GRID_SPACING,
   TRANSITION,
@@ -249,26 +249,22 @@ export function SlotCard({
   }
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p={isMobile ? 4 : 'xs'}
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor,
-          borderWidth:
-            isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
-          opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-          minHeight: isMobile ? 100 : 120,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-        },
-      })}
+      style={{
+        borderColor,
+        borderWidth:
+          isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
+        opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        minHeight: isMobile ? 100 : 120,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+      }}
     >
       {charName ? (
         isMobile ? (
@@ -444,7 +440,7 @@ export function SlotCard({
           Drop here
         </Text>
       )}
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -600,18 +596,14 @@ export function AvailablePool({
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         {filterHeader || (
@@ -628,7 +620,7 @@ export function AvailablePool({
         </SimpleGrid>
         {paginationControl}
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -824,18 +816,14 @@ export function BenchPool({
   const { setNodeRef, isOver } = useDroppable({ id: 'bench' });
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         <SimpleGrid
@@ -875,6 +863,6 @@ export function BenchPool({
           )}
         </SimpleGrid>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

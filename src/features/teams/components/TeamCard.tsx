@@ -12,15 +12,16 @@ import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '@/assets';
 import FactionTag from '@/components/ui/FactionTag';
+import {
+  InteractiveSurface,
+  StaticSurface,
+} from '@/components/ui/Surface';
 import { FACTION_COLOR } from '@/constants/faction-colors';
 import {
   getContentTypeColor,
   normalizeContentType,
 } from '@/constants/content-types';
-import {
-  getCardHoverProps,
-  LINK_BLOCK_RESET_STYLE,
-} from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
@@ -51,15 +52,13 @@ export default function TeamCard({
 
   const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction] ?? accent.primary}-5)`;
 
-  const interactiveProps = onNavigate
+  const Surface = onNavigate ? InteractiveSurface : StaticSurface;
+  const surfaceProps = onNavigate
     ? {
-        ...getCardHoverProps({
-          interactive: true,
-          style: {
-            ...LINK_BLOCK_RESET_STYLE,
-            borderTop: borderTopStyle,
-          },
-        }),
+        style: {
+          ...LINK_BLOCK_RESET_STYLE,
+          borderTop: borderTopStyle,
+        },
         onClick: onNavigate,
         role: 'link' as const,
         tabIndex: 0,
@@ -75,7 +74,7 @@ export default function TeamCard({
       };
 
   return (
-    <Paper p="md" radius="md" withBorder {...interactiveProps}>
+    <Surface component="div" p="md" {...surfaceProps}>
       <Stack gap="sm">
         {/* Header: whelp + name + actions */}
         <Group
@@ -207,6 +206,6 @@ export default function TeamCard({
           </Stack>
         </Paper>
       </Stack>
-    </Paper>
+    </Surface>
   );
 }

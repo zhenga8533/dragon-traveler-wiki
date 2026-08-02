@@ -2,7 +2,6 @@ import {
   ActionIcon,
   Alert,
   Button,
-  Card,
   Group,
   NumberInput,
   ScrollArea,
@@ -19,7 +18,7 @@ import {
   IoTrendingDown,
   IoTrendingUp,
 } from 'react-icons/io5';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import type {
   DiamondSourceRow,
   DiamondSourceType,
@@ -61,7 +60,7 @@ export default function DiamondSourceTable({
   };
 
   return (
-    <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+    <StaticSurface p="lg">
       <Stack gap="md">
         <Title order={2} size="h3">
           <Group gap="xs">
@@ -197,6 +196,6 @@ export default function DiamondSourceTable({
           </Button>
         </Group>
       </Stack>
-    </Card>
+    </StaticSurface>
   );
 }

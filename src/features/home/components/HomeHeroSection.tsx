@@ -19,7 +19,6 @@ import {
   Container,
   Group,
   Kbd,
-  Paper,
   Stack,
   Text,
   ThemeIcon,
@@ -35,6 +34,7 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { useContext, useMemo, type ComponentType } from 'react';
 
 const HOME_CTA_BUTTON_STYLES = {
@@ -308,13 +308,13 @@ export default function HomeHeroSection() {
                 Explore the Wiki
               </Text>
               {HERO_NAV_ITEMS.map((item, idx) => (
-                <Paper
+                <InteractiveSurface
                   key={item.to}
                   component={Link}
                   to={item.to}
                   p="md"
                   radius="lg"
-                  className="card-hover card-hover-interactive"
+                  withBorder={false}
                   style={{
                     ...homeHeroNavCardStyle,
                     textDecoration: 'none',
@@ -352,7 +352,7 @@ export default function HomeHeroSection() {
                       style={{ flexShrink: 0, opacity: 0.35 }}
                     />
                   </Group>
-                </Paper>
+                </InteractiveSurface>
               ))}
             </Stack>
           </Box>

@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { Group, Paper, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { Group, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -10,10 +10,14 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
+import {
+  InteractiveSurface,
+  StaticSurface,
+} from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
@@ -212,27 +216,20 @@ export default function HowlkinsTab({
                     <HowlkinStats stats={howlkin.basic_stats} />
                   </Stack>
                 );
-                const cardHoverProps = getCardHoverProps({
-                  interactive: !!allianceSlug,
-                  style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
-                });
-
                 return allianceSlug ? (
-                  <Paper
+                  <InteractiveSurface
                     key={howlkin.name}
                     component={Link}
                     to={`/howlkins/${allianceSlug}`}
                     p="md"
-                    radius="md"
-                    withBorder
-                    {...cardHoverProps}
+                    style={LINK_BLOCK_RESET_STYLE}
                   >
                     {cardContent}
-                  </Paper>
+                  </InteractiveSurface>
                 ) : (
-                  <Paper key={howlkin.name} p="md" radius="md" withBorder {...cardHoverProps}>
+                  <StaticSurface key={howlkin.name} p="md">
                     {cardContent}
-                  </Paper>
+                  </StaticSurface>
                 );
               })}
             </SimpleGrid>

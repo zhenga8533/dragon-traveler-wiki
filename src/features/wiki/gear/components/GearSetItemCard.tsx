@@ -7,9 +7,9 @@ import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear } from '@/features/wiki/gear/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { QUALITY_COLOR } from '@/constants/quality';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Group, SimpleGrid, Stack, Text } from '@mantine/core';
 
 interface GearSetItemCardProps {
   item: Gear;
@@ -25,15 +25,11 @@ export default function GearSetItemCard({
   const iconSrc = getGearIcon(item.type, item.slug);
   const qualityColor = QUALITY_COLOR[item.quality];
   return (
-    <Paper
+    <StaticSurface
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="sm">
         <Group gap="md" wrap="nowrap" align="flex-start">
@@ -68,7 +64,7 @@ export default function GearSetItemCard({
           </Text>
           <SimpleGrid cols={2} spacing="xs">
             {Object.entries(item.stats).map(([statName, statValue]) => (
-              <Paper key={statName} withBorder radius="sm" p="xs" {...getCardHoverProps()}>
+              <StaticSurface key={statName} radius="sm" p="xs">
                 <Stack gap={2}>
                   <Text size="xs" c="dimmed" lineClamp={1}>
                     {statName}
@@ -77,11 +73,11 @@ export default function GearSetItemCard({
                     {String(statValue)}
                   </Text>
                 </Stack>
-              </Paper>
+              </StaticSurface>
             ))}
           </SimpleGrid>
         </Stack>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

@@ -3,7 +3,6 @@ import {
   Box,
   Divider,
   Group,
-  Paper,
   Stack,
   Text,
   Title,
@@ -11,7 +10,7 @@ import {
 import SafeImage from '@/components/ui/SafeImage';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import RichText from '@/components/common/RichText';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import type { Character } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
@@ -126,13 +125,10 @@ export default function CharacterPageSkillsSection({
                   : `${skill.cooldown}s`;
 
                 return (
-                  <Paper
+                  <StaticSurface
                     key={skill.name}
                     id={`skill-${skill.name}`}
                     p="md"
-                    radius="md"
-                    withBorder
-                    {...getCardHoverProps()}
                   >
                     <Stack gap="sm">
                       <Group gap="md" justify="space-between" wrap="nowrap">
@@ -182,7 +178,7 @@ export default function CharacterPageSkillsSection({
                         onTalentClick={scrollToTalent}
                       />
                     </Stack>
-                  </Paper>
+                  </StaticSurface>
                 );
             })}
           </Stack>
@@ -216,12 +212,9 @@ export default function CharacterPageSkillsSection({
                   </Group>
                   <Stack gap="sm">
                     {divinityLevel.choices.map((choice) => (
-                      <Paper
+                      <StaticSurface
                         key={choice.name}
                         p="md"
-                        radius="md"
-                        withBorder
-                        {...getCardHoverProps()}
                       >
                         <Stack gap="sm">
                           <Group gap="md">
@@ -253,7 +246,7 @@ export default function CharacterPageSkillsSection({
                             onTalentClick={scrollToTalent}
                           />
                         </Stack>
-                      </Paper>
+                      </StaticSurface>
                     ))}
                   </Stack>
                   {idx < (character.divinity?.length ?? 0) - 1 && (

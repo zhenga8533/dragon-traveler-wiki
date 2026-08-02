@@ -46,6 +46,10 @@ export { default as SafeVideo } from './ui/SafeVideo';
 export { default as SortableTh } from './ui/SortableTh';
 export { default as StatCard } from './ui/StatCard';
 export { InteractiveSurface, StaticSurface } from './ui/Surface';
+export {
+  INTERACTIVE_SURFACE_CLASS_NAME,
+  STATIC_SURFACE_CLASS_NAME,
+} from './ui/Surface';
 export type { InteractiveSurfaceProps, StaticSurfaceProps } from './ui/Surface';
 export { default as TierBadge } from './ui/TierBadge';
 export type { TierBadgeProps } from './ui/TierBadge';
