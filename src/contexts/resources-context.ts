@@ -1,6 +1,6 @@
 import { createContext, createElement, useMemo, type ReactNode } from 'react';
 import { useResources } from '@/features/wiki/hooks/use-wiki-data';
-import type { Resource } from '@/types/resource';
+import type { Resource } from '@/features/wiki/resources/types';
 
 export interface ResourcesContextValue {
   resources: Resource[];

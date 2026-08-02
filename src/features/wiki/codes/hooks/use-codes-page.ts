@@ -19,7 +19,7 @@ import {
   useTabParam,
   useViewMode,
 } from '@/hooks';
-import type { Code } from '@/types/code';
+import type { Code } from '@/features/wiki/codes/types';
 import {
   getLatestTimestamp,
   readStoredStringSet,

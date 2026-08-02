@@ -9,11 +9,8 @@ import {
 } from '@/features/characters/utils/character-route';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
-import {
-  buildStarLevels,
-  type StarLevel,
-  type StarTier,
-} from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
+import type { StarLevel, StarTier } from '@/features/wiki/star-levels/types';
 import { STORAGE_KEY } from '@/constants/ui';
 import {
   downloadElementAsImage,

@@ -18,7 +18,7 @@ import ResourceBadge from '@/components/ui/ResourceBadge';
 import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { ViewMode } from '@/hooks';
-import type { Code } from '@/types/code';
+import type { Code } from '@/features/wiki/codes/types';
 import { buildExpiredCodeUrl, isCodeActive } from '@/utils';
 
 interface CodeCollectionProps {

@@ -13,12 +13,12 @@ import { useDataFetch } from '@/hooks/use-data-fetch';
 import { useContext, useMemo } from 'react';
 import { LocaleContext } from '@/contexts/locale';
 import { dataPath, DEFAULT_LOCALE } from '@/utils/data-paths';
-import type { ChangelogEntry } from '@/types/changelog';
+import type { ChangelogEntry } from '@/features/wiki/changelog/types';
 import type { ChangesFile } from '@/types/changes';
-import type { Code } from '@/types/code';
-import type { Resource } from '@/types/resource';
-import type { StarTierData } from '@/types/star-level';
-import type { UsefulLink } from '@/types/useful-link';
+import type { Code } from '@/features/wiki/codes/types';
+import type { Resource } from '@/features/wiki/resources/types';
+import type { StarTierData } from '@/features/wiki/star-levels/types';
+import type { UsefulLink } from '@/features/wiki/useful-links/types';
 import {
   parseObjectArray,
   parseObjectRecord,

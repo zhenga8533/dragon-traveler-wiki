@@ -41,3 +41,11 @@ internals solely to shorten import paths.
 
 Use `import type` for type-only dependencies, and avoid importing a barrel from
 within the directory that defines it to prevent cycles.
+
+## Domain types
+
+Entity contracts live with the feature that owns the entity, normally in that
+feature's `types.ts`. The `src/types` directory is reserved for primitives used
+across unrelated features, such as quality, faction, change-history, and asset
+manifest contracts. It does not expose a root barrel; consumers import the
+specific primitive module so ownership remains visible.

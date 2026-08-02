@@ -30,9 +30,9 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import type { Code } from '@/types/code';
-import type { Resource } from '@/types/resource';
-import type { UsefulLink } from '@/types/useful-link';
+import type { Code } from '@/features/wiki/codes/types';
+import type { Resource } from '@/features/wiki/resources/types';
+import type { UsefulLink } from '@/features/wiki/useful-links/types';
 import { createContext, createElement, useMemo, type ReactNode } from 'react';
 
 export interface SearchDataContextValue {

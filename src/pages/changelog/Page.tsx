@@ -3,7 +3,7 @@ import { useGradientAccent, usePageSize, useTabParam } from '@/hooks';
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import { Container, Stack, Tabs, Text, Title } from '@mantine/core';
 import { useEffect } from 'react';
-import SiteUpdatesTab, { type ChangelogEntry } from './SiteUpdatesTab';
+import SiteUpdatesTab from './SiteUpdatesTab';
 import DataHistoryTab from './DataHistoryTab';
 import { useToggleSet } from './use-toggle-set';
 
@@ -12,10 +12,7 @@ const SITE_PAGE_SIZE = 10;
 
 export default function Changelog() {
   const { accent } = useGradientAccent();
-  const { data: changelog, loading } = useChangelog() as {
-    data: ChangelogEntry[];
-    loading: boolean;
-  };
+  const { data: changelog, loading } = useChangelog();
   const [activeTab, handleTabChange] = useTabParam('tab', 'site', [
     'site',
     'data',

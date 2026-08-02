@@ -37,7 +37,7 @@ import {
   EMPTY_RESOURCE_FILTERS,
   matchesResourceFilters,
 } from '@/features/wiki/resources/filters';
-import type { ResourceCategory } from '@/types/resource';
+import type { ResourceCategory } from '@/features/wiki/resources/types';
 import type { Quality } from '@/types/quality';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import { getLatestTimestamp } from '@/utils';

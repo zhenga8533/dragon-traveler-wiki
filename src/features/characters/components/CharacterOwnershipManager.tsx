@@ -8,7 +8,7 @@ import {
 } from '@/features/characters/utils/character-route';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent } from '@/hooks';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import {
   ActionIcon,
   Button,

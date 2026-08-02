@@ -3,7 +3,7 @@ import type {
   ArrayFieldDef,
   FieldDef,
 } from '@/components/tools/SuggestModal';
-import type { Resource } from '@/types/resource';
+import type { Resource } from '@/features/wiki/resources/types';
 
 export const CODE_FIELDS: FieldDef[] = [
   {

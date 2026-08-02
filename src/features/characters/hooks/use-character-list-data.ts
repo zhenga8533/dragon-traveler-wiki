@@ -23,7 +23,7 @@ import {
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import type { ViewMode } from '@/hooks/use-filters';
 import { useFilterPanel, useFilters, useViewMode } from '@/hooks/use-filters';
 import {

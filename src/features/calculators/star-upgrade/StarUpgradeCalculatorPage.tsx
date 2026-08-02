@@ -5,7 +5,7 @@ import StatCard from '@/components/ui/StatCard';
 import { StaticSurface } from '@/components/ui/Surface';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent } from '@/hooks';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import {
   getHeartTrialShardsPerDay,
   SHARDS_PER_DUPE,

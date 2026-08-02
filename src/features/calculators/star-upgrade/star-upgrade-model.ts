@@ -1,4 +1,4 @@
-import type { StarTier } from '@/types/star-level';
+import type { StarTier } from '@/features/wiki/star-levels/types';
 
 export const STAR_TIER_BADGE_COLORS: Record<StarTier, string> = {
   base: 'gray',

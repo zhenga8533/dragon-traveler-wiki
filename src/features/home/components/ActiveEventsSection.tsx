@@ -6,7 +6,7 @@ import EventCharacterAvatars from '@/features/wiki/events/components/EventCharac
 import { EventCardsLoading } from '@/components/layout/PageLoadingSkeleton';
 import { useEvents } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent } from '@/hooks';
-import type { GameEvent } from '@/types';
+import type { GameEvent } from '@/features/wiki/events/types';
 import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';
 import {
   Badge,

@@ -5,7 +5,7 @@ import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import type { WyrmspellType } from '@/features/wiki/wyrmspells/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
-import type { ResourceCategory } from '@/types/resource';
+import type { ResourceCategory } from '@/features/wiki/resources/types';
 import { normalizeKey, normalizeQualityKey } from '@/utils/asset-utils';
 
 const rawBase: string = import.meta.env.VITE_ASSETS_BASE ?? import.meta.env.BASE_URL;

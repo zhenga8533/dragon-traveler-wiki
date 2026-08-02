@@ -1,4 +1,4 @@
-import type { Quality } from './quality';
+import type { Quality } from '@/types/quality';
 
 export type ResourceCategory =
   | 'Container'

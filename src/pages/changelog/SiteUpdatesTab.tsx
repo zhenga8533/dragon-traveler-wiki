@@ -13,16 +13,7 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
-
-export interface ChangelogEntry {
-  date: string;
-  version?: string;
-  changes: {
-    type: 'added' | 'updated' | 'fixed' | 'removed';
-    category: string;
-    description: string;
-  }[];
-}
+import type { ChangelogEntry } from '@/features/wiki/changelog/types';
 
 const CHANGE_TYPE_COLORS: Record<string, string> = {
   added: 'green',

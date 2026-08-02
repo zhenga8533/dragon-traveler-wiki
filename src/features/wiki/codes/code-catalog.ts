@@ -1,4 +1,4 @@
-import type { Code } from '@/types/code';
+import type { Code } from '@/features/wiki/codes/types';
 import { isCodeActive, isCodeExpired } from '@/utils';
 
 export type CodeView = 'unredeemed' | 'redeemed' | 'all';

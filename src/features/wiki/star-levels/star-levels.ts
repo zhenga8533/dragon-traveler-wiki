@@ -1,26 +1,4 @@
-export type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
-
-export interface StarLevelEntry {
-  stars: number;
-  copies: number;
-  fodder: number;
-  divine_crystals: number;
-}
-
-export interface StarTierData {
-  name: string;
-  levels: StarLevelEntry[];
-}
-
-export interface StarLevel {
-  label: string;
-  stars: number;
-  value: string;
-  copies: number;
-  fodder: number;
-  divineCrystals: number;
-  tier: StarTier;
-}
+import type { StarLevel, StarTier, StarTierData } from './types';
 
 const TIER_NAME_MAP: Record<string, StarTier> = {
   Base: 'base',
@@ -46,29 +24,25 @@ function getLevelValue(tierName: string, stars: number): string {
   return `${tierName.toLowerCase()}${stars}`;
 }
 
-/**
- * Transforms incremental star-levels.json data into a flat array with
- * cumulative resource totals (copies, fodder, divine crystals) from 5 Star base.
- */
 export function buildStarLevels(data: StarTierData[]): StarLevel[] {
-  let cumCopies = 0;
-  let cumFodder = 0;
-  let cumDivineCrystals = 0;
+  let cumulativeCopies = 0;
+  let cumulativeFodder = 0;
+  let cumulativeDivineCrystals = 0;
   const result: StarLevel[] = [];
 
   for (const tier of data) {
     const starTier = TIER_NAME_MAP[tier.name] ?? 'base';
     for (const level of tier.levels) {
-      cumCopies += level.copies;
-      cumFodder += level.fodder;
-      cumDivineCrystals += level.divine_crystals;
+      cumulativeCopies += level.copies;
+      cumulativeFodder += level.fodder;
+      cumulativeDivineCrystals += level.divine_crystals;
       result.push({
         label: getLevelLabel(tier.name, level.stars),
         stars: level.stars,
         value: getLevelValue(tier.name, level.stars),
-        copies: cumCopies,
-        fodder: cumFodder,
-        divineCrystals: cumDivineCrystals,
+        copies: cumulativeCopies,
+        fodder: cumulativeFodder,
+        divineCrystals: cumulativeDivineCrystals,
         tier: starTier,
       });
     }

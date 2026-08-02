@@ -19,7 +19,7 @@ import {
   FavoriteIllustrationsContext,
 } from '@/contexts';
 import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import {
   getCharacterNavPaths,
   useCharacterPageData,

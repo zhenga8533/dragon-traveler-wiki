@@ -1,7 +1,7 @@
 import { RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
 import { applyDir } from '@/hooks/use-sort';
 import type { Quality } from '@/types/quality';
-import type { Resource, ResourceCategory } from '@/types/resource';
+import type { Resource, ResourceCategory } from './types';
 import { compareQuality } from '@/utils/quality';
 
 export interface ResourceFilters {

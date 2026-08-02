@@ -3,16 +3,6 @@ import { StaticSurface } from '@/components/ui/Surface';
 import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
-interface ChangelogEntry {
-  date: string;
-  version?: string;
-  changes: {
-    type: 'added' | 'updated' | 'fixed' | 'removed';
-    category: string;
-    description: string;
-  }[];
-}
-
 const TYPE_COLORS: Record<string, string> = {
   added: 'green',
   updated: 'blue',
@@ -21,7 +11,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function RecentUpdatesSection() {
-  const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
+  const { data: changelog, loading } = useChangelog();
 
   if (loading) {
     return (

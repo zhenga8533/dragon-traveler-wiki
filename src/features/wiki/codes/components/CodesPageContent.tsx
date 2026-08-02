@@ -33,8 +33,8 @@ import {
   CODE_FIELDS,
 } from '@/features/wiki/codes/suggestion-fields';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
-import type { Code } from '@/types/code';
-import type { Resource } from '@/types/resource';
+import type { Code } from '@/features/wiki/codes/types';
+import type { Resource } from '@/features/wiki/resources/types';
 import { useMemo } from 'react';
 
 export default function CodesPageContent({

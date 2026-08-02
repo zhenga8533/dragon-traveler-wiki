@@ -13,7 +13,7 @@ import { IoChevronDown, IoChevronUp, IoStatsChart } from 'react-icons/io5';
 import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { STAR_TIER_BADGE_COLORS } from '@/features/calculators/star-upgrade/star-upgrade-model';
-import type { StarLevel } from '@/types/star-level';
+import type { StarLevel } from '@/features/wiki/star-levels/types';
 
 export default function StarUpgradeReferenceTable({
   levels,
