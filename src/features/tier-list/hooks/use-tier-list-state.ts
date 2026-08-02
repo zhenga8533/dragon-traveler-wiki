@@ -34,7 +34,8 @@ import {
   isNoblePhantasmTierEntry,
 } from '@/features/tier-list/types';
 import { removeItemFromRecordArrays } from '@/utils/dnd-list';
-import { useCharacterResolution, useDraftHydration } from '@/hooks';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useDraftHydration } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { compareQuality } from '@/utils/quality';
 import { showWarningToast } from '@/utils/toast';

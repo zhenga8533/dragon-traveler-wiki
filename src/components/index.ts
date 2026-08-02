@@ -1,23 +1,4 @@
-// Component exports for cleaner imports
-
-// ── Characters ───────────────────────────────────────────────────────────────
-export { default as CharacterCard } from '@/features/characters/components/CharacterCard';
-export { default as CharacterFilter } from '@/features/characters/components/CharacterFilter';
-export type { CharacterFilterProps } from '@/features/characters/components/CharacterFilter';
-export { default as CharacterList } from '@/features/characters/components/CharacterList';
-export { default as CharacterTag } from '@/features/characters/components/CharacterTag';
-export { default as FilterableCharacterPool } from './common/FilterableCharacterPool';
-
-// ── Wiki features ─────────────────────────────────────────────────────────────
-export { default as GearTypeTag } from '@/features/wiki/gear/components/GearTypeTag';
-export { default as HowlkinBadge } from '@/features/wiki/howlkins/components/HowlkinBadge';
-export { default as HowlkinStats } from '@/features/wiki/howlkins/components/HowlkinStats';
-export { default as WyrmspellCard } from '@/features/wiki/wyrmspells/components/WyrmspellCard';
-
-// ── Teams / Tier list ─────────────────────────────────────────────────────────
-export { default as TeamBuilder } from '@/features/teams/components/TeamBuilder';
-export { default as TierListBuilder } from '@/features/tier-list/components/TierListBuilder';
-
+// Shared component exports for cleaner imports.
 // ── UI primitives ─────────────────────────────────────────────────────────────
 export { default as ClassTag } from './ui/ClassTag';
 export { default as CollapsibleSectionCard } from './ui/CollapsibleSectionCard';

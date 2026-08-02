@@ -19,6 +19,8 @@ import {
 } from '@/constants/content-types';
 import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
@@ -36,6 +38,11 @@ import {
   removeSavedTierList,
 } from '@/features/tier-list/saved-tier-lists';
 import {
+  useTierListChanges,
+  useTierLists,
+} from '@/features/tier-list/hooks/use-tier-list-data';
+import { useNoblePhantasms } from '@/features/wiki/hooks/use-wiki-data';
+import {
   isCharacterTierEntry,
   isNoblePhantasmTierEntry,
   type TierListRankableEntity,
@@ -44,16 +51,11 @@ import {
 import {
   countActiveFilters,
   useBuilderEditState,
-  useCharacterResolution,
-  useCharacters,
   useDarkMode,
   useFilters,
   useGradientAccent,
   useIsMobile,
-  useNoblePhantasms,
   usePoolLayout,
-  useTierListChanges,
-  useTierLists,
   useViewMode,
 } from '@/hooks';
 import { parseTabMode } from '@/utils';

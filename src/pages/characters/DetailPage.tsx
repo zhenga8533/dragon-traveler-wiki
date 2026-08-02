@@ -9,7 +9,9 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { CharacterDetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FullBleedSection from '@/components/layout/FullBleedSection';
 import { BREAKPOINTS } from '@/constants/ui';
-import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
+import { useCharacterAssets } from '@/features/characters/hooks/use-character-assets';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useMobileTooltip } from '@/hooks';
 import {
   BannerContext,
   CharacterOwnershipContext,

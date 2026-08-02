@@ -4,7 +4,7 @@ import { resolveIllustrations } from '@/assets';
 import { getEventImage, placeholderEventImage } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
-import { useCharacters } from '@/hooks';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 
 const INDICATOR_DOT_SIZE = 8;
 const BANNER_TICK_MS = 3000;

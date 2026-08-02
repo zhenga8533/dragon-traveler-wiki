@@ -34,7 +34,8 @@ import {
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import { useCharacterResolution, useDraftHydration } from '@/hooks';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useDraftHydration } from '@/hooks';
 import type { FactionSlug } from '@/types/faction';
 import { showWarningToast } from '@/utils/toast';
 import type {

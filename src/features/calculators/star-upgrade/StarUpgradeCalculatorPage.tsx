@@ -3,7 +3,8 @@ import { QUALITY_ICON_MAP } from '@/assets';
 import { parseNumberInput } from '@/utils';
 import StatCard from '@/components/ui/StatCard';
 import { StaticSurface } from '@/components/ui/Surface';
-import { useGradientAccent, useStarLevels } from '@/hooks';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useGradientAccent } from '@/hooks';
 import { buildStarLevels } from '@/types/star-level';
 import {
   getHeartTrialShardsPerDay,

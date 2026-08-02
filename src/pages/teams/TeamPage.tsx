@@ -7,22 +7,23 @@ import { STORAGE_KEY } from '@/constants/ui';
 import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
 import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
+import { useTeamChanges, useTeams } from '@/features/teams/hooks/use-teams-data';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import {
+  useArtifacts,
+  useStatusEffects,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import {
   exportTeamCompositionAsImage,
   hasTeamBuilderDraft,
 } from '@/features/teams/utils/team-page';
 import {
-  useArtifacts,
-  useCharacterResolution,
-  useCharacters,
   useDarkMode,
   useFactions,
   useGradientAccent,
   useMobileTooltip,
-  useStatusEffects,
-  useTeamChanges,
-  useTeams,
-  useWyrmspells,
 } from '@/hooks';
 import {
   findEntityByParam,

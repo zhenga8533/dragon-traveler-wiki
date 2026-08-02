@@ -6,7 +6,8 @@ import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import { useGradientAccent, useStarLevels } from '@/hooks';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useGradientAccent } from '@/hooks';
 import { buildStarLevels } from '@/types/star-level';
 import {
   ActionIcon,

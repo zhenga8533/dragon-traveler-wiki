@@ -16,7 +16,12 @@ import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
 import TreasureCard from '@/features/wiki/artifacts/components/TreasureCard';
-import { useArtifactChanges, useArtifacts, useDarkMode, useFactions, useGradientAccent, useStatusEffects } from '@/hooks';
+import {
+  useArtifactChanges,
+  useArtifacts,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useFactions, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,

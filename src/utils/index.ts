@@ -6,11 +6,6 @@ export {
   removeItem,
   removeItemFromRecordArrays,
 } from './dnd-list';
-export {
-  EMPTY_CHARACTER_FILTERS,
-  extractAllEffectRefs,
-  filterCharacters,
-} from '@/features/characters/filters';
 export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
 export {
@@ -31,5 +26,4 @@ export {
 export { parseNumberInput } from './number';
 export { isRecord } from './type-guards';
 
-export type { CharacterFilters } from '@/features/characters/filters';
 export type { TextSegment } from './parse-effect-refs';

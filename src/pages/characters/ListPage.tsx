@@ -1,5 +1,4 @@
 import {
-  CharacterList,
   CharacterListLoading,
   EmptyState,
   ListPageHeader,
@@ -7,6 +6,7 @@ import {
   SuggestModal,
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
+import CharacterList from '@/features/characters/components/CharacterList';
 import { CHARACTER_FIELDS } from '@/features/characters/form-fields';
 import { CharacterOwnershipContext } from '@/contexts';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';

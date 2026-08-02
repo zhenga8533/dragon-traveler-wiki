@@ -5,7 +5,7 @@ import {
   buildCharacterByIdentityMap,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import { useCharacters } from '@/hooks';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { Group } from '@mantine/core';
 import { useMemo } from 'react';
 

@@ -27,21 +27,21 @@ import {
   removeSavedTeam,
 } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useTeams } from '@/features/teams/hooks/use-teams-data';
+import { useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
   useBuilderEditState,
-  useCharacterResolution,
-  useCharacters,
   useFilters,
   useGradientAccent,
   useIsMobile,
   usePageSize,
   usePagination,
   usePoolLayout,
-  useTeams,
   useViewMode,
-  useWyrmspells,
 } from '@/hooks';
 import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';

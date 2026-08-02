@@ -7,7 +7,8 @@ import {
   getCharacterIdentityKey,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
-import { useDarkMode, useGradientAccent, useStarLevels } from '@/hooks';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   buildStarLevels,
   type StarLevel,
