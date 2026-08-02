@@ -2,7 +2,6 @@
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
-  type ContentType,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
@@ -25,6 +24,12 @@ import {
   ROW_LABELS,
 } from '@/features/teams/utils/team-builder';
 import type { Team, TeamMember, TeamWyrmspells } from '@/features/teams/types';
+import {
+  createEmptyTeamBuilderState,
+  teamBuilderReducer,
+  type TeamBuilderMetaState,
+  type TeamBuilderState,
+} from '@/features/teams/team-builder-state';
 import { insertUniqueBefore, removeItem } from '@/utils/dnd-list';
 import {
   getTeamBenchEntryName,
@@ -53,38 +58,6 @@ const DEFAULT_TEAM_NAME = 'My Team';
 const DEFAULT_TEAM_AUTHOR = 'Anonymous';
 const DEFAULT_TEAM_FACTION = 'elemental_echo' as FactionSlug;
 
-export interface TeamBuilderMetaState {
-  name: string;
-  author: string;
-  contentType: ContentType;
-  description: string;
-  faction: FactionSlug | null;
-}
-
-export interface TeamBuilderState {
-  slots: Array<string | null>;
-  overdriveEnabled: boolean;
-  overdriveSequence: number[];
-  bench: string[];
-  benchNotes: Record<string, string>;
-  slotNotes: string[];
-  teamWyrmspells: TeamWyrmspells;
-  meta: TeamBuilderMetaState;
-}
-
-export type TeamBuilderAction =
-  | { type: 'LOAD_TEAM'; payload: TeamBuilderState }
-  | { type: 'SET_SLOT'; slotIndex: number; characterKey: string | null }
-  | { type: 'SET_BENCH'; bench: string[]; benchNotes?: Record<string, string> }
-  | { type: 'UPDATE_META'; patch: Partial<TeamBuilderMetaState> }
-  | { type: 'SET_OVERDRIVE_ENABLED'; enabled: boolean }
-  | { type: 'SET_OVERDRIVE_SEQUENCE'; payload: number[] }
-  | { type: 'SET_SLOT_NOTE'; slotIndex: number; note: string }
-  | { type: 'SET_SLOT_NOTES'; payload: string[] }
-  | { type: 'SET_BENCH_NOTE'; characterKey: string; note?: string }
-  | { type: 'SET_WYRMSPELL'; key: keyof TeamWyrmspells; value?: string }
-  | { type: 'RESET' };
-
 export interface UseTeamBuilderStateOptions {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -94,25 +67,6 @@ export interface UseTeamBuilderStateOptions {
 interface CharacterLocationInBuilder {
   zone: 'slot' | 'bench' | 'available';
   index?: number;
-}
-
-function createEmptyBuilderState(): TeamBuilderState {
-  return {
-    slots: Array<string | null>(GRID_SIZE).fill(null),
-    overdriveEnabled: false,
-    overdriveSequence: [],
-    bench: [],
-    benchNotes: {},
-    slotNotes: Array<string>(GRID_SIZE).fill(''),
-    teamWyrmspells: {},
-    meta: {
-      name: '',
-      author: '',
-      contentType: DEFAULT_CONTENT_TYPE,
-      description: '',
-      faction: null,
-    },
-  };
 }
 
 function createFallbackTeam(): Team {
@@ -125,68 +79,6 @@ function createFallbackTeam(): Team {
     members: [],
     last_updated: 0,
   };
-}
-
-function teamBuilderReducer(
-  state: TeamBuilderState,
-  action: TeamBuilderAction,
-): TeamBuilderState {
-  switch (action.type) {
-    case 'LOAD_TEAM':
-      return action.payload;
-    case 'SET_SLOT': {
-      const slots = [...state.slots];
-      slots[action.slotIndex] = action.characterKey;
-      return { ...state, slots };
-    }
-    case 'SET_BENCH':
-      return {
-        ...state,
-        bench: action.bench,
-        ...(action.benchNotes ? { benchNotes: action.benchNotes } : {}),
-      };
-    case 'UPDATE_META':
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          ...action.patch,
-        },
-      };
-    case 'SET_OVERDRIVE_ENABLED':
-      return { ...state, overdriveEnabled: action.enabled };
-    case 'SET_OVERDRIVE_SEQUENCE':
-      return { ...state, overdriveSequence: action.payload };
-    case 'SET_SLOT_NOTE': {
-      const slotNotes = [...state.slotNotes];
-      slotNotes[action.slotIndex] = action.note;
-      return { ...state, slotNotes };
-    }
-    case 'SET_SLOT_NOTES':
-      return { ...state, slotNotes: action.payload };
-    case 'SET_BENCH_NOTE': {
-      const benchNotes = { ...state.benchNotes };
-      if (action.note) {
-        benchNotes[action.characterKey] = action.note;
-      } else {
-        delete benchNotes[action.characterKey];
-      }
-      return { ...state, benchNotes };
-    }
-    case 'SET_WYRMSPELL': {
-      const nextWyrmspells = { ...state.teamWyrmspells };
-      if (action.value) {
-        nextWyrmspells[action.key] = action.value;
-      } else {
-        delete nextWyrmspells[action.key];
-      }
-      return { ...state, teamWyrmspells: nextWyrmspells };
-    }
-    case 'RESET':
-      return createEmptyBuilderState();
-    default:
-      return state;
-  }
 }
 
 function parseFactionName(value: string | null): FactionSlug | null {
@@ -218,7 +110,7 @@ function toBuilderState(
   getCharacterKeyFromReference: (name: string, quality?: string) => string,
   getCharacterFromKey: (characterKey: string) => Character | undefined,
 ): TeamBuilderState {
-  const nextState = createEmptyBuilderState();
+  const nextState = createEmptyTeamBuilderState();
   nextState.meta = {
     name: data.name || '',
     author: data.author || '',
@@ -316,7 +208,7 @@ export function useTeamBuilderState({
   const [state, dispatch] = useReducer(
     teamBuilderReducer,
     undefined,
-    createEmptyBuilderState,
+    createEmptyTeamBuilderState,
   );
   const [activeId, setActiveId] = useState<string | null>(null);
 

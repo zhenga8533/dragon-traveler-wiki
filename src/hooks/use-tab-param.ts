@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router';
-import { toEntitySlug } from '@/utils/entity-slug';
+import {
+  resolveEntityTabName,
+  resolveTabParam,
+  setDefaultOmittingSearchParam,
+  setEntitySearchParam,
+} from '@/utils/search-param-tabs';
 
 /**
  * Syncs a tab selection with a URL search parameter.
@@ -17,19 +22,12 @@ export function useTabParam(
 ): [string, (tab: string | null) => void] {
   const [searchParams, setSearchParams] = useSearchParams();
   const raw = searchParams.get(paramName);
-  const tab = raw && validTabs.includes(raw) ? raw : defaultTab;
+  const tab = resolveTabParam(raw, defaultTab, validTabs);
 
   function setTab(value: string | null) {
-    const next = value ?? defaultTab;
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      if (next === defaultTab) {
-        params.delete(paramName);
-      } else {
-        params.set(paramName, next);
-      }
-      return params;
-    });
+    setSearchParams((previous) =>
+      setDefaultOmittingSearchParam(previous, paramName, value, defaultTab),
+    );
   }
 
   return [tab, setTab];
@@ -50,23 +48,13 @@ export function useEntityTabParam(
   const param = searchParams.get(paramName);
 
   const activeValue = useMemo(() => {
-    if (items.length === 0) return undefined;
-    const matched = param
-      ? items.find((item) => toEntitySlug(item.name) === param)?.name
-      : null;
-    return matched ?? items[0].name;
+    return resolveEntityTabName(param, items);
   }, [param, items]);
 
   function setItem(name: string | null) {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      if (!name) {
-        params.delete(paramName);
-      } else {
-        params.set(paramName, toEntitySlug(name));
-      }
-      return params;
-    });
+    setSearchParams((previous) =>
+      setEntitySearchParam(previous, paramName, name),
+    );
   }
 
   return [activeValue, setItem];

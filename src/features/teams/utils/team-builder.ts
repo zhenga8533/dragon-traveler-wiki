@@ -28,16 +28,13 @@ type TeamPatch = Partial<Omit<Team, 'members' | 'bench'>> & {
   bench?: unknown[];
 };
 
-export const MAX_ROSTER_SIZE = 6;
-export const GRID_SIZE = 9; // 3×3 grid
-
-export const ROW_COLORS = ['red', 'orange', 'blue'] as const;
-export const ROW_STRIP_LABELS = ['Front', 'Middle', 'Back'] as const;
-export const ROW_LABELS = [
-  'the front row',
-  'the middle row',
-  'the back row',
-] as const;
+export {
+  GRID_SIZE,
+  MAX_ROSTER_SIZE,
+  ROW_COLORS,
+  ROW_LABELS,
+  ROW_STRIP_LABELS,
+} from '../team-builder-constants.ts';
 export const ROW_CLASS_HINTS = [
   'Guardian · Warrior · Assassin',
   'Warrior · Priest · Mage · Archer · Assassin',

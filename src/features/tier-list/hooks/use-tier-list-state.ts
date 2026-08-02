@@ -2,7 +2,6 @@
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
-  type ContentType,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
@@ -28,6 +27,16 @@ import type {
   TierListEntityType,
   TierListRankableEntity,
 } from '@/features/tier-list/types';
+import {
+  createDefaultTierDefs,
+  createEmptyTierListBuilderState,
+  createTierPlacements,
+  removeEntityNote,
+  tierListBuilderReducer,
+  type TierListBuilderMetaState,
+  type TierListBuilderState,
+  type TierPlacements,
+} from '@/features/tier-list/tier-list-builder-state';
 import {
   getTierListEntityType,
   isCharacterTierEntry,
@@ -56,35 +65,6 @@ import {
 const DEFAULT_TIER_LIST_NAME = 'My Tier List';
 const DEFAULT_TIER_LIST_AUTHOR = 'Anonymous';
 
-export type TierPlacements = Record<string, string[]>;
-
-export interface TierListBuilderMetaState {
-  name: string;
-  author: string;
-  categoryName: ContentType;
-  description: string;
-  entityType: TierListEntityType;
-}
-
-export interface TierListBuilderState {
-  tierDefs: TierDefinition[];
-  placements: TierPlacements;
-  notes: Record<string, string>;
-  meta: TierListBuilderMetaState;
-}
-
-export type TierListBuilderAction =
-  | { type: 'LOAD_TIER_LIST'; payload: TierListBuilderState }
-  | { type: 'UPDATE_META'; patch: Partial<TierListBuilderMetaState> }
-  | { type: 'SET_ENTITY_TYPE'; entityType: TierListEntityType }
-  | { type: 'SET_PLACEMENTS'; payload: TierPlacements }
-  | { type: 'SET_CHARACTER_NOTE'; characterKey: string; note?: string }
-  | { type: 'SET_TIER_NOTE'; tierName: string; note: string }
-  | { type: 'ADD_TIER'; name: string; note?: string }
-  | { type: 'DELETE_TIER'; tierName: string }
-  | { type: 'MOVE_TIER'; fromIndex: number; toIndex: number }
-  | { type: 'RESET' };
-
 export interface UseTierListStateOptions {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -95,34 +75,6 @@ export interface UseTierListStateOptions {
 interface DragResolution {
   placements: TierPlacements;
   notes: Record<string, string>;
-}
-
-function createPlacements(tierDefs: TierDefinition[]): TierPlacements {
-  const placements: TierPlacements = {};
-  for (const tierDef of tierDefs) {
-    placements[tierDef.name] = [];
-  }
-  return placements;
-}
-
-function createDefaultTierDefs(): TierDefinition[] {
-  return DEFAULT_TIER_DEFINITIONS.map((tierDef) => ({ ...tierDef }));
-}
-
-function createEmptyBuilderState(): TierListBuilderState {
-  const tierDefs = createDefaultTierDefs();
-  return {
-    tierDefs,
-    placements: createPlacements(tierDefs),
-    notes: {},
-    meta: {
-      name: '',
-      author: '',
-      categoryName: DEFAULT_CONTENT_TYPE,
-      description: '',
-      entityType: 'character',
-    },
-  };
 }
 
 function createFallbackTierList(): TierList {
@@ -145,16 +97,6 @@ function clonePlacements(source: TierPlacements): TierPlacements {
     nextPlacements[key] = [...values];
   }
   return nextPlacements;
-}
-
-function removeEntityNote(
-  notes: Record<string, string>,
-  entityKey: string,
-): Record<string, string> {
-  if (!(entityKey in notes)) return notes;
-  const nextNotes = { ...notes };
-  delete nextNotes[entityKey];
-  return nextNotes;
 }
 
 function toEntityKey(id: UniqueIdentifier | undefined): string | null {
@@ -183,7 +125,7 @@ function toBuilderState(
   }
 
   const tierDefs = [...baseTierDefs, ...extraTierDefs];
-  const placements = createPlacements(tierDefs);
+  const placements = createTierPlacements(tierDefs);
   const notes: Record<string, string> = {};
   const seenEntities = new Set<string>();
 
@@ -224,112 +166,6 @@ function toBuilderState(
       entityType,
     },
   };
-}
-
-function tierListBuilderReducer(
-  state: TierListBuilderState,
-  action: TierListBuilderAction,
-): TierListBuilderState {
-  switch (action.type) {
-    case 'LOAD_TIER_LIST':
-      return action.payload;
-    case 'UPDATE_META':
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          ...action.patch,
-        },
-      };
-    case 'SET_ENTITY_TYPE':
-      return {
-        ...createEmptyBuilderState(),
-        meta: {
-          ...state.meta,
-          entityType: action.entityType,
-        },
-      };
-    case 'SET_PLACEMENTS':
-      return { ...state, placements: action.payload };
-    case 'SET_CHARACTER_NOTE': {
-      const nextNotes = { ...state.notes };
-      if (action.note) {
-        nextNotes[action.characterKey] = action.note;
-      } else {
-        delete nextNotes[action.characterKey];
-      }
-      return { ...state, notes: nextNotes };
-    }
-    case 'SET_TIER_NOTE':
-      return {
-        ...state,
-        tierDefs: state.tierDefs.map((tierDef) =>
-          tierDef.name === action.tierName
-            ? { ...tierDef, note: action.note }
-            : tierDef,
-        ),
-      };
-    case 'ADD_TIER': {
-      if (!action.name.trim()) return state;
-      if (state.tierDefs.some((tierDef) => tierDef.name === action.name)) {
-        return state;
-      }
-      return {
-        ...state,
-        tierDefs: [...state.tierDefs, { name: action.name, note: action.note }],
-        placements: {
-          ...state.placements,
-          [action.name]: [],
-        },
-      };
-    }
-    case 'DELETE_TIER': {
-      const removedCharacters = state.placements[action.tierName] || [];
-      const nextPlacements = { ...state.placements };
-      delete nextPlacements[action.tierName];
-
-      let nextNotes = state.notes;
-      for (const characterKey of removedCharacters) {
-        nextNotes = removeEntityNote(nextNotes, characterKey);
-      }
-
-      return {
-        ...state,
-        tierDefs: state.tierDefs.filter(
-          (tierDef) => tierDef.name !== action.tierName,
-        ),
-        placements: nextPlacements,
-        notes: nextNotes,
-      };
-    }
-    case 'MOVE_TIER': {
-      if (
-        action.fromIndex < 0 ||
-        action.fromIndex >= state.tierDefs.length ||
-        action.toIndex < 0 ||
-        action.toIndex >= state.tierDefs.length
-      ) {
-        return state;
-      }
-
-      const nextTierDefs = [...state.tierDefs];
-      const [movedTier] = nextTierDefs.splice(action.fromIndex, 1);
-      nextTierDefs.splice(action.toIndex, 0, movedTier);
-      return { ...state, tierDefs: nextTierDefs };
-    }
-    case 'RESET': {
-      const emptyState = createEmptyBuilderState();
-      return {
-        ...emptyState,
-        meta: {
-          ...emptyState.meta,
-          entityType: state.meta.entityType,
-        },
-      };
-    }
-    default:
-      return state;
-  }
 }
 
 function applyTierListDrag(
@@ -426,7 +262,7 @@ export function useTierListState({
   const [state, dispatch] = useReducer(
     tierListBuilderReducer,
     undefined,
-    createEmptyBuilderState,
+    createEmptyTierListBuilderState,
   );
   const [activeId, setActiveId] = useState<string | null>(null);
 
