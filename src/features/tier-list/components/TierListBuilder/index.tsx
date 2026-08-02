@@ -1,5 +1,6 @@
 ﻿import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import JsonModal from '@/components/tools/JsonModal';
+import SavedBuilderOverwriteModal from '@/components/common/SavedBuilderOverwriteModal';
 import { getTierColor } from '@/constants/tier-colors';
 import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
@@ -33,18 +34,14 @@ import {
   useIsMobile,
 } from '@/hooks';
 import type { PoolLayout } from '@/hooks';
-import { toEntitySlug } from '@/utils/entity-slug';
+import { useSavedBuilderItem } from '@/hooks/use-saved-builder-item';
 import {
   downloadElementAsImage,
   DARK_BACKGROUND,
   LIGHT_BACKGROUND,
 } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
-import {
-  showErrorToast,
-  showSuccessToast,
-  showWarningToast,
-} from '@/utils/toast';
+import { showWarningToast } from '@/utils/toast';
 import {
   DndContext,
   DragOverlay,
@@ -102,9 +99,6 @@ export default function TierListBuilder({
   const [noblePhantasmFilters, setNoblePhantasmFilters] = useState(
     EMPTY_NOBLE_PHANTASM_FILTERS
   );
-  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
-    string | null
-  >(null);
   const [pendingEntityType, setPendingEntityType] =
     useState<TierListEntityType | null>(null);
   const exportRef = useRef<HTMLDivElement>(null);
@@ -145,6 +139,20 @@ export default function TierListBuilder({
     charMap,
     noblePhantasms,
     initialData,
+  });
+  const {
+    pendingOverwriteKey,
+    requestSave,
+    confirmOverwrite,
+    cancelOverwrite,
+  } = useSavedBuilderItem({
+    item: tierListData,
+    entityLabel: 'tier list',
+    collectionLabel: 'My Saved Tier Lists',
+    hasSavedItem: hasSavedTierList,
+    saveItem: saveTierList,
+    onSaved: () =>
+      window.dispatchEvent(new CustomEvent('tier-list:saved-changed')),
   });
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -221,33 +229,6 @@ export default function TierListBuilder({
     run();
   }, [isCapturing, isDark, tierListData.name]);
 
-  function executeSaveToMySaved(key: string) {
-    try {
-      const now = Math.floor(Date.now() / 1000);
-      const normalized: TierList = { ...tierListData, last_updated: now };
-      saveTierList(key, normalized);
-      window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
-      showSuccessToast({
-        title: 'Saved!',
-        message: `"${key}" saved to My Saved Tier Lists.`,
-      });
-    } catch {
-      showErrorToast({
-        title: 'Could not save tier list',
-        message: 'Browser storage could not be updated. Please try again.',
-      });
-    }
-  }
-
-  function handleSaveToMySaved() {
-    const key = toEntitySlug(tierListData.name?.trim() || 'Untitled');
-    if (hasSavedTierList(key)) {
-      setPendingSaveOverwrite(key);
-      return;
-    }
-    executeSaveToMySaved(key);
-  }
-
   function requestEntityTypeChange(entityType: TierListEntityType) {
     if (!hasAnyBuilderData) {
       handleEntityTypeChange(entityType);
@@ -283,7 +264,7 @@ export default function TierListBuilder({
             hasAnyBuilderData={hasAnyBuilderData}
             isCapturing={isCapturing}
             onPasteOpen={openPasteModal}
-            onSave={handleSaveToMySaved}
+            onSave={requestSave}
             onSort={handleSort}
             onExport={() => setIsCapturing(true)}
             onSubmit={handleSubmitSuggestion}
@@ -511,17 +492,11 @@ export default function TierListBuilder({
           }}
         />
 
-        <ConfirmActionModal
-          opened={pendingSaveOverwrite !== null}
-          onCancel={() => setPendingSaveOverwrite(null)}
-          title="Overwrite saved tier list?"
-          message={`A saved tier list named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
-          confirmLabel="Overwrite"
-          onConfirm={() => {
-            if (pendingSaveOverwrite)
-              executeSaveToMySaved(pendingSaveOverwrite);
-            setPendingSaveOverwrite(null);
-          }}
+        <SavedBuilderOverwriteModal
+          entityLabel="tier list"
+          pendingKey={pendingOverwriteKey}
+          onCancel={cancelOverwrite}
+          onConfirm={confirmOverwrite}
         />
       </DndContext>
 

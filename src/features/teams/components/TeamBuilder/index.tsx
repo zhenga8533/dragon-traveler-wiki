@@ -1,4 +1,5 @@
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import SavedBuilderOverwriteModal from '@/components/common/SavedBuilderOverwriteModal';
 import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
@@ -14,19 +15,15 @@ import { hasSavedTeam, saveTeam } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDarkMode, useIsMobile, useMobileTooltip } from '@/hooks';
+import { useSavedBuilderItem } from '@/hooks/use-saved-builder-item';
 import type { PoolLayout } from '@/hooks';
-import { toEntitySlug } from '@/utils/entity-slug';
 import {
   downloadElementAsImage,
   DARK_BACKGROUND,
   LIGHT_BACKGROUND,
 } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
-import {
-  showErrorToast,
-  showSuccessToast,
-  showWarningToast,
-} from '@/utils/toast';
+import { showWarningToast } from '@/utils/toast';
 import {
   DndContext,
   DragOverlay,
@@ -79,9 +76,6 @@ export default function TeamBuilder({
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
-    string | null
-  >(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
@@ -127,6 +121,18 @@ export default function TeamBuilder({
     charMap,
     initialData,
   });
+  const {
+    pendingOverwriteKey,
+    requestSave,
+    confirmOverwrite,
+    cancelOverwrite,
+  } = useSavedBuilderItem({
+    item: teamData,
+    entityLabel: 'team',
+    collectionLabel: 'My Saved Teams',
+    hasSavedItem: hasSavedTeam,
+    saveItem: saveTeam,
+  });
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -170,32 +176,6 @@ export default function TeamBuilder({
     [json]
   );
 
-  function executeSaveToMySaved(key: string) {
-    try {
-      const now = Math.floor(Date.now() / 1000);
-      const normalized: Team = { ...teamData, last_updated: now };
-      saveTeam(key, normalized);
-      showSuccessToast({
-        title: 'Saved!',
-        message: `"${key}" saved to My Saved Teams.`,
-      });
-    } catch {
-      showErrorToast({
-        title: 'Could not save team',
-        message: 'Browser storage could not be updated. Please try again.',
-      });
-    }
-  }
-
-  function handleSaveToMySaved() {
-    const key = toEntitySlug(teamData.name?.trim() || 'Untitled');
-    if (hasSavedTeam(key)) {
-      setPendingSaveOverwrite(key);
-      return;
-    }
-    executeSaveToMySaved(key);
-  }
-
   function handleSubmitSuggestion() {
     if (!teamIssueUrl) {
       window.open(teamEmptyIssueUrl, '_blank', 'noopener,noreferrer');
@@ -237,7 +217,7 @@ export default function TeamBuilder({
             isCapturing={isCapturing}
             hasAnyBuilderData={hasAnyBuilderData}
             onPasteOpen={openPasteModal}
-            onSave={handleSaveToMySaved}
+            onSave={requestSave}
             onExport={() => setIsCapturing(true)}
             onSubmit={handleSubmitSuggestion}
             onClear={openClearConfirm}
@@ -373,18 +353,11 @@ export default function TeamBuilder({
           }}
         />
 
-        <ConfirmActionModal
-          opened={pendingSaveOverwrite !== null}
-          onCancel={() => setPendingSaveOverwrite(null)}
-          title="Overwrite saved team?"
-          message={`A saved team named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
-          confirmLabel="Overwrite"
-          confirmColor="blue"
-          onConfirm={() => {
-            if (pendingSaveOverwrite)
-              executeSaveToMySaved(pendingSaveOverwrite);
-            setPendingSaveOverwrite(null);
-          }}
+        <SavedBuilderOverwriteModal
+          entityLabel="team"
+          pendingKey={pendingOverwriteKey}
+          onCancel={cancelOverwrite}
+          onConfirm={confirmOverwrite}
         />
       </DndContext>
 
