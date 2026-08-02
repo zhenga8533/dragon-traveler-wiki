@@ -3,7 +3,6 @@ import {
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -28,7 +27,8 @@ import ExportButton from '@/components/tools/ExportButton';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import { useFilteredPageData, useSearchParamFilter } from '@/hooks';
@@ -199,12 +199,9 @@ export default function Resources() {
                 {pageItems.map((resource) => {
                   const iconSrc = getResourceIcon(resource.slug, resource.category);
                   return (
-                    <Paper
+                    <StaticSurface
                       key={resource.name}
                       p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
                     >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
@@ -236,7 +233,7 @@ export default function Resources() {
                           <InlineMarkup text={resource.description} />
                         </Text>
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   );
                 })}
               </SimpleGrid>

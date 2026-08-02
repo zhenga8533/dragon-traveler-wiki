@@ -2,7 +2,6 @@ import {
   ActionIcon,
   CopyButton,
   Group,
-  Paper,
   Skeleton,
   Stack,
   Text,
@@ -10,8 +9,8 @@ import {
 } from '@mantine/core';
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
+import { StaticSurface } from '@/components/ui/Surface';
 import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
-import { getCardHoverProps } from '@/constants/styles';
 import { useCodes } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
@@ -27,7 +26,7 @@ export default function ActiveCodesSection() {
       <LoadingRegion label="Loading active codes">
         <Stack gap="xs">
           {[1, 2, 3, 4, 5].map((i) => (
-            <Paper key={i} p="xs" radius="md" withBorder>
+            <StaticSurface key={i} p="xs">
               <Group justify="space-between" wrap="nowrap">
                 <Skeleton height={14} width={96} radius="sm" />
                 <Skeleton height={26} width={26} radius="md" />
@@ -36,7 +35,7 @@ export default function ActiveCodesSection() {
                 <Skeleton height={18} width={54} radius="xl" />
                 <Skeleton height={18} width={62} radius="xl" />
               </Group>
-            </Paper>
+            </StaticSurface>
           ))}
         </Stack>
       </LoadingRegion>
@@ -54,12 +53,9 @@ export default function ActiveCodesSection() {
   return (
     <Stack gap="xs">
       {activeCodes.map((entry) => (
-        <Paper
+        <StaticSurface
           key={entry.code}
           p="xs"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
         >
           <Group justify="space-between" wrap="nowrap">
             <Text ff="monospace" fw={500} size="sm" truncate>
@@ -97,7 +93,7 @@ export default function ActiveCodesSection() {
               ))}
             </Group>
           )}
-        </Paper>
+        </StaticSurface>
       ))}
     </Stack>
   );

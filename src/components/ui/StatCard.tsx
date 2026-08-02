@@ -1,8 +1,8 @@
-import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
+import { Group, Stack, Text, ThemeIcon } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { memo } from 'react';
-import { getCardHoverProps } from '@/constants/styles';
 import ResourceBadge from '@/components/ui/ResourceBadge';
+import { StaticSurface } from '@/components/ui/Surface';
 
 interface StatCardProps {
   icon?: ReactNode;
@@ -34,7 +34,7 @@ function StatCard({
     typeof value === 'number' ? value.toLocaleString() : value;
 
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="xs" align="center" justify="center" h="100%">
         {showIcon && icon ? (
           <ThemeIcon variant="light" color={color} size="lg" radius="md">
@@ -64,7 +64,7 @@ function StatCard({
           </Text>
         )}
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 

@@ -1,8 +1,8 @@
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { BREAKPOINTS } from '@/constants/ui';
-import { Badge, Box, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
+import { Badge, Box, Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { IoExpand } from 'react-icons/io5';
@@ -32,11 +32,10 @@ export default function IllustrationPreviewCard({
   if (failed) return null;
 
   return (
-    <Paper
+    <StaticSurface
       p="md"
       radius="lg"
-      withBorder
-      {...getCardHoverProps({ style: { overflow: 'hidden' } })}
+      style={{ overflow: 'hidden' }}
     >
       <Stack gap="xs">
         <Text fw={600} size="sm">
@@ -98,6 +97,6 @@ export default function IllustrationPreviewCard({
           </Group>
         </UnstyledButton>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

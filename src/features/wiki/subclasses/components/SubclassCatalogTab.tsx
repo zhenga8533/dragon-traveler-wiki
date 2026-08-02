@@ -1,7 +1,6 @@
 import {
   Badge,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -18,7 +17,8 @@ import ClassTag from '@/components/ui/ClassTag';
 import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import TierBadge from '@/components/ui/TierBadge';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { CharacterClass } from '@/features/characters/types';
@@ -124,12 +124,9 @@ export default function SubclassCatalogTab({
             {pageItems.map((item) => {
               const icon = getSubclassIcon(item.slug, item.class);
               return (
-                <Paper
+                <StaticSurface
                   key={item.slug}
                   p="sm"
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps()}
                 >
                   <Stack gap="xs">
                     <Group gap="sm" wrap="nowrap">
@@ -172,7 +169,7 @@ export default function SubclassCatalogTab({
                     )}
                     <RichText text={item.effect} statusEffects={statusEffects} />
                   </Stack>
-                </Paper>
+                </StaticSurface>
               );
             })}
           </SimpleGrid>

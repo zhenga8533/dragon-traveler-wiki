@@ -2,7 +2,6 @@
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -22,7 +21,8 @@ import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/status-effect-colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
@@ -191,12 +191,9 @@ export default function StatusEffects() {
                 {pageItems.map((effect) => {
                   const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
                   return (
-                    <Paper
+                    <StaticSurface
                       key={effect.name}
                       p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
                     >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
@@ -229,7 +226,7 @@ export default function StatusEffects() {
                           </Text>
                         )}
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   );
                 })}
               </SimpleGrid>

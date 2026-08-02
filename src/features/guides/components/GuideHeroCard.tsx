@@ -1,7 +1,8 @@
 import { GLASS } from '@/constants/glass';
-import { BRAND_TITLE_STYLE, getCardHoverProps } from '@/constants/styles';
+import { BRAND_TITLE_STYLE } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { useDarkMode, useGradientAccent } from '@/hooks';
-import { Card, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
+import { Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { type ReactNode } from 'react';
 
 interface GuideHeroCardProps {
@@ -24,18 +25,15 @@ export default function GuideHeroCard({
   const { accent } = useGradientAccent();
 
   return (
-    <Card
-      withBorder
+    <StaticSurface
       radius="md"
       p="xl"
-      {...getCardHoverProps({
-        style: {
-          backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-          backgroundColor: isDark
-            ? 'color-mix(in srgb, var(--dt-home-hero-card-dark) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)'
-            : 'color-mix(in srgb, var(--dt-home-hero-card-light) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)',
-        },
-      })}
+      style={{
+        backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
+        backgroundColor: isDark
+          ? 'color-mix(in srgb, var(--dt-home-hero-card-dark) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)'
+          : 'color-mix(in srgb, var(--dt-home-hero-card-light) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)',
+      }}
     >
       <Stack gap="md">
         <Group gap="sm" wrap="nowrap">
@@ -58,6 +56,6 @@ export default function GuideHeroCard({
         </Group>
         {children}
       </Stack>
-    </Card>
+    </StaticSurface>
   );
 }

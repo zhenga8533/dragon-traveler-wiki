@@ -5,6 +5,7 @@ export interface StaticSurfaceProps extends PaperProps {
   component?: ElementType;
   children?: ReactNode;
   href?: string;
+  id?: string;
   to?: string;
 }
 
@@ -13,6 +14,10 @@ export interface InteractiveSurfaceProps extends StaticSurfaceProps {
 }
 
 const SurfacePaper = Paper as unknown as ComponentType<StaticSurfaceProps>;
+
+export const STATIC_SURFACE_CLASS_NAME = 'card-surface-static';
+export const INTERACTIVE_SURFACE_CLASS_NAME =
+  'card-hover card-hover-interactive';
 
 /**
  * Standard non-interactive application surface.
@@ -28,7 +33,9 @@ export function StaticSurface({
   return (
     <SurfacePaper
       component={component ?? 'div'}
-      className={['card-surface-static', className].filter(Boolean).join(' ')}
+      className={[STATIC_SURFACE_CLASS_NAME, className]
+        .filter(Boolean)
+        .join(' ')}
       radius="md"
       withBorder
       {...props}
@@ -50,7 +57,7 @@ export function InteractiveSurface({
   return (
     <SurfacePaper
       component={component ?? 'a'}
-      className={['card-hover', 'card-hover-interactive', className]
+      className={[INTERACTIVE_SURFACE_CLASS_NAME, className]
         .filter(Boolean)
         .join(' ')}
       radius="md"

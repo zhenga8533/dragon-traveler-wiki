@@ -1,5 +1,5 @@
-import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
-import { getCardHoverProps } from '@/constants/styles';
+import { Badge, Group, Skeleton, Stack, Text } from '@mantine/core';
+import { StaticSurface } from '@/components/ui/Surface';
 import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
@@ -28,7 +28,7 @@ export default function RecentUpdatesSection() {
       <LoadingRegion label="Loading recent updates">
         <Stack gap="xs">
           {[1, 2, 3].map((i) => (
-            <Paper key={i} p="xs" radius="md" withBorder>
+            <StaticSurface key={i} p="xs">
               <Group justify="space-between" mb={6} wrap="nowrap">
                 <Skeleton height={12} width={72} radius="sm" />
                 <Skeleton height={18} width={64} radius="xl" />
@@ -37,7 +37,7 @@ export default function RecentUpdatesSection() {
                 <Skeleton height={12} width="88%" radius="sm" />
                 <Skeleton height={12} width="68%" radius="sm" />
               </Stack>
-            </Paper>
+            </StaticSurface>
           ))}
         </Stack>
       </LoadingRegion>
@@ -59,12 +59,9 @@ export default function RecentUpdatesSection() {
   return (
     <Stack gap="xs">
       {recentEntries.map((entry) => (
-        <Paper
+        <StaticSurface
           key={entry.version ?? entry.date}
           p="xs"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
         >
           <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
             <Text size="xs" fw={600}>
@@ -103,7 +100,7 @@ export default function RecentUpdatesSection() {
               </Text>
             )}
           </Stack>
-        </Paper>
+        </StaticSurface>
       ))}
     </Stack>
   );

@@ -31,8 +31,11 @@ type CharacterPortraitHoverOptions = {
 };
 
 /**
- * Returns the shared surface class and, for genuinely interactive surfaces,
- * opts into pointer and elevation affordances.
+ * Legacy adapter for Mantine Card and composition-heavy surfaces.
+ *
+ * @deprecated Prefer `StaticSurface` or `InteractiveSurface`. When a Mantine
+ * `Card` must be retained (for example, because it uses `Card.Section`), use
+ * this only until that composition has a dedicated surface component.
  */
 export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
   const { interactive = false, style } = options;

@@ -4,7 +4,6 @@ import {
   Checkbox,
   CopyButton,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -16,7 +15,7 @@ import {
   IoCopyOutline,
 } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { ViewMode } from '@/hooks';
 import type { Code } from '@/types/code';
@@ -112,12 +111,9 @@ export default function CodeCollection({
         {codes.map((entry) => {
           const active = isCodeActive(entry);
           return (
-            <Paper
+            <StaticSurface
               key={entry.code}
               p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
               opacity={active ? 1 : 0.5}
             >
               <Stack gap="sm">
@@ -152,7 +148,7 @@ export default function CodeCollection({
                   styles={{ label: { paddingLeft: 8 } }}
                 />
               </Stack>
-            </Paper>
+            </StaticSurface>
           );
         })}
       </SimpleGrid>
@@ -164,12 +160,9 @@ export default function CodeCollection({
       {codes.map((entry) => {
         const active = isCodeActive(entry);
         return (
-          <Paper
+          <StaticSurface
             key={entry.code}
             p="sm"
-            radius="md"
-            withBorder
-            {...getCardHoverProps()}
             opacity={active ? 1 : 0.5}
           >
             <Group justify="space-between" wrap="wrap" align="center">
@@ -202,7 +195,7 @@ export default function CodeCollection({
             <Group mt="xs">
               <CodeRewards entry={entry} />
             </Group>
-          </Paper>
+          </StaticSurface>
         );
       })}
     </Stack>

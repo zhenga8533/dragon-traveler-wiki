@@ -3,7 +3,6 @@ import {
   Collapse,
   Divider,
   Group,
-  Paper,
   Stack,
   Text,
   ThemeIcon,
@@ -17,7 +16,7 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import type { CodeTab, CodeView } from '@/features/wiki/codes/code-catalog';
 
 interface RewardGroupProps {
@@ -83,7 +82,7 @@ export default function CodeRewardSummary({
   accentColor: string;
 }) {
   return (
-    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="sm">
       <UnstyledButton
         onClick={onToggle}
         aria-expanded={opened}
@@ -155,6 +154,6 @@ export default function CodeRewardSummary({
           ) : null}
         </Group>
       </Collapse>
-    </Paper>
+    </StaticSurface>
   );
 }
