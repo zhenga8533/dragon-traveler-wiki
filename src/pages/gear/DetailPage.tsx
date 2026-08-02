@@ -7,7 +7,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
+import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
@@ -28,6 +28,7 @@ import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
+import { compareQualityThenName } from '@/utils/quality';
 import {
   Badge,
   Box,
@@ -110,12 +111,9 @@ export default function GearSetPage() {
             )
           )
       )
-      .sort((a, b) => {
-        const qualityDiff =
-          QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-        if (qualityDiff !== 0) return qualityDiff;
-        return a.name.localeCompare(b.name);
-      });
+      .sort((a, b) =>
+        compareQualityThenName(a.quality, b.quality, a.name, b.name)
+      );
   }, [characters, setItemSlugs]);
 
   const recommendedStats = useMemo(() => {

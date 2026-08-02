@@ -4,7 +4,6 @@ import {
   normalizeContentType,
   type ContentType,
 } from '@/constants/content-types';
-import { QUALITY_ORDER } from '@/constants/quality';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
@@ -37,6 +36,7 @@ import {
 import { removeItemFromRecordArrays } from '@/utils/dnd-list';
 import { useCharacterResolution, useDraftHydration } from '@/hooks';
 import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 import { showWarningToast } from '@/utils/toast';
 import type {
   DragEndEvent,
@@ -805,9 +805,7 @@ export function useTierListState({
           rightEntity.character?.quality ??
           rightEntity.noblePhantasm?.quality ??
           '';
-        const qualityComparison =
-          QUALITY_ORDER.indexOf(leftQuality as Quality) -
-          QUALITY_ORDER.indexOf(rightQuality as Quality);
+        const qualityComparison = compareQuality(leftQuality, rightQuality);
         if (qualityComparison !== 0) return qualityComparison;
         const leftName =
           leftEntity.character?.name ?? leftEntity.noblePhantasm?.name ?? left;

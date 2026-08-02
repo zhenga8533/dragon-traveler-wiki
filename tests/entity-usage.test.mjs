@@ -14,6 +14,10 @@ const characters = [
 ];
 
 test('usage quality filters share the canonical quality thresholds', () => {
+  const charactersWithUnknown = [
+    ...characters,
+    { name: 'Unknown', quality: '???', references: [] },
+  ];
   assert.deepEqual(
     filterUsageCharacters(characters, 'ssr-plus').map(({ name }) => name),
     ['Alpha', 'Beta']
@@ -22,7 +26,8 @@ test('usage quality filters share the canonical quality thresholds', () => {
     filterUsageCharacters(characters, 'ssr').map(({ name }) => name),
     ['Alpha', 'Beta', 'Gamma']
   );
-  assert.equal(filterUsageCharacters(characters, 'all').length, 4);
+  assert.equal(filterUsageCharacters(charactersWithUnknown, 'ssr').length, 3);
+  assert.equal(filterUsageCharacters(charactersWithUnknown, 'all').length, 5);
 });
 
 test('usage aggregation resolves aliases, trims references, and deduplicates', () => {

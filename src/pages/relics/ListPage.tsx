@@ -6,7 +6,7 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
-import { QUALITY_ORDER } from '@/constants/quality';
+import { compareQuality } from '@/utils/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import RelicsTab, {
@@ -141,8 +141,7 @@ export default function RelicPage() {
       const typeCmp =
         getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
         getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
-      const qualityCmp =
-        QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+      const qualityCmp = compareQuality(a.quality, b.quality);
       const oracleCmp = (a.oracle_scroll?.name ?? '').localeCompare(
         b.oracle_scroll?.name ?? ''
       );

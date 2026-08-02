@@ -32,6 +32,7 @@ import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { compareQuality } from '@/utils/quality';
 
 import {
   Badge,
@@ -201,7 +202,7 @@ export default function WyrmsListPage() {
         if (col === 'name') cmp = a.name.localeCompare(b.name);
         else if (col === 'phase') cmp = phaseIndex(a.phase) - phaseIndex(b.phase);
         else if (col === 'quality')
-          cmp = QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+          cmp = compareQuality(a.quality, b.quality);
         else if (col === 'faction') cmp = a.faction.localeCompare(b.faction);
         if (cmp !== 0) return applyDir(cmp, dir);
       }

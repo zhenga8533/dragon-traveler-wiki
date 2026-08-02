@@ -1,5 +1,9 @@
-import { QUALITY_ORDER } from '../../../constants/quality.ts';
 import type { Quality } from '@/types/quality';
+import {
+  compareQualityThenName,
+  getQualityRank,
+  UNKNOWN_QUALITY_RANK,
+} from '../../../utils/quality.ts';
 
 export type UsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
 
@@ -15,9 +19,9 @@ export const USAGE_QUALITY_OPTIONS: {
 export const DEFAULT_USAGE_QUALITY_FILTER: UsageQualityFilter = 'ssr-plus';
 
 const USAGE_QUALITY_THRESHOLD: Record<UsageQualityFilter, number> = {
-  'ssr-plus': QUALITY_ORDER.indexOf('SSR+'),
-  ssr: QUALITY_ORDER.indexOf('SSR'),
-  all: QUALITY_ORDER.length - 1,
+  'ssr-plus': getQualityRank('SSR+'),
+  ssr: getQualityRank('SSR'),
+  all: UNKNOWN_QUALITY_RANK,
 };
 
 interface UsageItem {
@@ -46,7 +50,7 @@ export function filterUsageCharacters<TCharacter extends UsageCharacter>(
 ): TCharacter[] {
   const threshold = USAGE_QUALITY_THRESHOLD[qualityFilter];
   return characters.filter(
-    (character) => QUALITY_ORDER.indexOf(character.quality) <= threshold
+    (character) => getQualityRank(character.quality) <= threshold
   );
 }
 
@@ -100,10 +104,8 @@ export function buildEntityUsage<
             groups.has(getCharacterGroupKey!(character))
           )
         : charactersByItem.get(item.slug) ?? [];
-      const usingCharacters = [...matchedCharacters].sort(
-        (a, b) =>
-          QUALITY_ORDER.indexOf(a.quality) -
-            QUALITY_ORDER.indexOf(b.quality) || a.name.localeCompare(b.name)
+      const usingCharacters = [...matchedCharacters].sort((a, b) =>
+        compareQualityThenName(a.quality, b.quality, a.name, b.name)
       );
       const count = usingCharacters.length;
       return {

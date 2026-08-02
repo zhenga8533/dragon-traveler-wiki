@@ -6,9 +6,8 @@ import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
-import { QUALITY_ORDER } from '@/constants/quality';
 import type { GradientPaletteAccents } from '@/contexts';
-import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 
 interface GoldenAlliancesTabProps {
   loading: boolean;
@@ -98,13 +97,12 @@ export default function GoldenAlliancesTab({
                   <Group gap="xs" wrap="wrap">
                     {[...alliance.howlkins]
                       .sort((a, b) => {
-                        const qA = QUALITY_ORDER.indexOf(
-                          howlkinMap.get(a)?.quality ?? ('' as Quality)
+                        const qualityComparison = compareQuality(
+                          howlkinMap.get(a)?.quality,
+                          howlkinMap.get(b)?.quality
                         );
-                        const qB = QUALITY_ORDER.indexOf(
-                          howlkinMap.get(b)?.quality ?? ('' as Quality)
-                        );
-                        if (qA !== qB) return qA - qB;
+                        if (qualityComparison !== 0)
+                          return qualityComparison;
                         return a.localeCompare(b);
                       })
                       .map((howlkinSlug) => {

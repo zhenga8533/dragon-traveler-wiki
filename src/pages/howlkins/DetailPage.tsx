@@ -4,7 +4,6 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import { QUALITY_ORDER } from '@/constants/quality';
 import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { useGoldenAllianceChanges, useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
@@ -13,7 +12,7 @@ import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
-import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 import {
   Badge,
   Box,
@@ -57,13 +56,11 @@ export default function GoldenAllianceDetailPage() {
   const sortedMembers = useMemo(() => {
     if (!alliance) return [];
     return [...alliance.howlkins].sort((a, b) => {
-      const qA = QUALITY_ORDER.indexOf(
-        howlkinMap.get(a)?.quality ?? ('' as Quality)
+      const qualityComparison = compareQuality(
+        howlkinMap.get(a)?.quality,
+        howlkinMap.get(b)?.quality
       );
-      const qB = QUALITY_ORDER.indexOf(
-        howlkinMap.get(b)?.quality ?? ('' as Quality)
-      );
-      if (qA !== qB) return qA - qB;
+      if (qualityComparison !== 0) return qualityComparison;
       return a.localeCompare(b);
     });
   }, [alliance, howlkinMap]);

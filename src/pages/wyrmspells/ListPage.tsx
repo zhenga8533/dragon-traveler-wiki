@@ -32,6 +32,7 @@ import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { compareQuality } from '@/utils/quality';
 import {
   Container,
   Group,
@@ -171,11 +172,10 @@ export default function Wyrmspells() {
         } else if (col === 'type') {
           cmp = a.type.localeCompare(b.type);
         } else if (col === 'quality') {
-          const mA = getMaxQuality(a)?.quality;
-          const mB = getMaxQuality(b)?.quality;
-          const qA = mA !== undefined ? QUALITY_ORDER.indexOf(mA) : -1;
-          const qB = mB !== undefined ? QUALITY_ORDER.indexOf(mB) : -1;
-          cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+          cmp = compareQuality(
+            getMaxQuality(a)?.quality,
+            getMaxQuality(b)?.quality
+          );
         } else if (col === 'faction') {
           const fA = a.exclusive_faction ?? '';
           const fB = b.exclusive_faction ?? '';
@@ -188,11 +188,11 @@ export default function Wyrmspells() {
       // Default: type > quality > name
       const typeCmp = a.type.localeCompare(b.type);
       if (typeCmp !== 0) return typeCmp;
-      const dA = getMaxQuality(a)?.quality;
-      const dB = getMaxQuality(b)?.quality;
-      const qA = dA !== undefined ? QUALITY_ORDER.indexOf(dA) : -1;
-      const qB = dB !== undefined ? QUALITY_ORDER.indexOf(dB) : -1;
-      if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+      const qualityComparison = compareQuality(
+        getMaxQuality(a)?.quality,
+        getMaxQuality(b)?.quality
+      );
+      if (qualityComparison !== 0) return qualityComparison;
       return a.name.localeCompare(b.name);
     },
   });

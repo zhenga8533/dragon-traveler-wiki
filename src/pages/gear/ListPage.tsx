@@ -13,6 +13,7 @@ import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import type { Character } from '@/features/characters/types';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
+import { compareQuality } from '@/utils/quality';
 import { STORAGE_KEY, PAGE_SIZE } from '@/constants/ui';
 import GearTab, {
   type GearFilters,
@@ -210,8 +211,7 @@ export default function GearPage() {
     sortFn: (a, b, col, dir) => {
       const typeCmp =
         GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
-      const qualityCmp =
-        QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+      const qualityCmp = compareQuality(a.quality, b.quality);
       const nameCmp = a.name.localeCompare(b.name);
 
       if (col) {

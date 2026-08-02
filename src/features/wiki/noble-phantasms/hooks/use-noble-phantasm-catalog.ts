@@ -1,4 +1,3 @@
-import { QUALITY_ORDER } from '@/constants/quality';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
@@ -7,6 +6,7 @@ import {
   matchesNoblePhantasmFilters,
 } from '@/features/wiki/noble-phantasms/utils/filter-noble-phantasms';
 import { useFilteredPageData } from '@/hooks';
+import { compareQualityThenName } from '@/utils/quality';
 
 export function useNoblePhantasmCatalog(
   noblePhantasms: NoblePhantasm[],
@@ -34,10 +34,12 @@ export function useNoblePhantasmCatalog(
           if (aName && !bName) return -1;
           comparison = aName.localeCompare(bName);
         } else if (column === 'rarity') {
-          comparison =
-            QUALITY_ORDER.indexOf(a.quality) -
-              QUALITY_ORDER.indexOf(b.quality) ||
-            a.name.localeCompare(b.name);
+          comparison = compareQualityThenName(
+            a.quality,
+            b.quality,
+            a.name,
+            b.name
+          );
         } else if (column === 'effects') {
           comparison = b.effects.length - a.effects.length;
         } else if (column === 'skills') {

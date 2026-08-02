@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { QUALITY_ORDER } from '@/constants/quality';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
@@ -11,6 +10,7 @@ import {
 import { useEntityUsage } from '@/features/wiki/usage/use-entity-usage';
 import { useFilterPanel } from '@/hooks';
 import { readStoredJson, writeStoredJson } from '@/utils';
+import { compareQualityThenName } from '@/utils/quality';
 
 function getUsageReferences(character: Character): string[] {
   return character.recommended_noble_phantasm ?? [];
@@ -101,10 +101,11 @@ export function useNoblePhantasmUsage(
     ) =>
       compareEntityUsage(a, b, column, direction, (left, right, customColumn) => {
         if (customColumn === 'rarity') {
-          return (
-            QUALITY_ORDER.indexOf(left.item.quality) -
-              QUALITY_ORDER.indexOf(right.item.quality) ||
-            left.item.name.localeCompare(right.item.name)
+          return compareQualityThenName(
+            left.item.quality,
+            right.item.quality,
+            left.item.name,
+            right.item.name
           );
         }
         if (customColumn === 'character') {

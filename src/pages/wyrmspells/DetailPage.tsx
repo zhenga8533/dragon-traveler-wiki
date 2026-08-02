@@ -9,7 +9,6 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
-import { QUALITY_ORDER } from '@/constants/quality';
 import { getStableTagColor } from '@/constants/tag-colors';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
@@ -22,6 +21,7 @@ import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
+import { compareQuality } from '@/utils/quality';
 import {
   Box,
   Container,
@@ -58,12 +58,11 @@ export default function WyrmspellPage() {
       [...wyrmspells].sort((a, b) => {
         const typeCmp = a.type.localeCompare(b.type);
         if (typeCmp !== 0) return typeCmp;
-        const mA = getMaxQuality(a)?.quality;
-        const mB = getMaxQuality(b)?.quality;
-        const qA = mA !== undefined ? QUALITY_ORDER.indexOf(mA) : -1;
-        const qB = mB !== undefined ? QUALITY_ORDER.indexOf(mB) : -1;
-        if (qA !== qB)
-          return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+        const qualityComparison = compareQuality(
+          getMaxQuality(a)?.quality,
+          getMaxQuality(b)?.quality
+        );
+        if (qualityComparison !== 0) return qualityComparison;
         return a.name.localeCompare(b.name);
       }),
     [wyrmspells]

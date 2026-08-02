@@ -1,4 +1,3 @@
-﻿import { QUALITY_ORDER } from '@/constants/quality';
 import type {
   Character,
   CharacterAttackRange,
@@ -9,6 +8,7 @@ import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { getCharacterIdentityKey } from './character-route';
 import { parseEffectRefs } from '@/utils/parse-effect-refs';
+import { compareQualityThenName } from '@/utils/quality';
 
 export interface CharacterFilters {
   search: string;
@@ -169,10 +169,7 @@ export function compareCharactersByQualityThenName(
   a: Character,
   b: Character
 ): number {
-  const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-  const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-  if (qualityIndexA !== qualityIndexB) return qualityIndexA - qualityIndexB;
-  return a.name.localeCompare(b.name);
+  return compareQualityThenName(a.quality, b.quality, a.name, b.name);
 }
 
 /** Sort characters by quality, then alphabetically by name. */

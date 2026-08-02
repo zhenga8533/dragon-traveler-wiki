@@ -18,7 +18,7 @@ import {
   ARTIFACT_EFFECT_ARRAY_FIELDS,
   ARTIFACT_FIELDS,
 } from '@/features/wiki/artifacts/form-fields';
-import { QUALITY_ORDER } from '@/constants/quality';
+import { compareQuality, compareQualityThenName } from '@/utils/quality';
 import {
   getMinWidthStyle,
 } from '@/constants/styles';
@@ -120,8 +120,7 @@ export default function Artifacts() {
         if (col === 'name') {
           cmp = a.name.localeCompare(b.name);
         } else if (col === 'quality') {
-          cmp =
-            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+          cmp = compareQuality(a.quality, b.quality);
         } else if (col === 'size') {
           cmp = a.rows * a.columns - b.rows * b.columns;
         } else if (col === 'treasures') {
@@ -130,10 +129,12 @@ export default function Artifacts() {
         if (cmp !== 0) return applyDir(cmp, dir);
       }
       // Default: quality > name
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
-      if (qA !== qB) return qA - qB;
-      return a.name.localeCompare(b.name);
+      return compareQualityThenName(
+        a.quality,
+        b.quality,
+        a.name,
+        b.name
+      );
     },
   });
 

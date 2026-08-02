@@ -1,5 +1,5 @@
-import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
+import { getQualityRank } from '@/utils/quality';
 import type { GuessComparison } from '../types';
 
 function parseMeasurement(value: string | undefined): number | null {
@@ -27,8 +27,8 @@ export function compareGuessToAnswer(
   guess: Character,
   answer: Character
 ): GuessComparison {
-  const guessQualityIndex = QUALITY_ORDER.indexOf(guess.quality);
-  const answerQualityIndex = QUALITY_ORDER.indexOf(answer.quality);
+  const guessQualityIndex = getQualityRank(guess.quality);
+  const answerQualityIndex = getQualityRank(answer.quality);
 
   const guessFactions = new Set(guess.factions);
   const answerFactions = new Set(answer.factions);

@@ -1,11 +1,6 @@
-import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
-import type { Quality } from '@/types/quality';
 import { safeDecodeURIComponent, toEntitySlug } from '@/utils/entity-slug';
-
-const QUALITY_RANK = new Map<Quality, number>(
-  QUALITY_ORDER.map((quality, index) => [quality, index])
-);
+import { getQualityRank } from '@/utils/quality';
 
 function normalizeCharacterNameKey(value: string): string {
   return value.trim().toLowerCase();
@@ -15,10 +10,8 @@ function shouldPreferCandidate(
   existing: Character,
   candidate: Character
 ): boolean {
-  const existingRank =
-    QUALITY_RANK.get(existing.quality) ?? Number.MAX_SAFE_INTEGER;
-  const candidateRank =
-    QUALITY_RANK.get(candidate.quality) ?? Number.MAX_SAFE_INTEGER;
+  const existingRank = getQualityRank(existing.quality);
+  const candidateRank = getQualityRank(candidate.quality);
 
   if (candidateRank < existingRank) {
     return true;

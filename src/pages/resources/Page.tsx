@@ -36,6 +36,7 @@ import type { ResourceCategory } from '@/types/resource';
 import type { Quality } from '@/types/quality';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import { getLatestTimestamp } from '@/utils';
+import { compareQuality } from '@/utils/quality';
 
 const RESOURCE_FIELDS: FieldDef[] = [
   {
@@ -146,9 +147,7 @@ export default function Resources() {
         if (col === 'name') {
           cmp = a.name.localeCompare(b.name);
         } else if (col === 'quality') {
-          const qA = QUALITY_ORDER.indexOf(a.quality);
-          const qB = QUALITY_ORDER.indexOf(b.quality);
-          cmp = qA - qB;
+          cmp = compareQuality(a.quality, b.quality);
         } else if (col === 'category') {
           cmp =
             RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
@@ -160,9 +159,8 @@ export default function Resources() {
       const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
       const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
       if (catA !== catB) return catA - catB;
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
-      if (qA !== qB) return qA - qB;
+      const qualityComparison = compareQuality(a.quality, b.quality);
+      if (qualityComparison !== 0) return qualityComparison;
       return a.name.localeCompare(b.name);
     },
   });

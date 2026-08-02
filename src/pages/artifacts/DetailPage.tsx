@@ -9,7 +9,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
+import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';
@@ -21,6 +21,7 @@ import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
+import { compareQualityThenName } from '@/utils/quality';
 import {
   Badge,
   Box,
@@ -59,12 +60,9 @@ export default function ArtifactPage() {
   // Match list page: sort by quality, then name
   const orderedArtifacts = useMemo(
     () =>
-      [...artifacts].sort((a, b) => {
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return qA - qB;
-        return a.name.localeCompare(b.name);
-      }),
+      [...artifacts].sort((a, b) =>
+        compareQualityThenName(a.quality, b.quality, a.name, b.name)
+      ),
     [artifacts]
   );
 
