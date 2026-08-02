@@ -6,7 +6,10 @@ import {
 } from '../src/features/builders/saved-builder-item.ts';
 
 test('saved builder items share key and timestamp normalization', () => {
-  assert.equal(getSavedBuilderItemKey('  My Example Build  '), 'my_example_build');
+  assert.equal(
+    getSavedBuilderItemKey('  My Example Build  '),
+    'my_example_build',
+  );
   assert.equal(getSavedBuilderItemKey('   '), 'untitled');
 
   const item = { name: 'Example', last_updated: 10, entries: ['one'] };

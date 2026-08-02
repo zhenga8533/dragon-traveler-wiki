@@ -110,29 +110,29 @@ export default function CharacterIllustrationPanel({
             {modelAction}
             {activeIllustrationIndex >= 0 &&
               (hasMultipleIllustrations ? (
-              <Group gap={2} align="center">
-                <ActionIcon
-                  onClick={onPrevious}
-                  variant="subtle"
-                  color={accent.primary}
-                  size="sm"
-                  aria-label="Previous illustration"
-                >
-                  <IoChevronBack />
-                </ActionIcon>
-                <Text size="xs" c="dimmed">
-                  {activeIllustrationIndex + 1}/{illustrationsLength}
-                </Text>
-                <ActionIcon
-                  onClick={onNext}
-                  variant="subtle"
-                  color={accent.primary}
-                  size="sm"
-                  aria-label="Next illustration"
-                >
-                  <IoChevronForward />
-                </ActionIcon>
-              </Group>
+                <Group gap={2} align="center">
+                  <ActionIcon
+                    onClick={onPrevious}
+                    variant="subtle"
+                    color={accent.primary}
+                    size="sm"
+                    aria-label="Previous illustration"
+                  >
+                    <IoChevronBack />
+                  </ActionIcon>
+                  <Text size="xs" c="dimmed">
+                    {activeIllustrationIndex + 1}/{illustrationsLength}
+                  </Text>
+                  <ActionIcon
+                    onClick={onNext}
+                    variant="subtle"
+                    color={accent.primary}
+                    size="sm"
+                    aria-label="Next illustration"
+                  >
+                    <IoChevronForward />
+                  </ActionIcon>
+                </Group>
               ) : (
                 <Text size="xs" c="dimmed">
                   {activeIllustrationIndex + 1}/{illustrationsLength}
@@ -197,7 +197,9 @@ export default function CharacterIllustrationPanel({
                   {activeIllustrationName ?? characterName}
                 </Text>
                 <Text size="xs" c="gray.2">
-                  {activeIllustration.type === 'video' ? 'Animation' : 'Artwork'}
+                  {activeIllustration.type === 'video'
+                    ? 'Animation'
+                    : 'Artwork'}
                 </Text>
               </Stack>
               <Badge

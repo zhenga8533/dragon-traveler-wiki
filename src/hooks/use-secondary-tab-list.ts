@@ -1,5 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getPageSizeStorageKey, usePageSize, usePagination } from './use-pagination';
+import {
+  getPageSizeStorageKey,
+  usePageSize,
+  usePagination,
+} from './use-pagination';
 import { useSortState } from './use-sort';
 
 const DEFAULT_PAGE_SIZE = 50;
@@ -22,7 +26,7 @@ export function useSecondaryTabList<T>(
     pageSizeOptions?: readonly number[];
     pageSize?: number;
     extraPaginationKey?: unknown;
-  }
+  },
 ) {
   const {
     searchFn,
@@ -47,8 +51,12 @@ export function useSecondaryTabList<T>(
 
   const filtered = useMemo(() => {
     const query = search.trim().toLowerCase();
-    const searched = query ? data.filter((item) => searchFn(item, query)) : data;
-    return sortFn ? [...searched].sort((a, b) => sortFn(a, b, sortCol, sortDir)) : searched;
+    const searched = query
+      ? data.filter((item) => searchFn(item, query))
+      : data;
+    return sortFn
+      ? [...searched].sort((a, b) => sortFn(a, b, sortCol, sortDir))
+      : searched;
   }, [data, search, searchFn, sortFn, sortCol, sortDir]);
 
   const {
@@ -67,7 +75,7 @@ export function useSecondaryTabList<T>(
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     activePageSize,
-    paginationKey
+    paginationKey,
   );
 
   useEffect(() => {

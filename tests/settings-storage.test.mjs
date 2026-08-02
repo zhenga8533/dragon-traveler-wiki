@@ -29,7 +29,7 @@ test('settings export includes only requested values', () => {
   const json = buildSettingsExport(
     storage,
     [STORAGE_KEY.LOCALE, STORAGE_KEY.COLOR_SCHEME, 'missing'],
-    new Date('2026-08-01T12:00:00.000Z')
+    new Date('2026-08-01T12:00:00.000Z'),
   );
 
   assert.deepEqual(JSON.parse(json), {
@@ -64,7 +64,7 @@ test('settings import validates keys before writing', () => {
   });
   assert.equal(
     importSettings(invalid, invalidStorage, supportedKeys),
-    'Settings file contains unsupported keys or values.'
+    'Settings file contains unsupported keys or values.',
   );
   assert.equal(invalidStorage.values.size, 0);
 });
@@ -74,6 +74,6 @@ test('settings import rejects malformed payloads', () => {
   assert.match(importSettings('{', storage, []) ?? '', /Could not parse JSON/);
   assert.equal(
     importSettings(JSON.stringify({ version: 2, data: {} }), storage, []),
-    'Invalid settings file.'
+    'Invalid settings file.',
   );
 });

@@ -5,9 +5,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { StaticSurface } from '@/components/ui/Surface';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
-import {
-  resolveCharacterByNameAndQuality,
-} from '@/features/characters/utils/character-route';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 import type { TeamBenchMember } from '@/features/teams/types';
 import {
   getTeamBenchEntryName,
@@ -44,7 +42,7 @@ export function BenchSection({
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (
     characterName: string,
-    characterQuality?: string | null
+    characterQuality?: string | null,
   ) => string;
   factionColor: string;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
@@ -74,7 +72,7 @@ export function BenchSection({
             benchName,
             benchQuality,
             charMap,
-            characterByIdentity
+            characterByIdentity,
           );
           const routePath = getCharacterPath(benchName, benchQuality);
           const resolvedName = char?.name ?? benchName;
@@ -98,7 +96,11 @@ export function BenchSection({
                       borderWidth={3}
                       link
                       routePath={routePath}
-                      fallbackSrc={char === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
+                      fallbackSrc={
+                        char === null
+                          ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?`
+                          : undefined
+                      }
                     />
                   </Tooltip>
                   {benchNote && (

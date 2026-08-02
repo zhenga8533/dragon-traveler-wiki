@@ -44,7 +44,7 @@ const DEFAULT_BANNER_OPTION: BannerOption = {
 function pickRandomBanner(
   options: BannerOption[],
   mode: 'all' | 'png' | 'mp4',
-  favorites?: Set<string>
+  favorites?: Set<string>,
 ): BannerOption | null {
   const matchesMode = (option: BannerOption) => {
     if (option.value === DEFAULT_BANNER_OPTION.value) return false;
@@ -58,7 +58,7 @@ function pickRandomBanner(
   // Favorited birth clips are allowed here even though the general pool below excludes them.
   if (favorites && favorites.size > 0) {
     const favoriteCandidates = options.filter(
-      (option) => matchesMode(option) && favorites.has(option.value)
+      (option) => matchesMode(option) && favorites.has(option.value),
     );
     if (favoriteCandidates.length > 0) {
       return favoriteCandidates[
@@ -70,7 +70,7 @@ function pickRandomBanner(
   // Birth clips are one-time entrance animations, not meant for repeated random
   // rotation, so the unfavorited pool only draws from loop clips (and images).
   const candidates = options.filter(
-    (option) => matchesMode(option) && option.videoVariant !== 'birth'
+    (option) => matchesMode(option) && option.videoVariant !== 'birth',
   );
   if (candidates.length === 0) return null;
   return candidates[Math.floor(Math.random() * candidates.length)];
@@ -142,7 +142,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
   const [prevBannerSrc, setPrevBannerSrc] = useState<string | undefined>(
-    undefined
+    undefined,
   );
   const [bannerPreference, setBannerPreference] = useState(() => {
     if (typeof window === 'undefined') return DEFAULT_BANNER_PREFERENCE;
@@ -164,23 +164,35 @@ export function BannerProvider({ children }: { children: ReactNode }) {
         illustrations: resolveIllustrations(
           assetKey,
           assetKey,
-          character.skins
+          character.skins,
         ),
       });
     }
     return map;
   }, [characters]);
-  const [probedBannerSources, setProbedBannerSources] = useState(bannerSourceCandidates);
+  const [probedBannerSources, setProbedBannerSources] = useState(
+    bannerSourceCandidates,
+  );
   useEffect(() => {
     if (!assetManifest.error) return;
     let cancelled = false;
-    Promise.all([...bannerSourceCandidates].map(async ([key, entry]) => [
-      key,
-      { ...entry, illustrations: await probeIllustrations(entry.illustrations) },
-    ] as const)).then((entries) => {
+    Promise.all(
+      [...bannerSourceCandidates].map(
+        async ([key, entry]) =>
+          [
+            key,
+            {
+              ...entry,
+              illustrations: await probeIllustrations(entry.illustrations),
+            },
+          ] as const,
+      ),
+    ).then((entries) => {
       if (!cancelled) setProbedBannerSources(new Map(entries));
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [assetManifest.error, bannerSourceCandidates]);
   const bannerSourcesByAssetKey = useMemo<
     Map<string, { characterName: string; illustrations: Illustration[] }>
@@ -194,10 +206,10 @@ export function BannerProvider({ children }: { children: ReactNode }) {
           ...entry,
           illustrations: resolveManifestIllustrations(
             entry.illustrations,
-            assetManifest.data.assets
+            assetManifest.data.assets,
           ),
         },
-      ])
+      ]),
     );
   }, [
     assetManifest.data.assets,
@@ -209,7 +221,10 @@ export function BannerProvider({ children }: { children: ReactNode }) {
 
   const bannerOptions = useMemo(() => {
     const loadedOptions: BannerOption[] = [DEFAULT_BANNER_OPTION];
-    for (const [assetKey, { characterName, illustrations }] of bannerSourcesByAssetKey) {
+    for (const [
+      assetKey,
+      { characterName, illustrations },
+    ] of bannerSourcesByAssetKey) {
       illustrations.forEach((illustration, index) => {
         loadedOptions.push({
           value: `${assetKey}::${index}`,
@@ -257,7 +272,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     }
 
     const exists = bannerOptions.some(
-      (option) => option.value === bannerPreference
+      (option) => option.value === bannerPreference,
     );
     if (exists) return bannerPreference;
 
@@ -299,7 +314,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return;
     window.localStorage.setItem(
       STORAGE_KEY.HOME_BANNER_GLOBAL,
-      String(showOnAllRoutes)
+      String(showOnAllRoutes),
     );
   }, [showOnAllRoutes]);
 
@@ -307,7 +322,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return;
     window.localStorage.setItem(
       STORAGE_KEY.HOME_BANNER_SLOW_SCROLL,
-      String(slowScrollEnabled)
+      String(slowScrollEnabled),
     );
   }, [slowScrollEnabled]);
 
@@ -315,7 +330,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return;
     window.localStorage.setItem(
       STORAGE_KEY.HOME_BANNER_FAVORITES_ONLY,
-      String(favoritesOnly)
+      String(favoritesOnly),
     );
   }, [favoritesOnly]);
 
@@ -347,7 +362,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
           label: option.label,
         })),
     ],
-    [bannerOptions]
+    [bannerOptions],
   );
 
   const randomBannerMode: 'all' | 'png' | 'mp4' | null =
@@ -397,7 +412,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       favoritesOnly,
       randomBannerMode,
       favoritesMatchingCurrentMode,
-    ]
+    ],
   );
 
   return createElement(BannerContext.Provider, { value }, children);

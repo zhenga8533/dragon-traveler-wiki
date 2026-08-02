@@ -61,10 +61,7 @@ function CodeActions({
       ) : null}
       <CopyButton value={entry.code} timeout={1500}>
         {({ copied, copy }) => (
-          <Tooltip
-            label={copied ? 'Copied!' : 'Copy code'}
-            {...tooltipProps}
-          >
+          <Tooltip label={copied ? 'Copied!' : 'Copy code'} {...tooltipProps}>
             <ActionIcon
               variant="subtle"
               color={copied ? 'teal' : 'gray'}
@@ -111,11 +108,7 @@ export default function CodeCollection({
         {codes.map((entry) => {
           const active = isCodeActive(entry);
           return (
-            <StaticSurface
-              key={entry.code}
-              p="md"
-              opacity={active ? 1 : 0.5}
-            >
+            <StaticSurface key={entry.code} p="md" opacity={active ? 1 : 0.5}>
               <Stack gap="sm">
                 <Group justify="space-between" align="center">
                   <Group gap="xs">
@@ -160,11 +153,7 @@ export default function CodeCollection({
       {codes.map((entry) => {
         const active = isCodeActive(entry);
         return (
-          <StaticSurface
-            key={entry.code}
-            p="sm"
-            opacity={active ? 1 : 0.5}
-          >
+          <StaticSurface key={entry.code} p="sm" opacity={active ? 1 : 0.5}>
             <Group justify="space-between" wrap="wrap" align="center">
               <Group gap="sm" wrap="wrap" style={{ flex: 1, minWidth: 200 }}>
                 <Text

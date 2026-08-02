@@ -24,7 +24,7 @@ export default function GuessSelect({
 
   const characterBySlug = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
 
   const data = useMemo(
@@ -35,7 +35,7 @@ export default function GuessSelect({
         // slugs, so the quality suffix disambiguates them in search results.
         .map((c) => ({ value: c.slug, label: `${c.name} (${c.quality})` }))
         .sort((a, b) => a.label.localeCompare(b.label)),
-    [characters, guessed]
+    [characters, guessed],
   );
 
   return (

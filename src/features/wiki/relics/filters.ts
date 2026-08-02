@@ -23,7 +23,7 @@ export const EMPTY_RELIC_FILTERS: RelicFilters = {
 
 export function matchesRelicFilters(
   item: Relic,
-  filters: RelicFilters
+  filters: RelicFilters,
 ): boolean {
   const query = filters.search.trim().toLocaleLowerCase();
   return (
@@ -32,10 +32,11 @@ export function matchesRelicFilters(
       item.oracle_scroll?.name.toLocaleLowerCase().includes(query) ||
       item.lore.toLocaleLowerCase().includes(query)) &&
     (filters.types.length === 0 || filters.types.includes(item.type)) &&
-    (filters.qualities.length === 0 || filters.qualities.includes(item.quality)) &&
+    (filters.qualities.length === 0 ||
+      filters.qualities.includes(item.quality)) &&
     (filters.oracleScrollMembership.length === 0 ||
       filters.oracleScrollMembership.includes(
-        item.oracle_scroll ? 'member' : 'none'
+        item.oracle_scroll ? 'member' : 'none',
       ))
   );
 }
@@ -44,14 +45,14 @@ export function compareRelics(
   left: Relic,
   right: Relic,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ): number {
   const typeComparison =
     getRelicTypeOrder(left.type, RELIC_TYPE_ORDER) -
     getRelicTypeOrder(right.type, RELIC_TYPE_ORDER);
   const qualityComparison = compareQuality(left.quality, right.quality);
   const oracleComparison = (left.oracle_scroll?.name ?? '').localeCompare(
-    right.oracle_scroll?.name ?? ''
+    right.oracle_scroll?.name ?? '',
   );
   const nameComparison = left.name.localeCompare(right.name);
 

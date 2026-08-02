@@ -46,11 +46,11 @@ export interface EntityUsage<
 
 export function filterUsageCharacters<TCharacter extends UsageCharacter>(
   characters: readonly TCharacter[],
-  qualityFilter: UsageQualityFilter
+  qualityFilter: UsageQualityFilter,
 ): TCharacter[] {
   const threshold = USAGE_QUALITY_THRESHOLD[qualityFilter];
   return characters.filter(
-    (character) => getQualityRank(character.quality) <= threshold
+    (character) => getQualityRank(character.quality) <= threshold,
   );
 }
 
@@ -85,7 +85,8 @@ export function buildEntityUsage<
       const item = itemByReference.get(reference.trim());
       if (!item) continue;
       if (getCharacterGroupKey) {
-        const groups = characterGroupsByItem.get(item.slug) ?? new Set<string>();
+        const groups =
+          characterGroupsByItem.get(item.slug) ?? new Set<string>();
         groups.add(getCharacterGroupKey(character));
         characterGroupsByItem.set(item.slug, groups);
         continue;
@@ -101,11 +102,11 @@ export function buildEntityUsage<
       const groups = characterGroupsByItem.get(item.slug);
       const matchedCharacters = groups
         ? characters.filter((character) =>
-            groups.has(getCharacterGroupKey!(character))
+            groups.has(getCharacterGroupKey!(character)),
           )
-        : charactersByItem.get(item.slug) ?? [];
+        : (charactersByItem.get(item.slug) ?? []);
       const usingCharacters = [...matchedCharacters].sort((a, b) =>
-        compareQualityThenName(a.quality, b.quality, a.name, b.name)
+        compareQualityThenName(a.quality, b.quality, a.name, b.name),
       );
       const count = usingCharacters.length;
       return {
@@ -118,7 +119,7 @@ export function buildEntityUsage<
       };
     })
     .sort(
-      (a, b) => b.count - a.count || a.item.name.localeCompare(b.item.name)
+      (a, b) => b.count - a.count || a.item.name.localeCompare(b.item.name),
     );
 }
 
@@ -133,8 +134,8 @@ export function compareEntityUsage<
   compareCustomColumn: (
     a: EntityUsage<TItem, TCharacter>,
     b: EntityUsage<TItem, TCharacter>,
-    column: string
-  ) => number | null
+    column: string,
+  ) => number | null,
 ): number {
   let comparison: number | null;
   if (column === 'name') {

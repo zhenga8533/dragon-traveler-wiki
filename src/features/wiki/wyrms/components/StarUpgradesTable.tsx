@@ -29,10 +29,15 @@ export default function StarUpgradesTable({
             {wyrm.star_upgrades.map((upgrade) => (
               <Table.Tr key={upgrade.star}>
                 <Table.Td style={COMPACT_COL_STYLE}>
-                  <Text fw={600} size="sm">★{upgrade.star}</Text>
+                  <Text fw={600} size="sm">
+                    ★{upgrade.star}
+                  </Text>
                 </Table.Td>
                 <Table.Td>
-                  <RichText text={upgrade.description} statusEffects={statusEffects} />
+                  <RichText
+                    text={upgrade.description}
+                    statusEffects={statusEffects}
+                  />
                 </Table.Td>
               </Table.Tr>
             ))}

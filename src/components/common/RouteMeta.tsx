@@ -17,7 +17,7 @@ import {
 function upsertMetaTag(
   attr: 'name' | 'property',
   key: string,
-  content: string
+  content: string,
 ): void {
   const selector = `meta[${attr}="${key}"]`;
   let meta = document.querySelector<HTMLMetaElement>(selector);

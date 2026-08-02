@@ -267,7 +267,11 @@ export default function GearTab({
                         <GearTypeTag type={item.type} />
                       </Table.Td>
                       <Table.Td>
-                        <Badge variant="light" size="sm" color={accent.secondary}>
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color={accent.secondary}
+                        >
                           {setData?.name ?? item.set}
                         </Badge>
                       </Table.Td>

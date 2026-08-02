@@ -17,7 +17,7 @@ export const EMPTY_ARTIFACT_FILTERS: ArtifactFilters = {
 
 export function matchesArtifactFilters(
   artifact: Artifact,
-  filters: ArtifactFilters
+  filters: ArtifactFilters,
 ) {
   const query = filters.search.trim().toLocaleLowerCase();
   return (
@@ -33,7 +33,7 @@ export function compareArtifacts(
   left: Artifact,
   right: Artifact,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);
@@ -51,6 +51,6 @@ export function compareArtifacts(
         left.quality,
         right.quality,
         left.name,
-        right.name
+        right.name,
       );
 }

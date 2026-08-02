@@ -20,11 +20,13 @@ export default function HowlkinBadge({
   size = 'md',
 }: HowlkinBadgeProps) {
   const { accent } = useGradientAccent();
-  const iconSrc = howlkin ? getHowlkinIcon(howlkin.slug, howlkin.quality) : undefined;
+  const iconSrc = howlkin
+    ? getHowlkinIcon(howlkin.slug, howlkin.quality)
+    : undefined;
   const color = howlkin ? QUALITY_COLOR[howlkin.quality] : 'gray';
 
   const statsEntries = Object.entries(howlkin?.basic_stats ?? {}).sort(
-    ([a], [b]) => a.localeCompare(b)
+    ([a], [b]) => a.localeCompare(b),
   );
 
   return (

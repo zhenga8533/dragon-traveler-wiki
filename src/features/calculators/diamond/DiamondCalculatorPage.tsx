@@ -438,7 +438,7 @@ function sanitizeSourceRow(input: unknown): SourceRow | null {
 
 function sanitizeSourceRows(
   input: unknown,
-  fallback: SourceRow[]
+  fallback: SourceRow[],
 ): SourceRow[] {
   if (!Array.isArray(input)) {
     return fallback;
@@ -474,7 +474,7 @@ function readStoredCalculatorState(): Partial<CalculatorState> | null {
   return readStoredJson<Partial<CalculatorState> | null>(
     LOCAL_STORAGE_KEY,
     null,
-    (value): value is Partial<CalculatorState> => isRecord(value)
+    (value): value is Partial<CalculatorState> => isRecord(value),
   );
 }
 
@@ -486,44 +486,44 @@ export default function DiamondCalculatorPage() {
   const [bank, setBank] = useState<number | null>(() =>
     typeof storedState?.bank === 'number' && Number.isFinite(storedState.bank)
       ? storedState.bank
-      : 0
+      : 0,
   );
   const [targetDate, setTargetDate] = useState<string>(() => getTodayIsoDate());
   const [gainSources, setGainSources] = useState<SourceRow[]>(
     sanitizeSourceRows(
       storedState?.gainSources,
-      buildDefaultRows(BASE_GAIN_SOURCES)
-    )
+      buildDefaultRows(BASE_GAIN_SOURCES),
+    ),
   );
   const [spendSources, setSpendSources] = useState<SourceRow[]>(
     sanitizeSourceRows(
       storedState?.spendSources,
-      buildDefaultRows(BASE_SPEND_SOURCES)
-    )
+      buildDefaultRows(BASE_SPEND_SOURCES),
+    ),
   );
 
   const [pointsLeagueDaily, setPointsLeagueDaily] = useState<string>(
     typeof storedState?.pointsLeagueRank === 'string'
       ? storedState.pointsLeagueRank
-      : POINTS_LEAGUE_OPTIONS[0].value
+      : POINTS_LEAGUE_OPTIONS[0].value,
   );
   const [arenaDaily, setArenaDaily] = useState<string>(
     typeof storedState?.arenaDaily === 'string'
       ? storedState.arenaDaily
-      : ARENA_OPTIONS[7].value
+      : ARENA_OPTIONS[7].value,
   );
   const [colosseumBiweekly, setColosseumBiweekly] = useState<string>(
     typeof storedState?.colosseumBiweekly === 'string'
       ? storedState.colosseumBiweekly
-      : COLOSSEUM_OPTIONS[4].value
+      : COLOSSEUM_OPTIONS[4].value,
   );
   const [wildHuntBiweekly, setWildHuntBiweekly] = useState<string>(
     typeof storedState?.wildHuntBiweekly === 'string'
       ? storedState.wildHuntBiweekly
-      : WILD_HUNT_OPTIONS[7].value
+      : WILD_HUNT_OPTIONS[7].value,
   );
   const [includeSupremeCard, setIncludeSupremeCard] = useState<boolean>(
-    Boolean(storedState?.includeSupremeCard)
+    Boolean(storedState?.includeSupremeCard),
   );
 
   useEffect(() => {
@@ -566,11 +566,11 @@ export default function DiamondCalculatorPage() {
 
   const baseGainPerDay = useMemo(
     () => sumSourcesPerDay(gainSources),
-    [gainSources]
+    [gainSources],
   );
   const baseSpendPerDay = useMemo(
     () => sumSourcesPerDay(spendSources),
-    [spendSources]
+    [spendSources],
   );
 
   const totalGainPerDay =
@@ -626,28 +626,28 @@ export default function DiamondCalculatorPage() {
 
   const targetDateValue = useMemo(
     () => isoDateToDate(targetDate),
-    [targetDate]
+    [targetDate],
   );
   const deferredGainSources = useDeferredValue(gainSources);
   const deferredSpendSources = useDeferredValue(spendSources);
 
   const sortedGainSources = useMemo(
     () => sortSourcesByCadenceThenLabel(deferredGainSources),
-    [deferredGainSources]
+    [deferredGainSources],
   );
   const sortedSpendSources = useMemo(
     () => sortSourcesByCadenceThenLabel(deferredSpendSources),
-    [deferredSpendSources]
+    [deferredSpendSources],
   );
 
   const updateSource = (
     type: SourceType,
     id: string,
-    updater: (source: SourceRow) => SourceRow
+    updater: (source: SourceRow) => SourceRow,
   ) => {
     const setter = type === 'gain' ? setGainSources : setSpendSources;
     setter((prev) =>
-      prev.map((source) => (source.id === id ? updater(source) : source))
+      prev.map((source) => (source.id === id ? updater(source) : source)),
     );
   };
 
@@ -736,7 +736,7 @@ export default function DiamondCalculatorPage() {
                   if (typeof value === 'string') {
                     const normalized = normalizeIsoDate(
                       value,
-                      getTodayIsoDate()
+                      getTodayIsoDate(),
                     );
                     setTargetDate(normalized);
                   }

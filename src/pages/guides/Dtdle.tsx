@@ -13,7 +13,7 @@ export default function Dtdle() {
   const [activeMode, setActiveMode] = useTabParam(
     'mode',
     'classic',
-    VALID_MODES
+    VALID_MODES,
   );
 
   return (

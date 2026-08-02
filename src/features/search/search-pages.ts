@@ -9,5 +9,5 @@ export const SEARCH_PAGES = ROUTE_CATALOG.flatMap((route) =>
           keywords: route.searchKeywords,
         },
       ]
-    : []
+    : [],
 );

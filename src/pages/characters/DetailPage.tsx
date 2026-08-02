@@ -1,6 +1,13 @@
 import { Box, Container, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { lazy, Suspense, useCallback, useContext, useMemo, useState } from 'react';
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import { useParams } from 'react-router';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -35,7 +42,7 @@ import CharacterVariantSelector from '@/features/characters/components/Character
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 
 const CharacterModelViewer = lazy(
-  () => import('@/features/characters/components/CharacterModelViewer')
+  () => import('@/features/characters/components/CharacterModelViewer'),
 );
 
 export default function CharacterPage() {
@@ -43,24 +50,24 @@ export default function CharacterPage() {
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
   const { getCharacterStarLevel, setCharacterStarLevel } = useContext(
-    CharacterOwnershipContext
+    CharacterOwnershipContext,
   );
   const { isFavoriteIllustration, toggleFavoriteIllustration } = useContext(
-    FavoriteIllustrationsContext
+    FavoriteIllustrationsContext,
   );
   const { favoritesOnly } = useContext(BannerContext);
   const { getSelectedSkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
-    [rawStarLevels]
+    [rawStarLevels],
   );
   const starLevelOptions = useMemo(
     () => [
       { value: '', label: 'Not owned' },
       ...starLevels.map((l) => ({ value: l.value, label: l.label })),
     ],
-    [starLevels]
+    [starLevels],
   );
 
   const {
@@ -138,11 +145,7 @@ export default function CharacterPage() {
 
   if (!character) {
     if (sameNameVariants.length > 1 && routeBaseSlug) {
-      return (
-        <CharacterVariantSelector
-          variants={sameNameVariants}
-        />
-      );
+      return <CharacterVariantSelector variants={sameNameVariants} />;
     }
 
     return (
@@ -160,18 +163,18 @@ export default function CharacterPage() {
   const { previousItem, nextItem } = getCharacterNavPaths(
     previousCharacter,
     nextCharacter,
-    getSelectedSkin
+    getSelectedSkin,
   );
   const hasRightColumnInformation = Boolean(
     character.lore ||
-    character.summary ||
-    character.talent ||
-    character.skills.length > 0 ||
-    (character.divinity?.length ?? 0) > 0 ||
-    recommendedGearLoadouts.length > 0 ||
-    recommendedSubclassEntries.length > 0 ||
-    linkedNoblePhantasms.length > 0 ||
-    (selectedTierListName && tierLabel && tierListCharacterNote)
+      character.summary ||
+      character.talent ||
+      character.skills.length > 0 ||
+      (character.divinity?.length ?? 0) > 0 ||
+      recommendedGearLoadouts.length > 0 ||
+      recommendedSubclassEntries.length > 0 ||
+      linkedNoblePhantasms.length > 0 ||
+      (selectedTierListName && tierLabel && tierListCharacterNote),
   );
 
   return (
@@ -242,7 +245,7 @@ export default function CharacterPage() {
                 onChange={(val) =>
                   setCharacterStarLevel(
                     getCharacterIdentityKey(character),
-                    val || null
+                    val || null,
                   )
                 }
               />

@@ -14,7 +14,7 @@ async function listSourceFiles(directory) {
     entries.map((entry) => {
       const entryPath = path.join(directory, entry.name);
       return entry.isDirectory() ? listSourceFiles(entryPath) : [entryPath];
-    })
+    }),
   );
   return nested.flat().filter((file) => SOURCE_EXTENSION.test(file));
 }

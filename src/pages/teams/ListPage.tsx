@@ -13,7 +13,10 @@ import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
-import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
+import {
+  BUILDER_SIDE_LAYOUT_CONTAINER_SIZE,
+  STORAGE_KEY,
+} from '@/constants/ui';
 import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
@@ -22,10 +25,7 @@ import {
   matchesTeamFilters,
   type TeamFilters,
 } from '@/features/teams/filters';
-import {
-  loadSavedTeams,
-  removeSavedTeam,
-} from '@/features/teams/saved-teams';
+import { loadSavedTeams, removeSavedTeam } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
 import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -90,9 +90,9 @@ export default function Teams() {
   } = useWyrmspells();
   const { filters: viewFilters, setFilters: setViewFilters } =
     useFilters<TeamFilters>({
-    emptyFilters: EMPTY_TEAM_FILTERS,
-    storageKey: STORAGE_KEY.TEAMS_FILTERS,
-  });
+      emptyFilters: EMPTY_TEAM_FILTERS,
+      storageKey: STORAGE_KEY.TEAMS_FILTERS,
+    });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -125,7 +125,7 @@ export default function Teams() {
     canUseSideLayout: canUseSidePoolLayout,
   } = usePoolLayout();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
-    mode === 'saved' ? loadSavedTeams() : []
+    mode === 'saved' ? loadSavedTeams() : [],
   );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
@@ -138,10 +138,8 @@ export default function Teams() {
     window.localStorage.setItem(STORAGE_KEY.TEAMS_SEARCH, search);
   }, [search]);
 
-  const {
-    preferredByName: charMap,
-    byIdentity: characterByIdentity,
-  } = useCharacterResolution(characters);
+  const { preferredByName: charMap, byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
@@ -150,7 +148,7 @@ export default function Teams() {
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
-        (value, index) => value === viewFilters.contentTypes[index]
+        (value, index) => value === viewFilters.contentTypes[index],
       );
     if (unchanged) return;
     setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
@@ -165,7 +163,7 @@ export default function Teams() {
       },
       createFactionFilterGroup(),
     ],
-    [contentTypeOptions]
+    [contentTypeOptions],
   );
 
   const activeFilterCount =
@@ -177,7 +175,7 @@ export default function Teams() {
     (key: string, values: string[]) => {
       setViewFilters((prev) => ({ ...prev, [key]: values }));
     },
-    [setViewFilters]
+    [setViewFilters],
   );
 
   const handleClearFilters = useCallback(() => {
@@ -199,13 +197,13 @@ export default function Teams() {
 
   const filteredSavedTeams = useMemo(() => {
     return savedTeams.filter((team) =>
-      matchesTeamFilters(team, search, viewFilters)
+      matchesTeamFilters(team, search, viewFilters),
     );
   }, [savedTeams, search, viewFilters]);
 
   const filteredTeams = useMemo(() => {
     return teams.filter((team) =>
-      matchesTeamFilters(team, search, viewFilters)
+      matchesTeamFilters(team, search, viewFilters),
     );
   }, [teams, search, viewFilters]);
 
@@ -214,13 +212,13 @@ export default function Teams() {
     {
       defaultSize: TEAMS_PER_PAGE,
       storageKey: getPageSizeStorageKey(STORAGE_KEY.TEAMS_VIEW_MODE),
-    }
+    },
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredTeams.length,
     pageSize,
-    JSON.stringify({ search, viewFilters })
+    JSON.stringify({ search, viewFilters }),
   );
 
   useEffect(() => {
@@ -324,7 +322,7 @@ export default function Teams() {
               retryFailedDataSources(
                 [teamsError, retryTeams],
                 [charactersError, retryCharacters],
-                [wyrmspellsError, retryWyrmspells]
+                [wyrmspellsError, retryWyrmspells],
               )
             }
           />

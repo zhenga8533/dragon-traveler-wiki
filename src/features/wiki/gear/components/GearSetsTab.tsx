@@ -54,9 +54,7 @@ export default function GearSetsTab({
       errorTitle="Could not load gear sets"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."
-      loadingFallback={
-        <CardGridLoading cardHeight={180} showPagination />
-      }
+      loadingFallback={<CardGridLoading cardHeight={180} showPagination />}
     >
       <SearchableGridPanel
         search={search}

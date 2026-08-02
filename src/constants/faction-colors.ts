@@ -1,4 +1,8 @@
-import { FACTION_NAMES, FACTION_SLUGS, type FactionSlug } from '@/types/faction';
+import {
+  FACTION_NAMES,
+  FACTION_SLUGS,
+  type FactionSlug,
+} from '@/types/faction';
 
 export { FACTION_NAMES, FACTION_SLUGS };
 

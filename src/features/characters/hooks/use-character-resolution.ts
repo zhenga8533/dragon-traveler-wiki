@@ -13,20 +13,20 @@ export interface CharacterResolution {
 }
 
 export function useCharacterResolution(
-  characters: Character[]
+  characters: Character[],
 ): CharacterResolution {
   const preferredByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
-    [characters]
+    [characters],
   );
   const byIdentity = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
   const resolve = useCallback(
     (key: string) =>
       getCharacterByReferenceKey(key, preferredByName, byIdentity),
-    [preferredByName, byIdentity]
+    [preferredByName, byIdentity],
   );
   return { preferredByName, byIdentity, resolve };
 }

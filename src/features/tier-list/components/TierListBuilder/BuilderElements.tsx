@@ -17,16 +17,18 @@ import {
 import { useInputCommit, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import { IoAddOutline, IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
+import {
+  IoAddOutline,
+  IoChevronDown,
+  IoChevronUp,
+  IoTrash,
+} from 'react-icons/io5';
 import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
 } from '@/constants/content-types';
 import { StaticSurface } from '@/components/ui/Surface';
-import {
-  CHARACTER_GRID_SPACING,
-  TRANSITION,
-} from '@/constants/ui';
+import { CHARACTER_GRID_SPACING, TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import TierListEntityCard from '@/features/tier-list/components/TierListEntityCard';
 import type {
@@ -59,7 +61,10 @@ export const TierListMetaFields = memo(function TierListMetaFields({
 }) {
   const [nameInput, setNameInput] = useInputCommit(name, onNameCommit);
   const [authorInput, setAuthorInput] = useInputCommit(author, onAuthorCommit);
-  const [descriptionInput, setDescriptionInput] = useInputCommit(description, onDescriptionCommit);
+  const [descriptionInput, setDescriptionInput] = useInputCommit(
+    description,
+    onDescriptionCommit,
+  );
 
   return (
     <Group gap="sm" wrap="wrap">

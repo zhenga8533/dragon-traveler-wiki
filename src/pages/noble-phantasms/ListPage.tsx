@@ -14,28 +14,18 @@ import {
   useNoblePhantasms,
   useStatusEffects,
 } from '@/features/wiki/hooks/use-wiki-data';
-import {
-  useGradientAccent,
-  useMobileTooltip,
-  useTabParam,
-} from '@/hooks';
+import { useGradientAccent, useMobileTooltip, useTabParam } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
 export default function NoblePhantasms() {
   const { accent } = useGradientAccent();
   const tooltipProps = useMobileTooltip();
-  const [activeTab, handleTabChange] = useTabParam(
-    'tab',
+  const [activeTab, handleTabChange] = useTabParam('tab', 'noble-phantasms', [
     'noble-phantasms',
-    ['noble-phantasms', 'usage']
-  );
-  const {
-    data: noblePhantasms,
-    loading,
-    error,
-    retry,
-  } = useNoblePhantasms();
+    'usage',
+  ]);
+  const { data: noblePhantasms, loading, error, retry } = useNoblePhantasms();
   const {
     data: characters,
     loading: charactersLoading,
@@ -47,18 +37,18 @@ export default function NoblePhantasms() {
   const catalog = useNoblePhantasmCatalog(
     noblePhantasms,
     characterIndex.byIdentity,
-    characterIndex.names
+    characterIndex.names,
   );
   const usage = useNoblePhantasmUsage(
     noblePhantasms,
     characters,
     characterIndex.byIdentity,
-    characterIndex.names
+    characterIndex.names,
   );
   const formFields = useNoblePhantasmFormFields(characters);
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(noblePhantasms),
-    [noblePhantasms]
+    [noblePhantasms],
   );
 
   return (
@@ -108,7 +98,7 @@ export default function NoblePhantasms() {
               onRetry={() =>
                 retryFailedDataSources(
                   [error, retry],
-                  [charactersError, retryCharacters]
+                  [charactersError, retryCharacters],
                 )
               }
               noblePhantasms={noblePhantasms}

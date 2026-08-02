@@ -15,7 +15,7 @@ export function loadSavedTierLists(): TierList[] {
   return loadSavedFromStorage(
     STORAGE_KEY.TIER_LIST_MY_SAVED,
     isSavedTierList,
-    migrateStoredTierList
+    migrateStoredTierList,
   );
 }
 

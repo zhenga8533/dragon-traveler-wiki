@@ -7,7 +7,7 @@ export function hasTeamWyrmspells(team: Team): boolean {
   if (!spells) return false;
 
   return Boolean(
-    spells.breach || spells.refuge || spells.wildcry || spells.dragons_call
+    spells.breach || spells.refuge || spells.wildcry || spells.dragons_call,
   );
 }
 
@@ -19,7 +19,7 @@ export function hasTeamBuilderDraft(storageKey: string): boolean {
 export async function exportTeamCompositionAsImage(
   exportRef: RefObject<HTMLDivElement | null>,
   teamName: string,
-  isDark: boolean
+  isDark: boolean,
 ): Promise<void> {
   if (!exportRef.current) return;
   await downloadElementAsImage(exportRef.current, teamName, isDark);

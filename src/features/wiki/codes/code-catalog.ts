@@ -23,20 +23,22 @@ export function filterCodes(
   tab: CodeTab,
   view: CodeView,
   redeemed: Set<string>,
-  search: string
+  search: string,
 ): Code[] {
   const normalizedSearch = search.trim().toLowerCase();
   return getTabCodes(codes, tab).filter((entry) => {
     if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
     if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
-    return !normalizedSearch || entry.code.toLowerCase().includes(normalizedSearch);
+    return (
+      !normalizedSearch || entry.code.toLowerCase().includes(normalizedSearch)
+    );
   });
 }
 
 export function getCodeEmptyState(
   tab: CodeTab,
   view: CodeView,
-  search: string
+  search: string,
 ) {
   if (search) {
     return {

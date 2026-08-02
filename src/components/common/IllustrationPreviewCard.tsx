@@ -32,11 +32,7 @@ export default function IllustrationPreviewCard({
   if (failed) return null;
 
   return (
-    <StaticSurface
-      p="md"
-      radius="lg"
-      style={{ overflow: 'hidden' }}
-    >
+    <StaticSurface p="md" radius="lg" style={{ overflow: 'hidden' }}>
       <Stack gap="xs">
         <Text fw={600} size="sm">
           {label}
@@ -59,10 +55,21 @@ export default function IllustrationPreviewCard({
               muted
               loop
               onError={() => setFailed(true)}
-              style={{ width: '100%', maxHeight: 420, display: 'block', objectFit: 'contain' }}
+              style={{
+                width: '100%',
+                maxHeight: 420,
+                display: 'block',
+                objectFit: 'contain',
+              }}
             />
           ) : (
-            <SafeImage src={src} alt={name} fit="contain" mah={420} loading="lazy" />
+            <SafeImage
+              src={src}
+              alt={name}
+              fit="contain"
+              mah={420}
+              loading="lazy"
+            />
           )}
           <Box
             style={{

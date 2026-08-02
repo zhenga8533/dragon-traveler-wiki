@@ -25,7 +25,10 @@ interface GuessRowProps {
   answer: Character;
 }
 
-const ORDINAL_ARIA_LABEL: Record<'exact' | 'higher' | 'lower' | 'unknown', string> = {
+const ORDINAL_ARIA_LABEL: Record<
+  'exact' | 'higher' | 'lower' | 'unknown',
+  string
+> = {
   exact: 'exact match',
   higher: "answer's value is higher",
   lower: "answer's value is lower",
@@ -83,7 +86,13 @@ export default function GuessRow({ guess, answer }: GuessRowProps) {
       </Table.Td>
       <Table.Td>
         <OrdinalBadge
-          label={<QualityIcon quality={guess.quality} size={16} showTooltip={false} />}
+          label={
+            <QualityIcon
+              quality={guess.quality}
+              size={16}
+              showTooltip={false}
+            />
+          }
           status={cmp.qualityStatus}
         />
       </Table.Td>
@@ -106,7 +115,10 @@ export default function GuessRow({ guess, answer }: GuessRowProps) {
         </Box>
       </Table.Td>
       <Table.Td>
-        <Badge color={cmp.originStatus === 'exact' ? 'green' : 'red'} variant="filled">
+        <Badge
+          color={cmp.originStatus === 'exact' ? 'green' : 'red'}
+          variant="filled"
+        >
           {guess.origin}
         </Badge>
       </Table.Td>

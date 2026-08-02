@@ -37,7 +37,7 @@ export function useBuilderEditState<T>({
   navigate,
 }: UseBuilderEditStateOptions<T>): UseBuilderEditStateReturn<T> {
   const [editData, setEditData] = useState<T | null>(
-    () => navigationInitialItem ?? null
+    () => navigationInitialItem ?? null,
   );
   const [pendingEditItem, setPendingEditItem] = useState<T | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);

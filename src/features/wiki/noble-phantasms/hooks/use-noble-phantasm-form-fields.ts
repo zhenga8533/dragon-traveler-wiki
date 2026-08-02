@@ -6,16 +6,15 @@ import { CharacterSkinContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import { getCharacterRouteSlug } from '@/features/characters/utils/character-route';
 
-export function useNoblePhantasmFormFields(characters: Character[]): FieldDef[] {
+export function useNoblePhantasmFormFields(
+  characters: Character[],
+): FieldDef[] {
   const { getSelectedSkin } = useContext(CharacterSkinContext);
 
   return useMemo(() => {
     const nameCounts = new Map<string, number>();
     for (const character of characters) {
-      nameCounts.set(
-        character.name,
-        (nameCounts.get(character.name) ?? 0) + 1
-      );
+      nameCounts.set(character.name, (nameCounts.get(character.name) ?? 0) + 1);
     }
     const characterOptions = characters
       .map((character) => ({
@@ -29,11 +28,7 @@ export function useNoblePhantasmFormFields(characters: Character[]): FieldDef[] 
     const characterIcons: Record<string, string> = {};
     for (const character of characters) {
       const slug = getCharacterRouteSlug(character);
-      const portrait = getPortrait(
-        character.name,
-        slug,
-        getSelectedSkin(slug)
-      );
+      const portrait = getPortrait(character.name, slug, getSelectedSkin(slug));
       if (portrait) characterIcons[slug] = portrait;
     }
 

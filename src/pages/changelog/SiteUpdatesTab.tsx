@@ -70,7 +70,11 @@ export default function SiteUpdatesTab({
   return (
     <Stack gap="lg">
       {loading && (
-        <ViewModeLoading viewMode="list" showPagination label="Loading updates" />
+        <ViewModeLoading
+          viewMode="list"
+          showPagination
+          label="Loading updates"
+        />
       )}
 
       {!loading && changelog.length === 0 && (
@@ -111,7 +115,11 @@ export default function SiteUpdatesTab({
                           {formatShortDate(new Date(entry.date))}
                         </Text>
                         {entry.version && (
-                          <Badge size="xs" variant="light" color={accent.primary}>
+                          <Badge
+                            size="xs"
+                            variant="light"
+                            color={accent.primary}
+                          >
                             v{entry.version}
                           </Badge>
                         )}

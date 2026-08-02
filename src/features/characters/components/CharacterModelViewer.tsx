@@ -44,10 +44,7 @@ import {
   Vector3,
 } from 'three';
 import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
-import {
-  getAssetUrl,
-  getCharacterModelAssetPath,
-} from '@/assets';
+import { getAssetUrl, getCharacterModelAssetPath } from '@/assets';
 import { useAssetManifest } from '@/hooks/use-asset-manifest';
 import { useGradientAccent } from '@/hooks';
 import type { AssetManifestEntry } from '@/types/asset-manifest';
@@ -165,7 +162,7 @@ function neutralTexture(r: number, g: number, b: number): DataTexture {
     1,
     1,
     RGBAFormat,
-    UnsignedByteType
+    UnsignedByteType,
   );
   texture.needsUpdate = true;
   return texture;
@@ -202,7 +199,7 @@ function CharacterModel({
       emission: neutralTexture(0, 0, 0),
       mra: neutralTexture(0, 180, 0),
     }),
-    []
+    [],
   );
   const textureMap = useMemo(() => {
     const result: Record<string, Texture> = {};
@@ -269,7 +266,7 @@ function CharacterModel({
 
   useEffect(() => {
     const definition = metadata.animations.find(
-      (animation) => animation.name === selectedAnimation
+      (animation) => animation.name === selectedAnimation,
     );
     const action = actions[selectedAnimation];
     if (!definition || !action) return;
@@ -284,7 +281,14 @@ function CharacterModel({
       mixer.removeEventListener('finished', handleFinished);
       action.fadeOut(0.15);
     };
-  }, [actions, animationRun, metadata.animations, mixer, onAnimationFinished, selectedAnimation]);
+  }, [
+    actions,
+    animationRun,
+    metadata.animations,
+    mixer,
+    onAnimationFinished,
+    selectedAnimation,
+  ]);
 
   useEffect(() => {
     const action = actions[selectedAnimation];
@@ -301,10 +305,14 @@ function CharacterModel({
       fallbackTextures.emission.dispose();
       fallbackTextures.mra.dispose();
     },
-    [fallbackTextures, material, outlineMaterial]
+    [fallbackTextures, material, outlineMaterial],
   );
 
-  return <Center top><primitive object={model} /></Center>;
+  return (
+    <Center top>
+      <primitive object={model} />
+    </Center>
+  );
 }
 
 function CameraFit({
@@ -324,17 +332,16 @@ function CameraFit({
     let resetFrame = 0;
     let readyFrame = 0;
     const reset = () => {
-      const controls = get().controls as unknown as
-        | { target: Vector3; update: () => void }
-        | null;
+      const controls = get().controls as unknown as {
+        target: Vector3;
+        update: () => void;
+      } | null;
       if (!controls) {
         resetFrame = requestAnimationFrame(reset);
         return;
       }
       const { center, distance } = bounds.refresh().getSize();
-      const viewDirection = new Vector3(0, 0.9, 2.2)
-        .sub(center)
-        .normalize();
+      const viewDirection = new Vector3(0, 0.9, 2.2).sub(center).normalize();
 
       camera.up.set(0, 1, 0);
       camera.position.copy(center).addScaledVector(viewDirection, distance);
@@ -407,7 +414,9 @@ export default function CharacterModelViewer({
   useEffect(() => {
     if (!opened || !metadataEntry) return;
     const controller = new AbortController();
-    fetch(versionedUrl(metadataPath, metadataEntry), { signal: controller.signal })
+    fetch(versionedUrl(metadataPath, metadataEntry), {
+      signal: controller.signal,
+    })
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
@@ -419,11 +428,12 @@ export default function CharacterModelViewer({
         setSelectedAnimation(
           value.animations.find((animation) => animation.default)?.name ??
             value.animations[0]?.name ??
-            ''
+            '',
         );
       })
       .catch((error) => {
-        if (error instanceof DOMException && error.name === 'AbortError') return;
+        if (error instanceof DOMException && error.name === 'AbortError')
+          return;
         console.error(`Failed to load ${metadataPath}:`, error);
         setLoadedMetadata({ path: metadataPath, value: null });
         setMetadataError({
@@ -533,7 +543,9 @@ export default function CharacterModelViewer({
                     allowDeselect={false}
                   />
                 )}
-                <Tooltip label={paused ? 'Resume animation' : 'Pause animation'}>
+                <Tooltip
+                  label={paused ? 'Resume animation' : 'Pause animation'}
+                >
                   <ActionIcon
                     aria-label={paused ? 'Resume animation' : 'Pause animation'}
                     color={accent.primary}
@@ -560,7 +572,9 @@ export default function CharacterModelViewer({
                   <ActionIcon
                     aria-label="Reset model camera"
                     color={accent.primary}
-                    onClick={() => setCameraFitRequest((request) => request + 1)}
+                    onClick={() =>
+                      setCameraFitRequest((request) => request + 1)
+                    }
                     variant="subtle"
                   >
                     <LuScan />
@@ -596,11 +610,7 @@ export default function CharacterModelViewer({
                   minDistance={0.5}
                 />
                 <Suspense fallback={<ModelLoadingState />}>
-                  <Bounds
-                    clip
-                    observe
-                    margin={1.12}
-                  >
+                  <Bounds clip observe margin={1.12}>
                     <CharacterModel
                       key={`${rootPath}/${metadata.model}`}
                       metadata={metadata}

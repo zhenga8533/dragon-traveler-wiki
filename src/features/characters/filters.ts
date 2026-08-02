@@ -48,7 +48,7 @@ export function filterCharacters(
   filters: CharacterFilters,
   tierLookup?: Map<string, string>,
   ownedCharacters?: Record<string, string>,
-  starLevelOrder?: string[]
+  starLevelOrder?: string[],
 ): Character[] {
   const searchLower = filters.search.toLowerCase();
   return characters.filter((c) => {
@@ -167,7 +167,7 @@ export function extractAllEffectRefs(characters: Character[]): string[] {
 /** Compare two characters by quality, then alphabetically by name. */
 export function compareCharactersByQualityThenName(
   a: Character,
-  b: Character
+  b: Character,
 ): number {
   return compareQualityThenName(a.quality, b.quality, a.name, b.name);
 }

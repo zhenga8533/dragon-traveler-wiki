@@ -1,7 +1,7 @@
 export function readStoredJson<T>(
   storageKey: string,
   fallback: T,
-  isValid: (value: unknown) => value is T
+  isValid: (value: unknown) => value is T,
 ): T {
   if (typeof window === 'undefined') return fallback;
   try {
@@ -29,14 +29,14 @@ export function readStoredStringSet(storageKey: string): Set<string> {
     storageKey,
     [] as string[],
     (value): value is string[] =>
-      Array.isArray(value) && value.every((item) => typeof item === 'string')
+      Array.isArray(value) && value.every((item) => typeof item === 'string'),
   );
   return new Set(values);
 }
 
 export function writeStoredStringSet(
   storageKey: string,
-  values: Set<string>
+  values: Set<string>,
 ): boolean {
   return writeStoredJson(storageKey, [...values]);
 }
@@ -58,7 +58,7 @@ function getSavedStorage(storage?: SavedStorage): SavedStorage | null {
 
 function parseSavedRecord(
   storage: SavedStorage,
-  storageKey: string
+  storageKey: string,
 ): Record<string, unknown> {
   const raw = storage.getItem(storageKey);
   if (!raw) return {};
@@ -72,7 +72,7 @@ function parseSavedRecord(
 
 function normalizeSavedEntity<T extends { last_updated?: number }>(
   value: unknown,
-  options: SavedEntityOptions<T>
+  options: SavedEntityOptions<T>,
 ): T | null {
   if (value === null || typeof value !== 'object') return null;
   const partial = value as Partial<T>;
@@ -97,7 +97,7 @@ export function loadSavedFromStorage<T extends { last_updated?: number }>(
   isValid: (value: Partial<T>) => boolean,
   migrate?: (value: Partial<T>) => T,
   storage?: SavedStorage,
-  now?: () => number
+  now?: () => number,
 ): T[] {
   const targetStorage = getSavedStorage(storage);
   if (!targetStorage) return [];
@@ -133,7 +133,7 @@ export function loadSavedFromStorage<T extends { last_updated?: number }>(
 /** Reads one validated entity and persists any required migration. */
 export function getSavedFromStorage<T extends { last_updated?: number }>(
   slug: string,
-  options: SavedEntityOptions<T>
+  options: SavedEntityOptions<T>,
 ): T | null {
   const storage = getSavedStorage(options.storage);
   if (!storage) return null;
@@ -152,7 +152,7 @@ export function getSavedFromStorage<T extends { last_updated?: number }>(
 export function hasSavedInStorage(
   storageKey: string,
   slug: string,
-  storage?: SavedStorage
+  storage?: SavedStorage,
 ): boolean {
   const targetStorage = getSavedStorage(storage);
   if (!targetStorage) return false;
@@ -168,7 +168,7 @@ export function upsertSavedInStorage<T>(
   storageKey: string,
   slug: string,
   item: T,
-  storage?: SavedStorage
+  storage?: SavedStorage,
 ): void {
   const targetStorage = getSavedStorage(storage);
   if (!targetStorage) throw new Error('Browser storage is unavailable.');
@@ -181,7 +181,7 @@ export function upsertSavedInStorage<T>(
 export function deleteSavedFromStorage(
   storageKey: string,
   slug: string,
-  storage?: SavedStorage
+  storage?: SavedStorage,
 ): void {
   const targetStorage = getSavedStorage(storage);
   if (!targetStorage) throw new Error('Browser storage is unavailable.');
@@ -191,9 +191,7 @@ export function deleteSavedFromStorage(
 }
 
 /** Parses the URL-based tab mode for pages with view/saved/builder tabs. */
-export function parseTabMode(
-  raw: string | null
-): 'view' | 'saved' | 'builder' {
+export function parseTabMode(raw: string | null): 'view' | 'saved' | 'builder' {
   if (raw === 'saved' || raw === 'builder') return raw;
   return 'view';
 }

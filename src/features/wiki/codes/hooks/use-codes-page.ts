@@ -42,7 +42,7 @@ function saveRedeemedCodes(redeemed: Set<string>) {
 export function useCodesPage(codes: Code[]) {
   const [searchParams] = useSearchParams();
   const [redeemed, setRedeemed] = useState(() =>
-    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES)
+    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES),
   );
   const [view, setView] = useState<CodeView>('unredeemed');
   const [tabValue, setTab] = useTabParam('tab', 'active', [
@@ -62,7 +62,7 @@ export function useCodesPage(codes: Code[]) {
       } catch {
         return false;
       }
-    })()
+    })(),
   );
   const [markAllOpened, markAllModal] = useDisclosure(false);
   const [clearAllOpened, clearAllModal] = useDisclosure(false);
@@ -79,7 +79,7 @@ export function useCodesPage(codes: Code[]) {
   const tabCodes = useMemo(() => getTabCodes(codes, tab), [codes, tab]);
   const filtered = useMemo(
     () => filterCodes(codes, tab, view, redeemed, search),
-    [codes, redeemed, search, tab, view]
+    [codes, redeemed, search, tab, view],
   );
   const toggleRedeemed = useCallback((code: string) => {
     setRedeemed((current) => {
@@ -119,25 +119,23 @@ export function useCodesPage(codes: Code[]) {
     {
       defaultSize: CODES_PER_PAGE,
       storageKey: getPageSizeStorageKey(STORAGE_KEY.CODES_VIEW_MODE),
-    }
+    },
   );
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     pageSize,
-    JSON.stringify({ search, view, tab })
+    JSON.stringify({ search, view, tab }),
   );
   useEffect(() => setPage(1), [pageSize, setPage]);
   const unclaimedRewards = useMemo(
     () =>
-      aggregateCodeRewards(
-        tabCodes.filter(({ code }) => !redeemed.has(code))
-      ),
-    [redeemed, tabCodes]
+      aggregateCodeRewards(tabCodes.filter(({ code }) => !redeemed.has(code))),
+    [redeemed, tabCodes],
   );
   const claimedRewards = useMemo(
     () =>
       aggregateCodeRewards(tabCodes.filter(({ code }) => redeemed.has(code))),
-    [redeemed, tabCodes]
+    [redeemed, tabCodes],
   );
 
   return {

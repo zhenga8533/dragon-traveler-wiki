@@ -1,10 +1,4 @@
-import {
-  Group,
-  ScrollArea,
-  SimpleGrid,
-  Table,
-  Text,
-} from '@mantine/core';
+import { Group, ScrollArea, SimpleGrid, Table, Text } from '@mantine/core';
 import { getNoblePhantasmIcon } from '@/assets';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
@@ -224,9 +218,7 @@ export default function NoblePhantasmCatalogTab({
                           </Text>
                         )}
                       </Table.Td>
-                      <EntityTableLinkCell
-                        to={`/noble-phantasms/${item.slug}`}
-                      >
+                      <EntityTableLinkCell to={`/noble-phantasms/${item.slug}`}>
                         {item.name}
                       </EntityTableLinkCell>
                       <Table.Td>

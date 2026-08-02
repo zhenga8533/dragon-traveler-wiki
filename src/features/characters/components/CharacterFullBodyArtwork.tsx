@@ -80,7 +80,7 @@ export default function CharacterFullBodyArtwork({
               setMeasurement({
                 src,
                 height: getArtworkHeight(
-                  image.naturalWidth / image.naturalHeight
+                  image.naturalWidth / image.naturalHeight,
                 ),
               });
             }}

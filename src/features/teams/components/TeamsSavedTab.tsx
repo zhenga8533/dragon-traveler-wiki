@@ -203,7 +203,11 @@ export default function TeamsSavedTab({
                               size="xs"
                               variant="light"
                               color="gray"
-                              style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
+                              style={{
+                                minWidth: 56,
+                                justifyContent: 'center',
+                                cursor: 'default',
+                              }}
                             >
                               Subs
                             </Badge>
@@ -227,10 +231,7 @@ export default function TeamsSavedTab({
               </Table.Td>
               <Table.Td>
                 {team.faction && (
-                  <FactionTag
-                    faction={team.faction}
-                    size="sm"
-                  />
+                  <FactionTag faction={team.faction} size="sm" />
                 )}
               </Table.Td>
               <Table.Td>

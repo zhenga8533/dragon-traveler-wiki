@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Badge, Group, SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import { useGradientAccent } from '@/hooks';
 import { Link } from 'react-router';
@@ -79,50 +72,50 @@ export default function CharacterReferenceSection({
     const results: TeamInclusion[] = [];
 
     for (const team of teams) {
-        const member =
-          team.members?.find(
-            (entry) =>
-              (entry.character_slug === character.slug ||
-                entry.character_slug === character.legacy_slug) &&
-              (!entry.character_quality ||
-                entry.character_quality === character.quality)
-          ) ?? null;
+      const member =
+        team.members?.find(
+          (entry) =>
+            (entry.character_slug === character.slug ||
+              entry.character_slug === character.legacy_slug) &&
+            (!entry.character_quality ||
+              entry.character_quality === character.quality),
+        ) ?? null;
 
-        if (member) {
-          results.push({
-            teamName: team.name,
-            role: 'Main',
-            faction: team.faction,
-            contentType: normalizeContentType(team.content_type, 'All'),
-            overdriveOrder: member.overdrive_order,
-            note: member.note?.trim() || null,
-            position: member.position ?? null,
-          });
-        }
+      if (member) {
+        results.push({
+          teamName: team.name,
+          role: 'Main',
+          faction: team.faction,
+          contentType: normalizeContentType(team.content_type, 'All'),
+          overdriveOrder: member.overdrive_order,
+          note: member.note?.trim() || null,
+          position: member.position ?? null,
+        });
+      }
 
-        const benchEntry =
-          team.bench?.find((entry) => {
-            const benchSlug = getTeamBenchEntryName(entry);
-            const benchQuality = getTeamBenchEntryQuality(entry);
-            return (
-              (benchSlug === character.slug ||
-                benchSlug === character.legacy_slug) &&
-              (!benchQuality || benchQuality === character.quality)
-            );
-          }) ?? null;
+      const benchEntry =
+        team.bench?.find((entry) => {
+          const benchSlug = getTeamBenchEntryName(entry);
+          const benchQuality = getTeamBenchEntryQuality(entry);
+          return (
+            (benchSlug === character.slug ||
+              benchSlug === character.legacy_slug) &&
+            (!benchQuality || benchQuality === character.quality)
+          );
+        }) ?? null;
 
-        if (benchEntry) {
-          const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
-          results.push({
-            teamName: team.name,
-            role: 'Bench',
-            faction: team.faction,
-            contentType: normalizeContentType(team.content_type, 'All'),
-            overdriveOrder: null,
-            note: benchNote?.trim() || null,
-            position: null,
-          });
-        }
+      if (benchEntry) {
+        const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
+        results.push({
+          teamName: team.name,
+          role: 'Bench',
+          faction: team.faction,
+          contentType: normalizeContentType(team.content_type, 'All'),
+          overdriveOrder: null,
+          note: benchNote?.trim() || null,
+          position: null,
+        });
+      }
     }
 
     const roleOrder: Record<TeamInclusion['role'], number> = {
@@ -196,10 +189,7 @@ export default function CharacterReferenceSection({
                 const placement = formatPosition(entry.position);
 
                 return (
-                  <StaticSurface
-                    key={`${entry.teamName}-${entry.role}`}
-                    p="sm"
-                  >
+                  <StaticSurface key={`${entry.teamName}-${entry.role}`} p="sm">
                     <Stack gap={6}>
                       <Group
                         justify="space-between"

@@ -30,7 +30,11 @@ import {
   USAGE_QUALITY_OPTIONS,
 } from '@/features/wiki/usage/entity-usage';
 import { useEntityUsage } from '@/features/wiki/usage/use-entity-usage';
-import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useGear,
+  useGearSets,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
 import {
   useFilterPanel,
   useFilteredPageData,
@@ -47,7 +51,7 @@ import { useCallback, useMemo } from 'react';
 
 function getGearUsageReferences(character: Character): string[] {
   return (character.recommended_gear ?? []).flatMap((loadout) =>
-    Object.values(loadout.slots).flatMap((slug) => (slug ? [slug] : []))
+    Object.values(loadout.slots).flatMap((slug) => (slug ? [slug] : [])),
   );
 }
 
@@ -63,7 +67,9 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     icon: (value: string) => {
       const iconSrc = GEAR_TYPE_ICON_MAP[value as GearType];
       if (!iconSrc) return null;
-      return <SafeImage src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+      return (
+        <SafeImage src={iconSrc} alt={value} w={14} h={14} fit="contain" />
+      );
     },
   },
   {
@@ -82,12 +88,7 @@ export default function GearPage() {
     'usage',
   ]);
 
-  const {
-    data: gear,
-    loading,
-    error,
-    retry: retryGear,
-  } = useGear();
+  const { data: gear, loading, error, retry: retryGear } = useGear();
   const {
     data: gearSets,
     loading: gearSetsLoading,
@@ -104,15 +105,15 @@ export default function GearPage() {
 
   const gearSetBySlug = useMemo(
     () => new Map(gearSets.map((entry) => [entry.slug, entry])),
-    [gearSets]
+    [gearSets],
   );
 
   const gearSetOptions = useMemo(
     () =>
       [...new Set(gearSets.map((entry) => entry.name))].sort((a, b) =>
-        a.localeCompare(b)
+        a.localeCompare(b),
       ),
-    [gearSets]
+    [gearSets],
   );
   const gearFields = useMemo<FieldDef[]>(
     () => [
@@ -153,7 +154,7 @@ export default function GearPage() {
         placeholder: 'Gear lore text',
       },
     ],
-    [gearSetOptions]
+    [gearSetOptions],
   );
 
   const {
@@ -193,7 +194,7 @@ export default function GearPage() {
   const gearItemsBySet = useMemo(() => {
     const map = new Map<string, Gear[]>();
     for (const item of gear) {
-      const list = map.get(item.set) ?? [];  // item.set is a slug
+      const list = map.get(item.set) ?? []; // item.set is a slug
       list.push(item);
       map.set(item.set, list);
     }
@@ -210,15 +211,14 @@ export default function GearPage() {
 
   const usageSearchFn = useCallback(
     (entry: { item: Gear }, query: string) => {
-      const setName =
-        gearSetBySlug.get(entry.item.set)?.name ?? entry.item.set;
+      const setName = gearSetBySlug.get(entry.item.set)?.name ?? entry.item.set;
       return (
         entry.item.name.toLowerCase().includes(query) ||
         entry.item.set.toLowerCase().includes(query) ||
         setName.toLowerCase().includes(query)
       );
     },
-    [gearSetBySlug]
+    [gearSetBySlug],
   );
 
   const usageSortFn = useCallback(
@@ -226,7 +226,7 @@ export default function GearPage() {
       a: EntityUsage<Gear, Character>,
       b: EntityUsage<Gear, Character>,
       col: string | null,
-      dir: 'asc' | 'desc'
+      dir: 'asc' | 'desc',
     ) =>
       compareEntityUsage(a, b, col, dir, (left, right, column) => {
         if (column === 'type') {
@@ -238,14 +238,16 @@ export default function GearPage() {
         }
         if (column === 'set') {
           return (
-            (gearSetBySlug.get(left.item.set)?.name ?? left.item.set).localeCompare(
-              gearSetBySlug.get(right.item.set)?.name ?? right.item.set
+            (
+              gearSetBySlug.get(left.item.set)?.name ?? left.item.set
+            ).localeCompare(
+              gearSetBySlug.get(right.item.set)?.name ?? right.item.set,
             ) || left.item.name.localeCompare(right.item.name)
           );
         }
         return null;
       }),
-    [gearSetBySlug]
+    [gearSetBySlug],
   );
 
   const {
@@ -301,7 +303,7 @@ export default function GearPage() {
 
   const gearSetSortFn = useCallback(
     (a: GearSet, b: GearSet) => a.name.localeCompare(b.name),
-    []
+    [],
   );
 
   const {
@@ -325,7 +327,7 @@ export default function GearPage() {
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
   const mostRecentSetUpdate = useMemo(
     () => getLatestTimestamp(gearSets),
-    [gearSets]
+    [gearSets],
   );
 
   return (
@@ -430,7 +432,7 @@ export default function GearPage() {
                 retryFailedDataSources(
                   [error, retryGear],
                   [gearSetsError, retryGearSets],
-                  [charactersError, retryCharacters]
+                  [charactersError, retryCharacters],
                 )
               }
               gearSets={gearSets}

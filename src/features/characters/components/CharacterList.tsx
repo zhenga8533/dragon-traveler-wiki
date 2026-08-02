@@ -1,8 +1,5 @@
 import { SimpleGrid } from '@mantine/core';
-import {
-  CHARACTER_GRID_COLS,
-  CHARACTER_GRID_SPACING,
-} from '@/constants/ui';
+import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '@/constants/ui';
 import type { CharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import {
   getCharacterIdentityKey,

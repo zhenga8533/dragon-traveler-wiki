@@ -82,7 +82,7 @@ const MILESTONES: Milestone[] = [
 
 function calculateGuaranteedPulls(
   currentPulls: number,
-  summons: number
+  summons: number,
 ): number {
   if (summons < 1) {
     return 0;
@@ -105,7 +105,7 @@ function calculateRegularPulls(currentPulls: number, summons: number): number {
 function calculateMilestoneRewards(summons: number): number {
   return MILESTONES.filter((m) => m.summons <= summons).reduce(
     (sum, m) => sum + m.shards,
-    0
+    0,
   );
 }
 
@@ -143,7 +143,7 @@ type SimResult = {
 function simulateOnce(
   currentPulls: number,
   numSummons: number,
-  conditionalPity: boolean
+  conditionalPity: boolean,
 ): SimResult {
   let shardsFromDrops = 0;
   let wishingLilies = 0;
@@ -205,13 +205,13 @@ export default function MythicSummonCalculatorPage() {
 
   const handleSimulate = useCallback(() => {
     setSimResult(
-      simulateOnce(currentPulls ?? 0, numSummons ?? 0, conditionalPity)
+      simulateOnce(currentPulls ?? 0, numSummons ?? 0, conditionalPity),
     );
   }, [currentPulls, numSummons, conditionalPity]);
 
   const [targetShards, setTargetShards] = useState<number | null>(null);
   const [targetWishingLilies, setTargetWishingLilies] = useState<number | null>(
-    null
+    null,
   );
   const [targetSubstituteDolls, setTargetSubstituteDolls] = useState<
     number | null
@@ -250,16 +250,16 @@ export default function MythicSummonCalculatorPage() {
     // Count how many guaranteed pulls we get
     const guaranteedPulls = calculateGuaranteedPulls(
       safeCurrentPulls,
-      safeNumSummons
+      safeNumSummons,
     );
     const regularPulls = calculateRegularPulls(
       safeCurrentPulls,
-      safeNumSummons
+      safeNumSummons,
     );
 
     // Regular pulls have the normal drop rate
     const mythicShardsPerRegularSummon = calculateExpectedValue(
-      MYTHIC_LUMINARY_SHARD_RATES
+      MYTHIC_LUMINARY_SHARD_RATES,
     );
 
     // Guaranteed pulls have 100% chance to get a mythic shard drop
@@ -273,7 +273,7 @@ export default function MythicSummonCalculatorPage() {
 
     const wishingLiliesPerSummon = calculateExpectedValue(WISHING_LILY_RATES);
     const substituteDollFragmentsPerSummon = calculateExpectedValue(
-      SUBSTITUTE_DOLL_FRAGMENT_RATES
+      SUBSTITUTE_DOLL_FRAGMENT_RATES,
     );
     const diamondsPerSummon = calculateExpectedValue(DIAMOND_RATES);
 
@@ -281,11 +281,16 @@ export default function MythicSummonCalculatorPage() {
     // when pity fires (prob = (1-0.40)^4 ≈ 12.96%). The rest of the time it
     // acts like a regular pull and can drop everything normally.
     const pityTriggerProb = conditionalPity
-      ? Math.pow(1 - MYTHIC_LUMINARY_SHARD_RATES.reduce((s, r) => s + r.chance, 0), 4)
+      ? Math.pow(
+          1 - MYTHIC_LUMINARY_SHARD_RATES.reduce((s, r) => s + r.chance, 0),
+          4,
+        )
       : 1;
-    const effectiveRegularPulls = regularPulls + guaranteedPulls * (1 - pityTriggerProb);
+    const effectiveRegularPulls =
+      regularPulls + guaranteedPulls * (1 - pityTriggerProb);
 
-    const wishingLiliesFromRates = wishingLiliesPerSummon * effectiveRegularPulls;
+    const wishingLiliesFromRates =
+      wishingLiliesPerSummon * effectiveRegularPulls;
     const wishingLiliesBonus =
       GUARANTEED_WISHING_LILIES_PER_SUMMON * safeNumSummons;
     const totalWishingLilies = wishingLiliesFromRates + wishingLiliesBonus;
@@ -295,7 +300,8 @@ export default function MythicSummonCalculatorPage() {
       wishingLilies: totalWishingLilies,
       wishingLiliesFromRates,
       wishingLiliesBonus,
-      substituteDollFragments: substituteDollFragmentsPerSummon * effectiveRegularPulls,
+      substituteDollFragments:
+        substituteDollFragmentsPerSummon * effectiveRegularPulls,
       diamonds: diamondsPerSummon * effectiveRegularPulls,
       milestoneShards,
       totalMythicShards,
@@ -314,25 +320,29 @@ export default function MythicSummonCalculatorPage() {
     const safeCurrentPulls = currentPulls ?? 0;
 
     const mythicShardPerRegular = calculateExpectedValue(
-      MYTHIC_LUMINARY_SHARD_RATES
+      MYTHIC_LUMINARY_SHARD_RATES,
     );
     const mythicShardPerGuaranteed = conditionalPity
       ? calculateConditionalGuaranteedValue(MYTHIC_LUMINARY_SHARD_RATES)
       : calculateGuaranteedDropValue(MYTHIC_LUMINARY_SHARD_RATES);
     const wishingLilyPerRegular = calculateExpectedValue(WISHING_LILY_RATES);
     const substituteDollsPerRegular = calculateExpectedValue(
-      SUBSTITUTE_DOLL_FRAGMENT_RATES
+      SUBSTITUTE_DOLL_FRAGMENT_RATES,
     );
     const diamondsPerRegular = calculateExpectedValue(DIAMOND_RATES);
 
     const pityTriggerProb = conditionalPity
-      ? Math.pow(1 - MYTHIC_LUMINARY_SHARD_RATES.reduce((s, r) => s + r.chance, 0), 4)
+      ? Math.pow(
+          1 - MYTHIC_LUMINARY_SHARD_RATES.reduce((s, r) => s + r.chance, 0),
+          4,
+        )
       : 1;
 
     const getExpectedBySummons = (summons: number) => {
       const regularPulls = calculateRegularPulls(safeCurrentPulls, summons);
       const guaranteedPulls = summons - regularPulls;
-      const effectiveRegularPulls = regularPulls + guaranteedPulls * (1 - pityTriggerProb);
+      const effectiveRegularPulls =
+        regularPulls + guaranteedPulls * (1 - pityTriggerProb);
       const milestoneBonus =
         calculateMilestoneRewards(safeCurrentPulls + summons) -
         calculateMilestoneRewards(safeCurrentPulls);
@@ -352,7 +362,7 @@ export default function MythicSummonCalculatorPage() {
 
     const findSummonsForTarget = (
       getValue: (summons: number) => number,
-      target: number
+      target: number,
     ) => {
       let low = 1;
       let high = 1;
@@ -376,28 +386,28 @@ export default function MythicSummonCalculatorPage() {
     if (targetShards && targetShards > 0) {
       requiredSummons['mythic_luminary_shard'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).mythicShards,
-        targetShards
+        targetShards,
       );
     }
 
     if (targetWishingLilies && targetWishingLilies > 0) {
       requiredSummons['wishing_lily'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).wishingLilies,
-        targetWishingLilies
+        targetWishingLilies,
       );
     }
 
     if (targetSubstituteDolls && targetSubstituteDolls > 0) {
       requiredSummons['6_star_substitute_doll_fragment'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).substituteDolls,
-        targetSubstituteDolls
+        targetSubstituteDolls,
       );
     }
 
     if (targetDiamonds && targetDiamonds > 0) {
       requiredSummons['diamond'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).diamonds,
-        targetDiamonds
+        targetDiamonds,
       );
     }
 
@@ -410,7 +420,6 @@ export default function MythicSummonCalculatorPage() {
     currentPulls,
     conditionalPity,
   ]);
-
 
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
@@ -490,19 +499,26 @@ export default function MythicSummonCalculatorPage() {
 
             {Object.entries(reverseResults).length > 0 && (
               <Stack gap="xs">
-                {Object.entries(reverseResults).map(([resourceSlug, summons]) => (
-                  <Alert key={resourceSlug} variant="light" color={accent.primary} p="sm">
-                    <Group justify="space-between" wrap="nowrap">
-                      <Text size="sm">
-                        <ResourceBadge slug={resourceSlug} size="xs" /> need{' '}
-                        <strong>{summons}</strong> summons
-                      </Text>
-                      <Text size="xs" c="dimmed">
-                        {(currentPulls ?? 0) + summons} total
-                      </Text>
-                    </Group>
-                  </Alert>
-                ))}
+                {Object.entries(reverseResults).map(
+                  ([resourceSlug, summons]) => (
+                    <Alert
+                      key={resourceSlug}
+                      variant="light"
+                      color={accent.primary}
+                      p="sm"
+                    >
+                      <Group justify="space-between" wrap="nowrap">
+                        <Text size="sm">
+                          <ResourceBadge slug={resourceSlug} size="xs" /> need{' '}
+                          <strong>{summons}</strong> summons
+                        </Text>
+                        <Text size="xs" c="dimmed">
+                          {(currentPulls ?? 0) + summons} total
+                        </Text>
+                      </Group>
+                    </Alert>
+                  ),
+                )}
               </Stack>
             )}
           </Stack>
@@ -548,8 +564,8 @@ export default function MythicSummonCalculatorPage() {
               label="Conditional pity"
               description={
                 conditionalPity
-                  ? "5th pull only guarantees a shard if the first 4 all missed (P ≈ 12.96%)"
-                  : "5th pull always guarantees a shard regardless of earlier pulls"
+                  ? '5th pull only guarantees a shard if the first 4 all missed (P ≈ 12.96%)'
+                  : '5th pull always guarantees a shard regardless of earlier pulls'
               }
               size="sm"
             />
@@ -557,7 +573,9 @@ export default function MythicSummonCalculatorPage() {
               <Text size="sm" c="dimmed">
                 Total pulls: <strong>{results.totalPulls}</strong>
               </Text>
-              <Text size="sm" c="dimmed">•</Text>
+              <Text size="sm" c="dimmed">
+                •
+              </Text>
               <Text size="sm" className="dt-link-text">
                 Next guaranteed mythic shard pull in:{' '}
                 <strong>{results.nextGuaranteedPull}</strong> summon
@@ -638,7 +656,10 @@ export default function MythicSummonCalculatorPage() {
 
             {simResult && (
               <>
-                <Divider label="Simulation result (1 run)" labelPosition="center" />
+                <Divider
+                  label="Simulation result (1 run)"
+                  labelPosition="center"
+                />
                 <ScrollArea>
                   <Table withRowBorders={false} fz="sm" miw={380}>
                     <Table.Thead>
@@ -690,7 +711,8 @@ export default function MythicSummonCalculatorPage() {
                                 variant="light"
                                 color={diff >= 0 ? 'green' : 'red'}
                               >
-                                {diff >= 0 ? '+' : ''}{diff.toFixed(1)}
+                                {diff >= 0 ? '+' : ''}
+                                {diff.toFixed(1)}
                               </Badge>
                             </Table.Td>
                           </Table.Tr>

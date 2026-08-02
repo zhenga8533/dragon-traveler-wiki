@@ -17,7 +17,10 @@ import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
-import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
+import {
+  BUILDER_SIDE_LAYOUT_CONTAINER_SIZE,
+  STORAGE_KEY,
+} from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -127,14 +130,14 @@ export default function TierList() {
     setSearchParams,
   });
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
-    mode === 'saved' ? loadSavedTierLists() : []
+    mode === 'saved' ? loadSavedTierLists() : [],
   );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
   });
   const [isCapturingTierList, setIsCapturingTierList] = useState<string | null>(
-    null
+    null,
   );
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const isDark = useDarkMode();
@@ -170,19 +173,19 @@ export default function TierList() {
             entry.character_slug,
             entry.character_quality,
             preferredCharacterByName,
-            characterByIdentity
+            characterByIdentity,
           )
         : null,
-    [preferredCharacterByName, characterByIdentity]
+    [preferredCharacterByName, characterByIdentity],
   );
 
   const resolveTierEntryEntity = useCallback(
     (
-      entry: TierListType['entries'][number]
+      entry: TierListType['entries'][number],
     ): TierListRankableEntity | undefined => {
       if (isNoblePhantasmTierEntry(entry)) {
         const noblePhantasm = noblePhantasmBySlug.get(
-          entry.noble_phantasm_slug
+          entry.noble_phantasm_slug,
         );
         return noblePhantasm
           ? {
@@ -201,7 +204,7 @@ export default function TierList() {
           }
         : undefined;
     },
-    [noblePhantasmBySlug, resolveTierEntryCharacter]
+    [noblePhantasmBySlug, resolveTierEntryCharacter],
   );
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
@@ -215,7 +218,7 @@ export default function TierList() {
       if (
         viewFilters.factions.length > 0 &&
         !character.factions.some((faction) =>
-          viewFilters.factions.includes(faction)
+          viewFilters.factions.includes(faction),
         )
       ) {
         return false;
@@ -237,7 +240,7 @@ export default function TierList() {
 
       return true;
     },
-    [viewFilters.factions, viewFilters.classes, viewFilters.qualities]
+    [viewFilters.factions, viewFilters.classes, viewFilters.qualities],
   );
 
   const matchesEntityViewFilters = useCallback(
@@ -247,10 +250,7 @@ export default function TierList() {
       }
       const noblePhantasm = entity.noblePhantasm;
       if (!noblePhantasm) return false;
-      if (
-        viewFilters.factions.length > 0 ||
-        viewFilters.classes.length > 0
-      ) {
+      if (viewFilters.factions.length > 0 || viewFilters.classes.length > 0) {
         return false;
       }
       return (
@@ -263,7 +263,7 @@ export default function TierList() {
       viewFilters.classes.length,
       viewFilters.factions.length,
       viewFilters.qualities,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -271,7 +271,7 @@ export default function TierList() {
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
-        (value, index) => value === viewFilters.contentTypes[index]
+        (value, index) => value === viewFilters.contentTypes[index],
       );
     if (unchanged) return;
     setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
@@ -295,7 +295,7 @@ export default function TierList() {
       createClassFilterGroup(),
       createQualityFilterGroup(),
     ],
-    [contentTypeOptions]
+    [contentTypeOptions],
   );
 
   const activeFilterCount =
@@ -307,7 +307,7 @@ export default function TierList() {
     (key: string, values: string[]) => {
       setViewFilters((prev) => ({ ...prev, [key]: values }));
     },
-    [setViewFilters]
+    [setViewFilters],
   );
 
   const handleClearFilters = useCallback(() => {
@@ -405,7 +405,7 @@ export default function TierList() {
         setIsCapturingTierList(null);
       }
     },
-    [isDark]
+    [isDark],
   );
 
   const exportRefCallback = useCallback(
@@ -413,7 +413,7 @@ export default function TierList() {
       if (node) exportRefs.current.set(name, node);
       else exportRefs.current.delete(name);
     },
-    []
+    [],
   );
 
   const containerSize =
@@ -455,7 +455,6 @@ export default function TierList() {
             )}
           </Group>
         </Group>
-
 
         {isMobile && (mode === 'view' || mode === 'saved') && (
           <PageFilterHeaderControls
@@ -506,7 +505,7 @@ export default function TierList() {
               retryFailedDataSources(
                 [tierListsError, retryTierLists],
                 [charactersError, retryCharacters],
-                [noblePhantasmsError, retryNoblePhantasms]
+                [noblePhantasmsError, retryNoblePhantasms],
               )
             }
           />

@@ -1,8 +1,5 @@
 import { getResourceIcon } from '@/assets';
-import type {
-  ArrayFieldDef,
-  FieldDef,
-} from '@/components/tools/SuggestModal';
+import type { ArrayFieldDef, FieldDef } from '@/components/tools/SuggestModal';
 import type { Resource } from '@/features/wiki/resources/types';
 
 export const CODE_FIELDS: FieldDef[] = [

@@ -48,19 +48,19 @@ export interface TierListRankableEntity {
 }
 
 export function getTierListEntityType(
-  tierList: Pick<TierList, 'entity_type'>
+  tierList: Pick<TierList, 'entity_type'>,
 ): TierListEntityType {
   return tierList.entity_type ?? 'character';
 }
 
 export function isCharacterTierEntry(
-  entry: TierEntry
+  entry: TierEntry,
 ): entry is CharacterTierEntry {
   return 'character_slug' in entry;
 }
 
 export function isNoblePhantasmTierEntry(
-  entry: TierEntry
+  entry: TierEntry,
 ): entry is NoblePhantasmTierEntry {
   return 'noble_phantasm_slug' in entry;
 }

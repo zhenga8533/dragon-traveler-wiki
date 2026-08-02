@@ -19,7 +19,7 @@ function getSubclassUsageReferences(character: Character): string[] {
 
 export function useSubclassUsage(
   subclasses: Subclass[],
-  characters: Character[]
+  characters: Character[],
 ) {
   const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
   const [classes, setClasses] = useState<CharacterClass[]>(() =>
@@ -31,9 +31,9 @@ export function useSubclassUsage(
         value.every(
           (item) =>
             typeof item === 'string' &&
-            CLASS_ORDER.includes(item as CharacterClass)
-        )
-    )
+            CLASS_ORDER.includes(item as CharacterClass),
+        ),
+    ),
   );
 
   useEffect(() => {
@@ -44,36 +44,42 @@ export function useSubclassUsage(
     (entry: EntityUsage<Subclass, Character>, query: string) =>
       entry.item.name.toLowerCase().includes(query) ||
       entry.item.class.toLowerCase().includes(query),
-    []
+    [],
   );
   const filterFn = useCallback(
     ({ item }: EntityUsage<Subclass, Character>) =>
       classes.length === 0 || classes.includes(item.class),
-    [classes]
+    [classes],
   );
   const sortFn = useCallback(
     (
       a: EntityUsage<Subclass, Character>,
       b: EntityUsage<Subclass, Character>,
       column: string | null,
-      direction: 'asc' | 'desc'
+      direction: 'asc' | 'desc',
     ) =>
-      compareEntityUsage(a, b, column, direction, (left, right, customColumn) => {
-        if (customColumn === 'class') {
-          return (
-            getClassRank(left.item.class) - getClassRank(right.item.class) ||
-            left.item.name.localeCompare(right.item.name)
-          );
-        }
-        if (customColumn === 'tier') {
-          return (
-            left.item.tier - right.item.tier ||
-            left.item.name.localeCompare(right.item.name)
-          );
-        }
-        return null;
-      }),
-    []
+      compareEntityUsage(
+        a,
+        b,
+        column,
+        direction,
+        (left, right, customColumn) => {
+          if (customColumn === 'class') {
+            return (
+              getClassRank(left.item.class) - getClassRank(right.item.class) ||
+              left.item.name.localeCompare(right.item.name)
+            );
+          }
+          if (customColumn === 'tier') {
+            return (
+              left.item.tier - right.item.tier ||
+              left.item.name.localeCompare(right.item.name)
+            );
+          }
+          return null;
+        },
+      ),
+    [],
   );
   const usage = useEntityUsage({
     items: subclasses,

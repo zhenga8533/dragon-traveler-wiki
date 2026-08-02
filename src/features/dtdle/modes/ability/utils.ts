@@ -11,13 +11,15 @@ export const SKILL_TYPES: SkillType[] = [
 ];
 
 /** R+ characters with at least one mineable talent or supported skill. */
-export function getAbilityEligibleCharacters(characters: Character[]): Character[] {
+export function getAbilityEligibleCharacters(
+  characters: Character[],
+): Character[] {
   return getEligibleCharacters(characters).filter(
     (character) =>
       Boolean(character.talent) ||
       character.skills.some(
-        (skill) => skill.type && SKILL_TYPES.includes(skill.type)
-      )
+        (skill) => skill.type && SKILL_TYPES.includes(skill.type),
+      ),
   );
 }
 
@@ -27,7 +29,7 @@ export function getAbilityEligibleCharacters(characters: Character[]): Character
  */
 export function pickDailyAbility(
   character: Character,
-  dateStr: string
+  dateStr: string,
 ): AbilityAnswer {
   const pool: AbilityAnswer[] = [];
 
@@ -39,7 +41,7 @@ export function pickDailyAbility(
     });
   }
   for (const skill of character.skills.filter(
-    (entry) => entry.type && SKILL_TYPES.includes(entry.type)
+    (entry) => entry.type && SKILL_TYPES.includes(entry.type),
   )) {
     pool.push({
       characterSlug: character.slug,
@@ -51,7 +53,7 @@ export function pickDailyAbility(
 
   if (pool.length === 0) {
     throw new Error(
-      `Character ${character.slug} has no talent or skills to pick a daily ability from`
+      `Character ${character.slug} has no talent or skills to pick a daily ability from`,
     );
   }
 

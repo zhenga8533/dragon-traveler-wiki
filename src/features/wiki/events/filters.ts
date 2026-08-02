@@ -38,7 +38,7 @@ function parseFilterDate(value: Date | string | null): Date | null {
     ? new Date(
         Number(localDateMatch[1]),
         Number(localDateMatch[2]) - 1,
-        Number(localDateMatch[3])
+        Number(localDateMatch[3]),
       )
     : new Date(value);
   return Number.isNaN(parsed.getTime()) ? null : parsed;
@@ -51,15 +51,13 @@ function parseEventDate(value: string): Date {
 
 function overlapsDateRange(
   event: GameEvent,
-  [startValue, endValue]: EventFilters['dateRange']
+  [startValue, endValue]: EventFilters['dateRange'],
 ): boolean {
   const rangeStart = parseFilterDate(startValue);
   const rangeEnd = parseFilterDate(endValue);
   if (rangeStart === null && rangeEnd === null) return true;
 
-  const eventStart = event.start_date
-    ? parseEventDate(event.start_date)
-    : null;
+  const eventStart = event.start_date ? parseEventDate(event.start_date) : null;
   const eventEnd = event.end_date ? parseEventDate(event.end_date) : null;
   eventEnd?.setHours(23, 59, 59, 999);
 
@@ -90,7 +88,7 @@ export function buildEventEntries(events: GameEvent[]): EventEntry[] {
 
 export function matchesEventFilters(
   entry: EventEntry,
-  filters: EventFilters
+  filters: EventFilters,
 ): boolean {
   const { event } = entry;
   const search = filters.search.trim().toLowerCase();
@@ -119,7 +117,7 @@ export function matchesEventFilters(
   if (
     filters.characters.length > 0 &&
     !event.characters.some((character) =>
-      filters.characters.includes(character)
+      filters.characters.includes(character),
     )
   ) {
     return false;

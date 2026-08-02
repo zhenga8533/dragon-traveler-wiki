@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Group,
-  ScrollArea,
-  Stack,
-  Table,
-  Text,
-} from '@mantine/core';
+import { Badge, Group, ScrollArea, Stack, Table, Text } from '@mantine/core';
 import { getNoblePhantasmIcon } from '@/assets';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
@@ -257,7 +250,7 @@ export default function NoblePhantasmUsageTab({
                           </Table.Td>
                         </Table.Tr>
                       );
-                    }
+                    },
                   )}
                 </Table.Tbody>
               </Table>

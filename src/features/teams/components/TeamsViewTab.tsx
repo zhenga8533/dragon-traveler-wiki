@@ -196,7 +196,11 @@ export default function TeamsViewTab({
                                     size="xs"
                                     variant="light"
                                     color="gray"
-                                    style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
+                                    style={{
+                                      minWidth: 56,
+                                      justifyContent: 'center',
+                                      cursor: 'default',
+                                    }}
                                   >
                                     Subs
                                   </Badge>
@@ -215,14 +219,11 @@ export default function TeamsViewTab({
                               </Group>
                             </>
                           )}
-                                      </Stack>
+                        </Stack>
                       </Paper>
                     </Table.Td>
                     <Table.Td>
-                      <FactionTag
-                        faction={team.faction}
-                        size="sm"
-                      />
+                      <FactionTag faction={team.faction} size="sm" />
                     </Table.Td>
                     <Table.Td>
                       <Badge

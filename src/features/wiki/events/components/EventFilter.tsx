@@ -47,7 +47,7 @@ export default function EventFilter({
       : null,
   ].filter(
     (group): group is { key: string; label: string; options: string[] } =>
-      group !== null
+      group !== null,
   );
 
   return (
@@ -67,9 +67,7 @@ export default function EventFilter({
               <FilterMultiSelect
                 data={characterOptions}
                 value={filters.characters}
-                onChange={(characters) =>
-                  onChange({ ...filters, characters })
-                }
+                onChange={(characters) => onChange({ ...filters, characters })}
                 placeholder="Filter by character..."
                 renderOption={({ option }) => {
                   const portrait = portraitByReference.get(option.value);

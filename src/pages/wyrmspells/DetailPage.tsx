@@ -15,20 +15,18 @@ import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
-import { useStatusEffects, useWyrmspellChanges, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrmspellChanges,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
 import { compareQuality } from '@/utils/quality';
-import {
-  Box,
-  Container,
-  Group,
-  Stack,
-  Title,
-} from '@mantine/core';
+import { Box, Container, Group, Stack, Title } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
@@ -44,7 +42,7 @@ export default function WyrmspellPage() {
 
   const wyrmspell = useMemo(
     () => findEntityByParam(wyrmspells, name, (w) => w.slug),
-    [wyrmspells, name]
+    [wyrmspells, name],
   );
 
   useEffect(() => {
@@ -60,12 +58,12 @@ export default function WyrmspellPage() {
         if (typeCmp !== 0) return typeCmp;
         const qualityComparison = compareQuality(
           getMaxQuality(a)?.quality,
-          getMaxQuality(b)?.quality
+          getMaxQuality(b)?.quality,
         );
         if (qualityComparison !== 0) return qualityComparison;
         return a.name.localeCompare(b.name);
       }),
-    [wyrmspells]
+    [wyrmspells],
   );
 
   const wyrmspellIndex = useMemo(() => {
@@ -171,7 +169,10 @@ export default function WyrmspellPage() {
               ? {
                   label: previousWyrmspell.name,
                   path: `/wyrmspells/${previousWyrmspell.slug}`,
-                  iconSrc: getWyrmspellIcon(previousWyrmspell.slug, previousWyrmspell.type),
+                  iconSrc: getWyrmspellIcon(
+                    previousWyrmspell.slug,
+                    previousWyrmspell.type,
+                  ),
                 }
               : null
           }
@@ -180,7 +181,10 @@ export default function WyrmspellPage() {
               ? {
                   label: nextWyrmspell.name,
                   path: `/wyrmspells/${nextWyrmspell.slug}`,
-                  iconSrc: getWyrmspellIcon(nextWyrmspell.slug, nextWyrmspell.type),
+                  iconSrc: getWyrmspellIcon(
+                    nextWyrmspell.slug,
+                    nextWyrmspell.type,
+                  ),
                 }
               : null
           }

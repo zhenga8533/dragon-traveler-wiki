@@ -11,7 +11,7 @@ export function getSavedBuilderItemKey(name: string) {
 
 export function withSavedTimestamp<T extends SavedBuilderItem>(
   item: T,
-  timestamp = Math.floor(Date.now() / 1000)
+  timestamp = Math.floor(Date.now() / 1000),
 ): T {
   return { ...item, last_updated: timestamp };
 }

@@ -26,7 +26,10 @@ import {
 import ExportButton from '@/components/tools/ExportButton';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
+import {
+  RESOURCE_CATEGORY_COLOR,
+  RESOURCE_CATEGORY_ORDER,
+} from '@/constants/resource-colors';
 import { getMinWidthStyle } from '@/constants/styles';
 import { StaticSurface } from '@/components/ui/Surface';
 import { STORAGE_KEY } from '@/constants/ui';
@@ -119,7 +122,7 @@ export default function Resources() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(resources),
-    [resources]
+    [resources],
   );
 
   return (
@@ -197,12 +200,12 @@ export default function Resources() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((resource) => {
-                  const iconSrc = getResourceIcon(resource.slug, resource.category);
+                  const iconSrc = getResourceIcon(
+                    resource.slug,
+                    resource.category,
+                  );
                   return (
-                    <StaticSurface
-                      key={resource.name}
-                      p="sm"
-                    >
+                    <StaticSurface key={resource.name} p="sm">
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {iconSrc && (
@@ -273,7 +276,10 @@ export default function Resources() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((resource) => {
-                      const iconSrc = getResourceIcon(resource.slug, resource.category);
+                      const iconSrc = getResourceIcon(
+                        resource.slug,
+                        resource.category,
+                      );
                       return (
                         <Table.Tr key={resource.name}>
                           <Table.Td>

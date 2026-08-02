@@ -18,12 +18,14 @@ import {
 } from '@/features/characters/utils/character-route';
 import GearSetItemCard from '@/features/wiki/gear/components/GearSetItemCard';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
-import { useGear, useGearChanges, useGearSetChanges, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  useDarkMode,
-  useGradientAccent,
-  useMobileTooltip,
-} from '@/hooks';
+  useGear,
+  useGearChanges,
+  useGearSetChanges,
+  useGearSets,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import {
   findEntityByParam,
@@ -60,7 +62,7 @@ export default function GearSetPage() {
 
   const setData = useMemo(
     () => findEntityByParam(gearSets, setName, (entry) => entry.slug) ?? null,
-    [gearSets, setName]
+    [gearSets, setName],
   );
 
   const decodedSetSlug = setData?.slug ?? setName ?? '';
@@ -94,38 +96,37 @@ export default function GearSetPage() {
 
   const setItemSlugs = useMemo(
     () => new Set(setItems.map((i) => i.slug)),
-    [setItems]
+    [setItems],
   );
 
   const recommendedCharacters = useMemo(() => {
     const ssrChars = characters.filter((c) =>
-      SSR_AND_ABOVE.includes(c.quality)
+      SSR_AND_ABOVE.includes(c.quality),
     );
 
     return ssrChars
-      .filter(
-        (c) =>
-          c.recommended_gear?.some((loadout) =>
-            Object.values(loadout.slots).some(
-              (slug) => slug && setItemSlugs.has(slug.trim())
-            )
-          )
+      .filter((c) =>
+        c.recommended_gear?.some((loadout) =>
+          Object.values(loadout.slots).some(
+            (slug) => slug && setItemSlugs.has(slug.trim()),
+          ),
+        ),
       )
       .sort((a, b) =>
-        compareQualityThenName(a.quality, b.quality, a.name, b.name)
+        compareQualityThenName(a.quality, b.quality, a.name, b.name),
       );
   }, [characters, setItemSlugs]);
 
   const recommendedStats = useMemo(() => {
     const ssrChars = characters.filter((c) =>
-      SSR_AND_ABOVE.includes(c.quality)
+      SSR_AND_ABOVE.includes(c.quality),
     );
     if (!ssrChars.length) return null;
     return {
       count: recommendedCharacters.length,
       total: ssrChars.length,
       percentage: Math.round(
-        (recommendedCharacters.length / ssrChars.length) * 100
+        (recommendedCharacters.length / ssrChars.length) * 100,
       ),
     };
   }, [characters, recommendedCharacters]);
@@ -135,10 +136,10 @@ export default function GearSetPage() {
   // Match list page: sort by slug
   const orderedSets = useMemo(
     () =>
-      Array.from(new Map(gearSets.map((entry) => [entry.slug, entry])).values()).sort(
-        (a, b) => a.slug.localeCompare(b.slug)
-      ),
-    [gearSets]
+      Array.from(
+        new Map(gearSets.map((entry) => [entry.slug, entry])).values(),
+      ).sort((a, b) => a.slug.localeCompare(b.slug)),
+    [gearSets],
   );
 
   const setIndex = useMemo(() => {
@@ -171,7 +172,7 @@ export default function GearSetPage() {
   const qualityColor = QUALITY_COLOR[setItems[0].quality];
   const latestItemTimestamp = setItems.reduce(
     (latest, item) => Math.max(latest, item.last_updated ?? 0),
-    0
+    0,
   );
   const lastUpdatedTimestamp = setData?.last_updated ?? latestItemTimestamp;
   const displayedCharacters = showAllCharacters
@@ -179,7 +180,7 @@ export default function GearSetPage() {
     : recommendedCharacters.slice(0, 4);
   const remainingRecommendedCount = Math.max(
     recommendedCharacters.length - 4,
-    0
+    0,
   );
 
   return (
@@ -212,7 +213,10 @@ export default function GearSetPage() {
           {setBonus && setBonus.quantity > 0 && (
             <Text c="dimmed" size="sm">
               {setBonus.quantity}-piece set bonus:{' '}
-              <RichText text={setBonus.description} statusEffects={statusEffects} />
+              <RichText
+                text={setBonus.description}
+                statusEffects={statusEffects}
+              />
             </Text>
           )}
           {recommendedStats !== null && (
@@ -228,10 +232,7 @@ export default function GearSetPage() {
         </Stack>
 
         {setBonus && setBonus.quantity > 0 && (
-          <StaticSurface
-            p="md"
-            style={getLoreGlassStyles(isDark)}
-          >
+          <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
             <Stack gap={4}>
               <Text fw={600} size="sm">
                 Set Bonus
@@ -239,7 +240,10 @@ export default function GearSetPage() {
               <Text size="sm" c="dimmed">
                 Activate {setBonus.quantity} piece
                 {setBonus.quantity !== 1 ? 's' : ''} to gain{' '}
-                <RichText text={setBonus.description} statusEffects={statusEffects} />
+                <RichText
+                  text={setBonus.description}
+                  statusEffects={statusEffects}
+                />
               </Text>
             </Stack>
           </StaticSurface>

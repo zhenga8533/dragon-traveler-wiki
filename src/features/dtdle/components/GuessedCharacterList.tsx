@@ -41,7 +41,11 @@ export default function GuessedCharacterList({
                 {guess.name}
               </Text>
               <Group gap={6} align="center">
-                <QualityIcon quality={guess.quality} size={14} showTooltip={false} />
+                <QualityIcon
+                  quality={guess.quality}
+                  size={14}
+                  showTooltip={false}
+                />
                 <ClassTag characterClass={guess.character_class} size="xs" />
               </Group>
             </Stack>

@@ -18,7 +18,7 @@ export const EMPTY_RESOURCE_FILTERS: ResourceFilters = {
 
 export function matchesResourceFilters(
   resource: Resource,
-  filters: ResourceFilters
+  filters: ResourceFilters,
 ) {
   const query = filters.search.trim().toLocaleLowerCase();
   return (
@@ -39,7 +39,7 @@ export function compareResources(
   left: Resource,
   right: Resource,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);

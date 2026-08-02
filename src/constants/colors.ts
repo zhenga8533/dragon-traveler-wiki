@@ -2,11 +2,7 @@
 export { CLASS_COLOR, CLASS_ORDER } from './class-colors';
 export { FACTION_COLOR, FACTION_NAMES, FACTION_SLUGS } from './faction-colors';
 export { GEAR_TYPE_COLOR, GEAR_TYPE_ORDER } from './gear-colors';
-export {
-  QUALITY_BORDER_COLOR,
-  QUALITY_COLOR,
-  QUALITY_ORDER,
-} from './quality';
+export { QUALITY_BORDER_COLOR, QUALITY_COLOR, QUALITY_ORDER } from './quality';
 export {
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,

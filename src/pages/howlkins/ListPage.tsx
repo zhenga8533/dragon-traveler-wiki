@@ -23,7 +23,10 @@ import {
   matchesHowlkinFilters,
 } from '@/features/wiki/howlkins/filters';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
-import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useGoldenAlliances,
+  useHowlkins,
+} from '@/features/wiki/hooks/use-wiki-data';
 import {
   useFilteredPageData,
   useGradientAccent,
@@ -104,7 +107,7 @@ export default function Howlkins() {
   const qualityOptions = useMemo(() => {
     return orderFilterOptions(
       howlkins.flatMap((howlkin) => (howlkin.quality ? [howlkin.quality] : [])),
-      QUALITY_ORDER
+      QUALITY_ORDER,
     );
   }, [howlkins]);
 
@@ -115,12 +118,12 @@ export default function Howlkins() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(howlkins),
-    [howlkins]
+    [howlkins],
   );
 
   const mostRecentAllianceUpdate = useMemo(
     () => getLatestTimestamp(goldenAlliances),
-    [goldenAlliances]
+    [goldenAlliances],
   );
 
   const howlkinMap = useMemo(() => {
@@ -135,7 +138,7 @@ export default function Howlkins() {
     (alliance: GoldenAlliance, query: string) =>
       alliance.name.toLowerCase().includes(query) ||
       alliance.howlkins.some((h) => h.toLowerCase().includes(query)),
-    []
+    [],
   );
 
   const {
@@ -168,7 +171,10 @@ export default function Howlkins() {
         >
           {activeTab === 'golden-alliances' ? (
             <Group gap="xs">
-              <ExportButton data={goldenAlliances} filename="golden-alliances.json" />
+              <ExportButton
+                data={goldenAlliances}
+                filename="golden-alliances.json"
+              />
               <SuggestModal
                 buttonLabel="Suggest"
                 modalTitle="Suggest a New Golden Alliance"
@@ -204,7 +210,7 @@ export default function Howlkins() {
               onRetry={() =>
                 retryFailedDataSources(
                   [howlkinsError, retryHowlkins],
-                  [alliancesError, retryAlliances]
+                  [alliancesError, retryAlliances],
                 )
               }
               howlkins={howlkins}

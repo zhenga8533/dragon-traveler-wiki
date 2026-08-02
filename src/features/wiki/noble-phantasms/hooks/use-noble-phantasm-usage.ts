@@ -24,7 +24,7 @@ export function useNoblePhantasmUsage(
   noblePhantasms: NoblePhantasm[],
   characters: Character[],
   characterByIdentity: Map<string, Character>,
-  characterNames: Map<string, string>
+  characterNames: Map<string, string>,
 ) {
   const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
   const [linkedCharacterSlugs, setLinkedCharacterSlugs] = useState<string[]>(
@@ -34,14 +34,14 @@ export function useNoblePhantasmUsage(
         [],
         (value): value is string[] =>
           Array.isArray(value) &&
-          value.every((item) => typeof item === 'string')
-      )
+          value.every((item) => typeof item === 'string'),
+      ),
   );
 
   useEffect(() => {
     writeStoredJson(
       STORAGE_KEY.NOBLE_PHANTASM_USAGE_CHARACTERS,
-      linkedCharacterSlugs
+      linkedCharacterSlugs,
     );
   }, [linkedCharacterSlugs]);
 
@@ -51,18 +51,13 @@ export function useNoblePhantasmUsage(
         noblePhantasms.flatMap((item) => {
           if (!item.character_slug) return [];
           const character = characterByIdentity.get(item.character_slug);
-          return character
-            ? [[item.character_slug, character] as const]
-            : [];
-        })
+          return character ? [[item.character_slug, character] as const] : [];
+        }),
       ).entries(),
     ];
     const nameCounts = new Map<string, number>();
     for (const [, character] of linkedCharacters) {
-      nameCounts.set(
-        character.name,
-        (nameCounts.get(character.name) ?? 0) + 1
-      );
+      nameCounts.set(character.name, (nameCounts.get(character.name) ?? 0) + 1);
     }
     return linkedCharacters
       .map(([slug, character]) => ({
@@ -81,45 +76,51 @@ export function useNoblePhantasmUsage(
       (characterNames.get(entry.item.character_slug ?? '') ?? '')
         .toLowerCase()
         .includes(query),
-    [characterNames]
+    [characterNames],
   );
   const filterFn = useCallback(
     ({ item }: EntityUsage<NoblePhantasm, Character>) =>
       linkedCharacterSlugs.length === 0 ||
       Boolean(
         item.character_slug &&
-          linkedCharacterSlugs.includes(item.character_slug)
+          linkedCharacterSlugs.includes(item.character_slug),
       ),
-    [linkedCharacterSlugs]
+    [linkedCharacterSlugs],
   );
   const sortFn = useCallback(
     (
       a: EntityUsage<NoblePhantasm, Character>,
       b: EntityUsage<NoblePhantasm, Character>,
       column: string | null,
-      direction: 'asc' | 'desc'
+      direction: 'asc' | 'desc',
     ) =>
-      compareEntityUsage(a, b, column, direction, (left, right, customColumn) => {
-        if (customColumn === 'rarity') {
-          return compareQualityThenName(
-            left.item.quality,
-            right.item.quality,
-            left.item.name,
-            right.item.name
-          );
-        }
-        if (customColumn === 'character') {
-          return (
-            (
-              characterNames.get(left.item.character_slug ?? '') ?? ''
-            ).localeCompare(
-              characterNames.get(right.item.character_slug ?? '') ?? ''
-            ) || left.item.name.localeCompare(right.item.name)
-          );
-        }
-        return null;
-      }),
-    [characterNames]
+      compareEntityUsage(
+        a,
+        b,
+        column,
+        direction,
+        (left, right, customColumn) => {
+          if (customColumn === 'rarity') {
+            return compareQualityThenName(
+              left.item.quality,
+              right.item.quality,
+              left.item.name,
+              right.item.name,
+            );
+          }
+          if (customColumn === 'character') {
+            return (
+              (
+                characterNames.get(left.item.character_slug ?? '') ?? ''
+              ).localeCompare(
+                characterNames.get(right.item.character_slug ?? '') ?? '',
+              ) || left.item.name.localeCompare(right.item.name)
+            );
+          }
+          return null;
+        },
+      ),
+    [characterNames],
   );
   const usage = useEntityUsage({
     items: noblePhantasms,

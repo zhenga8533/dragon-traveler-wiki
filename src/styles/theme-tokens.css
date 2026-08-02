@@ -489,7 +489,9 @@
   --mantine-primary-color-8: var(--mantine-color-orange-8);
   --mantine-primary-color-9: var(--mantine-color-orange-9);
   --mantine-primary-color-filled: var(--mantine-color-orange-filled);
-  --mantine-primary-color-filled-hover: var(--mantine-color-orange-filled-hover);
+  --mantine-primary-color-filled-hover: var(
+    --mantine-color-orange-filled-hover
+  );
   --mantine-primary-color-light: var(--mantine-color-orange-light);
   --mantine-primary-color-light-hover: var(--mantine-color-orange-light-hover);
   --mantine-primary-color-light-color: var(--mantine-color-orange-light-color);

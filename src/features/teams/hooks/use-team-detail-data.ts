@@ -33,12 +33,12 @@ export function useTeamDetailData({
         characterName,
         characterQuality,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       );
       if (!character) return getCharacterRoutePathByName(characterName);
       return getCharacterRoutePath(character);
     },
-    [charMap, characterByIdentity]
+    [charMap, characterByIdentity],
   );
 
   const factionInfo = useMemo(() => {

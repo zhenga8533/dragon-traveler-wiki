@@ -18,9 +18,7 @@ import { StaticSurface } from '@/components/ui/Surface';
 import { useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TeamMember } from '@/features/teams/types';
-import {
-  resolveCharacterByNameAndQuality,
-} from '@/features/characters/utils/character-route';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
@@ -33,7 +31,7 @@ const BG_ROW_HINTS = [
 
 function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
   const grid: (TeamMember | null)[][] = Array.from({ length: 3 }, () =>
-    Array(3).fill(null)
+    Array(3).fill(null),
   );
   const unpositioned: TeamMember[] = [];
 
@@ -80,7 +78,7 @@ export function BattlefieldGrid({
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (
     characterName: string,
-    characterQuality?: string | null
+    characterQuality?: string | null,
   ) => string;
   factionColor: string;
   isDark: boolean;
@@ -171,11 +169,11 @@ export function BattlefieldGrid({
                 member.character_slug,
                 member.character_quality,
                 charMap,
-                characterByIdentity
+                characterByIdentity,
               );
               const routePath = getCharacterPath(
                 member.character_slug,
-                member.character_quality
+                member.character_quality,
               );
               const resolvedName = character?.name ?? member.character_slug;
 
@@ -198,7 +196,11 @@ export function BattlefieldGrid({
                           borderWidth={3}
                           link
                           routePath={routePath}
-                          fallbackSrc={character === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
+                          fallbackSrc={
+                            character === null
+                              ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?`
+                              : undefined
+                          }
                         />
                       </Tooltip>
                       {(member.note?.trim() || '').length > 0 && (

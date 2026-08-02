@@ -19,10 +19,7 @@ import type { Code } from '@/features/wiki/codes/types';
 import type { Resource } from '@/features/wiki/resources/types';
 import type { StarTierData } from '@/features/wiki/star-levels/types';
 import type { UsefulLink } from '@/features/wiki/useful-links/types';
-import {
-  parseObjectArray,
-  parseObjectRecord,
-} from '@/utils/data-validation';
+import { parseObjectArray, parseObjectRecord } from '@/utils/data-validation';
 
 function useEntityArray<T>(path: string) {
   return useDataFetch<T[]>(path, [], parseObjectArray<T>);
@@ -32,7 +29,7 @@ function useChangesFile(path: string) {
   return useDataFetch<ChangesFile>(
     path,
     {},
-    parseObjectRecord<ChangesFile[string]>
+    parseObjectRecord<ChangesFile[string]>,
   );
 }
 
@@ -67,7 +64,8 @@ export function useStatusEffects() {
 
   return {
     data,
-    loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
+    loading:
+      localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
     retry: () => {
       localeResult.retry();

@@ -49,9 +49,7 @@ export default function TierListEntityCard({
       <div style={{ position: 'relative', display: 'inline-block' }}>
         <SafeImage
           src={
-            noblePhantasm
-              ? getNoblePhantasmIcon(noblePhantasm.slug)
-              : undefined
+            noblePhantasm ? getNoblePhantasmIcon(noblePhantasm.slug) : undefined
           }
           alt={name}
           w={size}
@@ -69,7 +67,12 @@ export default function TierListEntityCard({
           />
         )}
       </div>
-      <Group gap={4} justify="center" wrap="nowrap" style={{ maxWidth: '100%' }}>
+      <Group
+        gap={4}
+        justify="center"
+        wrap="nowrap"
+        style={{ maxWidth: '100%' }}
+      >
         <Text
           size="xs"
           fw={500}

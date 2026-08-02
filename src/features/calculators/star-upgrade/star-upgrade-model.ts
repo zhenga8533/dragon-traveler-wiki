@@ -21,7 +21,7 @@ export type HeartTrialQuality = keyof typeof HEART_TRIAL_RATES;
 
 export function getHeartTrialShardsPerDay(
   quality: HeartTrialQuality,
-  affectionLevel20: boolean
+  affectionLevel20: boolean,
 ): number {
   return quality === 'SSR EX' && affectionLevel20
     ? 2

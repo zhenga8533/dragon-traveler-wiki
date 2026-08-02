@@ -47,7 +47,7 @@ interface FilterableCharacterPoolProps {
     filtered: Character[],
     filterHeader: React.ReactNode,
     paginationControl: React.ReactNode,
-    cols: number
+    cols: number,
   ) => React.ReactNode;
 }
 
@@ -59,11 +59,11 @@ export default function FilterableCharacterPool({
   children,
 }: FilterableCharacterPoolProps) {
   const { tierLists, selectedTierListName } = useContext(
-    TierListReferenceContext
+    TierListReferenceContext,
   );
   const { data: statusEffects } = useStatusEffects();
   const [filters, setFilters] = useState<CharacterFilters>(
-    EMPTY_CHARACTER_FILTERS
+    EMPTY_CHARACTER_FILTERS,
   );
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
@@ -77,7 +77,7 @@ export default function FilterableCharacterPool({
     layout === 'side' ? SIDE_LAYOUT_COLS : isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSizeOptions = useMemo(
     () => buildRowAlignedPageSizeOptions(cols, [4, 6, 8, 10]),
-    [cols]
+    [cols],
   );
   const { pageSize, setPageSize } = usePageSize(pageSizeOptions, {
     defaultSize: cols * ROWS_PER_PAGE,
@@ -100,12 +100,12 @@ export default function FilterableCharacterPool({
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
-    [characters]
+    [characters],
   );
 
   const characterByIdentity = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
 
   const tierOptions = useMemo(() => {
@@ -155,7 +155,7 @@ export default function FilterableCharacterPool({
         entry.character_slug,
         entry.character_quality,
         preferredCharacterByName,
-        characterByIdentity
+        characterByIdentity,
       );
       if (resolved) {
         map.set(getCharacterIdentityKey(resolved), entry.tier);
@@ -173,14 +173,14 @@ export default function FilterableCharacterPool({
     const filteredChars = filterCharacters(
       characters,
       filters,
-      selectedTierListName ? tierLookup : undefined
+      selectedTierListName ? tierLookup : undefined,
     );
     return sortCharactersByQuality(filteredChars);
   }, [characters, filters, tierLookup, selectedTierListName]);
 
   const filterKey = useMemo(
     () => JSON.stringify({ filters, selectedTierListName }),
-    [filters, selectedTierListName]
+    [filters, selectedTierListName],
   );
   const {
     page: safePage,

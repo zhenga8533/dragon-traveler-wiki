@@ -105,7 +105,8 @@ export const ROUTE_CATALOG = [
     id: 'gear',
     pattern: '/gear',
     fallback: 'gear-list',
-    searchKeywords: 'gear equipment set headgear chestplate bracers boots weapon accessory',
+    searchKeywords:
+      'gear equipment set headgear chestplate bracers boots weapon accessory',
     meta: {
       title: 'Gear',
       description:
@@ -169,7 +170,8 @@ export const ROUTE_CATALOG = [
     id: 'relics',
     pattern: '/relics',
     fallback: 'relic-list',
-    searchKeywords: 'relics sanctuary fated legendary ritual vessel oracle scroll',
+    searchKeywords:
+      'relics sanctuary fated legendary ritual vessel oracle scroll',
     meta: {
       title: 'Relics',
       description:
@@ -195,7 +197,7 @@ export const ROUTE_CATALOG = [
     meta: {
       title: 'Resources',
       description:
-        'Search and filter game resources by category and quality, with descriptions covering each item\'s purpose and use.',
+        "Search and filter game resources by category and quality, with descriptions covering each item's purpose and use.",
     },
   },
   {
@@ -380,7 +382,8 @@ export const ROUTE_CATALOG = [
   {
     id: 'mythicSummonCalculator',
     pattern: '/toolbox/mythic-summon-calculator',
-    searchKeywords: 'mythic summon calculator pull rates rewards pity simulation',
+    searchKeywords:
+      'mythic summon calculator pull rates rewards pity simulation',
     meta: {
       title: 'Mythic Summon Calculator',
       description:
@@ -434,7 +437,7 @@ export type RouteCatalogEntry = (typeof ROUTE_CATALOG)[number];
 export const ROUTE_META: readonly RouteCatalogEntry[] = ROUTE_CATALOG;
 
 export const ROUTE_PATH = Object.fromEntries(
-  ROUTE_CATALOG.map(({ id, pattern }) => [id, pattern])
+  ROUTE_CATALOG.map(({ id, pattern }) => [id, pattern]),
 ) as Record<RouteId, string>;
 
 export function getRouteById(id: RouteId): RouteCatalogEntry {
@@ -444,12 +447,12 @@ export function getRouteById(id: RouteId): RouteCatalogEntry {
 }
 
 export function getRouteMetaEntry(
-  pathname: string
+  pathname: string,
 ): RouteCatalogEntry | undefined {
   return ROUTE_CATALOG.find(
     ({ pattern }) =>
       pattern !== '*' &&
-      matchPath({ path: pattern, end: true }, pathname) !== null
+      matchPath({ path: pattern, end: true }, pathname) !== null,
   );
 }
 
@@ -469,6 +472,6 @@ export function getNavigationPatterns(routeId: RouteId): string[] {
   return ROUTE_CATALOG.filter(
     (entry) =>
       entry.id === routeId ||
-      ('navigationParent' in entry && entry.navigationParent === routeId)
+      ('navigationParent' in entry && entry.navigationParent === routeId),
   ).map(({ pattern }) => pattern);
 }

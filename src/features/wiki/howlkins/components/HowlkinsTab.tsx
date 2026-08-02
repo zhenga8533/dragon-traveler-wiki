@@ -1,5 +1,12 @@
 import { Link } from 'react-router';
-import { Group, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import {
+  Group,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+} from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -10,10 +17,7 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
-import {
-  InteractiveSurface,
-  StaticSurface,
-} from '@/components/ui/Surface';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
@@ -197,7 +201,9 @@ export default function HowlkinsTab({
                         <Group gap="sm" wrap="wrap">
                           <Text
                             fw={700}
-                            className={allianceSlug ? 'dt-link-text' : undefined}
+                            className={
+                              allianceSlug ? 'dt-link-text' : undefined
+                            }
                             lineClamp={1}
                           >
                             {howlkin.name}
@@ -262,7 +268,10 @@ export default function HowlkinsTab({
                 </Table.Thead>
                 <Table.Tbody>
                   {pageItems.map((howlkin) => {
-                    const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
+                    const iconSrc = getHowlkinIcon(
+                      howlkin.slug,
+                      howlkin.quality,
+                    );
                     const allianceSlug = howlkinToAlliance.get(howlkin.slug);
                     return (
                       <Table.Tr key={howlkin.name}>

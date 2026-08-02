@@ -20,11 +20,11 @@ test('usage quality filters share the canonical quality thresholds', () => {
   ];
   assert.deepEqual(
     filterUsageCharacters(characters, 'ssr-plus').map(({ name }) => name),
-    ['Alpha', 'Beta']
+    ['Alpha', 'Beta'],
   );
   assert.deepEqual(
     filterUsageCharacters(characters, 'ssr').map(({ name }) => name),
-    ['Alpha', 'Beta', 'Gamma']
+    ['Alpha', 'Beta', 'Gamma'],
   );
   assert.equal(filterUsageCharacters(charactersWithUnknown, 'ssr').length, 3);
   assert.equal(filterUsageCharacters(charactersWithUnknown, 'all').length, 5);
@@ -50,10 +50,15 @@ test('usage aggregation resolves aliases, trims references, and deduplicates', (
       percentage,
     })),
     [
-      { slug: 'a', users: ['Alpha', 'Beta', 'Gamma'], count: 3, percentage: 100 },
+      {
+        slug: 'a',
+        users: ['Alpha', 'Beta', 'Gamma'],
+        count: 3,
+        percentage: 100,
+      },
       { slug: 'b', users: ['Beta'], count: 1, percentage: 33 },
       { slug: 'unused', users: [], count: 0, percentage: 0 },
-    ]
+    ],
   );
 });
 

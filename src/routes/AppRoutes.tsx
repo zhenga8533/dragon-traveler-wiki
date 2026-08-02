@@ -12,19 +12,10 @@ import {
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import { Container, Group, Skeleton, Stack } from '@mantine/core';
-import {
-  getRouteFallbackKind,
-  ROUTE_PATH,
-} from '@/constants/route-meta';
+import { getRouteFallbackKind, ROUTE_PATH } from '@/constants/route-meta';
 import { STORAGE_KEY } from '@/constants/ui';
 import { lazy, Suspense } from 'react';
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useParams,
-} from 'react-router';
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router';
 
 const Home = lazy(() => import('@/pages/home/Page'));
 const Artifacts = lazy(() => import('@/pages/artifacts/ListPage'));
@@ -39,7 +30,7 @@ const Howlkins = lazy(() => import('@/pages/howlkins/ListPage'));
 const GoldenAlliancePage = lazy(() => import('@/pages/howlkins/DetailPage'));
 const NoblePhantasms = lazy(() => import('@/pages/noble-phantasms/ListPage'));
 const NoblePhantasmPage = lazy(
-  () => import('@/pages/noble-phantasms/DetailPage')
+  () => import('@/pages/noble-phantasms/DetailPage'),
 );
 const Resources = lazy(() => import('@/pages/resources/Page'));
 const Subclasses = lazy(() => import('@/pages/subclasses/ListPage'));
@@ -59,13 +50,13 @@ const Changelog = lazy(() => import('@/pages/changelog/Page'));
 const BeginnerQA = lazy(() => import('@/pages/guides/BeginnerQA'));
 const FAQ = lazy(() => import('@/pages/faq/Page'));
 const StarUpgradeCalculator = lazy(
-  () => import('@/pages/guides/StarUpgradeCalculator')
+  () => import('@/pages/guides/StarUpgradeCalculator'),
 );
 const MythicSummonCalculator = lazy(
-  () => import('@/pages/guides/MythicSummonCalculator')
+  () => import('@/pages/guides/MythicSummonCalculator'),
 );
 const DiamondCalculator = lazy(
-  () => import('@/pages/guides/DiamondCalculator')
+  () => import('@/pages/guides/DiamondCalculator'),
 );
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const Dtdle = lazy(() => import('@/pages/guides/Dtdle'));
@@ -286,10 +277,7 @@ function RouteFallback() {
           viewMode={
             tab === 'usage'
               ? 'list'
-              : getStoredViewMode(
-                  STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE,
-                  'grid'
-                )
+              : getStoredViewMode(STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE, 'grid')
           }
           listType="table"
           withToolbar
@@ -330,7 +318,7 @@ function RouteFallback() {
     const isTeams = fallbackKind === 'team-list';
     const viewMode = getStoredViewMode(
       isTeams ? STORAGE_KEY.TEAMS_VIEW_MODE : STORAGE_KEY.TIER_LIST_VIEW_MODE,
-      'grid'
+      'grid',
     );
     return (
       <ListRouteLoading containerSize="lg">
@@ -401,7 +389,10 @@ export default function AppRoutes() {
           element={<GoldenAlliancePage />}
         />
         <Route path={ROUTE_PATH.noblePhantasms} element={<NoblePhantasms />} />
-        <Route path={ROUTE_PATH.noblePhantasmDetail} element={<NoblePhantasmPage />} />
+        <Route
+          path={ROUTE_PATH.noblePhantasmDetail}
+          element={<NoblePhantasmPage />}
+        />
         <Route path={ROUTE_PATH.resources} element={<Resources />} />
         <Route path={ROUTE_PATH.subclasses} element={<Subclasses />} />
         <Route path={ROUTE_PATH.statusEffects} element={<StatusEffects />} />

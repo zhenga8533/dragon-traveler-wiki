@@ -52,11 +52,7 @@ export default function OracleScrollRelicCard({
           </Stack>
         </Group>
 
-        <StaticSurface
-          p="sm"
-          radius="sm"
-          style={getLoreGlassStyles(isDark)}
-        >
+        <StaticSurface p="sm" radius="sm" style={getLoreGlassStyles(isDark)}>
           <RichText text={relic.lore} statusEffects={statusEffects} italic />
         </StaticSurface>
       </Stack>

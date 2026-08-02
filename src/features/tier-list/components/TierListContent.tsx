@@ -4,7 +4,10 @@ import ClassTag from '@/components/ui/ClassTag';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getContentTypeColor, normalizeContentType } from '@/constants/content-types';
+import {
+  getContentTypeColor,
+  normalizeContentType,
+} from '@/constants/content-types';
 import { getTierColor, TIER_ORDER } from '@/constants/tier-colors';
 import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
 import TierListEntityCard from '@/features/tier-list/components/TierListEntityCard';
@@ -27,7 +30,7 @@ import type { ReactNode } from 'react';
 interface TierListContentProps {
   tierList: TierListType;
   resolveTierEntryEntity: (
-    entry: TierListType['entries'][number]
+    entry: TierListType['entries'][number],
   ) => TierListRankableEntity | undefined;
   viewMode: string;
   headerActions: ReactNode;
@@ -47,9 +50,9 @@ export default function TierListContent({
 }: TierListContentProps) {
   const tierOrder = tierList.tiers?.map((tier) => tier.name) ?? TIER_ORDER;
   const definedTierSet = new Set(tierOrder);
-  const extraTiers = [...new Set(tierList.entries.map((entry) => entry.tier))].filter(
-    (tier) => !definedTierSet.has(tier)
-  );
+  const extraTiers = [
+    ...new Set(tierList.entries.map((entry) => entry.tier)),
+  ].filter((tier) => !definedTierSet.has(tier));
   const filteredEntries = tierList.entries.filter((entry) => {
     if (!entityFilter) return true;
     const entity = resolveTierEntryEntity(entry);
@@ -59,7 +62,8 @@ export default function TierListContent({
     .map((tier, tierIndex) => ({
       tier,
       tierIndex,
-      note: tierList.tiers?.find((definition) => definition.name === tier)?.note,
+      note: tierList.tiers?.find((definition) => definition.name === tier)
+        ?.note,
       entries: filteredEntries.filter((entry) => entry.tier === tier),
     }))
     .filter((group) => group.entries.length > 0);

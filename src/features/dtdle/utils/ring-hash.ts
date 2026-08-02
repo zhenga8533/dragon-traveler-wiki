@@ -27,7 +27,7 @@ export function buildRing(slugs: string[]): RingEntry[] {
 export function pickFromRing(
   ring: RingEntry[],
   dateHash: number,
-  excludedSlugs: ReadonlySet<string>
+  excludedSlugs: ReadonlySet<string>,
 ): string {
   let startIdx = ring.findIndex((entry) => entry.hash >= dateHash);
   if (startIdx === -1) startIdx = 0;

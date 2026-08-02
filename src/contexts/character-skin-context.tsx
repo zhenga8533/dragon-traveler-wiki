@@ -1,28 +1,25 @@
 import { STORAGE_KEY } from '@/constants/ui';
-import {
-  useCallback,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useCallback, useMemo, useState, type ReactNode } from 'react';
 import { CharacterSkinContext } from './character-skin';
 
 function loadSkinsEnabled(): boolean {
   if (typeof window === 'undefined') return false;
-  return window.localStorage.getItem(STORAGE_KEY.CHARACTER_SKINS_ENABLED) === 'true';
+  return (
+    window.localStorage.getItem(STORAGE_KEY.CHARACTER_SKINS_ENABLED) === 'true'
+  );
 }
 
 function loadSelectedSkins(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   try {
     const value = JSON.parse(
-      window.localStorage.getItem(STORAGE_KEY.CHARACTER_SKINS) ?? '{}'
+      window.localStorage.getItem(STORAGE_KEY.CHARACTER_SKINS) ?? '{}',
     );
     if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
     return Object.fromEntries(
       Object.entries(value).filter(
-        (entry): entry is [string, string] => typeof entry[1] === 'string'
-      )
+        (entry): entry is [string, string] => typeof entry[1] === 'string',
+      ),
     );
   } catch {
     return {};
@@ -37,13 +34,13 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
     setSkinsEnabledState(enabled);
     window.localStorage.setItem(
       STORAGE_KEY.CHARACTER_SKINS_ENABLED,
-      String(enabled)
+      String(enabled),
     );
   }, []);
 
   const getSelectedSkin = useCallback(
     (characterSlug: string) => selectedSkins[characterSlug] ?? 'default',
-    [selectedSkins]
+    [selectedSkins],
   );
 
   const setSelectedSkin = useCallback(
@@ -52,12 +49,12 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
         const next = { ...current, [characterSlug]: skinSlug };
         window.localStorage.setItem(
           STORAGE_KEY.CHARACTER_SKINS,
-          JSON.stringify(next)
+          JSON.stringify(next),
         );
         return next;
       });
     },
-    []
+    [],
   );
 
   const value = useMemo(
@@ -74,7 +71,7 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
       setSelectedSkin,
       skinsEnabled,
       setSkinsEnabled,
-    ]
+    ],
   );
 
   return (

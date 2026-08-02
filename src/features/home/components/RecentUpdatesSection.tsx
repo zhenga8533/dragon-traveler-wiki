@@ -49,10 +49,7 @@ export default function RecentUpdatesSection() {
   return (
     <Stack gap="xs">
       {recentEntries.map((entry) => (
-        <StaticSurface
-          key={entry.version ?? entry.date}
-          p="xs"
-        >
+        <StaticSurface key={entry.version ?? entry.date} p="xs">
           <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
             <Text size="xs" fw={600}>
               {entry.version || entry.date}

@@ -6,7 +6,7 @@ export function useNoblePhantasmCharacterIndex(characters: Character[]) {
   return useMemo(() => {
     const byIdentity = buildCharacterByIdentityMap(characters);
     const names = new Map(
-      [...byIdentity].map(([slug, character]) => [slug, character.name])
+      [...byIdentity].map(([slug, character]) => [slug, character.name]),
     );
     return { byIdentity, names };
   }, [characters]);

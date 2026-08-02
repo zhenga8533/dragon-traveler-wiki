@@ -93,12 +93,16 @@ function teamMemberIdentity(member: {
 
 export function getPastedTeamPatch(value: unknown): TeamPatch | null {
   // normalizeTeamFromPartial re-validates every field, so this cast is safe.
-  return resolvePastedPatch(value, isTeamMemberLike, 'members') as TeamPatch | null;
+  return resolvePastedPatch(
+    value,
+    isTeamMemberLike,
+    'members',
+  ) as TeamPatch | null;
 }
 
 export function normalizeTeamFromPartial(
   partial: TeamPatch,
-  fallback: Team
+  fallback: Team,
 ): Team {
   const normalizedMembers = Array.isArray(partial.members)
     ? (() => {
@@ -116,8 +120,7 @@ export function normalizeTeamFromPartial(
           if (!slug) continue;
 
           const normalizedQuality = toQuality(member.character_quality);
-          const identity =
-            `${slug}__${normalizedQuality ?? ''}`.toLowerCase();
+          const identity = `${slug}__${normalizedQuality ?? ''}`.toLowerCase();
           if (seen.has(identity)) continue;
           seen.add(identity);
 
@@ -133,7 +136,9 @@ export function normalizeTeamFromPartial(
 
           members.push({
             character_slug: slug,
-            ...(normalizedQuality ? { character_quality: normalizedQuality } : {}),
+            ...(normalizedQuality
+              ? { character_quality: normalizedQuality }
+              : {}),
             overdrive_order:
               typeof member.overdrive_order === 'number'
                 ? member.overdrive_order
@@ -147,14 +152,14 @@ export function normalizeTeamFromPartial(
     : fallback.members;
 
   const normalizedMemberIdentitySet = new Set(
-    normalizedMembers.map((member) => teamMemberIdentity(member))
+    normalizedMembers.map((member) => teamMemberIdentity(member)),
   );
 
   // Bench entries are name-only in the schema, so collapse identities to names here.
   const normalizedMemberNameSet = new Set(
     [...normalizedMemberIdentitySet].map(
-      (identity) => identity.split('__', 1)[0]
-    )
+      (identity) => identity.split('__', 1)[0],
+    ),
   );
 
   const normalizedBench = Array.isArray(partial.bench)
@@ -204,14 +209,16 @@ export function normalizeTeamFromPartial(
       : {}),
     content_type: normalizeContentType(
       partial.content_type,
-      fallback.content_type
+      fallback.content_type,
     ),
     faction: (() => {
       if (typeof partial.faction !== 'string') return fallback.faction;
       if (FACTION_SLUGS.includes(partial.faction as FactionSlug))
         return partial.faction as FactionSlug;
       // Legacy: display name like "Elemental Echo" → "elemental_echo"
-      return FACTION_NAME_TO_SLUG[partial.faction as FactionName] ?? fallback.faction;
+      return (
+        FACTION_NAME_TO_SLUG[partial.faction as FactionName] ?? fallback.faction
+      );
     })(),
     members: normalizedMembers,
     ...(normalizedBench ? { bench: normalizedBench } : {}),

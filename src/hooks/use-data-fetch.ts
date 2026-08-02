@@ -61,7 +61,7 @@ async function fetchJsonCached(path: string): Promise<unknown> {
 export function useDataFetch<T>(
   path: string,
   initial: T,
-  parse?: (raw: unknown) => T
+  parse?: (raw: unknown) => T,
 ): DataFetchResult<T> {
   const parseRef = useRef(parse);
   const initialRef = useRef(initial);

@@ -53,7 +53,12 @@ export default function TreasureCard({
             <ClassTag characterClass={treasure.character_class} size="sm" />
           </Stack>
         </Group>
-        <RichText text={treasure.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
+        <RichText
+          text={treasure.lore}
+          statusEffects={statusEffects}
+          italic
+          lineHeight={1.6}
+        />
         <EffectTable effects={treasure.effect} statusEffects={statusEffects} />
       </Stack>
     </StaticSurface>

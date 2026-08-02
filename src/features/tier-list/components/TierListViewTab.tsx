@@ -29,7 +29,7 @@ interface TierListViewTabProps {
   characters: Character[];
   noblePhantasms: NoblePhantasm[];
   resolveTierEntryEntity: (
-    entry: TierListType['entries'][number]
+    entry: TierListType['entries'][number],
   ) => TierListRankableEntity | undefined;
   viewMode: string;
   onClearFilters: () => void;
@@ -62,7 +62,7 @@ export default function TierListViewTab({
   const isMobile = useIsMobile();
   const [activeTierListName, handleSelectTierList] = useEntityTabParam(
     'list',
-    visibleTierLists
+    visibleTierLists,
   );
 
   if (visibleTierLists.length === 0) {
@@ -98,7 +98,7 @@ export default function TierListViewTab({
           tierList.entries.flatMap((entry) => {
             const entity = resolveTierEntryEntity(entry);
             return entity ? [entity.key] : [];
-          })
+          }),
         );
         const availableEntities: TierListRankableEntity[] =
           entityType === 'noble_phantasm'
@@ -115,7 +115,7 @@ export default function TierListViewTab({
         const unranked = availableEntities.filter(
           (entity) =>
             !rankedKeys.has(entity.key) &&
-            (!hasEntityFilters || entityFilter(entity))
+            (!hasEntityFilters || entityFilter(entity)),
         );
         const headerActions = (
           <EntityActionButtons

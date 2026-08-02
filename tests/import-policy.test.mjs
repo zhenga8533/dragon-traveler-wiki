@@ -17,7 +17,7 @@ test('shared barrels do not re-export feature-owned modules', async () => {
     assert.doesNotMatch(
       source,
       /@\/features\//,
-      `${barrelPath} must not re-export feature-owned modules`
+      `${barrelPath} must not re-export feature-owned modules`,
     );
   }
 });

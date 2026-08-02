@@ -8,5 +8,5 @@ const SETTINGS_EXPORT_EXCLUDE = new Set<string>([
 ]);
 
 export const SETTINGS_STORAGE_KEYS = Object.values(STORAGE_KEY).filter(
-  (key) => !SETTINGS_EXPORT_EXCLUDE.has(key)
+  (key) => !SETTINGS_EXPORT_EXCLUDE.has(key),
 );

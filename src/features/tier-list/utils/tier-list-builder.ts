@@ -1,10 +1,7 @@
 ﻿import { normalizeContentType } from '@/constants/content-types';
 import { DEFAULT_TIER_DEFINITIONS } from '@/constants/tier-colors';
 import type { Quality } from '@/types/quality';
-import type {
-  TierList,
-  TierListEntityType,
-} from '@/features/tier-list/types';
+import type { TierList, TierListEntityType } from '@/features/tier-list/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
@@ -29,8 +26,7 @@ export function isTierEntryLike(value: unknown): value is LegacyTierEntry {
 
   const hasSlug = typeof value.character_slug === 'string';
   const hasLegacyName = typeof value.character_name === 'string';
-  const hasNoblePhantasmSlug =
-    typeof value.noble_phantasm_slug === 'string';
+  const hasNoblePhantasmSlug = typeof value.noble_phantasm_slug === 'string';
   if (
     (!hasSlug && !hasLegacyName && !hasNoblePhantasmSlug) ||
     typeof value.tier !== 'string'
@@ -48,16 +44,18 @@ export function isTierEntryLike(value: unknown): value is LegacyTierEntry {
   return toQuality(value.character_quality) !== undefined;
 }
 
-export function getPastedTierListPatch(
-  value: unknown
-): TierListPatch | null {
+export function getPastedTierListPatch(value: unknown): TierListPatch | null {
   // normalizeTierListFromPartial re-validates every field, so this cast is safe.
-  return resolvePastedPatch(value, isTierEntryLike, 'entries') as TierListPatch | null;
+  return resolvePastedPatch(
+    value,
+    isTierEntryLike,
+    'entries',
+  ) as TierListPatch | null;
 }
 
 export function normalizeTierListFromPartial(
   partial: TierListPatch,
-  fallback: TierList
+  fallback: TierList,
 ): TierList {
   const inferredEntityType: TierListEntityType =
     partial.entity_type === 'character' ||
@@ -65,7 +63,7 @@ export function normalizeTierListFromPartial(
       ? partial.entity_type
       : partial.entries && partial.entries.length > 0
         ? partial.entries.some(
-            (entry) => typeof entry.noble_phantasm_slug === 'string'
+            (entry) => typeof entry.noble_phantasm_slug === 'string',
           )
           ? 'noble_phantasm'
           : 'character'
@@ -87,7 +85,7 @@ export function normalizeTierListFromPartial(
   const normalizedTiers = Array.isArray(partial.tiers)
     ? partial.tiers
         .filter(
-          (tierDef) => isRecord(tierDef) && typeof tierDef.name === 'string'
+          (tierDef) => isRecord(tierDef) && typeof tierDef.name === 'string',
         )
         .map((tierDef) => {
           const normalizedTierNote = normalizeOptionalNote(tierDef.note);
@@ -153,7 +151,7 @@ export function normalizeTierListFromPartial(
         ? partial.slug
         : fallback.slug ||
           toEntitySlug(
-            typeof partial.name === 'string' ? partial.name : fallback.name
+            typeof partial.name === 'string' ? partial.name : fallback.name,
           ),
     entity_type: inferredEntityType,
     ...(typeof partial.author === 'string' ? { author: partial.author } : {}),
@@ -162,7 +160,7 @@ export function normalizeTierListFromPartial(
       : {}),
     content_type: normalizeContentType(
       partial.content_type,
-      fallback.content_type
+      fallback.content_type,
     ),
     ...(normalizedTiers ? { tiers: normalizedTiers } : {}),
     entries: normalizedEntries,

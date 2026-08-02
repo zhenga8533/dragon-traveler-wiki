@@ -47,7 +47,7 @@ export const StaticSurface = forwardRef<HTMLElement, StaticSurfaceProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 /**

@@ -13,7 +13,7 @@ import { toEntitySlug } from '@/utils/entity-slug';
 export function useTabParam(
   paramName: string,
   defaultTab: string,
-  validTabs: string[]
+  validTabs: string[],
 ): [string, (tab: string | null) => void] {
   const [searchParams, setSearchParams] = useSearchParams();
   const raw = searchParams.get(paramName);
@@ -44,7 +44,7 @@ export function useTabParam(
  */
 export function useEntityTabParam(
   paramName: string,
-  items: readonly { name: string }[]
+  items: readonly { name: string }[],
 ): [string | undefined, (name: string | null) => void] {
   const [searchParams, setSearchParams] = useSearchParams();
   const param = searchParams.get(paramName);

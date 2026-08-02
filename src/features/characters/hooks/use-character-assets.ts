@@ -33,20 +33,24 @@ interface UseCharacterAssetsResult {
 
 export function useCharacterAssets(
   character: Character | null | undefined,
-  characterAssetKey?: string
+  characterAssetKey?: string,
 ): UseCharacterAssetsResult {
   const { getSelectedSkin, setSelectedSkin } = useContext(CharacterSkinContext);
   const assetManifest = useAssetManifest();
   const illustrationCandidates = useMemo(
     () =>
       character
-        ? resolveIllustrations(character.slug, characterAssetKey, character.skins)
+        ? resolveIllustrations(
+            character.slug,
+            characterAssetKey,
+            character.skins,
+          )
         : [],
-    [character, characterAssetKey]
+    [character, characterAssetKey],
   );
   const illustrationCandidatesKey = useMemo(
     () => illustrationCandidates.map((candidate) => candidate.src).join('|'),
-    [illustrationCandidates]
+    [illustrationCandidates],
   );
   const [probeResult, setProbeResult] = useState<{
     key: string;
@@ -63,36 +67,42 @@ export function useCharacterAssets(
         });
       }
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [assetManifest.error, illustrationCandidates, illustrationCandidatesKey]);
   const manifestIllustrations = useMemo(
     () =>
       resolveManifestIllustrations(
         illustrationCandidates,
-        assetManifest.data.assets
+        assetManifest.data.assets,
       ),
-    [assetManifest.data.assets, illustrationCandidates]
+    [assetManifest.data.assets, illustrationCandidates],
   );
   const fallbackLoading =
-    Boolean(assetManifest.error) && probeResult.key !== illustrationCandidatesKey;
+    Boolean(assetManifest.error) &&
+    probeResult.key !== illustrationCandidatesKey;
   const illustrationsLoading = assetManifest.loading || fallbackLoading;
-  const availableIllustrations = useMemo(
-    () => {
-      if (illustrationsLoading) return [];
-      return assetManifest.error
-        ? probeResult.illustrations
-        : manifestIllustrations;
-    }, [assetManifest.error, illustrationsLoading, manifestIllustrations, probeResult.illustrations]
-  );
+  const availableIllustrations = useMemo(() => {
+    if (illustrationsLoading) return [];
+    return assetManifest.error
+      ? probeResult.illustrations
+      : manifestIllustrations;
+  }, [
+    assetManifest.error,
+    illustrationsLoading,
+    manifestIllustrations,
+    probeResult.illustrations,
+  ]);
   const characterSlug = character?.slug ?? null;
   const availableSkinSlugs = useMemo(
     () =>
       new Set(
         availableIllustrations.flatMap((illustration) =>
-          illustration.skinSlug ? [illustration.skinSlug] : []
-        )
+          illustration.skinSlug ? [illustration.skinSlug] : [],
+        ),
       ),
-    [availableIllustrations]
+    [availableIllustrations],
   );
   const skinOptions = useMemo(() => {
     const options = (character?.skins ?? [])
@@ -103,20 +113,15 @@ export function useCharacterAssets(
   const savedSkinSlug = characterSlug ? getSelectedSkin(characterSlug) : null;
   const selectedSkinSlug = availableSkinSlugs.has(savedSkinSlug ?? '')
     ? savedSkinSlug
-    : skinOptions[0]?.value ?? null;
+    : (skinOptions[0]?.value ?? null);
   const fullBodySrc = useMemo(() => {
-    if (
-      !character ||
-      !selectedSkinSlug ||
-      assetManifest.loading
-    )
-      return null;
+    if (!character || !selectedSkinSlug || assetManifest.loading) return null;
 
     const characterKey = characterAssetKey?.trim() || character.slug;
     const src = getCharacterSkinAsset(
       characterKey,
       selectedSkinSlug,
-      'full_body'
+      'full_body',
     );
     if (!src) return null;
 
@@ -139,14 +144,14 @@ export function useCharacterAssets(
     (skinSlug: string | null) => {
       if (characterSlug && skinSlug) setSelectedSkin(characterSlug, skinSlug);
     },
-    [characterSlug, setSelectedSkin]
+    [characterSlug, setSelectedSkin],
   );
   const illustrations = useMemo(
     () =>
       availableIllustrations.filter(
-        (illustration) => illustration.skinSlug === selectedSkinSlug
+        (illustration) => illustration.skinSlug === selectedSkinSlug,
       ),
-    [availableIllustrations, selectedSkinSlug]
+    [availableIllustrations, selectedSkinSlug],
   );
   // Sentinel `null` (never a real illustrations array, even an empty one) ensures the
   // reset below also runs on the very first render, not just on later changes.
@@ -202,15 +207,17 @@ export function useCharacterAssets(
 
     Promise.all(
       character.skills.map(async (skill): Promise<[string, string] | null> => {
-        const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
+        const typeKey = (skill.type ?? '')
+          .replace(/ Skill$/i, '')
+          .toLowerCase();
         if (typeKey === 'divine') return null;
         const icon = await getCharacterSkillIcon(
           character.slug,
           typeKey,
-          characterAssetKey
+          characterAssetKey,
         );
         return icon ? [skill.type ?? typeKey, icon] : null;
-      })
+      }),
     )
       .then((results) => {
         if (isCancelled) return;
@@ -239,12 +246,12 @@ export function useCharacterAssets(
     () =>
       (selectedIllustration
         ? illustrations.find(
-            (illustration) => illustration.src === selectedIllustration.src
+            (illustration) => illustration.src === selectedIllustration.src,
           )
         : null) ??
       illustrations[0] ??
       null,
-    [selectedIllustration, illustrations]
+    [selectedIllustration, illustrations],
   );
 
   const activeIllustrationIndex = useMemo(() => {
@@ -253,7 +260,7 @@ export function useCharacterAssets(
     }
 
     return illustrations.findIndex(
-      (illustration) => illustration.name === activeIllustration.name
+      (illustration) => illustration.name === activeIllustration.name,
     );
   }, [activeIllustration, illustrations]);
 

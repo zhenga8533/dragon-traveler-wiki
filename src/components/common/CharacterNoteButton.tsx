@@ -1,11 +1,5 @@
 import { ActionIcon, Popover, Textarea, Tooltip } from '@mantine/core';
-import {
-  memo,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-} from 'react';
+import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { GLASS, getGlassStyles } from '@/constants/glass';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';

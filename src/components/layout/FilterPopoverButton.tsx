@@ -1,7 +1,14 @@
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent, useIsMobile } from '@/hooks';
-import { ActionIcon, Badge, Button, Indicator, Popover, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  Indicator,
+  Popover,
+  Tooltip,
+} from '@mantine/core';
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 
@@ -16,7 +23,9 @@ interface FilterPopoverButtonProps {
 // Only the button's own scrollable ancestors (plus the window) — never the dropdown's
 // internal scroll container, which isn't one of the button's ancestors. `scroll` events
 // don't bubble, so this can't fire from scrolling inside the open filter panel.
-function getScrollableAncestors(el: HTMLElement | null): (HTMLElement | Window)[] {
+function getScrollableAncestors(
+  el: HTMLElement | null,
+): (HTMLElement | Window)[] {
   const result: (HTMLElement | Window)[] = [window];
   let node = el?.parentElement ?? null;
   while (node && node !== document.body) {
@@ -48,7 +57,7 @@ export default function FilterPopoverButton({
     const scrollTargets = getScrollableAncestors(targetRef.current);
     const onScroll = () => handleClose();
     scrollTargets.forEach((el) =>
-      el.addEventListener('scroll', onScroll, { passive: true })
+      el.addEventListener('scroll', onScroll, { passive: true }),
     );
     return () => {
       scrollTargets.forEach((el) => el.removeEventListener('scroll', onScroll));

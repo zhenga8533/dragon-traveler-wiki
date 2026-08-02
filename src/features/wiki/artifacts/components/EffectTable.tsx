@@ -30,7 +30,10 @@ export default function EffectTable({
                 </Text>
               </Table.Td>
               <Table.Td>
-                <RichText text={eff.description} statusEffects={statusEffects} />
+                <RichText
+                  text={eff.description}
+                  statusEffects={statusEffects}
+                />
               </Table.Td>
             </Table.Tr>
           ))}

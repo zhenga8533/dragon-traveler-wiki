@@ -5,7 +5,10 @@ import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import type { Wyrmspell, WyrmspellType } from '@/features/wiki/wyrmspells/types';
+import type {
+  Wyrmspell,
+  WyrmspellType,
+} from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import WyrmspellTypeTag from './WyrmspellTypeTag';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
@@ -26,9 +29,7 @@ export default function WyrmspellCard({
   wyrmspells = [],
 }: WyrmspellCardProps) {
   const { data: statusEffects } = useStatusEffects();
-  const wyrmspell = wyrmspells.find(
-    (w) => w.slug === name || w.name === name
-  );
+  const wyrmspell = wyrmspells.find((w) => w.slug === name || w.name === name);
   if (!wyrmspell) return null;
 
   const displayType = type || wyrmspell.type || 'Unknown';

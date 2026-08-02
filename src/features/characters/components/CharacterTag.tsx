@@ -28,7 +28,7 @@ export default function CharacterTag({
 
   const resolvedCharacter = useMemo(
     () => buildCharacterByIdentityMap(characters).get(slug),
-    [slug, characters]
+    [slug, characters],
   );
 
   // Prefer the live data name, so renamed characters stay correct without
@@ -45,7 +45,15 @@ export default function CharacterTag({
       color={color ?? accent.primary}
       size={size}
       style={{ cursor: link ? 'pointer' : undefined }}
-      leftSection={<CharacterPortrait name={displayName} alt="" size={14} borderWidth={0} routePath={resolvedRoutePath} />}
+      leftSection={
+        <CharacterPortrait
+          name={displayName}
+          alt=""
+          size={14}
+          borderWidth={0}
+          routePath={resolvedRoutePath}
+        />
+      }
     >
       {displayName}
     </Badge>

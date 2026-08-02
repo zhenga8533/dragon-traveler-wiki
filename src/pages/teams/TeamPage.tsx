@@ -7,7 +7,10 @@ import { STORAGE_KEY } from '@/constants/ui';
 import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
 import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
-import { useTeamChanges, useTeams } from '@/features/teams/hooks/use-teams-data';
+import {
+  useTeamChanges,
+  useTeams,
+} from '@/features/teams/hooks/use-teams-data';
 import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {
@@ -76,7 +79,7 @@ export default function TeamPage() {
   const teamIndex = useMemo(() => {
     if (!team) return -1;
     return orderedTeams.findIndex(
-      (entry) => entry.name.toLowerCase() === team.name.toLowerCase()
+      (entry) => entry.name.toLowerCase() === team.name.toLowerCase(),
     );
   }, [orderedTeams, team]);
 
@@ -86,24 +89,18 @@ export default function TeamPage() {
       ? orderedTeams[teamIndex + 1]
       : null;
 
-  const {
-    preferredByName: charMap,
-    byIdentity: characterByIdentity,
-  } = useCharacterResolution(characters);
+  const { preferredByName: charMap, byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
-  const {
-    getCharacterPath,
-    factionInfo,
-    artifactMap,
-    factionColor,
-  } = useTeamDetailData({
-    team,
-    factions,
-    artifacts,
-    charMap,
-    characterByIdentity,
-    fallbackFactionColor: accent.secondary,
-  });
+  const { getCharacterPath, factionInfo, artifactMap, factionColor } =
+    useTeamDetailData({
+      team,
+      factions,
+      artifacts,
+      charMap,
+      characterByIdentity,
+      fallbackFactionColor: accent.secondary,
+    });
 
   if (loading) {
     return <DetailPageLoading />;

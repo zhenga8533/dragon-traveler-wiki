@@ -13,7 +13,7 @@ export function useEventPortraits(characters: Character[]) {
       const portrait = getPortrait(
         character.name,
         character.slug,
-        getSelectedSkin(character.slug)
+        getSelectedSkin(character.slug),
       );
       if (!portrait) continue;
 

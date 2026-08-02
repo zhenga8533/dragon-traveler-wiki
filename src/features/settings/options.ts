@@ -16,7 +16,7 @@ export const LOCALE_OPTIONS = [
   { value: 'thTH', label: 'ภาษาไทย' },
   { value: 'viVN', label: 'Tiếng Việt' },
 ].filter((option) =>
-  (SUPPORTED_LOCALES as readonly string[]).includes(option.value)
+  (SUPPORTED_LOCALES as readonly string[]).includes(option.value),
 );
 
 export const CUSTOM_COLOR_FIELDS: {

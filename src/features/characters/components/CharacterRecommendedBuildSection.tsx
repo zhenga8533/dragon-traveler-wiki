@@ -50,7 +50,8 @@ export default function CharacterRecommendedBuildSection({
   const mobileTooltip = useMobileTooltip();
   const [selectedLoadoutIndex, setSelectedLoadoutIndex] = useState(0);
 
-  const activeLoadout = recommendedGearLoadouts[selectedLoadoutIndex] ?? recommendedGearLoadouts[0];
+  const activeLoadout =
+    recommendedGearLoadouts[selectedLoadoutIndex] ?? recommendedGearLoadouts[0];
   const recommendedGearDetails = activeLoadout?.details ?? [];
   const activatedSetBonuses = activeLoadout?.activatedSetBonuses ?? [];
 
@@ -142,13 +143,14 @@ export default function CharacterRecommendedBuildSection({
                     </Text>
                     <Group gap={6} wrap="wrap">
                       {typeof entry.tier === 'number' && (
-                        <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
-                      )}
-                      {entry.className && (
-                        <ClassTag
-                          characterClass={entry.className}
+                        <TierBadge
+                          tier={String(entry.tier)}
+                          showPrefix
                           size="xs"
                         />
+                      )}
+                      {entry.className && (
+                        <ClassTag characterClass={entry.className} size="xs" />
                       )}
                     </Group>
                     {entry.effect && (
@@ -159,10 +161,7 @@ export default function CharacterRecommendedBuildSection({
                       />
                     )}
                     {entry.bonuses.length > 0 && (
-                      <Text
-                        size="xs"
-                        c="dimmed"
-                      >
+                      <Text size="xs" c="dimmed">
                         Bonuses: {entry.bonuses.join(', ')}
                       </Text>
                     )}
@@ -178,9 +177,7 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <StaticSurface
-                      p="sm"
-                    >
+                    <StaticSurface p="sm">
                       <Group gap="sm" align="flex-start" wrap="nowrap">
                         {entry.icon && (
                           <Center
@@ -210,7 +207,11 @@ export default function CharacterRecommendedBuildSection({
                               {entry.name}
                             </Text>
                             {typeof entry.tier === 'number' && (
-                              <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
+                              <TierBadge
+                                tier={String(entry.tier)}
+                                showPrefix
+                                size="xs"
+                              />
                             )}
                             {entry.className && (
                               <ClassTag
@@ -265,7 +266,7 @@ export default function CharacterRecommendedBuildSection({
                       ([statName, statValue]) =>
                         Boolean(statName) &&
                         statValue !== null &&
-                        statValue !== undefined
+                        statValue !== undefined,
                     )
                   : [];
 
@@ -281,11 +282,7 @@ export default function CharacterRecommendedBuildSection({
                         style={{ flexShrink: 0, opacity: 0.85 }}
                       />
                       <Stack gap={2} style={{ minWidth: 0 }}>
-                        <Text
-                          fw={700}
-                          size="sm"
-                          style={{ lineHeight: 1.25 }}
-                        >
+                        <Text fw={700} size="sm" style={{ lineHeight: 1.25 }}>
                           {entry.name}
                         </Text>
                         {(entry.setDisplayName || entry.quality) && (
@@ -300,10 +297,7 @@ export default function CharacterRecommendedBuildSection({
                               </Badge>
                             )}
                             {entryQuality && (
-                              <QualityIcon
-                                quality={entryQuality}
-                                size={16}
-                              />
+                              <QualityIcon quality={entryQuality} size={16} />
                             )}
                           </Group>
                         )}
@@ -376,11 +370,13 @@ export default function CharacterRecommendedBuildSection({
                     {entry.setName ? (
                       <Link
                         to={`/gear-sets/${entry.setName}`}
-                        style={{ textDecoration: 'none', width: '100%', display: 'block' }}
+                        style={{
+                          textDecoration: 'none',
+                          width: '100%',
+                          display: 'block',
+                        }}
                       >
-                        <StaticSurface
-                          p="sm"
-                        >
+                        <StaticSurface p="sm">
                           <Group gap="sm" wrap="nowrap">
                             <SafeImage
                               src={entry.icon}
@@ -405,10 +401,7 @@ export default function CharacterRecommendedBuildSection({
                         </StaticSurface>
                       </Link>
                     ) : (
-                      <StaticSurface
-                        p="sm"
-                        style={{ width: '100%' }}
-                      >
+                      <StaticSurface p="sm" style={{ width: '100%' }}>
                         <Group gap="sm" wrap="nowrap">
                           <SafeImage
                             src={entry.icon}
@@ -456,11 +449,7 @@ export default function CharacterRecommendedBuildSection({
                       <Badge variant="light" color="gray" size="xs">
                         Pieces: {setBonus.pieces}/{setBonus.requiredPieces}
                       </Badge>
-                      <Badge
-                        variant="light"
-                        color={accent.primary}
-                        size="xs"
-                      >
+                      <Badge variant="light" color={accent.primary} size="xs">
                         Activations: ×{setBonus.activations}
                       </Badge>
                     </Group>
@@ -486,9 +475,7 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <StaticSurface
-                      p="sm"
-                    >
+                    <StaticSurface p="sm">
                       <Stack gap={4}>
                         <Group justify="space-between" gap="xs">
                           <Text fw={600} size="sm" truncate>
@@ -506,7 +493,10 @@ export default function CharacterRecommendedBuildSection({
                           {setBonus.pieces}/{setBonus.requiredPieces} pieces
                         </Text>
                         <ExpandableText size="xs">
-                          <RichText text={setBonus.description} statusEffects={statusEffects} />
+                          <RichText
+                            text={setBonus.description}
+                            statusEffects={statusEffects}
+                          />
                         </ExpandableText>
                       </Stack>
                     </StaticSurface>

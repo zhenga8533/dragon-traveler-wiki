@@ -202,7 +202,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       eventResult.error,
       usefulLinkResult.error,
       tierListResult.error,
-    ]
+    ],
   );
 
   return createElement(SearchDataContext.Provider, { value }, children);

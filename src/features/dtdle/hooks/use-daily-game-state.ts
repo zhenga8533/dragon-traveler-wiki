@@ -26,10 +26,10 @@ export function useDailyGameState<T extends { date: string }>(
   storageKey: string,
   todayStr: string,
   freshState: (date: string) => T,
-  isValid: (value: unknown) => value is T
+  isValid: (value: unknown) => value is T,
 ) {
   const [state, setState] = useState<T>(() =>
-    readStoredJson(storageKey, freshState(todayStr), isValid)
+    readStoredJson(storageKey, freshState(todayStr), isValid),
   );
   if (state.date !== todayStr) {
     setState(freshState(todayStr));

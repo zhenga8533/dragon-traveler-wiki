@@ -37,7 +37,14 @@ export default function DetailPageNavigation({
               <Group gap="xs" className="dt-link-text">
                 <IoChevronBack />
                 {previousItem.iconSrc && (
-                  <SafeImage src={previousItem.iconSrc} alt={previousItem.label} w={28} h={28} fit="contain" loading="lazy" />
+                  <SafeImage
+                    src={previousItem.iconSrc}
+                    alt={previousItem.label}
+                    w={28}
+                    h={28}
+                    fit="contain"
+                    loading="lazy"
+                  />
                 )}
                 <Text size="sm">Previous: {previousItem.label}</Text>
               </Group>
@@ -68,7 +75,14 @@ export default function DetailPageNavigation({
               <Group gap="xs" className="dt-link-text">
                 <Text size="sm">Next: {nextItem.label}</Text>
                 {nextItem.iconSrc && (
-                  <SafeImage src={nextItem.iconSrc} alt={nextItem.label} w={28} h={28} fit="contain" loading="lazy" />
+                  <SafeImage
+                    src={nextItem.iconSrc}
+                    alt={nextItem.label}
+                    w={28}
+                    h={28}
+                    fit="contain"
+                    loading="lazy"
+                  />
                 )}
                 <IoChevronForward />
               </Group>

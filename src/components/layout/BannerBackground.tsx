@@ -36,13 +36,11 @@ type BannerGeometry = {
 
 function getNormalizedImageHeight(
   el: HTMLImageElement,
-  src: string | undefined
+  src: string | undefined,
 ) {
   if (el.naturalHeight <= 0) return 0;
   if (src === DEFAULT_BANNER_SRC && el.naturalWidth > 0) {
-    return (
-      el.naturalHeight * (DEFAULT_BANNER_ORIGINAL_WIDTH / el.naturalWidth)
-    );
+    return el.naturalHeight * (DEFAULT_BANNER_ORIGINAL_WIDTH / el.naturalWidth);
   }
   return el.naturalHeight;
 }
@@ -58,7 +56,7 @@ function getMediaHeight(src: string | undefined, measuredMedia: MeasuredMedia) {
 function getBannerGeometry(
   height: number,
   parallaxEnabled: boolean,
-  scrollY: number
+  scrollY: number,
 ): BannerGeometry {
   const parallaxOffset = parallaxEnabled
     ? Math.min(scrollY * PARALLAX_RATE, MAX_PARALLAX_OFFSET)
@@ -177,7 +175,7 @@ export default function BannerBackground() {
       measuredHeightBySource.set(selectedBannerSrc, height);
       setMeasuredMedia({ src: selectedBannerSrc, height });
     },
-    [measuredMedia, selectedBannerSrc]
+    [measuredMedia, selectedBannerSrc],
   );
 
   const imgRef = useCallback(
@@ -194,7 +192,7 @@ export default function BannerBackground() {
       el.addEventListener('load', update, { once: true });
       el.addEventListener('load', markLoaded, { once: true });
     },
-    [selectedBannerSrc, setBannerLoaded, updateMeasuredHeight]
+    [selectedBannerSrc, setBannerLoaded, updateMeasuredHeight],
   );
 
   const videoRef = useCallback(
@@ -209,7 +207,7 @@ export default function BannerBackground() {
       el.addEventListener('loadedmetadata', update, { once: true });
       el.addEventListener('loadeddata', markLoaded, { once: true });
     },
-    [setBannerLoaded, updateMeasuredHeight]
+    [setBannerLoaded, updateMeasuredHeight],
   );
 
   const mediaHeight = getMediaHeight(selectedBannerSrc, measuredMedia);
@@ -221,7 +219,7 @@ export default function BannerBackground() {
   const { outerStyle, stageStyle, driftingStyle } = getBannerGeometry(
     height,
     parallaxEnabled,
-    scrollY
+    scrollY,
   );
 
   return (
@@ -295,7 +293,9 @@ export default function BannerBackground() {
                 'radial-gradient(circle, var(--dt-surface-glow-a) 0%, transparent var(--dt-gradient-radial-falloff))',
               filter: 'blur(4px)',
               pointerEvents: 'none',
-              animation: reduceMotion ? 'none' : 'blobDriftA 22s ease-in-out infinite',
+              animation: reduceMotion
+                ? 'none'
+                : 'blobDriftA 22s ease-in-out infinite',
               willChange: 'transform',
             }}
           />
@@ -311,7 +311,9 @@ export default function BannerBackground() {
                 'radial-gradient(circle, var(--dt-surface-glow-b) 0%, transparent var(--dt-gradient-radial-falloff))',
               filter: 'blur(6px)',
               pointerEvents: 'none',
-              animation: reduceMotion ? 'none' : 'blobDriftB 18s ease-in-out infinite',
+              animation: reduceMotion
+                ? 'none'
+                : 'blobDriftB 18s ease-in-out infinite',
               animationDelay: '-6s',
               willChange: 'transform',
             }}

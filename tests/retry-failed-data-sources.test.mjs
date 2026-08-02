@@ -9,7 +9,7 @@ test('composite retries invoke only failed data sources', () => {
     [new Error('characters failed'), () => retried.push('characters')],
     [null, () => retried.push('gear')],
     [new Error('gear sets failed'), () => retried.push('gear sets')],
-    [undefined, () => retried.push('status effects')]
+    [undefined, () => retried.push('status effects')],
   );
 
   assert.deepEqual(retried, ['characters', 'gear sets']);

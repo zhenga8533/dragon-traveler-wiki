@@ -9,16 +9,17 @@ import {
   getContentTypeColor,
   normalizeContentType,
 } from '@/constants/content-types';
-import { GLASS_BORDER, GLASS_ICON_BG, getLoreGlassStyles } from '@/constants/glass';
+import {
+  GLASS_BORDER,
+  GLASS_ICON_BG,
+  getLoreGlassStyles,
+} from '@/constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '@/constants/detail-styles';
-import {
-  InteractiveSurface,
-  StaticSurface,
-} from '@/components/ui/Surface';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -145,10 +146,7 @@ export function TeamHeroSection({
           </Group>
 
           {team.description && (
-            <StaticSurface
-              p="md"
-              style={getLoreGlassStyles(isDark)}
-            >
+            <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
               <Text size="sm" lh={1.6}>
                 {team.description}
               </Text>
@@ -156,10 +154,7 @@ export function TeamHeroSection({
           )}
 
           {factionInfo && (
-            <StaticSurface
-              p="md"
-              style={getLoreGlassStyles(isDark)}
-            >
+            <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
               <Stack gap="sm">
                 <Title order={2} size="h3">
                   Faction Overview
@@ -188,10 +183,7 @@ export function TeamHeroSection({
                               to={`/artifacts/${artifactSlug}`}
                               style={{ textDecoration: 'none' }}
                             >
-                              <InteractiveSurface
-                                component="div"
-                                p="sm"
-                              >
+                              <InteractiveSurface component="div" p="sm">
                                 <Group
                                   gap="sm"
                                   wrap="nowrap"

@@ -22,7 +22,7 @@ test('removed latest additions do not hide the newest active re-added batch', ()
       },
       older_active: { added: 400, changes: [] },
     },
-    ['gudong', 'perseus', 'older_active']
+    ['gudong', 'perseus', 'older_active'],
   );
 
   assert.deepEqual([...result].sort(), ['gudong', 'perseus']);
@@ -35,7 +35,7 @@ test('ordinary latest additions remain new', () => {
       newest_one: { added: 200 },
       newest_two: { added: 200 },
     },
-    ['older', 'newest_one', 'newest_two']
+    ['older', 'newest_one', 'newest_two'],
   );
 
   assert.deepEqual([...result].sort(), ['newest_one', 'newest_two']);
@@ -47,7 +47,7 @@ test('history entries absent from the active roster are ignored', () => {
       stale: { added: 300 },
       current: { added: 200 },
     },
-    ['current']
+    ['current'],
   );
 
   assert.deepEqual([...result], ['current']);

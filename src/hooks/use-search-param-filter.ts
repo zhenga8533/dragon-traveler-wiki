@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router';
 
 /** Applies a global-search destination query without replacing saved filters. */
 export function useSearchParamFilter<F extends { search: string }>(
-  setFilters: Dispatch<SetStateAction<F>>
+  setFilters: Dispatch<SetStateAction<F>>,
 ) {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search');
@@ -11,7 +11,7 @@ export function useSearchParamFilter<F extends { search: string }>(
   useEffect(() => {
     if (search === null) return;
     setFilters((current) =>
-      current.search === search ? current : { ...current, search }
+      current.search === search ? current : { ...current, search },
     );
     const nextParams = new URLSearchParams(searchParams);
     nextParams.delete('search');
@@ -19,9 +19,7 @@ export function useSearchParamFilter<F extends { search: string }>(
   }, [search, searchParams, setFilters, setSearchParams]);
 }
 
-export function useSearchParamText(
-  setValue: Dispatch<SetStateAction<string>>
-) {
+export function useSearchParamText(setValue: Dispatch<SetStateAction<string>>) {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search');
 

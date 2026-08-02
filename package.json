@@ -12,7 +12,8 @@
     "build:analyze": "tsc -b && vite build --configLoader runner --mode analyze",
     "typecheck": "tsc -b",
     "lint": "eslint .",
-    "format:check": "node scripts/check-format.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "test": "node --test tests/*.test.mjs",
     "check": "npm run format:check && npm run lint && npm run test && npm run typecheck",
     "preview": "vite preview"
@@ -52,6 +53,7 @@
     "postcss": "^8.5.6",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
+    "prettier": "^3.3.3",
     "rollup-plugin-visualizer": "^7.0.0",
     "sharp": "^0.35.3",
     "typescript": "~5.9.3",

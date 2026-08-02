@@ -37,7 +37,9 @@ export function EventCharacterAvatarList({
             size={size}
             quality={resolved?.quality}
             assetKey={resolved?.slug ?? slug}
-            routePath={resolved ? getCharacterRoutePath(resolved) : `/characters/${slug}`}
+            routePath={
+              resolved ? getCharacterRoutePath(resolved) : `/characters/${slug}`
+            }
             link
             tooltip={resolved?.name ?? slug}
             loading="lazy"
@@ -49,12 +51,12 @@ export function EventCharacterAvatarList({
 }
 
 export default function EventCharacterAvatars(
-  props: EventCharacterAvatarsProps
+  props: EventCharacterAvatarsProps,
 ) {
   const { data: characterData } = useCharacters();
   const characterByIdentity = useMemo(
     () => buildCharacterByIdentityMap(characterData),
-    [characterData]
+    [characterData],
   );
 
   return (

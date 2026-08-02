@@ -20,18 +20,18 @@ export const EMPTY_NOBLE_PHANTASM_FILTERS: NoblePhantasmFilters = {
 
 export function hasValidCharacterLink(
   noblePhantasm: NoblePhantasm,
-  characterBySlug: ReadonlyMap<string, Character>
+  characterBySlug: ReadonlyMap<string, Character>,
 ): boolean {
   return Boolean(
     noblePhantasm.character_slug &&
-      characterBySlug.has(noblePhantasm.character_slug)
+      characterBySlug.has(noblePhantasm.character_slug),
   );
 }
 
 export function matchesNoblePhantasmFilters(
   noblePhantasm: NoblePhantasm,
   filters: NoblePhantasmFilters,
-  characterBySlug: ReadonlyMap<string, Character>
+  characterBySlug: ReadonlyMap<string, Character>,
 ): boolean {
   if (
     filters.qualities.length > 0 &&
@@ -62,10 +62,9 @@ export function compareNoblePhantasms(
   right: NoblePhantasm,
   column: string | null,
   direction: 'asc' | 'desc',
-  characterNames: ReadonlyMap<string, string>
+  characterNames: ReadonlyMap<string, string>,
 ): number {
-  const leftCharacterName =
-    characterNames.get(left.character_slug ?? '') ?? '';
+  const leftCharacterName = characterNames.get(left.character_slug ?? '') ?? '';
   const rightCharacterName =
     characterNames.get(right.character_slug ?? '') ?? '';
 
@@ -80,7 +79,7 @@ export function compareNoblePhantasms(
       left.quality,
       right.quality,
       left.name,
-      right.name
+      right.name,
     );
   } else if (column === 'effects') {
     comparison = right.effects.length - left.effects.length;

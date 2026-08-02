@@ -6,5 +6,5 @@ export interface ProjectEnvironment {
 
 export function loadProjectEnv(
   mode: string,
-  projectRoot: string
+  projectRoot: string,
 ): ProjectEnvironment;

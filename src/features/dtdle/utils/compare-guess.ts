@@ -11,7 +11,7 @@ function parseMeasurement(value: string | undefined): number | null {
 /** 'higher' means the answer's value is greater than the guess's value. */
 function compareOrdinal(
   guessValue: number | null,
-  answerValue: number | null
+  answerValue: number | null,
 ): 'exact' | 'higher' | 'lower' | 'unknown' {
   if (guessValue === null || answerValue === null) return 'unknown';
   if (answerValue === guessValue) return 'exact';
@@ -25,7 +25,7 @@ function compareOrdinal(
  */
 export function compareGuessToAnswer(
   guess: Character,
-  answer: Character
+  answer: Character,
 ): GuessComparison {
   const guessQualityIndex = getQualityRank(guess.quality);
   const answerQualityIndex = getQualityRank(answer.quality);
@@ -38,7 +38,8 @@ export function compareGuessToAnswer(
   const overlaps = [...guessFactions].some((f) => answerFactions.has(f));
 
   return {
-    classStatus: guess.character_class === answer.character_class ? 'exact' : 'none',
+    classStatus:
+      guess.character_class === answer.character_class ? 'exact' : 'none',
     qualityStatus:
       guessQualityIndex === answerQualityIndex
         ? 'exact'
@@ -49,11 +50,11 @@ export function compareGuessToAnswer(
     originStatus: guess.origin === answer.origin ? 'exact' : 'none',
     heightStatus: compareOrdinal(
       parseMeasurement(guess.height),
-      parseMeasurement(answer.height)
+      parseMeasurement(answer.height),
     ),
     weightStatus: compareOrdinal(
       parseMeasurement(guess.weight),
-      parseMeasurement(answer.weight)
+      parseMeasurement(answer.weight),
     ),
   };
 }

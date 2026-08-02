@@ -23,17 +23,15 @@ import {
   EMPTY_ARTIFACT_FILTERS,
   matchesArtifactFilters,
 } from '@/features/wiki/artifacts/filters';
-import {
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type { Quality } from '@/types/quality';
-import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  useFilteredPageData,
-  useGradientAccent,
-} from '@/hooks';
+  useArtifacts,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useFilteredPageData, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {
   Badge,
@@ -49,12 +47,7 @@ import { useMemo } from 'react';
 
 export default function Artifacts() {
   const { accent } = useGradientAccent();
-  const {
-    data: artifacts,
-    loading,
-    error,
-    retry,
-  } = useArtifacts();
+  const { data: artifacts, loading, error, retry } = useArtifacts();
   const { data: statusEffects } = useStatusEffects();
   const {
     filters,
@@ -90,11 +83,13 @@ export default function Artifacts() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(artifacts),
-    [artifacts]
+    [artifacts],
   );
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
     const footprints = [
-      ...new Set(artifacts.map((artifact) => `${artifact.rows}x${artifact.columns}`)),
+      ...new Set(
+        artifacts.map((artifact) => `${artifact.rows}x${artifact.columns}`),
+      ),
     ].sort((left, right) => {
       const [leftRows, leftColumns] = left.split('x').map(Number);
       const [rightRows, rightColumns] = right.split('x').map(Number);
@@ -192,7 +187,9 @@ export default function Artifacts() {
                       to={`/artifacts/${artifact.slug}`}
                       title={artifact.name}
                       imageSrc={iconSrc}
-                      titleAccessory={<QualityIcon quality={artifact.quality} />}
+                      titleAccessory={
+                        <QualityIcon quality={artifact.quality} />
+                      }
                       metadata={
                         <Group gap="xs">
                           <Badge

@@ -11,7 +11,7 @@ test('legacy tier lists default to character entries', () => {
   assert.equal(getTierListEntityType({}), 'character');
   assert.equal(
     getTierListEntityType({ entity_type: 'noble_phantasm' }),
-    'noble_phantasm'
+    'noble_phantasm',
   );
 });
 

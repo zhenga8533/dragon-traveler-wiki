@@ -11,7 +11,7 @@ import { useFilteredPageData } from '@/hooks';
 export function useNoblePhantasmCatalog(
   noblePhantasms: NoblePhantasm[],
   characterByIdentity: Map<string, Character>,
-  characterNames: Map<string, string>
+  characterNames: Map<string, string>,
 ) {
   return useFilteredPageData(noblePhantasms, {
     emptyFilters: EMPTY_NOBLE_PHANTASM_FILTERS,
@@ -24,12 +24,6 @@ export function useNoblePhantasmCatalog(
     filterFn: (item, filters) =>
       matchesNoblePhantasmFilters(item, filters, characterByIdentity),
     sortFn: (left, right, column, direction) =>
-      compareNoblePhantasms(
-        left,
-        right,
-        column,
-        direction,
-        characterNames
-      ),
+      compareNoblePhantasms(left, right, column, direction, characterNames),
   });
 }

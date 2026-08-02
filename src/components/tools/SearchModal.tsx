@@ -40,12 +40,7 @@ import {
   useState,
 } from 'react';
 import type { IconType } from 'react-icons';
-import {
-  IoArrowBack,
-  IoClose,
-  IoSearch,
-  IoTimeOutline,
-} from 'react-icons/io5';
+import { IoArrowBack, IoClose, IoSearch, IoTimeOutline } from 'react-icons/io5';
 import { useNavigate } from 'react-router';
 
 interface SearchModalProps {
@@ -64,7 +59,7 @@ function SearchModalContent({
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>(() =>
-    loadRecentSearches()
+    loadRecentSearches(),
   );
   const resultRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const navigate = useNavigate();
@@ -89,12 +84,12 @@ function SearchModalContent({
             },
           ],
         ]
-      : []
+      : [],
   );
 
   const searchResults = useMemo(
     () => searchRegistry(registry, debouncedQuery),
-    [debouncedQuery, registry]
+    [debouncedQuery, registry],
   );
   const activeSelectedIndex = searchResults.length
     ? Math.min(selectedIndex, searchResults.length - 1)
@@ -134,7 +129,7 @@ function SearchModalContent({
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex(
-        (i) => (i - 1 + searchResults.length) % searchResults.length
+        (i) => (i - 1 + searchResults.length) % searchResults.length,
       );
     } else if (e.key === 'Enter' && searchResults[activeSelectedIndex]) {
       e.preventDefault();

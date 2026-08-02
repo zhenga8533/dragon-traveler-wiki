@@ -82,10 +82,13 @@ function serveAssetsDir(assetsDir: string): Plugin {
                     ? Number.parseInt(match[2], 10)
                     : null;
                   const start =
-                    requestedStart ?? Math.max(0, size - (requestedEnd ?? size));
+                    requestedStart ??
+                    Math.max(0, size - (requestedEnd ?? size));
                   const end = Math.min(
-                    requestedStart == null ? size - 1 : (requestedEnd ?? size - 1),
-                    size - 1
+                    requestedStart == null
+                      ? size - 1
+                      : (requestedEnd ?? size - 1),
+                    size - 1,
                   );
 
                   if (start > end || start >= size) {
@@ -96,7 +99,10 @@ function serveAssetsDir(assetsDir: string): Plugin {
                   }
 
                   res.statusCode = 206;
-                  res.setHeader('Content-Range', `bytes ${start}-${end}/${size}`);
+                  res.setHeader(
+                    'Content-Range',
+                    `bytes ${start}-${end}/${size}`,
+                  );
                   res.setHeader('Content-Length', end - start + 1);
                   if (req.method === 'HEAD') {
                     res.end();

@@ -28,13 +28,13 @@ export default function Changelog() {
     {
       defaultSize: SITE_PAGE_SIZE,
       storageKey: getPageSizeStorageKey('changelog:site'),
-    }
+    },
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     changelog.length,
     pageSize,
-    String(changelog.length)
+    String(changelog.length),
   );
   useEffect(() => {
     setPage(1);

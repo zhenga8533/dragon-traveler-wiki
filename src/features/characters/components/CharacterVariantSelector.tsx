@@ -28,7 +28,6 @@ interface CharacterVariantSelectorProps {
 export default function CharacterVariantSelector({
   variants,
 }: CharacterVariantSelectorProps) {
-
   if (variants.length === 0) {
     return null;
   }
@@ -57,10 +56,7 @@ export default function CharacterVariantSelector({
                 to={routePath}
                 style={LINK_BLOCK_RESET_STYLE}
               >
-                <InteractiveSurface
-                  component="div"
-                  p="sm"
-                >
+                <InteractiveSurface component="div" p="sm">
                   <Group gap="sm" align="flex-start" wrap="nowrap">
                     <CharacterPortrait
                       name={variant.name}

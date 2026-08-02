@@ -1,5 +1,8 @@
 import { STORAGE_KEY } from '@/constants/ui';
-import { readStoredStringSet, writeStoredStringSet } from '@/utils/saved-storage';
+import {
+  readStoredStringSet,
+  writeStoredStringSet,
+} from '@/utils/saved-storage';
 import { createContext, useState, type ReactNode } from 'react';
 
 export interface FavoriteIllustrationsContextValue {

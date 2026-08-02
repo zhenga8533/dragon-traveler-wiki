@@ -5,12 +5,12 @@ import { fnv1aHash32 } from '../../utils/ring-hash';
 
 /** R+ characters with at least one declared skin scene. */
 export function getIllustrationEligibleCharacters(
-  characters: Character[]
+  characters: Character[],
 ): Character[] {
   return getEligibleCharacters(characters).filter((c) =>
     resolveIllustrations(c.name, c.slug, c.skins).some(
-      (i) => i.type === 'image'
-    )
+      (i) => i.type === 'image',
+    ),
   );
 }
 
@@ -18,7 +18,7 @@ export function getSceneIllustrations(character: Character): Illustration[] {
   return resolveIllustrations(
     character.name,
     character.slug,
-    character.skins
+    character.skins,
   ).filter((illustration) => illustration.type === 'image');
 }
 
@@ -26,11 +26,11 @@ export function getSceneIllustrations(character: Character): Illustration[] {
 export function pickDailyIllustration(
   character: Character,
   dateStr: string,
-  scenes = getSceneIllustrations(character)
+  scenes = getSceneIllustrations(character),
 ): Illustration | null {
   if (scenes.length === 0) return null;
   const orderedScenes = [...scenes].sort((left, right) =>
-    (left.skinSlug ?? '').localeCompare(right.skinSlug ?? '')
+    (left.skinSlug ?? '').localeCompare(right.skinSlug ?? ''),
   );
   const hash = fnv1aHash32(`${dateStr}:illustration-skin:${character.slug}`);
   return orderedScenes[hash % orderedScenes.length];
@@ -43,10 +43,14 @@ export function pickDailyIllustration(
  */
 export function pickIllustrationFocusPoint(
   character: Character,
-  dateStr: string
+  dateStr: string,
 ): { x: number; y: number } {
-  const xHash = fnv1aHash32(`${dateStr}:illustration-focus-x:${character.slug}`);
-  const yHash = fnv1aHash32(`${dateStr}:illustration-focus-y:${character.slug}`);
+  const xHash = fnv1aHash32(
+    `${dateStr}:illustration-focus-x:${character.slug}`,
+  );
+  const yHash = fnv1aHash32(
+    `${dateStr}:illustration-focus-y:${character.slug}`,
+  );
   return {
     x: 20 + (xHash % 61),
     y: 20 + (yHash % 61),

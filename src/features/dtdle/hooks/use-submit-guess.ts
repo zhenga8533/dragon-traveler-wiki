@@ -15,7 +15,7 @@ import type { DtdleGameState } from '../types';
 export function useSubmitGuess(
   setGameState: Dispatch<SetStateAction<DtdleGameState>>,
   answer: { slug: string } | null,
-  recordWin: () => void
+  recordWin: () => void,
 ) {
   return useCallback(
     (slug: string) => {
@@ -31,6 +31,6 @@ export function useSubmitGuess(
       });
       if (slug === answer.slug) recordWin();
     },
-    [answer, setGameState, recordWin]
+    [answer, setGameState, recordWin],
   );
 }

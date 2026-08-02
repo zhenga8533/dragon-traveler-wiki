@@ -16,12 +16,13 @@ export const EMPTY_TEAM_FILTERS: TeamFilters = {
 export function matchesTeamFilters(
   team: Team,
   search: string,
-  filters: TeamFilters
+  filters: TeamFilters,
 ): boolean {
   const query = search.trim().toLocaleLowerCase();
   return (
     (!query || team.name.toLocaleLowerCase().includes(query)) &&
-    (filters.factions.length === 0 || filters.factions.includes(team.faction)) &&
+    (filters.factions.length === 0 ||
+      filters.factions.includes(team.faction)) &&
     matchesContentTypeFilters(team.content_type, filters.contentTypes)
   );
 }

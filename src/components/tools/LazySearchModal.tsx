@@ -35,7 +35,8 @@ export default function LazySearchModal() {
   useEffect(() => {
     const requestSearch = () => setRequested(true);
     window.addEventListener(OPEN_GLOBAL_SEARCH_EVENT, requestSearch);
-    return () => window.removeEventListener(OPEN_GLOBAL_SEARCH_EVENT, requestSearch);
+    return () =>
+      window.removeEventListener(OPEN_GLOBAL_SEARCH_EVENT, requestSearch);
   }, []);
   useHotkeys([
     [

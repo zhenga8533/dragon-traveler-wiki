@@ -1,12 +1,4 @@
-import {
-  Badge,
-  Box,
-  Divider,
-  Group,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Badge, Box, Divider, Group, Stack, Text, Title } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import RichText from '@/components/common/RichText';
@@ -114,72 +106,83 @@ export default function CharacterPageSkillsSection({
         >
           <Stack gap="md">
             {character.skills.map((skill) => {
-                const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
-                const skillIcon = typeKey === 'divine'
+              const typeKey = (skill.type ?? '')
+                .replace(/ Skill$/i, '')
+                .toLowerCase();
+              const skillIcon =
+                typeKey === 'divine'
                   ? divineIcon
                   : skillIcons.get(skill.type ?? typeKey);
-                const isPassiveCooldown =
-                  skill.cooldown === 0 || skill.cooldown === '0';
-                const cooldownLabel = isPassiveCooldown
-                  ? 'Passive'
-                  : `${skill.cooldown}s`;
+              const isPassiveCooldown =
+                skill.cooldown === 0 || skill.cooldown === '0';
+              const cooldownLabel = isPassiveCooldown
+                ? 'Passive'
+                : `${skill.cooldown}s`;
 
-                return (
-                  <StaticSurface
-                    key={skill.name}
-                    id={`skill-${skill.name}`}
-                    p="md"
-                  >
-                    <Stack gap="sm">
-                      <Group gap="md" justify="space-between" wrap="nowrap">
-                        <Group gap="md" style={{ flex: 1 }}>
-                          {skillIcon && (
-                            <SafeImage
-                              src={skillIcon}
-                              alt={skill.name}
-                              w={60}
-                              h={60}
-                              fit="contain"
-                              loading="lazy"
-                            />
-                          )}
-                          <Group gap="xs" align="center">
-                            <Text fw={600} size="lg">
-                              {skill.name}
-                            </Text>
-                            {skill.type && (
-                              <Badge size="lg" variant="light" color={accent.secondary}>
-                                {skill.type}
-                              </Badge>
-                            )}
-                          </Group>
-                        </Group>
-                        <Group gap="xs" style={{ flexShrink: 0 }}>
-                          <Badge
-                            size="lg"
-                            variant={isPassiveCooldown ? 'light' : 'filled'}
-                            color={isPassiveCooldown ? 'gray' : accent.primary}
-                          >
-                            {cooldownLabel}
-                          </Badge>
-                          {skill.cost != null && (
-                            <Badge size="lg" variant="light" color={accent.secondary}>
-                              Cost {skill.cost}
+              return (
+                <StaticSurface
+                  key={skill.name}
+                  id={`skill-${skill.name}`}
+                  p="md"
+                >
+                  <Stack gap="sm">
+                    <Group gap="md" justify="space-between" wrap="nowrap">
+                      <Group gap="md" style={{ flex: 1 }}>
+                        {skillIcon && (
+                          <SafeImage
+                            src={skillIcon}
+                            alt={skill.name}
+                            w={60}
+                            h={60}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                        <Group gap="xs" align="center">
+                          <Text fw={600} size="lg">
+                            {skill.name}
+                          </Text>
+                          {skill.type && (
+                            <Badge
+                              size="lg"
+                              variant="light"
+                              color={accent.secondary}
+                            >
+                              {skill.type}
                             </Badge>
                           )}
                         </Group>
                       </Group>
-                      <RichText
-                        text={skill.description}
-                        statusEffects={statusEffects}
-                        skills={character.skills}
-                        talent={character.talent ?? null}
-                        onSkillClick={scrollToSkill}
-                        onTalentClick={scrollToTalent}
-                      />
-                    </Stack>
-                  </StaticSurface>
-                );
+                      <Group gap="xs" style={{ flexShrink: 0 }}>
+                        <Badge
+                          size="lg"
+                          variant={isPassiveCooldown ? 'light' : 'filled'}
+                          color={isPassiveCooldown ? 'gray' : accent.primary}
+                        >
+                          {cooldownLabel}
+                        </Badge>
+                        {skill.cost != null && (
+                          <Badge
+                            size="lg"
+                            variant="light"
+                            color={accent.secondary}
+                          >
+                            Cost {skill.cost}
+                          </Badge>
+                        )}
+                      </Group>
+                    </Group>
+                    <RichText
+                      text={skill.description}
+                      statusEffects={statusEffects}
+                      skills={character.skills}
+                      talent={character.talent ?? null}
+                      onSkillClick={scrollToSkill}
+                      onTalentClick={scrollToTalent}
+                    />
+                  </Stack>
+                </StaticSurface>
+              );
             })}
           </Stack>
         </CollapsibleSectionCard>
@@ -212,10 +215,7 @@ export default function CharacterPageSkillsSection({
                   </Group>
                   <Stack gap="sm">
                     {divinityLevel.choices.map((choice) => (
-                      <StaticSurface
-                        key={choice.name}
-                        p="md"
-                      >
+                      <StaticSurface key={choice.name} p="md">
                         <Stack gap="sm">
                           <Group gap="md">
                             {isLevel6 && divineIcon && (
@@ -229,9 +229,15 @@ export default function CharacterPageSkillsSection({
                               />
                             )}
                             <Group gap="xs" align="center">
-                              <Text fw={600} size="lg">{choice.name}</Text>
+                              <Text fw={600} size="lg">
+                                {choice.name}
+                              </Text>
                               {isLevel6 && (
-                                <Badge size="lg" variant="light" color={accent.secondary}>
+                                <Badge
+                                  size="lg"
+                                  variant="light"
+                                  color={accent.secondary}
+                                >
                                   Divine Skill
                                 </Badge>
                               )}

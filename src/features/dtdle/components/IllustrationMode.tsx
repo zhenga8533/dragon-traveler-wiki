@@ -1,5 +1,14 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import { Alert, Badge, Box, Group, Loader, Select, Stack, Text } from '@mantine/core';
+import {
+  Alert,
+  Badge,
+  Box,
+  Group,
+  Loader,
+  Select,
+  Stack,
+  Text,
+} from '@mantine/core';
 import { useIllustrationGame } from '../hooks/use-illustration-game';
 import { getPortrait } from '@/assets';
 import DailyStatsGrid from './DailyStatsGrid';
@@ -28,16 +37,21 @@ export default function IllustrationMode() {
 
   const skinNames = useMemo(
     () => new Map(answer?.skins.map((skin) => [skin.slug, skin.name]) ?? []),
-    [answer]
+    [answer],
   );
   const skinOptions = useMemo(
     () =>
       availableScenes.flatMap((scene) =>
         scene.skinSlug
-          ? [{ value: scene.skinSlug, label: skinNames.get(scene.skinSlug) ?? scene.name }]
-          : []
+          ? [
+              {
+                value: scene.skinSlug,
+                label: skinNames.get(scene.skinSlug) ?? scene.name,
+              },
+            ]
+          : [],
       ),
-    [availableScenes, skinNames]
+    [availableScenes, skinNames],
   );
   const answerSkinName = illustration?.skinSlug
     ? (skinNames.get(illustration.skinSlug) ?? illustration.name)
@@ -86,9 +100,13 @@ export default function IllustrationMode() {
                 const fallback = getPortrait(
                   answer.name,
                   answer.slug,
-                  illustration.skinSlug
+                  illustration.skinSlug,
                 );
-                if (fallback && event.currentTarget.src !== new URL(fallback, window.location.href).href) {
+                if (
+                  fallback &&
+                  event.currentTarget.src !==
+                    new URL(fallback, window.location.href).href
+                ) {
                   event.currentTarget.src = fallback;
                 }
               }}
@@ -124,7 +142,7 @@ export default function IllustrationMode() {
                 placeholder="Choose a skin..."
                 data={skinOptions.filter(
                   (option) =>
-                    !gameState.guessedSkinSlugs.includes(option.value)
+                    !gameState.guessedSkinSlugs.includes(option.value),
                 )}
                 value={skinGuess}
                 onChange={(value) => {

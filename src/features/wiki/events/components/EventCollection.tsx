@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Card,
-  Group,
-  SimpleGrid,
-  Stack,
-  Text,
-} from '@mantine/core';
+import { Badge, Card, Group, SimpleGrid, Stack, Text } from '@mantine/core';
 import ExpandableText from '@/components/ui/ExpandableText';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import {
@@ -112,11 +105,7 @@ function EventCard({
         />
       </Card.Section>
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
-        <EventBadges
-          event={event}
-          active={active}
-          globalColor={globalColor}
-        />
+        <EventBadges event={event} active={active} globalColor={globalColor} />
         <Text fw={600} size="md" lineClamp={2}>
           {event.name}
         </Text>

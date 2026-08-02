@@ -65,9 +65,9 @@ export default function ArtifactPage() {
   const orderedArtifacts = useMemo(
     () =>
       [...artifacts].sort((a, b) =>
-        compareQualityThenName(a.quality, b.quality, a.name, b.name)
+        compareQualityThenName(a.quality, b.quality, a.name, b.name),
       ),
-    [artifacts]
+    [artifacts],
   );
 
   const artifactIndex = useMemo(() => {
@@ -78,7 +78,7 @@ export default function ArtifactPage() {
   const recommendingFactions = useMemo(() => {
     if (!artifact) return [];
     return factions.filter((f) =>
-      f.recommended_artifacts.some((a) => a === artifact.slug)
+      f.recommended_artifacts.some((a) => a === artifact.slug),
     );
   }, [factions, artifact]);
 
@@ -149,7 +149,7 @@ export default function ArtifactPage() {
               <Badge size="lg" variant="light" color={accent.secondary}>
                 {artifact.rows}x{artifact.columns}
               </Badge>
-<Badge size="lg" variant="light" color={accent.tertiary}>
+              <Badge size="lg" variant="light" color={accent.tertiary}>
                 {artifact.treasures.length} treasure
                 {artifact.treasures.length !== 1 ? 's' : ''}
               </Badge>
@@ -167,11 +167,13 @@ export default function ArtifactPage() {
           </Stack>
         </Group>
 
-        <StaticSurface
-          p="md"
-          style={getLoreGlassStyles(isDark)}
-        >
-          <RichText text={artifact.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
+        <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
+          <RichText
+            text={artifact.lore}
+            statusEffects={statusEffects}
+            italic
+            lineHeight={1.6}
+          />
         </StaticSurface>
       </DetailPageHero>
 

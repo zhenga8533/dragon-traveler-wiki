@@ -34,7 +34,6 @@ export default function CharacterCard({
   clampName = true,
   isNew = false,
 }: CharacterCardProps) {
-
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <CharacterPortrait

@@ -1,4 +1,10 @@
-import { Box, Collapse, Group, UnstyledButton, type MantineColor } from '@mantine/core';
+import {
+  Box,
+  Collapse,
+  Group,
+  UnstyledButton,
+  type MantineColor,
+} from '@mantine/core';
 import { useCallback, useState, type ReactNode } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
 import { IMAGE_SIZE, NAV_ITEM_HEIGHT, TRANSITION } from '@/constants/ui';

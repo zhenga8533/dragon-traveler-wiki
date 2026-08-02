@@ -23,8 +23,7 @@ export function matchesWyrmFilters(wyrm: Wyrm, filters: WyrmFilters) {
     (filters.phases.length === 0 || filters.phases.includes(wyrm.phase)) &&
     (filters.qualities.length === 0 ||
       filters.qualities.includes(wyrm.quality)) &&
-    (filters.factions.length === 0 ||
-      filters.factions.includes(wyrm.faction))
+    (filters.factions.length === 0 || filters.factions.includes(wyrm.faction))
   );
 }
 
@@ -37,7 +36,7 @@ export function compareWyrms(
   left: Wyrm,
   right: Wyrm,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);

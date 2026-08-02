@@ -26,8 +26,8 @@ test('every metadata route has a matching application route', async () => {
   const source = await readFile('src/routes/AppRoutes.tsx', 'utf8');
   const applicationRouteIds = new Set(
     [...source.matchAll(/<Route\s+path=\{ROUTE_PATH\.([A-Za-z]+)\}/g)].map(
-      (match) => match[1]
-    )
+      (match) => match[1],
+    ),
   );
 
   for (const { id } of ROUTE_CATALOG) {
@@ -37,24 +37,26 @@ test('every metadata route has a matching application route', async () => {
 
 test('every application content route has metadata or a documented fallback', async () => {
   const source = await readFile('src/routes/AppRoutes.tsx', 'utf8');
-  const applicationPatterns = [...source.matchAll(/<Route\s+path="([^"]+)"/g)].map(
-    (match) => normalizePattern(match[1])
-  );
+  const applicationPatterns = [
+    ...source.matchAll(/<Route\s+path="([^"]+)"/g),
+  ].map((match) => normalizePattern(match[1]));
   const metadataPatterns = new Set(
-    ROUTE_META.map(({ pattern }) => normalizePattern(pattern))
+    ROUTE_META.map(({ pattern }) => normalizePattern(pattern)),
   );
   const supportedLegacyPatterns = new Set(['/useful-links', '/guides/*']);
 
   for (const pattern of applicationPatterns) {
     assert.ok(
-      metadataPatterns.has(pattern) ||
-        supportedLegacyPatterns.has(pattern),
-      `Application route has no embed policy: ${pattern}`
+      metadataPatterns.has(pattern) || supportedLegacyPatterns.has(pattern),
+      `Application route has no embed policy: ${pattern}`,
     );
   }
 
   for (const [aliasPath, targetPath] of LEGACY_ROUTE_ALIASES) {
-    assert.ok(metadataPatterns.has(targetPath), `Invalid alias target: ${targetPath}`);
+    assert.ok(
+      metadataPatterns.has(targetPath),
+      `Invalid alias target: ${targetPath}`,
+    );
     assert.ok(aliasPath.startsWith('/'), `Invalid alias path: ${aliasPath}`);
   }
 });
@@ -65,7 +67,9 @@ test('catalog navigation relationships and search entries are valid', () => {
   for (const route of ROUTE_CATALOG) {
     if ('navigationParent' in route) {
       assert.ok(routeIds.has(route.navigationParent));
-      assert.ok(getNavigationPatterns(route.navigationParent).includes(route.pattern));
+      assert.ok(
+        getNavigationPatterns(route.navigationParent).includes(route.pattern),
+      );
     }
     if ('searchKeywords' in route) {
       assert.ok(!route.pattern.includes(':'));

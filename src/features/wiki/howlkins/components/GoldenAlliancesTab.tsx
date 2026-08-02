@@ -55,9 +55,7 @@ export default function GoldenAlliancesTab({
       hasData={goldenAlliances.length > 0}
       emptyMessage="Golden alliance data hasn't been added yet."
       errorTitle="Could not load golden alliances"
-      loadingFallback={
-        <CardGridLoading cardHeight={180} showPagination />
-      }
+      loadingFallback={<CardGridLoading cardHeight={180} showPagination />}
     >
       <SearchableGridPanel
         search={search}
@@ -98,10 +96,9 @@ export default function GoldenAlliancesTab({
                       .sort((a, b) => {
                         const qualityComparison = compareQuality(
                           howlkinMap.get(a)?.quality,
-                          howlkinMap.get(b)?.quality
+                          howlkinMap.get(b)?.quality,
                         );
-                        if (qualityComparison !== 0)
-                          return qualityComparison;
+                        if (qualityComparison !== 0) return qualityComparison;
                         return a.localeCompare(b);
                       })
                       .map((howlkinSlug) => {
@@ -133,7 +130,11 @@ export default function GoldenAlliancesTab({
                       {alliance.effects.map((effect) => (
                         <Table.Tr key={effect.level}>
                           <Table.Td>
-                            <Badge variant="light" size="sm" color={accent.secondary}>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.secondary}
+                            >
                               {effect.level}
                             </Badge>
                           </Table.Td>

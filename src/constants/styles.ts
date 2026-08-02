@@ -30,7 +30,7 @@ type CharacterPortraitHoverOptions = {
  * Actual transitions are handled by `.portrait-hover` in interactions.css.
  */
 export function getCharacterPortraitHoverProps(
-  options: CharacterPortraitHoverOptions = {}
+  options: CharacterPortraitHoverOptions = {},
 ) {
   const { isSubstitute = false } = options;
   return {
@@ -122,4 +122,3 @@ export const STICKY_POOL_COLUMN_STYLE = {
     'calc(100vh - var(--app-shell-header-offset, 0px) - var(--mantine-spacing-md) * 2)',
   overflowY: 'auto',
 } as const satisfies CSSProperties;
-

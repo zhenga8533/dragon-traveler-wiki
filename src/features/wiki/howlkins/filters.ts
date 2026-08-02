@@ -20,7 +20,7 @@ export const EMPTY_HOWLKIN_FILTERS: HowlkinFilters = {
 export function matchesHowlkinFilters(
   howlkin: Howlkin,
   filters: HowlkinFilters,
-  howlkinToAlliance: ReadonlyMap<string, string>
+  howlkinToAlliance: ReadonlyMap<string, string>,
 ): boolean {
   const query = filters.search.trim().toLocaleLowerCase();
   if (query && !howlkin.name.toLocaleLowerCase().includes(query)) return false;
@@ -42,7 +42,7 @@ export function compareHowlkins(
   left: Howlkin,
   right: Howlkin,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ): number {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);
@@ -56,6 +56,6 @@ export function compareHowlkins(
         left.quality,
         right.quality,
         left.name,
-        right.name
+        right.name,
       );
 }

@@ -15,7 +15,7 @@ function titleMatchRank(title: string, query: string) {
 export function rankAndLimitSearchResults<T extends RankableSearchResult>(
   results: readonly T[],
   query: string,
-  limit: number
+  limit: number,
 ) {
   const groups = new Map<string, T[]>();
   for (const result of results) {
@@ -28,12 +28,12 @@ export function rankAndLimitSearchResults<T extends RankableSearchResult>(
     .map((group) =>
       group.sort(
         (a, b) =>
-          titleMatchRank(a.title, query) - titleMatchRank(b.title, query)
-      )
+          titleMatchRank(a.title, query) - titleMatchRank(b.title, query),
+      ),
     )
     .sort(
       (a, b) =>
-        titleMatchRank(a[0].title, query) - titleMatchRank(b[0].title, query)
+        titleMatchRank(a[0].title, query) - titleMatchRank(b[0].title, query),
     )
     .flat()
     .slice(0, limit);

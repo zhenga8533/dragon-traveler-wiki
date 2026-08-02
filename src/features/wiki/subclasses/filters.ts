@@ -27,21 +27,23 @@ export const SUBCLASS_FILTER_GROUPS: ChipFilterGroup[] = [
 
 export function matchesSubclassFilters(
   item: Subclass,
-  filters: SubclassFilters
+  filters: SubclassFilters,
 ): boolean {
   const search = filters.search.trim().toLowerCase();
   if (search && !item.name.toLowerCase().includes(search)) return false;
   if (filters.classes.length > 0 && !filters.classes.includes(item.class)) {
     return false;
   }
-  return filters.tiers.length === 0 || filters.tiers.includes(String(item.tier));
+  return (
+    filters.tiers.length === 0 || filters.tiers.includes(String(item.tier))
+  );
 }
 
 export function compareSubclasses(
   a: Subclass,
   b: Subclass,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ): number {
   if (column) {
     let comparison = 0;

@@ -185,7 +185,12 @@ export default function GearUsageTab({
                 </Table.Thead>
                 <Table.Tbody>
                   {usagePageItems.map(
-                    ({ item, characters: usingCharacters, count, percentage }) => {
+                    ({
+                      item,
+                      characters: usingCharacters,
+                      count,
+                      percentage,
+                    }) => {
                       const iconSrc = getGearIcon(item.type, item.slug);
                       const setName =
                         gearSetBySlug.get(item.set)?.name ?? item.set;
@@ -210,12 +215,20 @@ export default function GearUsageTab({
                             <GearTypeTag type={item.type} />
                           </Table.Td>
                           <Table.Td>
-                            <Badge variant="light" size="sm" color={accent.secondary}>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.secondary}
+                            >
                               {setName}
                             </Badge>
                           </Table.Td>
                           <Table.Td>
-                            <Badge variant="light" size="sm" color={accent.tertiary}>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.tertiary}
+                            >
                               {count} ({percentage}%)
                             </Badge>
                           </Table.Td>
@@ -238,7 +251,7 @@ export default function GearUsageTab({
                           </Table.Td>
                         </Table.Tr>
                       );
-                    }
+                    },
                   )}
                 </Table.Tbody>
               </Table>

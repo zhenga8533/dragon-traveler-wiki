@@ -25,9 +25,7 @@ export default function AppProviders({ children }: { children: ReactNode }) {
                 <BannerProvider>
                   <CharacterSkinProvider>
                     <CharacterOwnershipProvider>
-                      <NavLayoutProvider>
-                        {children}
-                      </NavLayoutProvider>
+                      <NavLayoutProvider>{children}</NavLayoutProvider>
                     </CharacterOwnershipProvider>
                   </CharacterSkinProvider>
                 </BannerProvider>

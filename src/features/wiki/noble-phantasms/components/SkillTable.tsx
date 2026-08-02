@@ -23,7 +23,9 @@ export default function SkillTable({
   const sortedSkills = [...skills].sort((a, b) => {
     const levelCmp = a.level - b.level;
     if (levelCmp !== 0) return levelCmp;
-    return getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier);
+    return (
+      getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier)
+    );
   });
 
   if (sortedSkills.length === 0) {

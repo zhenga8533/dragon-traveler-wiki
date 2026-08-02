@@ -71,12 +71,7 @@ const STATUS_EFFECT_FIELDS: FieldDef[] = [
 ];
 
 export default function StatusEffects() {
-  const {
-    data: effects,
-    loading,
-    error,
-    retry,
-  } = useStatusEffects();
+  const { data: effects, loading, error, retry } = useStatusEffects();
   const {
     filters,
     setFilters,
@@ -113,13 +108,15 @@ export default function StatusEffects() {
   const filterGroups = useMemo(() => {
     const typeSet = new Set(effects.map((e) => e.type));
     const options = STATE_ORDER.filter((t) => typeSet.has(t));
-    const extra = [...typeSet].filter((t) => !STATE_ORDER.includes(t as StatusEffectType)).sort();
+    const extra = [...typeSet]
+      .filter((t) => !STATE_ORDER.includes(t as StatusEffectType))
+      .sort();
     return [{ key: 'types', label: 'Type', options: [...options, ...extra] }];
   }, [effects]);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
-    [effects]
+    [effects],
   );
 
   return (
@@ -189,12 +186,12 @@ export default function StatusEffects() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {
-                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
+                  const iconSrc =
+                    effect.icon !== false
+                      ? getStatusEffectIcon(effect.slug, effect.type)
+                      : undefined;
                   return (
-                    <StaticSurface
-                      key={effect.name}
-                      p="sm"
-                    >
+                    <StaticSurface key={effect.name} p="sm">
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           <SafeImage
@@ -259,7 +256,10 @@ export default function StatusEffects() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((effect) => {
-                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
+                      const iconSrc =
+                        effect.icon !== false
+                          ? getStatusEffectIcon(effect.slug, effect.type)
+                          : undefined;
                       return (
                         <Table.Tr key={effect.name}>
                           <Table.Td>

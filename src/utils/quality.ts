@@ -1,7 +1,4 @@
-import {
-  QUALITY_ORDER,
-  type Quality,
-} from '../constants/quality.ts';
+import { QUALITY_ORDER, type Quality } from '../constants/quality.ts';
 
 export const UNKNOWN_QUALITY_RANK = QUALITY_ORDER.length;
 
@@ -32,7 +29,7 @@ export function compareQualityThenName(
   leftQuality: unknown,
   rightQuality: unknown,
   leftName: string,
-  rightName: string
+  rightName: string,
 ): number {
   return (
     compareQuality(leftQuality, rightQuality) ||

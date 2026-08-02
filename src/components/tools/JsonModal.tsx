@@ -80,7 +80,13 @@ export default function JsonModal({
   };
 
   return (
-    <Modal opened={opened} onClose={handleClose} title={title} size="lg" lockScroll={false}>
+    <Modal
+      opened={opened}
+      onClose={handleClose}
+      title={title}
+      size="lg"
+      lockScroll={false}
+    >
       <Stack gap="md">
         {description && (
           <Text size="sm" c="dimmed">
@@ -141,7 +147,11 @@ export default function JsonModal({
             </>
           ) : (
             <>
-              <Button variant="outline" color={accent.primary} onClick={handleClose}>
+              <Button
+                variant="outline"
+                color={accent.primary}
+                onClick={handleClose}
+              >
                 Cancel
               </Button>
               <Button

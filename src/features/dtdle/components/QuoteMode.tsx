@@ -35,8 +35,8 @@ export default function QuoteMode() {
         <>
           {gameState.solved && (
             <Alert color="green" title="Solved!">
-              That quote belongs to {answer.name}. Come back tomorrow for a
-              new one.
+              That quote belongs to {answer.name}. Come back tomorrow for a new
+              one.
             </Alert>
           )}
           <Blockquote

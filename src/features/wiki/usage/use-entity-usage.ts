@@ -31,7 +31,7 @@ export function useEntityUsage<TItem extends UsageItem>(options: {
     a: EntityUsage<TItem, Character>,
     b: EntityUsage<TItem, Character>,
     column: string | null,
-    direction: 'asc' | 'desc'
+    direction: 'asc' | 'desc',
   ) => number;
   filterFn?: (entry: EntityUsage<TItem, Character>) => boolean;
   storageKeys: EntityUsageStorageKeys;
@@ -65,7 +65,7 @@ export function useEntityUsage<TItem extends UsageItem>(options: {
 
   const eligibleCharacters = useMemo(
     () => filterUsageCharacters(characters, qualityFilter),
-    [characters, qualityFilter]
+    [characters, qualityFilter],
   );
   const usage = useMemo(
     () =>
@@ -82,11 +82,11 @@ export function useEntityUsage<TItem extends UsageItem>(options: {
       getCharacterGroupKey,
       getItemReferences,
       items,
-    ]
+    ],
   );
   const filteredByEntity = useMemo(
     () => (filterFn ? usage.filter(filterFn) : usage),
-    [filterFn, usage]
+    [filterFn, usage],
   );
   const list = useSecondaryTabList(filteredByEntity, {
     searchFn,
@@ -99,7 +99,7 @@ export function useEntityUsage<TItem extends UsageItem>(options: {
     extraPaginationKey: `${qualityFilter}|${String(extraPaginationKey ?? '')}`,
   });
   const [expandedItems, setExpandedItems] = useState<Set<string>>(
-    () => new Set()
+    () => new Set(),
   );
   const toggleExpandedItem = useCallback((slug: string) => {
     setExpandedItems((current) => {

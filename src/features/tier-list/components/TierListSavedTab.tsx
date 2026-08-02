@@ -1,11 +1,4 @@
-import {
-  Button,
-  Paper,
-  ScrollArea,
-  Stack,
-  Tabs,
-  Text,
-} from '@mantine/core';
+import { Button, Paper, ScrollArea, Stack, Tabs, Text } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
@@ -18,7 +11,7 @@ interface TierListSavedTabProps {
   savedTierLists: TierListType[];
   visibleSavedTierLists: TierListType[];
   resolveTierEntryEntity: (
-    entry: TierListType['entries'][number]
+    entry: TierListType['entries'][number],
   ) => TierListRankableEntity | undefined;
   viewMode: string;
   search: string;
@@ -55,7 +48,7 @@ export default function TierListSavedTab({
   const { accent } = useGradientAccent();
   const [activeValue, handleSelectTierList] = useEntityTabParam(
     'saved-list',
-    visibleSavedTierLists
+    visibleSavedTierLists,
   );
 
   if (savedTierLists.length === 0) {
@@ -84,7 +77,7 @@ export default function TierListSavedTab({
   if (visibleSavedTierLists.length === 0) {
     return (
       <>
-    <NoResultsSuggestions
+        <NoResultsSuggestions
           title={
             search
               ? 'No saved tier lists found'
@@ -104,15 +97,11 @@ export default function TierListSavedTab({
 
   return (
     <>
-<Tabs value={activeValue} onChange={handleSelectTierList}>
+      <Tabs value={activeValue} onChange={handleSelectTierList}>
         <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
           <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
             {visibleSavedTierLists.map((tl) => (
-              <Tabs.Tab
-                key={tl.name}
-                value={tl.name}
-                style={{ minHeight: 40 }}
-              >
+              <Tabs.Tab key={tl.name} value={tl.name} style={{ minHeight: 40 }}>
                 {tl.name || 'Untitled'}
               </Tabs.Tab>
             ))}

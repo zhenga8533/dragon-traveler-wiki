@@ -82,7 +82,7 @@ export default function IllustrationPreviewModal({
   const mediaContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
-    null
+    null,
   );
   const thumbnailHintId = 'character-illustration-thumbnails-hint';
   const activeIllustrationName = activeIllustration?.name;
@@ -94,7 +94,7 @@ export default function IllustrationPreviewModal({
         onSelectIllustration(candidate);
       }
     },
-    [illustrations, onSelectIllustration]
+    [illustrations, onSelectIllustration],
   );
 
   const handleThumbnailKeyDown = useCallback(
@@ -109,7 +109,7 @@ export default function IllustrationPreviewModal({
         event.preventDefault();
         event.stopPropagation();
         selectIllustrationByIndex(
-          (index - 1 + illustrations.length) % illustrations.length
+          (index - 1 + illustrations.length) % illustrations.length,
         );
       } else if (event.key === 'Home') {
         event.preventDefault();
@@ -121,7 +121,7 @@ export default function IllustrationPreviewModal({
         selectIllustrationByIndex(illustrations.length - 1);
       }
     },
-    [illustrations.length, selectIllustrationByIndex]
+    [illustrations.length, selectIllustrationByIndex],
   );
 
   const handleFullscreen = useCallback(async () => {
@@ -193,7 +193,9 @@ export default function IllustrationPreviewModal({
             <Group gap="xs">
               {onToggleFavorite && (
                 <Tooltip
-                  label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                  label={
+                    isFavorite ? 'Remove from favorites' : 'Add to favorites'
+                  }
                   {...tooltipProps}
                 >
                   <ActionIcon
@@ -220,12 +222,8 @@ export default function IllustrationPreviewModal({
                     variant="default"
                     color={accent.primary}
                     radius="xl"
-                    >
-                    {isFullscreen ? (
-                      <IoContract />
-                    ) : (
-                      <IoExpand />
-                    )}
+                  >
+                    {isFullscreen ? <IoContract /> : <IoExpand />}
                   </ActionIcon>
                 </Tooltip>
               )}

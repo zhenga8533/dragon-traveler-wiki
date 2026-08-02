@@ -5,7 +5,9 @@ import { getEligibleCharacters } from '../../utils/daily-answer';
  * R+ characters with a usable quote, deduped by exact quote text (first
  * slug wins) so a same-quote rarity variant is never the picked answer.
  */
-export function getQuoteEligibleCharacters(characters: Character[]): Character[] {
+export function getQuoteEligibleCharacters(
+  characters: Character[],
+): Character[] {
   const seenQuotes = new Set<string>();
   const result: Character[] = [];
 

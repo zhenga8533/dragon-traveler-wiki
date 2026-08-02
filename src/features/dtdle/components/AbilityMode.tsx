@@ -36,11 +36,11 @@ export default function AbilityMode() {
 
   const [grayOut, setGrayOut] = useStoredToggle(
     STORAGE_KEY.DTDLE_ABILITY_GRAYSCALE,
-    true
+    true,
   );
   const [rotate, setRotate] = useStoredToggle(
     STORAGE_KEY.DTDLE_ABILITY_ROTATE,
-    false
+    false,
   );
 
   const obfuscate = !gameState.characterSolved;
@@ -61,8 +61,10 @@ export default function AbilityMode() {
         <>
           {gameState.solved && (
             <Alert color="green" title="Solved!">
-              That was {ability.name} ({ability.kind === 'talent' ? 'Talent' : ability.skillType}), belonging to{' '}
-              {answerCharacter.name}. Come back tomorrow for a new one.
+              That was {ability.name} (
+              {ability.kind === 'talent' ? 'Talent' : ability.skillType}),
+              belonging to {answerCharacter.name}. Come back tomorrow for a new
+              one.
             </Alert>
           )}
 
@@ -91,7 +93,9 @@ export default function AbilityMode() {
                     objectFit: 'contain',
                     filter: obfuscate && grayOut ? 'grayscale(1)' : undefined,
                     transform:
-                      obfuscate && rotate ? `rotate(${rotationDeg}deg)` : undefined,
+                      obfuscate && rotate
+                        ? `rotate(${rotationDeg}deg)`
+                        : undefined,
                     transition: 'filter 200ms ease, transform 200ms ease',
                   }}
                 />
@@ -115,29 +119,31 @@ export default function AbilityMode() {
             correctSlug={answerCharacter.slug}
           />
 
-          {gameState.characterSolved && ability.kind === 'skill' && !gameState.solved && (
-            <Stack gap="xs">
-              <Text size="sm" fw={500}>
-                Correct! Now, which skill category is it?
-              </Text>
-              <Group gap="xs">
-                {SKILL_TYPES.map((type) => {
-                  const attempted = gameState.categoryGuesses.includes(type);
-                  return (
-                    <Button
-                      key={type}
-                      variant={attempted ? 'filled' : 'light'}
-                      color={attempted ? 'red' : undefined}
-                      disabled={attempted}
-                      onClick={() => submitCategoryGuess(type)}
-                    >
-                      {type}
-                    </Button>
-                  );
-                })}
-              </Group>
-            </Stack>
-          )}
+          {gameState.characterSolved &&
+            ability.kind === 'skill' &&
+            !gameState.solved && (
+              <Stack gap="xs">
+                <Text size="sm" fw={500}>
+                  Correct! Now, which skill category is it?
+                </Text>
+                <Group gap="xs">
+                  {SKILL_TYPES.map((type) => {
+                    const attempted = gameState.categoryGuesses.includes(type);
+                    return (
+                      <Button
+                        key={type}
+                        variant={attempted ? 'filled' : 'light'}
+                        color={attempted ? 'red' : undefined}
+                        disabled={attempted}
+                        onClick={() => submitCategoryGuess(type)}
+                      >
+                        {type}
+                      </Button>
+                    );
+                  })}
+                </Group>
+              </Stack>
+            )}
         </>
       )}
     </Stack>

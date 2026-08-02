@@ -27,7 +27,7 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
       onError,
       ...props
     },
-    forwardedRef
+    forwardedRef,
   ) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [loadState, setLoadState] = useState({
@@ -43,7 +43,7 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
     useImperativeHandle(
       forwardedRef,
       () => videoRef.current as HTMLVideoElement,
-      []
+      [],
     );
 
     useEffect(() => {
@@ -92,7 +92,10 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
         playsInline={playsInline}
         preload={preload ?? (autoPlay ? 'auto' : 'metadata')}
         aria-busy={currentLoadState.isLoading || undefined}
-        className={[className, currentLoadState.isLoading ? 'dt-safe-media--loading' : '']
+        className={[
+          className,
+          currentLoadState.isLoading ? 'dt-safe-media--loading' : '',
+        ]
           .filter(Boolean)
           .join(' ')}
         onCanPlay={(event: SyntheticEvent<HTMLVideoElement, Event>) => {
@@ -110,7 +113,7 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 SafeVideo.displayName = 'SafeVideo';

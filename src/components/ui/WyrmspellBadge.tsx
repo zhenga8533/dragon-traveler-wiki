@@ -2,7 +2,10 @@ import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
-import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import type { MantineSize } from '@mantine/core';
 import { Anchor, Badge, Group, Stack, Text } from '@mantine/core';
 import SafeImage from './SafeImage';
@@ -80,11 +83,7 @@ export default function WyrmspellBadge({
               />
             )}
 
-            <Anchor
-              component={Link}
-              to={`/wyrmspells/${slug}`}
-              size="xs"
-            >
+            <Anchor component={Link} to={`/wyrmspells/${slug}`} size="xs">
               View details →
             </Anchor>
           </Stack>

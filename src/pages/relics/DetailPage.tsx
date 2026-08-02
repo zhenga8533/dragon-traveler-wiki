@@ -11,7 +11,11 @@ import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
 import OracleScrollRelicCard from '@/features/wiki/relics/components/OracleScrollRelicCard';
 import type { OracleScrollRef } from '@/features/wiki/relics/types';
-import { useRelicChanges, useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useRelicChanges,
+  useRelics,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
@@ -48,14 +52,15 @@ export default function OracleScrollPage() {
   const oracleScrolls = useMemo(() => {
     const bySlug = new Map<string, OracleScrollRef>();
     for (const relic of relics) {
-      if (relic.oracle_scroll) bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
+      if (relic.oracle_scroll)
+        bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
     }
     return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [relics]);
 
   const currentScroll = useMemo(
     () => findEntityByParam(oracleScrolls, scrollName, (s) => s.slug),
-    [oracleScrolls, scrollName]
+    [oracleScrolls, scrollName],
   );
 
   useEffect(() => {
@@ -89,7 +94,7 @@ export default function OracleScrollPage() {
       currentScroll
         ? oracleScrolls.findIndex((s) => s.slug === currentScroll.slug)
         : -1,
-    [oracleScrolls, currentScroll]
+    [oracleScrolls, currentScroll],
   );
 
   const previousScroll =
@@ -103,9 +108,9 @@ export default function OracleScrollPage() {
     () =>
       scrollRelics.reduce(
         (latest, r) => Math.max(latest, r.last_updated ?? 0),
-        0
+        0,
       ),
-    [scrollRelics]
+    [scrollRelics],
   );
 
   // All relics in a scroll share the same quality — use the first one for the hero color
@@ -173,8 +178,18 @@ export default function OracleScrollPage() {
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
           entityName={currentScroll.name}
-          illustrations={[{ name: currentScroll.name, src: illustrationSrc, type: 'video' } satisfies Illustration]}
-          activeIllustration={{ name: currentScroll.name, src: illustrationSrc, type: 'video' }}
+          illustrations={[
+            {
+              name: currentScroll.name,
+              src: illustrationSrc,
+              type: 'video',
+            } satisfies Illustration,
+          ]}
+          activeIllustration={{
+            name: currentScroll.name,
+            src: illustrationSrc,
+            type: 'video',
+          }}
           activeIllustrationIndex={0}
           hasMultipleIllustrations={false}
           showPreviousIllustration={() => {}}
@@ -198,7 +213,9 @@ export default function OracleScrollPage() {
 
           {scrollRelicsByType.map((group) => (
             <Stack key={group.type} gap="md">
-              <Title order={2} size="h3">{group.type}</Title>
+              <Title order={2} size="h3">
+                {group.type}
+              </Title>
               <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
                 {group.relics.map((relic) => (
                   <OracleScrollRelicCard
@@ -211,7 +228,6 @@ export default function OracleScrollPage() {
               </SimpleGrid>
             </Stack>
           ))}
-
         </Stack>
 
         <ChangeHistory history={undefined} extraHistories={relicHistories} />

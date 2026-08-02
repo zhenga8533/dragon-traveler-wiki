@@ -8,7 +8,7 @@ interface CharacterName {
 
 export function addLinkedCharacterNames<T extends LinkedCharacterEntity>(
   items: readonly T[],
-  characterByIdentity: ReadonlyMap<string, CharacterName>
+  characterByIdentity: ReadonlyMap<string, CharacterName>,
 ): Array<T & { characterName?: string }> {
   return items.map((item) => ({
     ...item,

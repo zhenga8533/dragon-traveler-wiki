@@ -46,7 +46,10 @@ import HeartTrialRateTable from '@/features/calculators/star-upgrade/components/
 export default function StarUpgradeCalculatorPage() {
   const { accent } = useGradientAccent();
   const { data: rawStarLevels } = useStarLevels();
-  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+  const starLevels = useMemo(
+    () => buildStarLevels(rawStarLevels),
+    [rawStarLevels],
+  );
 
   const [currentValue, setCurrentValue] = useState<string>('');
   const [targetValue, setTargetValue] = useState<string>('');
@@ -61,16 +64,18 @@ export default function StarUpgradeCalculatorPage() {
     targetValue || (starLevels[starLevels.length - 1]?.value ?? '');
 
   const currentIndex = starLevels.findIndex(
-    (level) => level.value === effectiveCurrentValue
+    (level) => level.value === effectiveCurrentValue,
   );
   const targetIndex = starLevels.findIndex(
-    (level) => level.value === effectiveTargetValue
+    (level) => level.value === effectiveTargetValue,
   );
 
   const currentLevel = starLevels[currentIndex] ?? starLevels[0];
-  const targetLevel = starLevels[targetIndex] ?? starLevels[starLevels.length - 1];
+  const targetLevel =
+    starLevels[targetIndex] ?? starLevels[starLevels.length - 1];
 
-  const isValidSelection = currentIndex >= 0 && targetIndex >= 0 && currentIndex < targetIndex;
+  const isValidSelection =
+    currentIndex >= 0 && targetIndex >= 0 && currentIndex < targetIndex;
 
   const copiesNeeded = isValidSelection
     ? targetLevel.copies - currentLevel.copies
@@ -82,10 +87,7 @@ export default function StarUpgradeCalculatorPage() {
     ? targetLevel.divineCrystals - currentLevel.divineCrystals
     : 0;
 
-  const shardsPerDay = getHeartTrialShardsPerDay(
-    quality,
-    affectionLevel20
-  );
+  const shardsPerDay = getHeartTrialShardsPerDay(quality, affectionLevel20);
 
   const effectiveCopiesNeeded =
     quality === 'SR' ? copiesNeeded * 2 : copiesNeeded;
@@ -94,7 +96,7 @@ export default function StarUpgradeCalculatorPage() {
   const safeCurrentShards = currentShards ?? 0;
   const ownedShards = Math.max(
     0,
-    safeCurrentCopies * SHARDS_PER_DUPE + safeCurrentShards
+    safeCurrentCopies * SHARDS_PER_DUPE + safeCurrentShards,
   );
   const shardsRemaining = Math.max(0, totalShardsNeeded - ownedShards);
 
@@ -102,7 +104,7 @@ export default function StarUpgradeCalculatorPage() {
     totalShardsNeeded > 0
       ? Math.min(
           100,
-          (Math.min(ownedShards, totalShardsNeeded) / totalShardsNeeded) * 100
+          (Math.min(ownedShards, totalShardsNeeded) / totalShardsNeeded) * 100,
         )
       : 0;
 
@@ -174,7 +176,7 @@ export default function StarUpgradeCalculatorPage() {
                 value={effectiveTargetValue}
                 onChange={(value) =>
                   setTargetValue(
-                    value ?? starLevels[starLevels.length - 1]?.value ?? ''
+                    value ?? starLevels[starLevels.length - 1]?.value ?? '',
                   )
                 }
                 searchable
@@ -278,13 +280,21 @@ export default function StarUpgradeCalculatorPage() {
                   {
                     value: 'SSR',
                     label: (
-                      <SafeImage src={QUALITY_ICON_MAP.SSR} h={18} fit="contain" />
+                      <SafeImage
+                        src={QUALITY_ICON_MAP.SSR}
+                        h={18}
+                        fit="contain"
+                      />
                     ),
                   },
                   {
                     value: 'SR',
                     label: (
-                      <SafeImage src={QUALITY_ICON_MAP.SR} h={18} fit="contain" />
+                      <SafeImage
+                        src={QUALITY_ICON_MAP.SR}
+                        h={18}
+                        fit="contain"
+                      />
                     ),
                   },
                 ]}
@@ -325,9 +335,9 @@ export default function StarUpgradeCalculatorPage() {
                             0,
                             Math.min(
                               SHARDS_PER_DUPE - 1,
-                              parseNumberInput(value) ?? 0
-                            )
-                          )
+                              parseNumberInput(value) ?? 0,
+                            ),
+                          ),
                     )
                   }
                   min={0}

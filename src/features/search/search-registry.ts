@@ -97,7 +97,7 @@ export const MAX_SEARCH_RESULTS = 30;
 function searchPath(
   path: string,
   query: string,
-  params?: Record<string, string>
+  params?: Record<string, string>,
 ) {
   const searchParams = new URLSearchParams({ ...params, search: query });
   return `${path}?${searchParams.toString()}`;
@@ -107,7 +107,7 @@ function createSearchAdapter<T>(
   items: readonly T[],
   options: IFuseOptions<T>,
   limit: number,
-  toResult: (item: T) => SearchResult
+  toResult: (item: T) => SearchResult,
 ): SearchAdapter | null {
   if (items.length === 0) return null;
 
@@ -131,16 +131,16 @@ const PAGE_ADAPTER = createSearchAdapter(
     path: page.path,
     icon: IoDocumentTextOutline,
     color: 'gray',
-  })
+  }),
 );
 
 export function buildSearchRegistry(
-  data: SearchDataContextValue
+  data: SearchDataContextValue,
 ): SearchAdapter[] {
   const characterByIdentity = buildCharacterByIdentityMap(data.characters);
   const noblePhantasms = addLinkedCharacterNames(
     data.noblePhantasms,
-    characterByIdentity
+    characterByIdentity,
   );
 
   const adapters = [
@@ -164,7 +164,7 @@ export function buildSearchRegistry(
         path: getCharacterRoutePath(character),
         icon: IoPersonOutline,
         color: 'blue',
-      })
+      }),
     ),
     createSearchAdapter(
       data.artifacts,
@@ -186,7 +186,7 @@ export function buildSearchRegistry(
         path: `/artifacts/${artifact.slug}`,
         icon: getArtifactIcon(artifact.slug) ?? IoDiamondOutline,
         color: 'teal',
-      })
+      }),
     ),
     createSearchAdapter(
       data.gear,
@@ -199,7 +199,7 @@ export function buildSearchRegistry(
         path: `/gear-sets/${toEntitySlug(gear.set)}`,
         icon: getGearIcon(gear.type, gear.slug) ?? IoShieldOutline,
         color: 'teal',
-      })
+      }),
     ),
     PAGE_ADAPTER,
     createSearchAdapter(
@@ -216,7 +216,7 @@ export function buildSearchRegistry(
             ? getStatusEffectIcon(statusEffect.slug, statusEffect.type)
             : undefined) ?? IoSparklesOutline,
         color: 'cyan',
-      })
+      }),
     ),
     createSearchAdapter(
       data.subclasses,
@@ -229,7 +229,7 @@ export function buildSearchRegistry(
         path: searchPath('/subclasses', subclass.name),
         icon: getSubclassIcon(subclass.slug, subclass.class) ?? IoGridOutline,
         color: 'grape',
-      })
+      }),
     ),
     createSearchAdapter(
       data.wyrmspells,
@@ -240,13 +240,17 @@ export function buildSearchRegistry(
         title: wyrmspell.name,
         subtitle: wyrmspell.type,
         path: `/wyrmspells/${wyrmspell.slug}`,
-        icon: getWyrmspellIcon(wyrmspell.slug, wyrmspell.type) ?? IoFlameOutline,
+        icon:
+          getWyrmspellIcon(wyrmspell.slug, wyrmspell.type) ?? IoFlameOutline,
         color: 'indigo',
-      })
+      }),
     ),
     createSearchAdapter(
       data.teams,
-      { keys: ['name', 'description', 'members.character_slug'], threshold: 0.3 },
+      {
+        keys: ['name', 'description', 'members.character_slug'],
+        threshold: 0.3,
+      },
       3,
       (team) => ({
         type: 'team',
@@ -255,7 +259,7 @@ export function buildSearchRegistry(
         path: `/teams/${toEntitySlug(team.name)}`,
         icon: IoPeopleOutline,
         color: 'green',
-      })
+      }),
     ),
     createSearchAdapter(
       data.howlkins,
@@ -268,7 +272,7 @@ export function buildSearchRegistry(
         path: searchPath('/howlkins', howlkin.name, { tab: 'howlkins' }),
         icon: getHowlkinIcon(howlkin.slug, howlkin.quality) ?? IoPawOutline,
         color: 'orange',
-      })
+      }),
     ),
     createSearchAdapter(
       noblePhantasms,
@@ -279,10 +283,9 @@ export function buildSearchRegistry(
         title: noblePhantasm.name,
         subtitle: noblePhantasm.characterName || 'Noble Phantasm',
         path: `/noble-phantasms/${noblePhantasm.slug}`,
-        icon:
-          getNoblePhantasmIcon(noblePhantasm.slug) ?? IoFlashOutline,
+        icon: getNoblePhantasmIcon(noblePhantasm.slug) ?? IoFlashOutline,
         color: 'teal',
-      })
+      }),
     ),
     createSearchAdapter(
       data.resources,
@@ -293,9 +296,10 @@ export function buildSearchRegistry(
         title: resource.name,
         subtitle: `${resource.category} • ${resource.quality}`,
         path: searchPath('/resources', resource.name),
-        icon: getResourceIcon(resource.slug, resource.category) ?? IoCubeOutline,
+        icon:
+          getResourceIcon(resource.slug, resource.category) ?? IoCubeOutline,
         color: 'teal',
-      })
+      }),
     ),
     createSearchAdapter(
       data.events,
@@ -320,7 +324,7 @@ export function buildSearchRegistry(
           icon: IoCalendarOutline,
           color: 'green',
         };
-      }
+      },
     ),
     createSearchAdapter(
       data.codes,
@@ -338,7 +342,7 @@ export function buildSearchRegistry(
           icon: IoFlashOutline,
           color: 'cyan',
         };
-      }
+      },
     ),
     createSearchAdapter(
       data.usefulLinks,
@@ -351,7 +355,7 @@ export function buildSearchRegistry(
         path: `/toolbox/useful-links#${toEntitySlug(link.name)}`,
         icon: IoDocumentTextOutline,
         color: 'indigo',
-      })
+      }),
     ),
     createSearchAdapter(
       data.tierLists,
@@ -373,7 +377,7 @@ export function buildSearchRegistry(
         path: searchPath('/tier-list', tierList.name),
         icon: IoDocumentTextOutline,
         color: 'pink',
-      })
+      }),
     ),
     createSearchAdapter(
       data.relics,
@@ -386,7 +390,7 @@ export function buildSearchRegistry(
         path: searchPath('/relics', relic.name, { tab: 'relics' }),
         icon: getRelicIcon(relic.slug, relic.quality) ?? IoDiamondOutline,
         color: 'violet',
-      })
+      }),
     ),
     createSearchAdapter(
       data.wyrms,
@@ -407,16 +411,18 @@ export function buildSearchRegistry(
         path: `/wyrms/${wyrm.slug}`,
         icon: getWyrmPortrait(wyrm.slug) ?? IoFlameOutline,
         color: 'red',
-      })
+      }),
     ),
   ];
 
-  return adapters.filter((adapter): adapter is SearchAdapter => adapter !== null);
+  return adapters.filter(
+    (adapter): adapter is SearchAdapter => adapter !== null,
+  );
 }
 
 export function searchRegistry(
   registry: readonly SearchAdapter[],
-  query: string
+  query: string,
 ) {
   const normalizedQuery = query.trim();
   if (!normalizedQuery) return [];
@@ -424,6 +430,6 @@ export function searchRegistry(
   return rankAndLimitSearchResults(
     registry.flatMap((adapter) => adapter.search(normalizedQuery)),
     normalizedQuery,
-    MAX_SEARCH_RESULTS
+    MAX_SEARCH_RESULTS,
   );
 }

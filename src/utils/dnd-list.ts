@@ -27,7 +27,7 @@ export function moveItemBefore<T>(items: T[], item: T, beforeItem: T): T[] {
 }
 
 export function cloneRecordArrays<T>(
-  source: Record<string, T[]>
+  source: Record<string, T[]>,
 ): Record<string, T[]> {
   const cloned: Record<string, T[]> = {};
   for (const [key, values] of Object.entries(source)) {
@@ -38,7 +38,7 @@ export function cloneRecordArrays<T>(
 
 export function removeItemFromRecordArrays<T>(
   target: Record<string, T[]>,
-  item: T
+  item: T,
 ): void {
   for (const key of Object.keys(target)) {
     target[key] = removeItem(target[key], item);

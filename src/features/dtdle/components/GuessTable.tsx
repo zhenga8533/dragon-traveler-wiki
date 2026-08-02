@@ -37,11 +37,9 @@ export default function GuessTable({ guesses, answer }: GuessTableProps) {
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
-          {[...guesses]
-            .reverse()
-            .map((guess) => (
-              <GuessRow key={guess.slug} guess={guess} answer={answer} />
-            ))}
+          {[...guesses].reverse().map((guess) => (
+            <GuessRow key={guess.slug} guess={guess} answer={answer} />
+          ))}
         </Table.Tbody>
       </Table>
     </ScrollArea>

@@ -29,10 +29,7 @@ const EVENT_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
 };
 
 export function useEventsPage(events: GameEvent[]) {
-  const [tabValue, setTab] = useTabParam('tab', 'active', [
-    'active',
-    'past',
-  ]);
+  const [tabValue, setTab] = useTabParam('tab', 'active', ['active', 'past']);
   const tab = tabValue as EventTab;
   const { filters, setFilters, resetFilters } = useFilters<EventFilters>({
     emptyFilters: EMPTY_EVENT_FILTERS,
@@ -49,41 +46,41 @@ export function useEventsPage(events: GameEvent[]) {
   const scopedEvents = useMemo(
     () =>
       allEvents.filter((entry) =>
-        tab === 'active' ? entry.active : !entry.active
+        tab === 'active' ? entry.active : !entry.active,
       ),
-    [allEvents, tab]
+    [allEvents, tab],
   );
   const filtered = useMemo(
     () => scopedEvents.filter((entry) => matchesEventFilters(entry, filters)),
-    [filters, scopedEvents]
+    [filters, scopedEvents],
   );
   const serverOptions = useMemo(
     () => [...new Set(allEvents.map((entry) => entry.server))].sort(),
-    [allEvents]
+    [allEvents],
   );
   const typeOptions = useMemo(
     () =>
-      [...new Set(allEvents.map(({ event }) => event.type).filter(Boolean))].sort(
-        (left, right) => left.localeCompare(right)
-      ),
-    [allEvents]
+      [
+        ...new Set(allEvents.map(({ event }) => event.type).filter(Boolean)),
+      ].sort((left, right) => left.localeCompare(right)),
+    [allEvents],
   );
   const characterOptions = useMemo(
     () =>
       [...new Set(allEvents.flatMap(({ event }) => event.characters))].sort(),
-    [allEvents]
+    [allEvents],
   );
   const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
     EVENT_PAGE_SIZE_OPTIONS[viewMode],
     {
       defaultSize: EVENTS_PER_PAGE,
       storageKey: getPageSizeStorageKey(STORAGE_KEY.EVENT_VIEW_MODE),
-    }
+    },
   );
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     pageSize,
-    `${tab}:${JSON.stringify(filters)}`
+    `${tab}:${JSON.stringify(filters)}`,
   );
 
   useEffect(() => setPage(1), [pageSize, setPage]);

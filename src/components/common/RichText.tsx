@@ -71,7 +71,13 @@ function ReferenceBadge({
   }
 
   return (
-    <Popover position="top" withArrow shadow="md" closeOnClickOutside withinPortal>
+    <Popover
+      position="top"
+      withArrow
+      shadow="md"
+      closeOnClickOutside
+      withinPortal
+    >
       <Popover.Target>
         <Badge
           variant="light"
@@ -120,7 +126,7 @@ const fuzzyNames = (name: string): string[] => {
 
 const findByName = <T extends { name: string }>(
   items: T[] | undefined,
-  name: string
+  name: string,
 ): T | undefined => {
   const candidates = fuzzyNames(name);
   return items?.find((item) => candidates.includes(normalizeName(item.name)));
@@ -236,7 +242,7 @@ export default function RichText({
   const { resources } = useContext(ResourcesContext);
   const { accent } = useGradientAccent();
   const talentLines = talent?.talent_levels.map(
-    (level) => `Level ${level.level}: ${level.effect}`
+    (level) => `Level ${level.level}: ${level.effect}`,
   );
 
   return (
@@ -257,15 +263,27 @@ export default function RichText({
         }
 
         if (seg.type === 'percentRange') {
-          return <Text key={i} component="span" size="sm" c="green" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="green" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'percent') {
-          return <Text key={i} component="span" size="sm" c="yellow" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="yellow" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'number') {
-          return <Text key={i} component="span" size="sm" c="blue" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="blue" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'statusRef') {
@@ -343,10 +361,16 @@ export default function RichText({
         }
 
         const resource = resources.find(
-          (r) => normalizeName(r.name) === normalizeName(seg.name)
+          (r) => normalizeName(r.name) === normalizeName(seg.name),
         );
         if (resource) {
-          return <ResourceBadge key={i} slug={resource.slug} displayName={seg.name} />;
+          return (
+            <ResourceBadge
+              key={i}
+              slug={resource.slug}
+              displayName={seg.name}
+            />
+          );
         }
 
         return (

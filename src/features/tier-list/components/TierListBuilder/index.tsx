@@ -18,10 +18,7 @@ import {
   hasSavedTierList,
   saveTierList,
 } from '@/features/tier-list/saved-tier-lists';
-import type {
-  TierList,
-  TierListEntityType,
-} from '@/features/tier-list/types';
+import type { TierList, TierListEntityType } from '@/features/tier-list/types';
 import NoblePhantasmFilter from '@/features/wiki/noble-phantasms/components/NoblePhantasmFilter';
 import {
   EMPTY_NOBLE_PHANTASM_FILTERS,
@@ -91,13 +88,11 @@ export default function TierListBuilder({
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
-  const [
-    noblePhantasmFilterOpen,
-    { toggle: toggleNoblePhantasmFilter },
-  ] = useDisclosure(false);
+  const [noblePhantasmFilterOpen, { toggle: toggleNoblePhantasmFilter }] =
+    useDisclosure(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const [noblePhantasmFilters, setNoblePhantasmFilters] = useState(
-    EMPTY_NOBLE_PHANTASM_FILTERS
+    EMPTY_NOBLE_PHANTASM_FILTERS,
   );
   const [pendingEntityType, setPendingEntityType] =
     useState<TierListEntityType | null>(null);
@@ -160,11 +155,11 @@ export default function TierListBuilder({
       activationConstraint: { delay: 120, tolerance: 8 },
     }),
     // Basic keyboard drag support (no grid-aware coordinateGetter yet)
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
   const characterBySlug = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
   const visibleUnrankedNoblePhantasms = useMemo(
     () =>
@@ -174,10 +169,10 @@ export default function TierListBuilder({
           matchesNoblePhantasmFilters(
             entity.noblePhantasm,
             noblePhantasmFilters,
-            characterBySlug
-          )
+            characterBySlug,
+          ),
       ),
-    [characterBySlug, noblePhantasmFilters, unrankedEntities]
+    [characterBySlug, noblePhantasmFilters, unrankedEntities],
   );
   const noblePhantasmFilterCount = countActiveFilters(noblePhantasmFilters);
 
@@ -189,7 +184,7 @@ export default function TierListBuilder({
           json,
           entityType: 'tier list',
         }),
-      [json]
+      [json],
     );
 
   function handleSubmitSuggestion() {
@@ -220,7 +215,7 @@ export default function TierListBuilder({
         await downloadElementAsImage(
           el,
           tierListData.name || 'tier-list',
-          isDark
+          isDark,
         );
       } finally {
         setIsCapturing(false);
@@ -278,7 +273,9 @@ export default function TierListBuilder({
           >
             <Stack
               gap="md"
-              style={layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined}
+              style={
+                layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined
+              }
             >
               {tierDefs.map((tierDef, index) => {
                 const tier = tierDef.name;
@@ -359,31 +356,31 @@ export default function TierListBuilder({
               {meta.entityType === 'character' ? (
                 <FilterableCharacterPool
                   characters={unrankedEntities.flatMap((entity) =>
-                    entity.character ? [entity.character] : []
+                    entity.character ? [entity.character] : [],
                   )}
                   layout={layout}
                   onLayoutChange={setLayout}
                   canToggleLayout={canUseSideLayout}
                 >
                   {(filtered, filterHeader, paginationControl, cols) => (
-                  <UnrankedPool
-                    filterHeader={filterHeader}
-                    paginationControl={paginationControl}
-                    cols={cols}
-                  >
-                    {filtered.map((c) => {
-                      const key = getCharacterIdentityKey(c);
-                      return (
-                        <DraggableTierEntityCard
-                          key={key}
-                          name={c.name}
-                          entityKey={key}
-                          entity={getEntityFromKey(key)}
-                          size={isMobile ? 56 : undefined}
-                        />
-                      );
-                    })}
-                  </UnrankedPool>
+                    <UnrankedPool
+                      filterHeader={filterHeader}
+                      paginationControl={paginationControl}
+                      cols={cols}
+                    >
+                      {filtered.map((c) => {
+                        const key = getCharacterIdentityKey(c);
+                        return (
+                          <DraggableTierEntityCard
+                            key={key}
+                            name={c.name}
+                            entityKey={key}
+                            entity={getEntityFromKey(key)}
+                            size={isMobile ? 56 : undefined}
+                          />
+                        );
+                      })}
+                    </UnrankedPool>
                   )}
                 </FilterableCharacterPool>
               ) : (
@@ -453,7 +450,7 @@ export default function TierListBuilder({
                     })()
                   : null}
               </DragOverlay>,
-              document.body
+              document.body,
             )
           : null}
 

@@ -15,7 +15,7 @@ export function loadSavedTeams(): Team[] {
   return loadSavedFromStorage(
     STORAGE_KEY.TEAMS_MY_SAVED,
     isSavedTeam,
-    migrateStoredTeam
+    migrateStoredTeam,
   );
 }
 

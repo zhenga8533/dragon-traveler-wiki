@@ -57,9 +57,7 @@ export default function OracleScrollsTab({
       errorTitle="Could not load oracle scrolls"
       hasData={oracleScrolls.length > 0}
       emptyMessage="No oracle scroll data available yet."
-      loadingFallback={
-        <CardGridLoading cardHeight={160} showPagination />
-      }
+      loadingFallback={<CardGridLoading cardHeight={160} showPagination />}
     >
       <SearchableGridPanel
         search={search}
@@ -132,7 +130,7 @@ export default function OracleScrollsTab({
                       {items.map((relic) => {
                         const relicIconSrc = getRelicIcon(
                           relic.slug,
-                          relic.quality
+                          relic.quality,
                         );
                         return (
                           <Group key={relic.name} gap="xs" wrap="nowrap">

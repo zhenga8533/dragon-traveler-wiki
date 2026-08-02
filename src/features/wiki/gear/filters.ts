@@ -25,14 +25,16 @@ function getGearSetName(item: Gear, gearSetBySlug: GearSetLookup): string {
 export function matchesGearFilters(
   item: Gear,
   filters: GearFilters,
-  gearSetBySlug: GearSetLookup
+  gearSetBySlug: GearSetLookup,
 ): boolean {
   const query = filters.search.trim().toLocaleLowerCase();
   return (
     (!query ||
       item.name.toLocaleLowerCase().includes(query) ||
       item.set.toLocaleLowerCase().includes(query) ||
-      getGearSetName(item, gearSetBySlug).toLocaleLowerCase().includes(query)) &&
+      getGearSetName(item, gearSetBySlug)
+        .toLocaleLowerCase()
+        .includes(query)) &&
     (filters.types.length === 0 || filters.types.includes(item.type)) &&
     (filters.qualities.length === 0 || filters.qualities.includes(item.quality))
   );
@@ -43,7 +45,7 @@ export function compareGear(
   right: Gear,
   column: string | null,
   direction: 'asc' | 'desc',
-  gearSetBySlug: GearSetLookup
+  gearSetBySlug: GearSetLookup,
 ): number {
   const typeComparison =
     GEAR_TYPE_ORDER.indexOf(left.type) - GEAR_TYPE_ORDER.indexOf(right.type);
@@ -54,7 +56,7 @@ export function compareGear(
   if (column === 'name') comparison = nameComparison;
   else if (column === 'set') {
     comparison = getGearSetName(left, gearSetBySlug).localeCompare(
-      getGearSetName(right, gearSetBySlug)
+      getGearSetName(right, gearSetBySlug),
     );
   } else if (column === 'type') {
     comparison = typeComparison || qualityComparison || nameComparison;

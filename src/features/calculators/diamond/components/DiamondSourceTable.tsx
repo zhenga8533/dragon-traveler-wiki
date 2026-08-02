@@ -32,15 +32,14 @@ interface DiamondSourceTableProps {
   onUpdate: (
     type: DiamondSourceType,
     id: string,
-    updater: (source: DiamondSourceRow) => DiamondSourceRow
+    updater: (source: DiamondSourceRow) => DiamondSourceRow,
   ) => void;
   onAdd: (type: DiamondSourceType) => void;
   onRemove: (type: DiamondSourceType, id: string) => void;
 }
 
 const COVERAGE_NOTES: Record<DiamondSourceType, string> = {
-  gain:
-    'This calculator does not include every possible diamond income source by default. Common extras include Level 8 affection date, Luminary codex, Wyrmbone Ruins, Lifetime achievements, and World Tree Covenant. Add missing entries as custom sources.',
+  gain: 'This calculator does not include every possible diamond income source by default. Common extras include Level 8 affection date, Luminary codex, Wyrmbone Ruins, Lifetime achievements, and World Tree Covenant. Add missing entries as custom sources.',
   spend:
     'This calculator does not include every possible diamond spend source by default. Common extras include Shovel event, Fate treasure hunt items, Aurora Crystal, and Auction House. Add missing entries as custom sources.',
 };
@@ -95,8 +94,7 @@ export default function DiamondSourceTable({
                     opacity: source.enabled ? 1 : 0.4,
                     ...(source.isCustom
                       ? {
-                          backgroundColor:
-                            'var(--mantine-primary-color-light)',
+                          backgroundColor: 'var(--mantine-primary-color-light)',
                         }
                       : undefined),
                   }}

@@ -54,7 +54,7 @@ function useIllustration(characters: string[]): IllustrationState {
   const { data: characterData, loading } = useCharacters();
   const byIdentity = useMemo(
     () => buildCharacterByIdentityMap(characterData),
-    [characterData]
+    [characterData],
   );
 
   const srcs = useMemo(() => {

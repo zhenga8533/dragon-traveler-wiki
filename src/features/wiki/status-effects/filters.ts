@@ -14,7 +14,7 @@ export const EMPTY_STATUS_EFFECT_FILTERS: StatusEffectFilters = {
 
 export function matchesStatusEffectFilters(
   effect: StatusEffect,
-  filters: StatusEffectFilters
+  filters: StatusEffectFilters,
 ) {
   const query = filters.search.trim().toLocaleLowerCase();
   return (
@@ -32,7 +32,7 @@ export function compareStatusEffects(
   left: StatusEffect,
   right: StatusEffect,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);

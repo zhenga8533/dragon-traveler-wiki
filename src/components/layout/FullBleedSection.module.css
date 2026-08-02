@@ -2,7 +2,5 @@
   margin-block-start: calc(
     var(--app-shell-padding, var(--mantine-spacing-md)) * -1
   );
-  margin-inline: calc(
-    var(--app-shell-padding, var(--mantine-spacing-md)) * -1
-  );
+  margin-inline: calc(var(--app-shell-padding, var(--mantine-spacing-md)) * -1);
 }

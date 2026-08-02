@@ -24,7 +24,7 @@ export function useSavedBuilderItem<T extends SavedBuilderItem>({
   onSaved,
 }: UseSavedBuilderItemOptions<T>) {
   const [pendingOverwriteKey, setPendingOverwriteKey] = useState<string | null>(
-    null
+    null,
   );
 
   function save(key: string) {

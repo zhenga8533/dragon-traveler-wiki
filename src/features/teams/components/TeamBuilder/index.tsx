@@ -145,7 +145,7 @@ export default function TeamBuilder({
       },
     }),
     // Basic keyboard drag support (no grid-aware coordinateGetter yet)
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   useEffect(() => {
@@ -173,7 +173,7 @@ export default function TeamBuilder({
         json,
         entityType: 'team',
       }),
-    [json]
+    [json],
   );
 
   function handleSubmitSuggestion() {
@@ -236,7 +236,9 @@ export default function TeamBuilder({
           >
             <Stack
               gap="md"
-              style={layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined}
+              style={
+                layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined
+              }
             >
               <SlotsGrid
                 slots={slots}
@@ -326,7 +328,7 @@ export default function TeamBuilder({
                     })()
                   : null}
               </DragOverlay>,
-              document.body
+              document.body,
             )
           : null}
 

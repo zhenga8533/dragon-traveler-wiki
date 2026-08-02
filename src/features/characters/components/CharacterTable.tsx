@@ -102,7 +102,9 @@ export default function CharacterTable({
                       borderWidth={3}
                       routePath={getCharacterRoutePath(char)}
                       style={{ flexShrink: 0 }}
-                      isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
+                      isNew={newCharacterKeys?.has(
+                        getCharacterIdentityKey(char),
+                      )}
                     />
                     <Text size="sm" fw={500} className="dt-link-text">
                       {char.name}

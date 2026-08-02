@@ -10,14 +10,21 @@ import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
 import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
-import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
+import type {
+  OracleScrollRef,
+  Relic,
+  RelicType,
+} from '@/features/wiki/relics/types';
 import {
   compareRelics,
   EMPTY_RELIC_FILTERS,
   matchesRelicFilters,
 } from '@/features/wiki/relics/filters';
 import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
-import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useRelics,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
 import {
   useFilteredPageData,
   useGradientAccent,
@@ -56,12 +63,7 @@ export default function RelicPage() {
     'oracle-scrolls',
   ]);
 
-  const {
-    data: relics,
-    loading,
-    error,
-    retry,
-  } = useRelics();
+  const { data: relics, loading, error, retry } = useRelics();
   const { data: statusEffects } = useStatusEffects();
   const oracleScrolls = useMemo(() => {
     const bySlug = new Map<string, OracleScrollRef>();
@@ -135,7 +137,7 @@ export default function RelicPage() {
         relicsInScroll.some((r) => r.name.toLowerCase().includes(query))
       );
     },
-    [relicsByOracle]
+    [relicsByOracle],
   );
 
   const {

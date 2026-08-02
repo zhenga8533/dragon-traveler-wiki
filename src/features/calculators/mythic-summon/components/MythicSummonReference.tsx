@@ -1,11 +1,4 @@
-import {
-  Alert,
-  SimpleGrid,
-  Stack,
-  Table,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Alert, SimpleGrid, Stack, Table, Text, Title } from '@mantine/core';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import { StaticSurface } from '@/components/ui/Surface';
 import {
@@ -144,8 +137,8 @@ export default function MythicSummonReference({
           noteColor="pink"
           note={
             <>
-              <strong>Bonus:</strong> Each summon also grants 5-9 Wishing
-              Lilies (avg. {guaranteedWishingLilies})
+              <strong>Bonus:</strong> Each summon also grants 5-9 Wishing Lilies
+              (avg. {guaranteedWishingLilies})
             </>
           }
         />

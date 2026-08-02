@@ -15,7 +15,7 @@ export function saveRecentSearch(query: string, previous: string[]): string[] {
 
   const next = [trimmed, ...previous.filter((item) => item !== trimmed)].slice(
     0,
-    MAX_RECENT_SEARCHES
+    MAX_RECENT_SEARCHES,
   );
   writeStoredJson(STORAGE_KEY.RECENT_SEARCHES, next);
   return next;

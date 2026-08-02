@@ -7,7 +7,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 export function buildSettingsExport(
   storage: Pick<Storage, 'getItem'>,
   storageKeys: readonly string[],
-  savedAt = new Date()
+  savedAt = new Date(),
 ): string {
   const data: Record<string, string> = {};
   for (const key of storageKeys) {
@@ -22,14 +22,14 @@ export function buildSettingsExport(
       data,
     },
     null,
-    2
+    2,
   );
 }
 
 export function importSettings(
   text: string,
   storage: Pick<Storage, 'setItem'>,
-  storageKeys: readonly string[]
+  storageKeys: readonly string[],
 ): string | null {
   const supportedKeys = new Set(storageKeys);
   try {
@@ -45,8 +45,7 @@ export function importSettings(
     const entries = Object.entries(parsed.data);
     if (
       entries.some(
-        ([key, value]) =>
-          !supportedKeys.has(key) || typeof value !== 'string'
+        ([key, value]) => !supportedKeys.has(key) || typeof value !== 'string',
       )
     ) {
       return 'Settings file contains unsupported keys or values.';

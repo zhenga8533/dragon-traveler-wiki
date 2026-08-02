@@ -452,10 +452,7 @@ export function EventCardsLoading({
         ) : (
           <Stack gap={spacing}>
             {Array.from({ length: cards }, (_, index) => (
-              <StaticSurface
-                key={index}
-                p="md"
-              >
+              <StaticSurface key={index} p="md">
                 <Group align="stretch" gap="md" wrap="nowrap">
                   <Skeleton
                     height={96}

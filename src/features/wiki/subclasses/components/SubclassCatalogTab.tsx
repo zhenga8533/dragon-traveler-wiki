@@ -124,10 +124,7 @@ export default function SubclassCatalogTab({
             {pageItems.map((item) => {
               const icon = getSubclassIcon(item.slug, item.class);
               return (
-                <StaticSurface
-                  key={item.slug}
-                  p="sm"
-                >
+                <StaticSurface key={item.slug} p="sm">
                   <Stack gap="xs">
                     <Group gap="sm" wrap="nowrap">
                       {icon && (
@@ -167,7 +164,10 @@ export default function SubclassCatalogTab({
                         ))}
                       </Group>
                     )}
-                    <RichText text={item.effect} statusEffects={statusEffects} />
+                    <RichText
+                      text={item.effect}
+                      statusEffects={statusEffects}
+                    />
                   </Stack>
                 </StaticSurface>
               );

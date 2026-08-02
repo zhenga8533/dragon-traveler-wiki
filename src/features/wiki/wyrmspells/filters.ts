@@ -25,7 +25,7 @@ export const EMPTY_WYRMSPELL_FILTERS: WyrmspellFilters = {
 
 export function matchesWyrmspellFilters(
   spell: Wyrmspell,
-  filters: WyrmspellFilters
+  filters: WyrmspellFilters,
 ) {
   const query = filters.search.trim().toLocaleLowerCase();
   const maxQuality = getMaxQuality(spell)?.quality;
@@ -43,7 +43,7 @@ export function compareWyrmspells(
   left: Wyrmspell,
   right: Wyrmspell,
   column: string | null,
-  direction: 'asc' | 'desc'
+  direction: 'asc' | 'desc',
 ) {
   let comparison = 0;
   if (column === 'name') comparison = left.name.localeCompare(right.name);
@@ -51,7 +51,7 @@ export function compareWyrmspells(
   else if (column === 'quality') {
     comparison = compareQuality(
       getMaxQuality(left)?.quality,
-      getMaxQuality(right)?.quality
+      getMaxQuality(right)?.quality,
     );
   } else if (column === 'faction') {
     const leftFaction = left.exclusive_faction ?? '';
@@ -66,7 +66,7 @@ export function compareWyrmspells(
     left.type.localeCompare(right.type) ||
     compareQuality(
       getMaxQuality(left)?.quality,
-      getMaxQuality(right)?.quality
+      getMaxQuality(right)?.quality,
     ) ||
     left.name.localeCompare(right.name)
   );

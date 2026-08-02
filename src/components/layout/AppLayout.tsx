@@ -6,7 +6,12 @@ import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { isDetailRoute, ROUTE_PATH } from '@/constants/route-meta';
 import { HEADER_HEIGHT, IMAGE_SIZE, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
-import { useDarkMode, useEffectiveNavLayout, useIsMobile, useSidebar } from '@/hooks';
+import {
+  useDarkMode,
+  useEffectiveNavLayout,
+  useIsMobile,
+  useSidebar,
+} from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
 import {
   ActionIcon,
@@ -71,8 +76,18 @@ export default function AppLayout() {
       style={{ minHeight: '100dvh' }}
     >
       <AppShell.Header style={glassStyles}>
-        <Group h="100%" px="md" wrap="nowrap" align="stretch" style={{ justifyContent: 'space-between' }}>
-          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden', flexShrink: 0 }}>
+        <Group
+          h="100%"
+          px="md"
+          wrap="nowrap"
+          align="stretch"
+          style={{ justifyContent: 'space-between' }}
+        >
+          <Group
+            gap="sm"
+            wrap="nowrap"
+            style={{ overflow: 'hidden', flexShrink: 0 }}
+          >
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
@@ -93,7 +108,11 @@ export default function AppLayout() {
                   aria-label="Toggle sidebar"
                   visibleFrom="sm"
                 >
-                  {sidebar.isCollapsed ? <IoChevronForward size={IMAGE_SIZE.ICON_LG} /> : <IoChevronBack size={IMAGE_SIZE.ICON_LG} />}
+                  {sidebar.isCollapsed ? (
+                    <IoChevronForward size={IMAGE_SIZE.ICON_LG} />
+                  ) : (
+                    <IoChevronBack size={IMAGE_SIZE.ICON_LG} />
+                  )}
                 </ActionIcon>
               </Tooltip>
             )}

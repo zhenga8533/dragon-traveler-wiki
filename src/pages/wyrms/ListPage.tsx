@@ -34,7 +34,10 @@ import {
   EMPTY_WYRM_FILTERS,
   matchesWyrmFilters,
 } from '@/features/wiki/wyrms/filters';
-import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrms,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 
@@ -68,7 +71,10 @@ const WYRM_FIELDS: FieldDef[] = [
     label: 'Faction',
     type: 'select',
     required: true,
-    options: FACTION_SLUGS.map((slug, i) => ({ value: slug, label: FACTION_NAMES[i] })),
+    options: FACTION_SLUGS.map((slug, i) => ({
+      value: slug,
+      label: FACTION_NAMES[i],
+    })),
   },
   {
     name: 'phase',
@@ -182,8 +188,12 @@ export default function WyrmsListPage() {
   }, [wyrms]);
 
   const qualityOptions = useMemo(
-    () => orderFilterOptions(wyrms.map((w) => w.quality), QUALITY_ORDER),
-    [wyrms]
+    () =>
+      orderFilterOptions(
+        wyrms.map((w) => w.quality),
+        QUALITY_ORDER,
+      ),
+    [wyrms],
   );
 
   const factionOptions = useMemo(() => {
@@ -196,9 +206,13 @@ export default function WyrmsListPage() {
     if (phaseOptions.length > 0)
       groups.push({ key: 'phases', label: 'Phase', options: phaseOptions });
     if (qualityOptions.length > 0)
-      groups.push(createQualityFilterGroup({ label: 'Quality', options: qualityOptions }));
+      groups.push(
+        createQualityFilterGroup({ label: 'Quality', options: qualityOptions }),
+      );
     if (factionOptions.length > 0)
-      groups.push(createFactionFilterGroup({ label: 'Faction', options: factionOptions }));
+      groups.push(
+        createFactionFilterGroup({ label: 'Faction', options: factionOptions }),
+      );
     return groups;
   }, [phaseOptions, qualityOptions, factionOptions]);
 
@@ -253,10 +267,14 @@ export default function WyrmsListPage() {
                   qualities: filters.qualities,
                   factions: filters.factions,
                 }}
-                onChange={(key, values) => setFilters({ ...filters, [key]: values })}
+                onChange={(key, values) =>
+                  setFilters({ ...filters, [key]: values })
+                }
                 onClear={resetFilters}
                 search={filters.search}
-                onSearchChange={(value) => setFilters({ ...filters, search: value })}
+                onSearchChange={(value) =>
+                  setFilters({ ...filters, search: value })
+                }
                 searchPlaceholder="Search by name..."
               />
             }
@@ -307,16 +325,36 @@ export default function WyrmsListPage() {
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>
-                      <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>
+                      <SortableTh
+                        sortKey="name"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
                         Name
                       </SortableTh>
-                      <SortableTh sortKey="phase" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>
+                      <SortableTh
+                        sortKey="phase"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
                         Phase
                       </SortableTh>
-                      <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>
+                      <SortableTh
+                        sortKey="quality"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
                         Quality
                       </SortableTh>
-                      <SortableTh sortKey="faction" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>
+                      <SortableTh
+                        sortKey="faction"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
                         Faction
                       </SortableTh>
                     </Table.Tr>
@@ -339,9 +377,7 @@ export default function WyrmsListPage() {
                               />
                             )}
                           </Table.Td>
-                          <EntityTableLinkCell
-                            to={`/wyrms/${wyrm.slug}`}
-                          >
+                          <EntityTableLinkCell to={`/wyrms/${wyrm.slug}`}>
                             {wyrm.name}
                           </EntityTableLinkCell>
                           <Table.Td>

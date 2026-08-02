@@ -67,8 +67,10 @@ export default function SettingsPanel({
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const mobileTooltip = useMobileTooltip();
-  const { accent, palette, setPalette, customColors, setCustomColors } = useGradientAccent();
-  const { navLayout, setNavLayout, effectiveNavLayout } = useEffectiveNavLayout();
+  const { accent, palette, setPalette, customColors, setCustomColors } =
+    useGradientAccent();
+  const { navLayout, setNavLayout, effectiveNavLayout } =
+    useEffectiveNavLayout();
 
   const {
     tierLists,
@@ -128,7 +130,9 @@ export default function SettingsPanel({
     });
     const official = tierLists.map(toOption);
     const officialNames = new Set(tierLists.map((l) => l.name));
-    const uniqueSaved = savedTierLists.filter((l) => !officialNames.has(l.name));
+    const uniqueSaved = savedTierLists.filter(
+      (l) => !officialNames.has(l.name),
+    );
     if (uniqueSaved.length === 0) return official;
     return [
       { group: 'Official', items: official },
@@ -149,10 +153,14 @@ export default function SettingsPanel({
     ? ({ withinPortal: false, zIndex: Z_INDEX.TOOLTIP } as const)
     : selectComboboxProps;
 
-  const [exportModalOpened, { open: openExportModal, close: closeExportModal }] =
-    useDisclosure(false);
-  const [importModalOpened, { open: openImportModal, close: closeImportModal }] =
-    useDisclosure(false);
+  const [
+    exportModalOpened,
+    { open: openExportModal, close: closeExportModal },
+  ] = useDisclosure(false);
+  const [
+    importModalOpened,
+    { open: openImportModal, close: closeImportModal },
+  ] = useDisclosure(false);
   const [exportJson, setExportJson] = useState('');
 
   const handleOpenExport = () => {
@@ -193,7 +201,8 @@ export default function SettingsPanel({
             allowDeselect={false}
           />
           <Text size="xs" c="dimmed">
-            Changes which localized data files are loaded. Reload the page after switching.
+            Changes which localized data files are loaded. Reload the page after
+            switching.
           </Text>
         </Stack>
       </Paper>
@@ -326,7 +335,15 @@ export default function SettingsPanel({
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                <Text size="xs" fw={700} style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.5)', letterSpacing: '0.04em' }}>
+                <Text
+                  size="xs"
+                  fw={700}
+                  style={{
+                    color: '#fff',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
                   Custom
                 </Text>
               </UnstyledButton>
@@ -343,8 +360,13 @@ export default function SettingsPanel({
                       size="xs"
                       format="hex"
                       value={customColors[key]}
-                      onChange={(v) => setCustomColors({ ...customColors, [key]: v })}
-                      popoverProps={{ withinPortal: false, zIndex: Z_INDEX.TOOLTIP }}
+                      onChange={(v) =>
+                        setCustomColors({ ...customColors, [key]: v })
+                      }
+                      popoverProps={{
+                        withinPortal: false,
+                        zIndex: Z_INDEX.TOOLTIP,
+                      }}
                       swatches={swatches}
                       swatchesPerRow={8}
                     />
@@ -355,7 +377,11 @@ export default function SettingsPanel({
                   size="xs"
                   value={customColors.mantineAccent}
                   onChange={(v) =>
-                    v && setCustomColors({ ...customColors, mantineAccent: v as CustomMantineAccent })
+                    v &&
+                    setCustomColors({
+                      ...customColors,
+                      mantineAccent: v as CustomMantineAccent,
+                    })
                   }
                   onDropdownOpen={() => setIsSelectDropdownOpen(true)}
                   onDropdownClose={() => setIsSelectDropdownOpen(false)}
@@ -621,7 +647,10 @@ export default function SettingsPanel({
               color={accent.primary}
               size="xs"
               leftSection={<IoDownload size={14} />}
-              onClick={() => { handleOpenExport(); closeOpened(); }}
+              onClick={() => {
+                handleOpenExport();
+                closeOpened();
+              }}
             >
               Export
             </Button>
@@ -630,7 +659,10 @@ export default function SettingsPanel({
               color={accent.primary}
               size="xs"
               leftSection={<IoFolderOpen size={14} />}
-              onClick={() => { openImportModal(); closeOpened(); }}
+              onClick={() => {
+                openImportModal();
+                closeOpened();
+              }}
             >
               Import
             </Button>

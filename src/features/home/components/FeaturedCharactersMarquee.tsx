@@ -15,14 +15,7 @@ import {
   isCharacterTierEntry,
 } from '@/features/tier-list/types';
 import styles from '@/features/home/styles/marquee.module.css';
-import {
-  Badge,
-  Box,
-  Group,
-  Skeleton,
-  Stack,
-  Text,
-} from '@mantine/core';
+import { Badge, Box, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
 
 export default function FeaturedCharactersMarquee() {
@@ -63,7 +56,7 @@ export default function FeaturedCharactersMarquee() {
   }
 
   const characterTierLists = tierLists.filter(
-    (tierList) => getTierListEntityType(tierList) === 'character'
+    (tierList) => getTierListEntityType(tierList) === 'character',
   );
   const tierList =
     characterTierLists.find((t) => t.name === selectedTierListName) ??
@@ -88,7 +81,7 @@ export default function FeaturedCharactersMarquee() {
         entry.character_slug,
         entry.character_quality,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       );
       const resolvedName = char?.name ?? entry.character_slug;
       return (

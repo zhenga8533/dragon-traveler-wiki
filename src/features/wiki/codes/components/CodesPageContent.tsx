@@ -55,7 +55,7 @@ export default function CodesPageContent({
   const page = useCodesPage(codes);
   const rewardFields = useMemo(
     () => buildCodeRewardFields(resources),
-    [resources]
+    [resources],
   );
 
   return (
@@ -107,9 +107,7 @@ export default function CodesPageContent({
           <Group gap="xs">
             <SegmentedControl
               value={page.view}
-              onChange={(value) =>
-                page.setView(value as typeof page.view)
-              }
+              onChange={(value) => page.setView(value as typeof page.view)}
               data={[
                 { label: 'Unredeemed', value: 'unredeemed' },
                 { label: 'Redeemed', value: 'redeemed' },

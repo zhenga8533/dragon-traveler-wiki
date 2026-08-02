@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Group,
-  ScrollArea,
-  Stack,
-  Table,
-  Text,
-} from '@mantine/core';
+import { Badge, Group, ScrollArea, Stack, Table, Text } from '@mantine/core';
 import { CLASS_ICON_MAP, getSubclassIcon } from '@/assets';
 import {
   FilterChipGroup,
@@ -268,7 +261,7 @@ export default function SubclassUsageTab({
                           </Table.Td>
                         </Table.Tr>
                       );
-                    }
+                    },
                   )}
                 </Table.Tbody>
               </Table>

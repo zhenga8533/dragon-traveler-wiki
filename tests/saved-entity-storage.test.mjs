@@ -33,7 +33,7 @@ test('saved entity loading validates, migrates, timestamps, and sorts items', ()
     isSavedItem,
     (value) => ({ ...value, name: value.name.trim() }),
     storage,
-    () => 20
+    () => 20,
   );
 
   assert.deepEqual(items, [

@@ -48,7 +48,11 @@ export default function EntitySummaryCard({
         )}
         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
           <Group gap="sm" wrap="wrap">
-            <Text fw={700} className={to ? 'dt-link-text' : undefined} lineClamp={1}>
+            <Text
+              fw={700}
+              className={to ? 'dt-link-text' : undefined}
+              lineClamp={1}
+            >
               {title}
             </Text>
             {titleAccessory}

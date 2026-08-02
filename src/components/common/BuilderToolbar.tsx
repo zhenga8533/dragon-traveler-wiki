@@ -1,11 +1,5 @@
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
-import {
-  ActionIcon,
-  Button,
-  CopyButton,
-  Group,
-  Tooltip,
-} from '@mantine/core';
+import { ActionIcon, Button, CopyButton, Group, Tooltip } from '@mantine/core';
 import type { ReactNode } from 'react';
 import type { IconType } from 'react-icons';
 import {
@@ -57,10 +51,7 @@ function ResponsiveToolbarAction({
   const color = action.color ?? defaultColor;
 
   return isMobile ? (
-    <Tooltip
-      label={action.mobileLabel ?? action.label}
-      {...mobileTooltip}
-    >
+    <Tooltip label={action.mobileLabel ?? action.label} {...mobileTooltip}>
       <ActionIcon
         variant="light"
         color={color}
@@ -151,21 +142,14 @@ export default function BuilderToolbar({
             const color = copied ? accent.secondary : accent.primary;
 
             return isMobile ? (
-              <Tooltip
-                label={copied ? 'Copied!' : label}
-                {...mobileTooltip}
-              >
+              <Tooltip label={copied ? 'Copied!' : label} {...mobileTooltip}>
                 <ActionIcon
                   variant="light"
                   color={color}
                   onClick={copy}
                   aria-label={label}
                 >
-                  {copied ? (
-                    <IoCheckmark size={16} />
-                  ) : (
-                    <IoCopy size={16} />
-                  )}
+                  {copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />}
                 </ActionIcon>
               </Tooltip>
             ) : (

@@ -15,23 +15,25 @@ import { useCharacterListData } from '@/features/characters/hooks/use-character-
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { ActionIcon, Button, Container, Group, Stack, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Container,
+  Group,
+  Stack,
+  Tooltip,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { IoPeople, IoPersonOutline } from 'react-icons/io5';
 
 export default function Characters() {
   const { accent } = useGradientAccent();
-  const {
-    data: characters,
-    loading,
-    error,
-    retry,
-  } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(characters),
-    [characters]
+    [characters],
   );
 
   const listData = useCharacterListData(characters);
@@ -112,7 +114,10 @@ export default function Characters() {
               color={accent.primary}
             />
           ) : (
-            <CharacterList data={listData} newCharacterKeys={newCharacterKeys} />
+            <CharacterList
+              data={listData}
+              newCharacterKeys={newCharacterKeys}
+            />
           )}
         </ListPageShell>
       </Stack>

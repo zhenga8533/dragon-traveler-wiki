@@ -21,7 +21,7 @@ export function ResourcesProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo(
     () => ({ resources, loading, error, retry }),
-    [resources, loading, error, retry]
+    [resources, loading, error, retry],
   );
 
   return createElement(ResourcesContext.Provider, { value }, children);

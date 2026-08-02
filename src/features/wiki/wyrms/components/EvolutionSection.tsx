@@ -16,7 +16,15 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Final Phase': 'orange',
 };
 
-function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves To'; w: Wyrm; isDark: boolean }) {
+function EvolutionCard({
+  label,
+  w,
+  isDark,
+}: {
+  label: 'Evolves From' | 'Evolves To';
+  w: Wyrm;
+  isDark: boolean;
+}) {
   const iconSrc = getWyrmIcon(w.slug);
   const qualityColor = QUALITY_COLOR[w.quality];
   const phaseColor = WYRM_PHASE_COLOR[w.phase];
@@ -33,7 +41,13 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
       }}
     >
       <Stack gap="sm">
-        <Text size="xs" tt="uppercase" fw={700} c={`${qualityColor}.${isDark ? 4 : 6}`} style={{ letterSpacing: '0.06em' }}>
+        <Text
+          size="xs"
+          tt="uppercase"
+          fw={700}
+          c={`${qualityColor}.${isDark ? 4 : 6}`}
+          style={{ letterSpacing: '0.06em' }}
+        >
           {label}
         </Text>
         <Group gap="md" align="center" wrap="nowrap">
@@ -48,7 +62,12 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
             />
           )}
           <Stack gap={6}>
-            <Text fw={700} size="md" className="dt-link-text" style={{ lineHeight: 1.2 }}>
+            <Text
+              fw={700}
+              size="md"
+              className="dt-link-text"
+              style={{ lineHeight: 1.2 }}
+            >
               {w.name}
             </Text>
             <Group gap="xs" wrap="wrap">
@@ -65,8 +84,19 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
   );
 }
 
-export default function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyrm; allWyrms: Wyrm[]; isDark: boolean }) {
-  const bySlug = useMemo(() => new Map(allWyrms.map((w) => [w.slug, w])), [allWyrms]);
+export default function EvolutionSection({
+  wyrm,
+  allWyrms,
+  isDark,
+}: {
+  wyrm: Wyrm;
+  allWyrms: Wyrm[];
+  isDark: boolean;
+}) {
+  const bySlug = useMemo(
+    () => new Map(allWyrms.map((w) => [w.slug, w])),
+    [allWyrms],
+  );
   const prev = wyrm.evolves_from ? bySlug.get(wyrm.evolves_from) : undefined;
   const next = wyrm.evolves_to ? bySlug.get(wyrm.evolves_to) : undefined;
 
@@ -78,7 +108,9 @@ export default function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyr
         Evolution
       </Title>
       <Group gap="sm" align="stretch" wrap="wrap">
-        {prev && <EvolutionCard label="Evolves From" w={prev} isDark={isDark} />}
+        {prev && (
+          <EvolutionCard label="Evolves From" w={prev} isDark={isDark} />
+        )}
         {next && <EvolutionCard label="Evolves To" w={next} isDark={isDark} />}
       </Group>
     </Stack>

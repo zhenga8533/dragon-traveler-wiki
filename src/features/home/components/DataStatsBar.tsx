@@ -229,13 +229,7 @@ export default function DataStatsBar() {
               >
                 <stat.icon size={16} />
               </ThemeIcon>
-              <Text
-                fw={800}
-                size="lg"
-                ta="center"
-                lh={1}
-                c={`${stat.color}.7`}
-              >
+              <Text fw={800} size="lg" ta="center" lh={1} c={`${stat.color}.7`}>
                 {stat.count}
               </Text>
               <Text size="xs" c="dimmed" ta="center" lh={1.3}>

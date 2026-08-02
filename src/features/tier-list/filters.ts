@@ -21,7 +21,7 @@ export const EMPTY_TIER_LIST_VIEW_FILTERS: TierListViewFilters = {
 export function matchesTierListFilters(
   tierList: TierList,
   search: string,
-  filters: TierListViewFilters
+  filters: TierListViewFilters,
 ): boolean {
   const query = search.trim().toLocaleLowerCase();
   if (

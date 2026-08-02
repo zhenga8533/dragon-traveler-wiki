@@ -54,8 +54,8 @@ export function useIllustrationGame() {
     return declared.filter((character) =>
       resolveManifestIllustrations(
         getSceneIllustrations(character),
-        assetManifest.data.assets
-      ).some((scene) => scene.type === 'image')
+        assetManifest.data.assets,
+      ).some((scene) => scene.type === 'image'),
     );
   }, [assetManifest.data.assets, assetManifest.error, characters]);
 
@@ -72,24 +72,25 @@ export function useIllustrationGame() {
   const illustration = useMemo(
     () =>
       answer ? pickDailyIllustration(answer, todayStr, availableScenes) : null,
-    [answer, availableScenes, todayStr]
+    [answer, availableScenes, todayStr],
   );
 
   const focusPoint = useMemo(
-    () => (answer ? pickIllustrationFocusPoint(answer, todayStr) : { x: 50, y: 50 }),
-    [answer, todayStr]
+    () =>
+      answer ? pickIllustrationFocusPoint(answer, todayStr) : { x: 50, y: 50 },
+    [answer, todayStr],
   );
 
   const [gameState, setGameState] = useDailyGameState(
     STORAGE_KEY.DTDLE_ILLUSTRATION_STATE,
     todayStr,
     freshGameState,
-    isValidGameState
+    isValidGameState,
   );
 
   const { stats, recordWin } = useDailyStats(
     STORAGE_KEY.DTDLE_ILLUSTRATION_STATS,
-    todayStr
+    todayStr,
   );
 
   const wrongGuessCount = gameState.characterSolved
@@ -98,15 +99,15 @@ export function useIllustrationGame() {
   const zoomScale =
     ZOOM_STEPS[Math.min(wrongGuessCount, ZOOM_STEPS.length - 1)];
 
-  const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
+  const guessedCharacters = useGuessedCharacters(
+    eligible,
+    gameState.guessedSlugs,
+  );
 
   function submitCharacterGuess(slug: string) {
     if (!answer) return;
     setGameState((previous) => {
-      if (
-        previous.characterSolved ||
-        previous.guessedSlugs.includes(slug)
-      ) {
+      if (previous.characterSolved || previous.guessedSlugs.includes(slug)) {
         return previous;
       }
       return {

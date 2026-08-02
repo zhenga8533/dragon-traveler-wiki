@@ -9,14 +9,13 @@ import {
   Text,
   Timeline,
 } from '@mantine/core';
-import {
-  IoAddCircle,
-  IoCheckmarkCircle,
-  IoCloseCircle,
-} from 'react-icons/io5';
+import { IoAddCircle, IoCheckmarkCircle, IoCloseCircle } from 'react-icons/io5';
 import { ChangeRecordCard } from '@/components/common/ChangeHistory';
 import EntityFilter from '@/components/common/EntityFilter';
-import { FilterChipGroup, FilterSection } from '@/components/common/FilterControls';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
 import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import PaginationControl from '@/components/ui/PaginationControl';
@@ -118,7 +117,7 @@ function formatEntityName(entityId: string): string {
 async function fetchSlugNameMap(
   base: string,
   file: string,
-  locale: SupportedLocale
+  locale: SupportedLocale,
 ): Promise<Map<string, string> | null> {
   if (!SLUG_KEYED_FILES.has(file)) return null;
   try {
@@ -190,7 +189,7 @@ export default function DataHistoryTab() {
         } catch {
           return { events: [] as DataEvent[] };
         }
-      })
+      }),
     ).then((results) => {
       if (isCancelled) return;
       const all = results
@@ -216,13 +215,13 @@ export default function DataHistoryTab() {
     {
       defaultSize: DATA_PAGE_SIZE,
       storageKey: getPageSizeStorageKey('changelog:data'),
-    }
+    },
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     pageSize,
-    filterKey
+    filterKey,
   );
   useEffect(() => {
     setPage(1);
@@ -230,7 +229,7 @@ export default function DataHistoryTab() {
   const pageItems = filtered.slice(offset, offset + pageSize);
 
   const categoryChipOptions = DATA_FILES.filter(({ file }) =>
-    events.some((e) => e.category === file)
+    events.some((e) => e.category === file),
   ).map(({ file, label }) => ({ value: file, label }));
 
   function clearFilters() {

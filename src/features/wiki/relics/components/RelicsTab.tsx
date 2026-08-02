@@ -1,5 +1,12 @@
 import { Link } from 'react-router';
-import { Badge, Group, ScrollArea, SimpleGrid, Table, Text } from '@mantine/core';
+import {
+  Badge,
+  Group,
+  ScrollArea,
+  SimpleGrid,
+  Table,
+  Text,
+} from '@mantine/core';
 import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getRelicIcon } from '@/assets';
@@ -184,7 +191,9 @@ export default function RelicsTab({
               return (
                 <EntitySummaryCard
                   key={item.name}
-                  to={oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null}
+                  to={
+                    oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null
+                  }
                   title={item.name}
                   imageSrc={iconSrc}
                   titleAccessory={
@@ -194,7 +203,11 @@ export default function RelicsTab({
                     <Group gap="xs" wrap="wrap">
                       <RelicTypeTag type={item.type} />
                       {oracleScroll && (
-                        <Badge variant="light" size="sm" color={accent.secondary}>
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color={accent.secondary}
+                        >
                           {oracleScroll.name}
                         </Badge>
                       )}
@@ -296,8 +309,13 @@ export default function RelicsTab({
                             variant="light"
                             size="sm"
                             color={accent.secondary}
-                            style={{ cursor: 'pointer', textDecoration: 'none' }}
-                            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                            style={{
+                              cursor: 'pointer',
+                              textDecoration: 'none',
+                            }}
+                            onClick={(e: React.MouseEvent) =>
+                              e.stopPropagation()
+                            }
                           >
                             {oracleScroll.name}
                           </Badge>

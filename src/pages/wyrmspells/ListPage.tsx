@@ -19,10 +19,7 @@ import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
 import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getMinWidthStyle } from '@/constants/styles';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
@@ -35,7 +32,10 @@ import {
   WYRMSPELL_TYPE_FILTER_ORDER,
 } from '@/features/wiki/wyrmspells/filters';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
-import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {
@@ -83,18 +83,16 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     name: 'exclusive_faction',
     label: 'Exclusive Faction (optional)',
     type: 'select',
-    options: FACTION_SLUGS.map((slug, i) => ({ value: slug, label: FACTION_NAMES[i] })),
+    options: FACTION_SLUGS.map((slug, i) => ({
+      value: slug,
+      label: FACTION_NAMES[i],
+    })),
   },
 ];
 
 export default function Wyrmspells() {
   const { data: statusEffects } = useStatusEffects();
-  const {
-    data: wyrmspells,
-    loading,
-    error,
-    retry,
-  } = useWyrmspells();
+  const { data: wyrmspells, loading, error, retry } = useWyrmspells();
   const {
     filters,
     setFilters,
@@ -133,7 +131,7 @@ export default function Wyrmspells() {
       if (spell.type) types.add(spell.type);
     }
     const preferred = WYRMSPELL_TYPE_FILTER_ORDER.filter((type) =>
-      types.has(type)
+      types.has(type),
     );
     const extras = [...types]
       .filter((type) => !WYRMSPELL_TYPE_FILTER_ORDER.includes(type as never))
@@ -147,14 +145,14 @@ export default function Wyrmspells() {
         const q = getMaxQuality(spell)?.quality;
         return q ? [q] : [];
       }),
-      QUALITY_ORDER
+      QUALITY_ORDER,
     );
   }, [wyrmspells]);
   const availabilityOptions = useMemo(() => {
     const factions = new Set(
       wyrmspells.flatMap((spell) =>
-        spell.exclusive_faction ? [spell.exclusive_faction] : []
-      )
+        spell.exclusive_faction ? [spell.exclusive_faction] : [],
+      ),
     );
     return [
       ...(wyrmspells.some((spell) => !spell.exclusive_faction)
@@ -173,7 +171,11 @@ export default function Wyrmspells() {
         options: typeOptions,
         icon: (value) => (
           <SafeImage
-            src={WYRMSPELL_TYPE_ICON_MAP[value as keyof typeof WYRMSPELL_TYPE_ICON_MAP]}
+            src={
+              WYRMSPELL_TYPE_ICON_MAP[
+                value as keyof typeof WYRMSPELL_TYPE_ICON_MAP
+              ]
+            }
             alt=""
             w={IMAGE_SIZE.ICON_SM}
             h={IMAGE_SIZE.ICON_SM}
@@ -186,7 +188,7 @@ export default function Wyrmspells() {
         createQualityFilterGroup({
           label: 'Max Quality',
           options: qualityOptions,
-        })
+        }),
       );
     if (availabilityOptions.length > 0) {
       const factionGroup = createFactionFilterGroup();
@@ -198,7 +200,7 @@ export default function Wyrmspells() {
         labelFn: (value) =>
           value === 'universal'
             ? 'Universal'
-            : factionGroup.labelFn?.(value) ?? value,
+            : (factionGroup.labelFn?.(value) ?? value),
         icon: (value) =>
           value === 'universal' ? null : factionGroup.icon?.(value),
       });
@@ -208,7 +210,7 @@ export default function Wyrmspells() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(wyrmspells),
-    [wyrmspells]
+    [wyrmspells],
   );
 
   return (
@@ -303,7 +305,11 @@ export default function Wyrmspells() {
                         )}
                         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={700} className="dt-link-text" lineClamp={1}>
+                            <Text
+                              fw={700}
+                              className="dt-link-text"
+                              lineClamp={1}
+                            >
                               {spell.name}
                             </Text>
                             {maxQuality && (
@@ -393,9 +399,7 @@ export default function Wyrmspells() {
                               />
                             )}
                           </Table.Td>
-                          <EntityTableLinkCell
-                            to={`/wyrmspells/${spell.slug}`}
-                          >
+                          <EntityTableLinkCell to={`/wyrmspells/${spell.slug}`}>
                             {spell.name}
                           </EntityTableLinkCell>
                           <Table.Td>

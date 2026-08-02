@@ -6,7 +6,11 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { useGoldenAllianceChanges, useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useGoldenAllianceChanges,
+  useGoldenAlliances,
+  useHowlkins,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
@@ -38,7 +42,7 @@ export default function GoldenAllianceDetailPage() {
 
   const alliance = useMemo(
     () => findEntityByParam(alliances, allianceParam, (a) => a.slug) ?? null,
-    [alliances, allianceParam]
+    [alliances, allianceParam],
   );
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export default function GoldenAllianceDetailPage() {
     return [...alliance.howlkins].sort((a, b) => {
       const qualityComparison = compareQuality(
         howlkinMap.get(a)?.quality,
-        howlkinMap.get(b)?.quality
+        howlkinMap.get(b)?.quality,
       );
       if (qualityComparison !== 0) return qualityComparison;
       return a.localeCompare(b);
@@ -67,12 +71,15 @@ export default function GoldenAllianceDetailPage() {
 
   const orderedAlliances = useMemo(
     () => [...alliances].sort((a, b) => a.slug.localeCompare(b.slug)),
-    [alliances]
+    [alliances],
   );
 
   const allianceIndex = useMemo(
-    () => alliance ? orderedAlliances.findIndex((a) => a.slug === alliance.slug) : -1,
-    [orderedAlliances, alliance]
+    () =>
+      alliance
+        ? orderedAlliances.findIndex((a) => a.slug === alliance.slug)
+        : -1,
+    [orderedAlliances, alliance],
   );
 
   const previousAlliance =
@@ -198,7 +205,6 @@ export default function GoldenAllianceDetailPage() {
               </Table>
             </Box>
           </Stack>
-
         </Stack>
 
         <ChangeHistory history={changesData[alliance.slug]} />

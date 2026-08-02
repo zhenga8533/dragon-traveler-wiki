@@ -58,7 +58,7 @@ export default function CharacterPortrait({
 }: CharacterPortraitProps) {
   const mobileTooltip = useMobileTooltip();
   const { characterTrackingEnabled, grayUnowned, isOwned } = useContext(
-    CharacterOwnershipContext
+    CharacterOwnershipContext,
   );
   const { getSelectedSkin, skinsEnabled } = useContext(CharacterSkinContext);
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];

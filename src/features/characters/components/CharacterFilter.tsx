@@ -201,7 +201,9 @@ export default function CharacterFilter({
                 onChange={(val) => onChange({ ...filters, statusEffects: val })}
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
-                  const effect = effectOptions.find((o) => o.value === option.value);
+                  const effect = effectOptions.find(
+                    (o) => o.value === option.value,
+                  );
                   const iconSrc = effect?.slug
                     ? getStatusEffectIcon(effect.slug, effect.type)
                     : undefined;
@@ -248,11 +250,13 @@ export default function CharacterFilter({
                   value={filters.minStarLevel}
                   onChange={(val) => {
                     const minIndex = val
-                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === val,
+                        )
                       : -1;
                     const maxIndex = filters.maxStarLevel
                       ? starLevelOptions.findIndex(
-                          (option) => option.value === filters.maxStarLevel
+                          (option) => option.value === filters.maxStarLevel,
                         )
                       : -1;
                     onChange({
@@ -275,11 +279,13 @@ export default function CharacterFilter({
                   value={filters.maxStarLevel}
                   onChange={(val) => {
                     const maxIndex = val
-                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === val,
+                        )
                       : -1;
                     const minIndex = filters.minStarLevel
                       ? starLevelOptions.findIndex(
-                          (option) => option.value === filters.minStarLevel
+                          (option) => option.value === filters.minStarLevel,
                         )
                       : -1;
                     onChange({

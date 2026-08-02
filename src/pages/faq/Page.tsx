@@ -414,11 +414,7 @@ export default function FAQ() {
               </Anchor>
               .
             </Alert>
-            <StaticSurface
-              radius="md"
-              p={0}
-              style={{ overflow: 'hidden' }}
-            >
+            <StaticSurface radius="md" p={0} style={{ overflow: 'hidden' }}>
               <Box
                 component="iframe"
                 src="https://www.gamekee.com/lhlr"

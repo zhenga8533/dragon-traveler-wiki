@@ -222,9 +222,8 @@ export default function BeginnerQA() {
             <Title order={2}>Summoning &amp; Characters</Title>
 
             <QA q="Which characters should I prioritize summoning?">
-              Go for at least 8 copies of{' '}
-              <CharacterTag slug="ifrit_ssr_plus" /> (AoE
-              attack, physical defense reduction) to reach Red 1★ for the
+              Go for at least 8 copies of <CharacterTag slug="ifrit_ssr_plus" />{' '}
+              (AoE attack, physical defense reduction) to reach Red 1★ for the
               powerful Level 4 passive. Then try to summon at least 1 copy of
               each limited character.
             </QA>
@@ -351,8 +350,7 @@ export default function BeginnerQA() {
               <ResolvedHowlkinBadge slug="pumpkin_knight" /> &gt;{' '}
               <WyrmspellBadge slug="agility_aura" /> &gt; Mythic Wyrm Spells
               &gt; <ResolvedHowlkinBadge slug="titan" /> ≥{' '}
-              <ResolvedHowlkinBadge slug="hydra" />{' '}
-              &gt; Mythic Artifacts.
+              <ResolvedHowlkinBadge slug="hydra" /> &gt; Mythic Artifacts.
               <br />
               Avoid exchanging for Diamond-equivalent currency or generic
               shards.
@@ -399,7 +397,7 @@ export default function BeginnerQA() {
                             </Text>
                           </Table.Td>
                         </Table.Tr>
-                      )
+                      ),
                     )}
                   </Table.Tbody>
                 </Table>
@@ -475,8 +473,8 @@ export default function BeginnerQA() {
               commonly support-focused with lower output. Many meta Mages are
               currently utility-focused, with fewer high-damage exceptions (such
               as <CharacterTag slug="gabriele_ssr_plus" /> or{' '}
-              <CharacterTag slug="poseidon_ssr_ex" />), so physical pressure is
-              often more common.
+              <CharacterTag slug="poseidon_ssr_ex" />
+              ), so physical pressure is often more common.
             </QA>
           </Stack>
         </StaticSurface>

@@ -53,10 +53,7 @@ export default function ActiveCodesSection() {
   return (
     <Stack gap="xs">
       {activeCodes.map((entry) => (
-        <StaticSurface
-          key={entry.code}
-          p="xs"
-        >
+        <StaticSurface key={entry.code} p="xs">
           <Group justify="space-between" wrap="nowrap">
             <Text ff="monospace" fw={500} size="sm" truncate>
               {entry.code}

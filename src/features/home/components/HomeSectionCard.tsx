@@ -33,7 +33,11 @@ export default function HomeSectionCard({
   const iconColor = color ?? accent.primary;
 
   return (
-    <StaticSurface p="lg" h="100%" style={{ position: 'relative', overflow: 'hidden' }}>
+    <StaticSurface
+      p="lg"
+      h="100%"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
       <Box
         style={{
           position: 'absolute',

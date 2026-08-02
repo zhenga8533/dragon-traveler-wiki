@@ -54,9 +54,24 @@ const HERO_NAV_ITEMS: Array<{
   to: string;
   Icon: ComponentType<{ size?: number }>;
 }> = [
-  { label: 'Characters', tagline: 'Builds & rankings', to: '/characters', Icon: IoPeople },
-  { label: 'Tier List', tagline: 'Current meta picks', to: '/tier-list', Icon: IoTrophy },
-  { label: 'Teams', tagline: 'Synergy & team builder', to: '/teams', Icon: IoShield },
+  {
+    label: 'Characters',
+    tagline: 'Builds & rankings',
+    to: '/characters',
+    Icon: IoPeople,
+  },
+  {
+    label: 'Tier List',
+    tagline: 'Current meta picks',
+    to: '/tier-list',
+    Icon: IoTrophy,
+  },
+  {
+    label: 'Teams',
+    tagline: 'Synergy & team builder',
+    to: '/teams',
+    Icon: IoShield,
+  },
 ];
 
 export default function HomeHeroSection() {
@@ -73,7 +88,7 @@ export default function HomeHeroSection() {
 
   const HERO_ACCENT_CYCLE = useMemo(
     () => [accent.primary, accent.secondary, accent.tertiary, accent.primary],
-    [accent.primary, accent.secondary, accent.tertiary]
+    [accent.primary, accent.secondary, accent.tertiary],
   );
 
   return (
@@ -86,7 +101,9 @@ export default function HomeHeroSection() {
         alignItems: 'center',
         // Show palette gradient when no banner is selected so the hero always
         // has a distinct background rather than showing the body grid.
-        background: selectedBanner ? undefined : getHomeHeroPlaceholderGradient(isDark),
+        background: selectedBanner
+          ? undefined
+          : getHomeHeroPlaceholderGradient(isDark),
       }}
     >
       <Container
@@ -275,7 +292,11 @@ export default function HomeHeroSection() {
           <Box
             visibleFrom="sm"
             className="home-hero-anim-in"
-            style={{ flexShrink: 0, position: 'relative', animationDelay: '320ms' }}
+            style={{
+              flexShrink: 0,
+              position: 'relative',
+              animationDelay: '320ms',
+            }}
           >
             {/* Ambient glow anchors the card group to the hero palette */}
             <Box
@@ -368,7 +389,8 @@ export default function HomeHeroSection() {
             left: 0,
             right: 0,
             height: 120,
-            background: 'linear-gradient(to bottom, transparent, var(--mantine-color-body))',
+            background:
+              'linear-gradient(to bottom, transparent, var(--mantine-color-body))',
             pointerEvents: 'none',
             zIndex: 2,
           }}

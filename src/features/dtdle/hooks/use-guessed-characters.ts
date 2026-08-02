@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 /** Resolves guessed slugs to full character records, in guess order. */
 export function useGuessedCharacters(
   eligible: Character[],
-  guessedSlugs: string[]
+  guessedSlugs: string[],
 ): Character[] {
   return useMemo(() => {
     const bySlug = new Map(eligible.map((c) => [c.slug, c]));

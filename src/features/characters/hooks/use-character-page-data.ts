@@ -2,7 +2,10 @@ import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { GEAR_TYPE_ICON_MAP, getGearIcon, getPortrait } from '@/assets';
 import { getSubclassIcon } from '@/assets';
-import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
+import {
+  CharacterOwnershipContext,
+  TierListReferenceContext,
+} from '@/contexts';
 import type { ChangesFile } from '@/types/changes';
 import type {
   ActivatedSetBonus,
@@ -31,13 +34,8 @@ import {
 } from '@/features/characters/utils/character-route';
 import { compareCharactersByQualityThenName } from '@/features/characters/filters';
 import { useCharacterResolution } from './use-character-resolution';
-import {
-  useCharacterChanges,
-  useCharacters,
-} from './use-characters-data';
-import {
-  useTeams,
-} from '@/features/teams/hooks/use-teams-data';
+import { useCharacterChanges, useCharacters } from './use-characters-data';
+import { useTeams } from '@/features/teams/hooks/use-teams-data';
 import {
   useGear,
   useGearSets,
@@ -113,11 +111,11 @@ export interface CharacterPageData {
 }
 
 export function useCharacterPageData(
-  name: string | undefined
+  name: string | undefined,
 ): CharacterPageData {
   const navigate = useNavigate();
   const { tierLists, selectedTierListName } = useContext(
-    TierListReferenceContext
+    TierListReferenceContext,
   );
   const { showCharacterTiers } = useContext(CharacterOwnershipContext);
 
@@ -133,19 +131,18 @@ export function useCharacterPageData(
   const {
     preferredByName: preferredCharacterByName,
     byIdentity: characterByIdentity,
-  } =
-    useCharacterResolution(characters);
+  } = useCharacterResolution(characters);
 
   const routeMatch = useMemo(
     () => resolveCharacterRoute(characters, name),
-    [characters, name]
+    [characters, name],
   );
 
   const character = routeMatch.character;
 
   const sameNameVariants = useMemo(
     () => [...routeMatch.variants].sort(compareCharactersByQualityThenName),
-    [routeMatch.variants]
+    [routeMatch.variants],
   );
 
   useEffect(() => {
@@ -200,13 +197,24 @@ export function useCharacterPageData(
       selectedTierList.entries.find(
         (entry) =>
           isCharacterTierEntry(entry) &&
-          characterByIdentity.get(entry.character_slug) === character
+          characterByIdentity.get(entry.character_slug) === character,
       ) ?? null
     );
-  }, [selectedTierList, character, characterByIdentity, isPreferredCharacterForNameReferences]);
+  }, [
+    selectedTierList,
+    character,
+    characterByIdentity,
+    isPreferredCharacterForNameReferences,
+  ]);
 
   const tierLabel = useMemo(() => {
-    if (!showCharacterTiers || !selectedTierListName || !selectedTierList || !character) return null;
+    if (
+      !showCharacterTiers ||
+      !selectedTierListName ||
+      !selectedTierList ||
+      !character
+    )
+      return null;
     return selectedTierListEntry?.tier ?? 'N/A';
   }, [
     showCharacterTiers,
@@ -224,14 +232,14 @@ export function useCharacterPageData(
   // Match list page order: sort by quality, then name
   const orderedCharacters = useMemo(
     () => [...characters].sort(compareCharactersByQualityThenName),
-    [characters]
+    [characters],
   );
 
   const characterIndex = useMemo(() => {
     if (!character) return -1;
     const identity = getCharacterIdentityKey(character);
     return orderedCharacters.findIndex(
-      (entry) => getCharacterIdentityKey(entry) === identity
+      (entry) => getCharacterIdentityKey(entry) === identity,
     );
   }, [orderedCharacters, character]);
 
@@ -255,7 +263,7 @@ export function useCharacterPageData(
         ...(noblePhantasm.legacy_slug
           ? ([[noblePhantasm.legacy_slug, noblePhantasm]] as const)
           : []),
-      ])
+      ]),
     );
 
     return references.flatMap((reference) => {
@@ -339,7 +347,7 @@ export function useCharacterPageData(
         };
       });
     },
-    [gearBySlug, gearSetByName]
+    [gearBySlug, gearSetByName],
   );
 
   const resolveActivatedSetBonuses = useCallback(
@@ -388,7 +396,7 @@ export function useCharacterPageData(
               : 0,
         }))
         .filter(
-          (entry) => entry.activations > 0 && entry.description.length > 0
+          (entry) => entry.activations > 0 && entry.description.length > 0,
         )
         .sort((a, b) => {
           if (b.activations !== a.activations)
@@ -397,7 +405,7 @@ export function useCharacterPageData(
           return a.setName.localeCompare(b.setName);
         });
     },
-    []
+    [],
   );
 
   const recommendedGearLoadouts = useMemo<RecommendedGearLoadoutData[]>(() => {
@@ -439,7 +447,7 @@ export function useCharacterPageData(
 export function getCharacterNavPaths(
   previousCharacter: Character | null,
   nextCharacter: Character | null,
-  getSelectedSkin: (characterSlug: string) => string = () => 'default'
+  getSelectedSkin: (characterSlug: string) => string = () => 'default',
 ) {
   return {
     previousItem: previousCharacter
@@ -449,7 +457,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             previousCharacter.slug,
             previousCharacter.slug,
-            getSelectedSkin(previousCharacter.slug)
+            getSelectedSkin(previousCharacter.slug),
           ),
         }
       : null,
@@ -460,7 +468,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             nextCharacter.slug,
             nextCharacter.slug,
-            getSelectedSkin(nextCharacter.slug)
+            getSelectedSkin(nextCharacter.slug),
           ),
         }
       : null,

@@ -11,7 +11,11 @@ export function useNewCharacters(): Set<string> {
   const { data: characters } = useCharacters();
 
   return useMemo(
-    () => getNewestActiveCharacterKeys(changes, characters.map(({ slug }) => slug)),
-    [changes, characters]
+    () =>
+      getNewestActiveCharacterKeys(
+        changes,
+        characters.map(({ slug }) => slug),
+      ),
+    [changes, characters],
   );
 }

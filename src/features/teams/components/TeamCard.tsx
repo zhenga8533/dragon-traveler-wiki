@@ -12,10 +12,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '@/assets';
 import FactionTag from '@/components/ui/FactionTag';
-import {
-  InteractiveSurface,
-  StaticSurface,
-} from '@/components/ui/Surface';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import { FACTION_COLOR } from '@/constants/faction-colors';
 import {
   getContentTypeColor,
@@ -105,9 +102,7 @@ export default function TeamCard({
 
         {/* Tags */}
         <Group gap="xs">
-          {team.faction && (
-            <FactionTag faction={team.faction} size="sm" />
-          )}
+          {team.faction && <FactionTag faction={team.faction} size="sm" />}
           {team.content_type && (
             <Badge
               variant="light"
@@ -172,7 +167,12 @@ export default function TeamCard({
               <>
                 <Divider size="xs" />
                 <Group gap="xs" align="flex-start" wrap="nowrap">
-                  <Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
+                  <Tooltip
+                    label="Substitutes — direct replacements for main team members"
+                    withArrow
+                    maw={200}
+                    multiline
+                  >
                     <Badge
                       size="xs"
                       variant="light"

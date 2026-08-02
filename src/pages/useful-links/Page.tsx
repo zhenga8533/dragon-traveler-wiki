@@ -66,12 +66,7 @@ const ICON_MAP: Record<string, IconType> = {
 
 export default function UsefulLinks() {
   const { hash } = useLocation();
-  const {
-    data: links,
-    loading,
-    error,
-    retry,
-  } = useUsefulLinks();
+  const { data: links, loading, error, retry } = useUsefulLinks();
 
   useEffect(() => {
     if (!hash || links.length === 0) return;

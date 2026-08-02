@@ -13,11 +13,7 @@ import {
   useStatusEffects,
   useSubclasses,
 } from '@/features/wiki/hooks/use-wiki-data';
-import {
-  useGradientAccent,
-  useMobileTooltip,
-  useTabParam,
-} from '@/hooks';
+import { useGradientAccent, useMobileTooltip, useTabParam } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
@@ -28,12 +24,7 @@ export default function Subclasses() {
     'subclasses',
     'usage',
   ]);
-  const {
-    data: subclasses,
-    loading,
-    error,
-    retry,
-  } = useSubclasses();
+  const { data: subclasses, loading, error, retry } = useSubclasses();
   const {
     data: characters,
     loading: charactersLoading,
@@ -45,7 +36,7 @@ export default function Subclasses() {
   const usage = useSubclassUsage(subclasses, characters);
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(subclasses),
-    [subclasses]
+    [subclasses],
   );
 
   return (
@@ -90,7 +81,7 @@ export default function Subclasses() {
               onRetry={() =>
                 retryFailedDataSources(
                   [error, retry],
-                  [charactersError, retryCharacters]
+                  [charactersError, retryCharacters],
                 )
               }
               subclasses={subclasses}

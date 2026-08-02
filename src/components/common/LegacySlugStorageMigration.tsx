@@ -15,15 +15,15 @@ export default function LegacySlugStorageMigration() {
         ...characters.flatMap((character) =>
           character.legacy_slug
             ? [[character.legacy_slug, character.slug] as const]
-            : []
+            : [],
         ),
         ...noblePhantasms.flatMap((noblePhantasm) =>
           noblePhantasm.legacy_slug
             ? [[noblePhantasm.legacy_slug, noblePhantasm.slug] as const]
-            : []
+            : [],
         ),
       ]),
-    [characters, noblePhantasms]
+    [characters, noblePhantasms],
   );
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export default function LegacySlugStorageMigration() {
       let migrated: string;
       try {
         migrated = JSON.stringify(
-          migrateLegacySlugsInValue(JSON.parse(raw), aliases)
+          migrateLegacySlugsInValue(JSON.parse(raw), aliases),
         );
       } catch {
         migrated = migrateLegacySlugsInValue(raw, aliases) as string;

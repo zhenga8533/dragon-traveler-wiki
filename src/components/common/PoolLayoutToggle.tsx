@@ -5,8 +5,24 @@ import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 function BelowLayoutIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect x="1" y="1" width="14" height="6" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <rect x="1" y="9" width="14" height="6" rx="1" fill="currentColor" opacity="0.35" />
+      <rect
+        x="1"
+        y="1"
+        width="14"
+        height="6"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="1"
+        y="9"
+        width="14"
+        height="6"
+        rx="1"
+        fill="currentColor"
+        opacity="0.35"
+      />
     </svg>
   );
 }
@@ -14,8 +30,24 @@ function BelowLayoutIcon() {
 function SideLayoutIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <rect x="1" y="1" width="8.5" height="14" rx="1" stroke="currentColor" strokeWidth="1.4" />
-      <rect x="10.5" y="1" width="4.5" height="14" rx="1" fill="currentColor" opacity="0.35" />
+      <rect
+        x="1"
+        y="1"
+        width="8.5"
+        height="14"
+        rx="1"
+        stroke="currentColor"
+        strokeWidth="1.4"
+      />
+      <rect
+        x="10.5"
+        y="1"
+        width="4.5"
+        height="14"
+        rx="1"
+        fill="currentColor"
+        opacity="0.35"
+      />
     </svg>
   );
 }

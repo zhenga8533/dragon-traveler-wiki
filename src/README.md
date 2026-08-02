@@ -78,15 +78,15 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 
 ## Key Shared Hooks
 
-| Hook | Purpose |
-| --- | --- |
-| `useDataFetch` | Fetch + cache a JSON file |
+| Hook                  | Purpose                                         |
+| --------------------- | ----------------------------------------------- |
+| `useDataFetch`        | Fetch + cache a JSON file                       |
 | `useFilteredPageData` | Filter, sort, paginate a dataset for list pages |
-| `useFilters` | Filter state with localStorage persistence |
-| `usePagination` | Page/offset state |
-| `useSort` | Sort column/direction state |
-| `useDarkMode` | Current color scheme |
-| `useIsMobile` | Responsive breakpoint |
+| `useFilters`          | Filter state with localStorage persistence      |
+| `usePagination`       | Page/offset state                               |
+| `useSort`             | Sort column/direction state                     |
+| `useDarkMode`         | Current color scheme                            |
+| `useIsMobile`         | Responsive breakpoint                           |
 
 ## Styling Conventions
 

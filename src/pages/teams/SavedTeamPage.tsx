@@ -19,10 +19,7 @@ import {
   useMobileTooltip,
 } from '@/hooks';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
-import {
-  getSavedTeam,
-  removeSavedTeam,
-} from '@/features/teams/saved-teams';
+import { getSavedTeam, removeSavedTeam } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { showErrorToast } from '@/utils/toast';
@@ -51,7 +48,7 @@ export default function SavedTeamPage() {
 
   // Read team from localStorage
   const [team, setTeam] = useState<Team | null>(() =>
-    readSavedTeamBySlug(slug)
+    readSavedTeamBySlug(slug),
   );
   const [loadedSlug, setLoadedSlug] = useState(slug);
   if (slug !== loadedSlug) {
@@ -73,24 +70,18 @@ export default function SavedTeamPage() {
     loadingArtifacts ||
     loadingStatusEffects;
 
-  const {
-    preferredByName: charMap,
-    byIdentity: characterByIdentity,
-  } = useCharacterResolution(characters);
+  const { preferredByName: charMap, byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
-  const {
-    getCharacterPath,
-    factionInfo,
-    artifactMap,
-    factionColor,
-  } = useTeamDetailData({
-    team,
-    factions,
-    artifacts,
-    charMap,
-    characterByIdentity,
-    fallbackFactionColor: accent.secondary,
-  });
+  const { getCharacterPath, factionInfo, artifactMap, factionColor } =
+    useTeamDetailData({
+      team,
+      factions,
+      artifacts,
+      charMap,
+      characterByIdentity,
+      fallbackFactionColor: accent.secondary,
+    });
 
   if (loading) {
     return <DetailPageLoading />;

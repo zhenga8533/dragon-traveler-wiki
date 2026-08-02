@@ -136,8 +136,7 @@ export default function Navigation({
               }
               childrenOffset={24}
               leftSection={
-                item.icon &&
-                renderNavIcon(item.icon, navAccent, isChildActive)
+                item.icon && renderNavIcon(item.icon, navAccent, isChildActive)
               }
               color={navAccent}
               styles={expandedNavStyles}
@@ -163,11 +162,7 @@ export default function Navigation({
                       childrenOffset={14}
                       leftSection={
                         child.icon &&
-                        renderNavIcon(
-                          child.icon,
-                          navAccent,
-                          isSubgroupActive,
-                        )
+                        renderNavIcon(child.icon, navAccent, isSubgroupActive)
                       }
                       active={isSubgroupActive}
                       color={navAccent}
@@ -178,10 +173,7 @@ export default function Navigation({
                           component={Link}
                           to={leaf.path}
                           label={leaf.label}
-                          active={isNavPathActive(
-                            leaf.path,
-                            location.pathname,
-                          )}
+                          active={isNavPathActive(leaf.path, location.pathname)}
                           color={navAccent}
                           onClick={onNavigate}
                         />
