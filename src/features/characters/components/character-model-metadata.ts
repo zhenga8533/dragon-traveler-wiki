@@ -28,8 +28,11 @@ export interface ModelMetadata {
     emissionStrength: number;
     shadowThreshold: number;
     shadowSoftness: number;
+    outline: number;
   };
 }
+
+const DEFAULT_OUTLINE_WIDTH = 0.001;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -128,7 +131,9 @@ export function parseModelMetadata(raw: unknown): ModelMetadata {
     !isFiniteNumber(raw.material.indirectLight) ||
     !isFiniteNumber(raw.material.emissionStrength) ||
     !isFiniteNumber(raw.material.shadowThreshold) ||
-    !isFiniteNumber(raw.material.shadowSoftness)
+    !isFiniteNumber(raw.material.shadowSoftness) ||
+    (raw.material.outline !== undefined &&
+      (!isFiniteNumber(raw.material.outline) || raw.material.outline < 0))
   ) {
     throw new Error('Character model material settings are invalid');
   }
@@ -137,6 +142,7 @@ export function parseModelMetadata(raw: unknown): ModelMetadata {
     emissionStrength: raw.material.emissionStrength,
     shadowThreshold: raw.material.shadowThreshold,
     shadowSoftness: raw.material.shadowSoftness,
+    outline: raw.material.outline ?? DEFAULT_OUTLINE_WIDTH,
   };
 
   return {

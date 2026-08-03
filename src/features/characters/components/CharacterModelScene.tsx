@@ -125,13 +125,14 @@ const fragmentShader = /* glsl */ `
 const outlineVertexShader = /* glsl */ `
   #include <common>
   #include <skinning_pars_vertex>
+  uniform float outlineWidth;
   void main() {
     #include <beginnormal_vertex>
     #include <skinbase_vertex>
     #include <skinnormal_vertex>
     #include <begin_vertex>
     #include <skinning_vertex>
-    transformed += objectNormal * 0.001;
+    transformed += objectNormal * outlineWidth;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
   }
 `;
@@ -220,6 +221,9 @@ function CharacterModel({
     });
     const silhouetteMaterial = new ShaderMaterial({
       name: 'Dragon Traveler subtle silhouette outline',
+      uniforms: {
+        outlineWidth: { value: metadata.material.outline },
+      },
       vertexShader: outlineVertexShader,
       fragmentShader: outlineFragmentShader,
       side: BackSide,
