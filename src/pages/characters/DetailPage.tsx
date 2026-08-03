@@ -56,7 +56,7 @@ export default function CharacterPage() {
     FavoriteIllustrationsContext,
   );
   const { favoritesOnly } = useContext(BannerContext);
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
@@ -163,7 +163,7 @@ export default function CharacterPage() {
   const { previousItem, nextItem } = getCharacterNavPaths(
     previousCharacter,
     nextCharacter,
-    getSelectedSkin,
+    getDisplaySkin,
   );
   const hasRightColumnInformation = Boolean(
     character.lore ||
@@ -187,6 +187,7 @@ export default function CharacterPage() {
             fullBodySrc={fullBodySrc}
             assetKey={characterAssetKey}
             isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
+            selectedSkinSlug={selectedSkinSlug}
           />
         </ErrorBoundary>
       </FullBleedSection>

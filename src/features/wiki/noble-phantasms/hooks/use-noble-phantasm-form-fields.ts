@@ -9,7 +9,7 @@ import { getCharacterRouteSlug } from '@/features/characters/utils/character-rou
 export function useNoblePhantasmFormFields(
   characters: Character[],
 ): FieldDef[] {
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
 
   return useMemo(() => {
     const nameCounts = new Map<string, number>();
@@ -28,7 +28,7 @@ export function useNoblePhantasmFormFields(
     const characterIcons: Record<string, string> = {};
     for (const character of characters) {
       const slug = getCharacterRouteSlug(character);
-      const portrait = getPortrait(character.name, slug, getSelectedSkin(slug));
+      const portrait = getPortrait(character.name, slug, getDisplaySkin(slug));
       if (portrait) characterIcons[slug] = portrait;
     }
 
@@ -56,5 +56,5 @@ export function useNoblePhantasmFormFields(
         optionIcons: characterIcons,
       },
     ];
-  }, [characters, getSelectedSkin]);
+  }, [characters, getDisplaySkin]);
 }

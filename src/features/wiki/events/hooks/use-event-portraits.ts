@@ -5,7 +5,7 @@ import type { Character } from '@/features/characters/types';
 import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
 
 export function useEventPortraits(characters: Character[]) {
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
 
   return useMemo(() => {
     const portraits = new Map<string, string>();
@@ -13,7 +13,7 @@ export function useEventPortraits(characters: Character[]) {
       const portrait = getPortrait(
         character.name,
         character.slug,
-        getSelectedSkin(character.slug),
+        getDisplaySkin(character.slug),
       );
       if (!portrait) continue;
 
@@ -25,5 +25,5 @@ export function useEventPortraits(characters: Character[]) {
       portraitByReference: portraits,
       characterByIdentity: buildCharacterByIdentityMap(characters),
     };
-  }, [characters, getSelectedSkin]);
+  }, [characters, getDisplaySkin]);
 }

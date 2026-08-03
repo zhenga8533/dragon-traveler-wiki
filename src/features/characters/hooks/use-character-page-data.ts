@@ -447,7 +447,7 @@ export function useCharacterPageData(
 export function getCharacterNavPaths(
   previousCharacter: Character | null,
   nextCharacter: Character | null,
-  getSelectedSkin: (characterSlug: string) => string = () => 'default',
+  getDisplaySkin: (characterSlug: string) => string = () => 'default',
 ) {
   return {
     previousItem: previousCharacter
@@ -457,7 +457,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             previousCharacter.slug,
             previousCharacter.slug,
-            getSelectedSkin(previousCharacter.slug),
+            getDisplaySkin(previousCharacter.slug),
           ),
         }
       : null,
@@ -468,7 +468,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             nextCharacter.slug,
             nextCharacter.slug,
-            getSelectedSkin(nextCharacter.slug),
+            getDisplaySkin(nextCharacter.slug),
           ),
         }
       : null,

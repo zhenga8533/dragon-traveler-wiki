@@ -484,7 +484,7 @@ export default function StarLevelBubbleChart({
   onClose,
 }: StarLevelBubbleChartProps) {
   const { ownedCharacters } = useContext(CharacterOwnershipContext);
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
@@ -541,7 +541,7 @@ export default function StarLevelBubbleChart({
         portrait: getPortrait(
           char.name,
           getCharacterRouteSlug(char),
-          getSelectedSkin(getCharacterRouteSlug(char)),
+          getDisplaySkin(getCharacterRouteSlug(char)),
         ),
         tierColor: TIER_GLOW[starLevel.tier],
         qualityBorder: QUALITY_BORDER_COLOR[char.quality] ?? '#9e9e9e',
@@ -555,7 +555,7 @@ export default function StarLevelBubbleChart({
     config.baseSize,
     config.scale,
     config.sizeExponent,
-    getSelectedSkin,
+    getDisplaySkin,
   ]);
 
   const positions = useMemo(() => {

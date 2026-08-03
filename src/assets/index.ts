@@ -195,6 +195,12 @@ export function getSkillIcon(skillName: string): string | undefined {
   return `${BASE}skill/${normalizeKey(skillName)}.png`;
 }
 
+/** Build a Divinity choice icon path from its shared icon slug (a generic stat badge reused across many heroes' choices, not per-choice art). */
+export function getDivinityIcon(slug: string): string | undefined {
+  if (!slug) return undefined;
+  return `${BASE}skill/divinity/${normalizeKey(slug)}.png`;
+}
+
 // ── Status Effect ────────────────────────────────────────────────────────────
 
 /** Build a status-effect icon path using the effect's stable slug. */

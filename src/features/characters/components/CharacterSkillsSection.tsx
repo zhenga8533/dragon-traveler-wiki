@@ -6,7 +6,7 @@ import { StaticSurface } from '@/components/ui/Surface';
 import type { Character } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
-import { getSkillIcon } from '@/assets';
+import { getDivinityIcon } from '@/assets';
 
 interface CharacterPageSkillsSectionProps {
   character: Character;
@@ -28,7 +28,6 @@ export default function CharacterPageSkillsSection({
   const { accent } = useGradientAccent();
   const talent = character.talent;
   const talentLevels = talent?.talent_levels ?? [];
-  const divineIcon = getSkillIcon('divinity');
 
   return (
     <>
@@ -109,10 +108,7 @@ export default function CharacterPageSkillsSection({
               const typeKey = (skill.type ?? '')
                 .replace(/ Skill$/i, '')
                 .toLowerCase();
-              const skillIcon =
-                typeKey === 'divine'
-                  ? divineIcon
-                  : skillIcons.get(skill.type ?? typeKey);
+              const skillIcon = skillIcons.get(skill.type ?? typeKey);
               const isPassiveCooldown =
                 skill.cooldown === 0 || skill.cooldown === '0';
               const cooldownLabel = isPassiveCooldown
@@ -218,9 +214,9 @@ export default function CharacterPageSkillsSection({
                       <StaticSurface key={choice.name} p="md">
                         <Stack gap="sm">
                           <Group gap="md">
-                            {isLevel6 && divineIcon && (
+                            {choice.icon && (
                               <SafeImage
-                                src={divineIcon}
+                                src={getDivinityIcon(choice.icon)}
                                 alt={choice.name}
                                 w={60}
                                 h={60}

@@ -57,6 +57,14 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const getDisplaySkin = useCallback(
+    (characterSlug: string, options?: { force?: boolean }) =>
+      options?.force || skinsEnabled
+        ? getSelectedSkin(characterSlug)
+        : 'default',
+    [getSelectedSkin, skinsEnabled],
+  );
+
   const value = useMemo(
     () => ({
       selectedSkins,
@@ -64,8 +72,10 @@ export function CharacterSkinProvider({ children }: { children: ReactNode }) {
       setSelectedSkin,
       skinsEnabled,
       setSkinsEnabled,
+      getDisplaySkin,
     }),
     [
+      getDisplaySkin,
       getSelectedSkin,
       selectedSkins,
       setSelectedSkin,

@@ -33,6 +33,7 @@ export interface DivinityChoice {
   name: string;
   description: string;
   cooldown: number;
+  icon?: string;
 }
 
 export interface DivinityLevel {

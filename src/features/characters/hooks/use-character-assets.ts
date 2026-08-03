@@ -35,7 +35,7 @@ export function useCharacterAssets(
   character: Character | null | undefined,
   characterAssetKey?: string,
 ): UseCharacterAssetsResult {
-  const { getSelectedSkin, setSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin, setSelectedSkin } = useContext(CharacterSkinContext);
   const assetManifest = useAssetManifest();
   const illustrationCandidates = useMemo(
     () =>
@@ -110,7 +110,27 @@ export function useCharacterAssets(
       .map((skin) => ({ value: skin.slug, label: skin.name }));
     return options;
   }, [availableSkinSlugs, character?.skins]);
-  const savedSkinSlug = characterSlug ? getSelectedSkin(characterSlug) : null;
+  // Tracks a skin explicitly picked in this browsing session, which takes
+  // priority over the toggle-gated default so users can still preview any
+  // skin regardless of the "Show character skins" setting. Reset whenever
+  // the viewed character changes, adjusted during render per React's
+  // guidance for resetting state when a value changes.
+  const [sessionSkinOverride, setSessionSkinOverride] = useState<{
+    characterSlug: string;
+    skinSlug: string;
+  } | null>(null);
+  if (
+    sessionSkinOverride &&
+    sessionSkinOverride.characterSlug !== characterSlug
+  ) {
+    setSessionSkinOverride(null);
+  }
+  const savedSkinSlug =
+    sessionSkinOverride?.characterSlug === characterSlug
+      ? sessionSkinOverride.skinSlug
+      : characterSlug
+        ? getDisplaySkin(characterSlug)
+        : null;
   const selectedSkinSlug = availableSkinSlugs.has(savedSkinSlug ?? '')
     ? savedSkinSlug
     : (skinOptions[0]?.value ?? null);
@@ -142,7 +162,9 @@ export function useCharacterAssets(
   ]);
   const setSelectedSkinSlug = useCallback(
     (skinSlug: string | null) => {
-      if (characterSlug && skinSlug) setSelectedSkin(characterSlug, skinSlug);
+      if (!characterSlug || !skinSlug) return;
+      setSelectedSkin(characterSlug, skinSlug);
+      setSessionSkinOverride({ characterSlug, skinSlug });
     },
     [characterSlug, setSelectedSkin],
   );

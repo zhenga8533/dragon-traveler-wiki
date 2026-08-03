@@ -6,6 +6,11 @@ export interface CharacterSkinContextValue {
   setSelectedSkin: (characterSlug: string, skinSlug: string) => void;
   skinsEnabled: boolean;
   setSkinsEnabled: (enabled: boolean) => void;
+  /** Like `getSelectedSkin`, but resolves to 'default' unless `skinsEnabled` (or `force`) is set. */
+  getDisplaySkin: (
+    characterSlug: string,
+    options?: { force?: boolean },
+  ) => string;
 }
 
 export const CharacterSkinContext = createContext<CharacterSkinContextValue>({
@@ -14,4 +19,5 @@ export const CharacterSkinContext = createContext<CharacterSkinContextValue>({
   setSelectedSkin: () => {},
   skinsEnabled: false,
   setSkinsEnabled: () => {},
+  getDisplaySkin: () => 'default',
 });
