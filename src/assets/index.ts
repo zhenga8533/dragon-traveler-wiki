@@ -19,6 +19,16 @@ export function getAssetUrl(path: string): string {
   return `${BASE}${path.replace(/^\/+/, '')}`;
 }
 
+export function getVersionedAssetUrl(
+  path: string,
+  entry?: { sha256: string },
+): string {
+  const url = getAssetUrl(path);
+  if (!entry) return url;
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}v=${entry.sha256.slice(0, 12)}`;
+}
+
 export function getCharacterModelAssetPath(
   characterSlug: string,
   skinSlug: string,

@@ -14,13 +14,18 @@ const viewerPath = new URL(
   '../src/features/characters/components/CharacterModelViewer.tsx',
   import.meta.url,
 );
+const scenePath = new URL(
+  '../src/features/characters/components/CharacterModelScene.tsx',
+  import.meta.url,
+);
 const viteConfigPath = new URL('../vite.config.ts', import.meta.url);
 
 test('the character model runtime stays behind the model-button interaction', async () => {
-  const [detailPage, launcher, viewer] = await Promise.all([
+  const [detailPage, launcher, viewer, scene] = await Promise.all([
     readFile(detailPagePath, 'utf8'),
     readFile(launcherPath, 'utf8'),
     readFile(viewerPath, 'utf8'),
+    readFile(scenePath, 'utf8'),
   ]);
 
   assert.match(detailPage, /CharacterModelLauncher/);
@@ -29,7 +34,8 @@ test('the character model runtime stays behind the model-button interaction', as
     launcher,
     /lazy\(\(\) => import\('\.\/CharacterModelViewer'\)\)/,
   );
-  assert.match(viewer, /from '@react-three\/fiber'/);
+  assert.match(viewer, /CharacterModelScene/);
+  assert.match(scene, /from '@react-three\/fiber'/);
   assert.doesNotMatch(launcher, /from '@react-three\//);
   assert.doesNotMatch(launcher, /from 'three'/);
 });
