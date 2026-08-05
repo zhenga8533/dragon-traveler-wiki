@@ -5,6 +5,7 @@ import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
+  createFactionFilterGroup,
   createQualityFilterGroup,
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
@@ -12,28 +13,34 @@ import RichText from '@/components/common/RichText';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
 import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getMinWidthStyle } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
+import {
+  compareWyrmspells,
+  EMPTY_WYRMSPELL_FILTERS,
+  matchesWyrmspellFilters,
+  WYRMSPELL_TYPE_FILTER_ORDER,
+} from '@/features/wiki/wyrmspells/filters';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
-import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useFilteredPageData } from '@/hooks';
+import {
+  useStatusEffects,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -41,14 +48,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
-
-const WYRMSPELL_TYPE_FILTER_ORDER = [
-  'Breach',
-  'Refuge',
-  'Wildcry',
-  "Dragon's Call",
-] as const;
+import { Link } from 'react-router';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -83,30 +83,16 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     name: 'exclusive_faction',
     label: 'Exclusive Faction (optional)',
     type: 'select',
-    options: FACTION_SLUGS.map((slug, i) => ({ value: slug, label: FACTION_NAMES[i] })),
+    options: FACTION_SLUGS.map((slug, i) => ({
+      value: slug,
+      label: FACTION_NAMES[i],
+    })),
   },
 ];
 
-interface WyrmspellFilters {
-  search: string;
-  types: string[];
-  qualities: string[];
-}
-
-const EMPTY_FILTERS: WyrmspellFilters = {
-  search: '',
-  types: [],
-  qualities: [],
-};
-
 export default function Wyrmspells() {
   const { data: statusEffects } = useStatusEffects();
-  const {
-    data: wyrmspells,
-    loading,
-    error,
-    retry,
-  } = useWyrmspells();
+  const { data: wyrmspells, loading, error, retry } = useWyrmspells();
   const {
     filters,
     setFilters,
@@ -128,61 +114,15 @@ export default function Wyrmspells() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(wyrmspells, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_WYRMSPELL_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.WYRMSPELL_FILTERS,
       viewMode: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
       sort: STORAGE_KEY.WYRMSPELL_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (spell, filters) => {
-      if (
-        filters.search &&
-        !spell.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
-        return false;
-      }
-      if (filters.qualities.length > 0) {
-        const maxQ = getMaxQuality(spell)?.quality;
-        if (!maxQ || !filters.qualities.includes(maxQ)) return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'type') {
-          cmp = a.type.localeCompare(b.type);
-        } else if (col === 'quality') {
-          const mA = getMaxQuality(a)?.quality;
-          const mB = getMaxQuality(b)?.quality;
-          const qA = mA !== undefined ? QUALITY_ORDER.indexOf(mA) : -1;
-          const qB = mB !== undefined ? QUALITY_ORDER.indexOf(mB) : -1;
-          cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
-        } else if (col === 'faction') {
-          const fA = a.exclusive_faction ?? '';
-          const fB = b.exclusive_faction ?? '';
-          if (!fA && fB) return 1;
-          if (fA && !fB) return -1;
-          cmp = fA.localeCompare(fB);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: type > quality > name
-      const typeCmp = a.type.localeCompare(b.type);
-      if (typeCmp !== 0) return typeCmp;
-      const dA = getMaxQuality(a)?.quality;
-      const dB = getMaxQuality(b)?.quality;
-      const qA = dA !== undefined ? QUALITY_ORDER.indexOf(dA) : -1;
-      const qB = dB !== undefined ? QUALITY_ORDER.indexOf(dB) : -1;
-      if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesWyrmspellFilters,
+    sortFn: compareWyrmspells,
   });
 
   const typeOptions = useMemo(() => {
@@ -191,7 +131,7 @@ export default function Wyrmspells() {
       if (spell.type) types.add(spell.type);
     }
     const preferred = WYRMSPELL_TYPE_FILTER_ORDER.filter((type) =>
-      types.has(type)
+      types.has(type),
     );
     const extras = [...types]
       .filter((type) => !WYRMSPELL_TYPE_FILTER_ORDER.includes(type as never))
@@ -205,8 +145,21 @@ export default function Wyrmspells() {
         const q = getMaxQuality(spell)?.quality;
         return q ? [q] : [];
       }),
-      QUALITY_ORDER
+      QUALITY_ORDER,
     );
+  }, [wyrmspells]);
+  const availabilityOptions = useMemo(() => {
+    const factions = new Set(
+      wyrmspells.flatMap((spell) =>
+        spell.exclusive_faction ? [spell.exclusive_faction] : [],
+      ),
+    );
+    return [
+      ...(wyrmspells.some((spell) => !spell.exclusive_faction)
+        ? ['universal']
+        : []),
+      ...FACTION_SLUGS.filter((faction) => factions.has(faction)),
+    ];
   }, [wyrmspells]);
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
@@ -218,7 +171,11 @@ export default function Wyrmspells() {
         options: typeOptions,
         icon: (value) => (
           <SafeImage
-            src={WYRMSPELL_TYPE_ICON_MAP[value as keyof typeof WYRMSPELL_TYPE_ICON_MAP]}
+            src={
+              WYRMSPELL_TYPE_ICON_MAP[
+                value as keyof typeof WYRMSPELL_TYPE_ICON_MAP
+              ]
+            }
             alt=""
             w={IMAGE_SIZE.ICON_SM}
             h={IMAGE_SIZE.ICON_SM}
@@ -231,14 +188,29 @@ export default function Wyrmspells() {
         createQualityFilterGroup({
           label: 'Max Quality',
           options: qualityOptions,
-        })
+        }),
       );
+    if (availabilityOptions.length > 0) {
+      const factionGroup = createFactionFilterGroup();
+      groups.push({
+        ...factionGroup,
+        key: 'availability',
+        label: 'Availability',
+        options: availabilityOptions,
+        labelFn: (value) =>
+          value === 'universal'
+            ? 'Universal'
+            : (factionGroup.labelFn?.(value) ?? value),
+        icon: (value) =>
+          value === 'universal' ? null : factionGroup.icon?.(value),
+      });
+    }
     return groups;
-  }, [typeOptions, qualityOptions]);
+  }, [availabilityOptions, typeOptions, qualityOptions]);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(wyrmspells),
-    [wyrmspells]
+    [wyrmspells],
   );
 
   return (
@@ -263,7 +235,14 @@ export default function Wyrmspells() {
           errorTitle="Could not load wyrmspells"
           hasData={wyrmspells.length > 0}
           emptyMessage="No wyrmspell data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}
@@ -280,6 +259,7 @@ export default function Wyrmspells() {
                 selected={{
                   types: filters.types,
                   qualities: filters.qualities,
+                  availability: filters.availability,
                 }}
                 onChange={(key, values) =>
                   setFilters({ ...filters, [key]: values })
@@ -304,17 +284,12 @@ export default function Wyrmspells() {
                   const iconSrc = getWyrmspellIcon(spell.slug, spell.type);
                   const maxQuality = getMaxQuality(spell);
                   return (
-                    <Paper
+                    <InteractiveSurface
                       key={spell.name}
                       component={Link}
                       to={`/wyrmspells/${spell.slug}`}
                       p="md"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps({
-                        interactive: true,
-                        style: LINK_BLOCK_RESET_STYLE,
-                      })}
+                      style={LINK_BLOCK_RESET_STYLE}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
@@ -330,7 +305,11 @@ export default function Wyrmspells() {
                         )}
                         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={700} className="dt-link-text" lineClamp={1}>
+                            <Text
+                              fw={700}
+                              className="dt-link-text"
+                              lineClamp={1}
+                            >
                               {spell.name}
                             </Text>
                             {maxQuality && (
@@ -356,7 +335,7 @@ export default function Wyrmspells() {
                           )}
                         </Stack>
                       </Group>
-                    </Paper>
+                    </InteractiveSurface>
                   );
                 })}
               </SimpleGrid>
@@ -420,9 +399,7 @@ export default function Wyrmspells() {
                               />
                             )}
                           </Table.Td>
-                          <EntityTableLinkCell
-                            to={`/wyrmspells/${spell.slug}`}
-                          >
+                          <EntityTableLinkCell to={`/wyrmspells/${spell.slug}`}>
                             {spell.name}
                           </EntityTableLinkCell>
                           <Table.Td>

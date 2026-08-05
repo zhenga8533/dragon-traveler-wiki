@@ -22,7 +22,7 @@ const DEFAULT_LIST_PAGE_SIZES = [10, 25, 50, 100] as const;
 
 export function buildRowAlignedPageSizeOptions(
   itemsPerRow: number,
-  rowCounts: readonly number[] = [4, 6, 8, 10]
+  rowCounts: readonly number[] = [4, 6, 8, 10],
 ) {
   const safeItemsPerRow = Math.max(1, Math.floor(itemsPerRow));
   const safeRowCounts = rowCounts
@@ -30,7 +30,7 @@ export function buildRowAlignedPageSizeOptions(
     .filter((count) => Number.isFinite(count) && count > 0);
 
   return normalizePageSizeOptions(
-    safeRowCounts.map((count) => safeItemsPerRow * count)
+    safeRowCounts.map((count) => safeItemsPerRow * count),
   );
 }
 
@@ -84,7 +84,7 @@ export function getPageSizeStorageKey(storageKey?: string) {
 
 export function resolvePageSizeOptions(
   viewMode: ViewMode,
-  pageSizeOptions?: readonly number[] | PageSizeOptionsByViewMode
+  pageSizeOptions?: readonly number[] | PageSizeOptionsByViewMode,
 ) {
   const fallbackOptions =
     viewMode === 'grid' ? DEFAULT_GRID_PAGE_SIZES : DEFAULT_LIST_PAGE_SIZES;
@@ -95,17 +95,17 @@ export function resolvePageSizeOptions(
 
   return normalizePageSizeOptions(
     (pageSizeOptions as PageSizeOptionsByViewMode | undefined)?.[viewMode] ??
-      fallbackOptions
+      fallbackOptions,
   );
 }
 
 export function usePageSize(
   options: readonly number[],
-  { defaultSize, storageKey }: UsePageSizeOptions = {}
+  { defaultSize, storageKey }: UsePageSizeOptions = {},
 ) {
   const normalizedOptions = useMemo(
     () => normalizePageSizeOptions(options),
-    [options]
+    [options],
   );
 
   const [pageSizeRaw, setPageSizeState] = useState(() => {
@@ -119,7 +119,7 @@ export function usePageSize(
 
     return pickClosestPageSize(
       defaultSize ?? normalizedOptions[0],
-      normalizedOptions
+      normalizedOptions,
     );
   });
 
@@ -137,7 +137,7 @@ export function usePageSize(
     (nextPageSize: number) => {
       setPageSizeState(pickClosestPageSize(nextPageSize, normalizedOptions));
     },
-    [normalizedOptions]
+    [normalizedOptions],
   );
 
   return {
@@ -154,7 +154,7 @@ function clampPage(page: number, totalPages: number) {
 export function usePagination(
   total: number,
   pageSize: number,
-  filterKey: unknown
+  filterKey: unknown,
 ) {
   const safeTotal = Number.isFinite(total) ? Math.max(0, total) : 0;
   const safePageSize =
@@ -183,7 +183,7 @@ export function usePagination(
         };
       });
     },
-    [filterKey, totalPages]
+    [filterKey, totalPages],
   );
 
   const effectivePage = clampPage(page, totalPages);

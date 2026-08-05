@@ -1,14 +1,11 @@
 import { SimpleGrid } from '@mantine/core';
-import {
-  CHARACTER_GRID_COLS,
-  CHARACTER_GRID_SPACING,
-} from '@/constants/ui';
+import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '@/constants/ui';
 import type { CharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
+import { EMPTY_CHARACTER_FILTERS } from '@/features/characters/filters';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import CharacterCard from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
@@ -90,7 +87,7 @@ export default function CharacterList({
       filterCount={activeFilterCount}
       filterOpen={filterOpen}
       onFilterToggle={toggleFilter}
-      onResetFilters={() => setFilters(EMPTY_FILTERS)}
+      onResetFilters={() => setFilters(EMPTY_CHARACTER_FILTERS)}
       emptyMessage="No characters match the current filters."
       page={page}
       totalPages={totalPages}

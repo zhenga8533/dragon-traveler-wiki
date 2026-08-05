@@ -1,11 +1,13 @@
-import { Link } from 'react-router-dom';
-import { Badge, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Link } from 'react-router';
+import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { getOracleScrollVideo, getRelicIcon } from '@/assets';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { OracleScrollRef, Relic } from '@/features/wiki/relics/types';
 import type { GradientPaletteAccents } from '@/contexts';
@@ -13,6 +15,7 @@ import type { GradientPaletteAccents } from '@/contexts';
 interface OracleScrollsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   oracleScrolls: OracleScrollRef[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -31,6 +34,7 @@ interface OracleScrollsTabProps {
 export default function OracleScrollsTab({
   loading,
   error,
+  onRetry,
   oracleScrolls,
   search,
   onSearchChange,
@@ -49,10 +53,11 @@ export default function OracleScrollsTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load oracle scrolls"
       hasData={oracleScrolls.length > 0}
       emptyMessage="No oracle scroll data available yet."
-      skeletonCards={4}
+      loadingFallback={<CardGridLoading cardHeight={160} showPagination />}
     >
       <SearchableGridPanel
         search={search}
@@ -75,18 +80,12 @@ export default function OracleScrollsTab({
             const items = relicsByOracle.get(scroll.slug) ?? [];
             const videoSrc = getOracleScrollVideo(scroll.slug);
             return (
-              <Paper
+              <InteractiveSurface
                 key={scroll.slug}
                 component={Link}
                 to={`/oracle-scrolls/${scroll.slug}`}
                 p={0}
-                radius="md"
-                withBorder
-                style={{ overflow: 'hidden' }}
-                {...getCardHoverProps({
-                  interactive: true,
-                  style: LINK_BLOCK_RESET_STYLE,
-                })}
+                style={{ ...LINK_BLOCK_RESET_STYLE, overflow: 'hidden' }}
               >
                 <Stack gap={0}>
                   {videoSrc && (
@@ -131,7 +130,7 @@ export default function OracleScrollsTab({
                       {items.map((relic) => {
                         const relicIconSrc = getRelicIcon(
                           relic.slug,
-                          relic.quality
+                          relic.quality,
                         );
                         return (
                           <Group key={relic.name} gap="xs" wrap="nowrap">
@@ -155,7 +154,7 @@ export default function OracleScrollsTab({
                     </Stack>
                   </Stack>
                 </Stack>
-              </Paper>
+              </InteractiveSurface>
             );
           })}
         </SimpleGrid>

@@ -1,5 +1,12 @@
-import { Link } from 'react-router-dom';
-import { Group, Paper, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { Link } from 'react-router';
+import {
+  Group,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+} from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -10,18 +17,20 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import type { HowlkinFilters } from '@/features/wiki/howlkins/filters';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
-
-interface HowlkinFilters {
-  search: string;
-  qualities: Quality[];
-}
+import { useIsMobile } from '@/hooks';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
 
 interface HowlkinsTabProps {
   loading: boolean;
@@ -80,10 +89,18 @@ export default function HowlkinsTab({
   howlkinToAlliance,
   accent,
 }: HowlkinsTabProps) {
+  const isMobile = useIsMobile();
+
   return (
     <>
       {loading && (
-        <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={180} />
+        <ViewModeLoading
+          viewMode={viewMode}
+          cardHeight={180}
+          listType="table"
+          withToolbar
+          showPagination
+        />
       )}
 
       {!loading && error && (
@@ -135,6 +152,31 @@ export default function HowlkinsTab({
                 onFiltersChange({ ...filters, search: value })
               }
               searchPlaceholder="Search by name..."
+              beforeGroups={
+                <FilterSection label="Golden Alliance">
+                  <FilterChipGroup
+                    size={isMobile ? 'md' : 'xs'}
+                    value={filters.allianceMembership}
+                    onChange={(values) =>
+                      onFiltersChange({
+                        ...filters,
+                        allianceMembership:
+                          values.length === 0
+                            ? []
+                            : [
+                                values[
+                                  values.length - 1
+                                ] as HowlkinFilters['allianceMembership'][number],
+                              ],
+                      })
+                    }
+                    options={[
+                      { value: 'member', label: 'Member' },
+                      { value: 'none', label: 'Not a member' },
+                    ]}
+                  />
+                </FilterSection>
+              }
             />
           }
           gridContent={
@@ -159,7 +201,9 @@ export default function HowlkinsTab({
                         <Group gap="sm" wrap="wrap">
                           <Text
                             fw={700}
-                            className={allianceSlug ? 'dt-link-text' : undefined}
+                            className={
+                              allianceSlug ? 'dt-link-text' : undefined
+                            }
                             lineClamp={1}
                           >
                             {howlkin.name}
@@ -178,27 +222,20 @@ export default function HowlkinsTab({
                     <HowlkinStats stats={howlkin.basic_stats} />
                   </Stack>
                 );
-                const cardHoverProps = getCardHoverProps({
-                  interactive: !!allianceSlug,
-                  style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
-                });
-
                 return allianceSlug ? (
-                  <Paper
+                  <InteractiveSurface
                     key={howlkin.name}
                     component={Link}
                     to={`/howlkins/${allianceSlug}`}
                     p="md"
-                    radius="md"
-                    withBorder
-                    {...cardHoverProps}
+                    style={LINK_BLOCK_RESET_STYLE}
                   >
                     {cardContent}
-                  </Paper>
+                  </InteractiveSurface>
                 ) : (
-                  <Paper key={howlkin.name} p="md" radius="md" withBorder {...cardHoverProps}>
+                  <StaticSurface key={howlkin.name} p="md">
                     {cardContent}
-                  </Paper>
+                  </StaticSurface>
                 );
               })}
             </SimpleGrid>
@@ -231,7 +268,10 @@ export default function HowlkinsTab({
                 </Table.Thead>
                 <Table.Tbody>
                   {pageItems.map((howlkin) => {
-                    const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
+                    const iconSrc = getHowlkinIcon(
+                      howlkin.slug,
+                      howlkin.quality,
+                    );
                     const allianceSlug = howlkinToAlliance.get(howlkin.slug);
                     return (
                       <Table.Tr key={howlkin.name}>

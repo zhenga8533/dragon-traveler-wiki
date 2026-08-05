@@ -5,9 +5,9 @@ import RichText from '@/components/common/RichText';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
 import type { ArtifactTreasure } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { Group, Paper, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 
 interface TreasureCardProps {
   treasure: ArtifactTreasure;
@@ -26,15 +26,11 @@ export default function TreasureCard({
 }: TreasureCardProps) {
   const iconSrc = getTreasureIcon(artifactSlug, treasure.name);
   return (
-    <Paper
+    <StaticSurface
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="md">
         <Group gap="md" wrap="nowrap" align="flex-start">
@@ -57,9 +53,14 @@ export default function TreasureCard({
             <ClassTag characterClass={treasure.character_class} size="sm" />
           </Stack>
         </Group>
-        <RichText text={treasure.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
+        <RichText
+          text={treasure.lore}
+          statusEffects={statusEffects}
+          italic
+          lineHeight={1.6}
+        />
         <EffectTable effects={treasure.effect} statusEffects={statusEffects} />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

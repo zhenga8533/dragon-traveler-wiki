@@ -1,17 +1,19 @@
-import { Link } from 'react-router-dom';
-import { Badge, Group, Paper, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { Link } from 'react-router';
+import { Badge, Group, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
-import { QUALITY_ORDER } from '@/constants/quality';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import type { GradientPaletteAccents } from '@/contexts';
-import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 
 interface GoldenAlliancesTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   goldenAlliances: GoldenAlliance[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -30,6 +32,7 @@ interface GoldenAlliancesTabProps {
 export default function GoldenAlliancesTab({
   loading,
   error,
+  onRetry,
   goldenAlliances,
   search,
   onSearchChange,
@@ -48,12 +51,11 @@ export default function GoldenAlliancesTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       hasData={goldenAlliances.length > 0}
       emptyMessage="Golden alliance data hasn't been added yet."
       errorTitle="Could not load golden alliances"
-      skeletonCards={4}
-      skeletonType="grid"
-      skeletonCardHeight={180}
+      loadingFallback={<CardGridLoading cardHeight={180} showPagination />}
     >
       <SearchableGridPanel
         search={search}
@@ -73,17 +75,12 @@ export default function GoldenAlliancesTab({
       >
         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
           {pageItems.map((alliance) => (
-            <Paper
+            <InteractiveSurface
               key={alliance.name}
               component={Link}
               to={`/howlkins/${alliance.slug}`}
               p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                interactive: true,
-                style: LINK_BLOCK_RESET_STYLE,
-              })}
+              style={LINK_BLOCK_RESET_STYLE}
             >
               <Stack gap="sm">
                 <Text fw={700} size="lg" className="dt-link-text">
@@ -97,13 +94,11 @@ export default function GoldenAlliancesTab({
                   <Group gap="xs" wrap="wrap">
                     {[...alliance.howlkins]
                       .sort((a, b) => {
-                        const qA = QUALITY_ORDER.indexOf(
-                          howlkinMap.get(a)?.quality ?? ('' as Quality)
+                        const qualityComparison = compareQuality(
+                          howlkinMap.get(a)?.quality,
+                          howlkinMap.get(b)?.quality,
                         );
-                        const qB = QUALITY_ORDER.indexOf(
-                          howlkinMap.get(b)?.quality ?? ('' as Quality)
-                        );
-                        if (qA !== qB) return qA - qB;
+                        if (qualityComparison !== 0) return qualityComparison;
                         return a.localeCompare(b);
                       })
                       .map((howlkinSlug) => {
@@ -135,7 +130,11 @@ export default function GoldenAlliancesTab({
                       {alliance.effects.map((effect) => (
                         <Table.Tr key={effect.level}>
                           <Table.Td>
-                            <Badge variant="light" size="sm" color={accent.secondary}>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.secondary}
+                            >
                               {effect.level}
                             </Badge>
                           </Table.Td>
@@ -159,7 +158,7 @@ export default function GoldenAlliancesTab({
                   </Table>
                 </div>
               </Stack>
-            </Paper>
+            </InteractiveSurface>
           ))}
         </SimpleGrid>
       </SearchableGridPanel>

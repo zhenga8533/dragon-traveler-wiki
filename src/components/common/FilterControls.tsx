@@ -22,10 +22,8 @@ import {
 } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 
-export interface FilterSearchInputProps extends Omit<
-  TextInputProps,
-  'onChange'
-> {
+export interface FilterSearchInputProps
+  extends Omit<TextInputProps, 'onChange'> {
   iconSize?: number;
   /** Called with the search string after debounce. Use instead of onChange. */
   onSearch?: (value: string) => void;
@@ -127,7 +125,11 @@ export function FilterSection({ label, info, children }: FilterSectionProps) {
         </Text>
         {info && (
           <Tooltip label={info} multiline maw={220} withArrow position="top">
-            <Text component="span" c="dimmed" style={{ lineHeight: 1, cursor: 'default' }}>
+            <Text
+              component="span"
+              c="dimmed"
+              style={{ lineHeight: 1, cursor: 'default' }}
+            >
               <IoInformationCircleOutline size={13} />
             </Text>
           </Tooltip>

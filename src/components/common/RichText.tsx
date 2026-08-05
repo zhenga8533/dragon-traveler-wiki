@@ -1,18 +1,25 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
+import { getStatusEffectIcon } from '@/assets';
+import { STATE_COLOR } from '@/constants/status-effect-colors';
 import {
   CURSOR_POINTER_STYLE,
   RICH_TEXT_BADGE_STYLE,
   WHITE_SPACE_PRE_LINE_STYLE,
 } from '@/constants/styles';
-import { POPOVER_MAX_WIDTH } from '@/constants/ui';
+import {
+  IMAGE_SIZE,
+  POPOVER_BADGE_WIDTH,
+  POPOVER_MAX_WIDTH,
+} from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
 import { normalizeName, splitEffectRefs } from '@/utils';
+import IconBadge from '@/components/ui/IconBadge';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
+import SafeImage from '@/components/ui/SafeImage';
 
 export interface RichTextProps {
   text: string;
@@ -64,7 +71,13 @@ function ReferenceBadge({
   }
 
   return (
-    <Popover position="top" withArrow shadow="md" closeOnClickOutside withinPortal>
+    <Popover
+      position="top"
+      withArrow
+      shadow="md"
+      closeOnClickOutside
+      withinPortal
+    >
       <Popover.Target>
         <Badge
           variant="light"
@@ -113,11 +126,105 @@ const fuzzyNames = (name: string): string[] => {
 
 const findByName = <T extends { name: string }>(
   items: T[] | undefined,
-  name: string
+  name: string,
 ): T | undefined => {
   const candidates = fuzzyNames(name);
   return items?.find((item) => candidates.includes(normalizeName(item.name)));
 };
+
+interface StatusEffectBadgeProps {
+  slug: string;
+  statusEffects: StatusEffect[];
+  displayName?: string;
+  disablePopover?: boolean;
+}
+
+function StatusEffectBadge({
+  slug,
+  statusEffects,
+  displayName,
+  disablePopover,
+}: StatusEffectBadgeProps) {
+  const effect = statusEffects.find((item) => item.slug === slug);
+  const label = displayName ?? effect?.name ?? slug;
+
+  if (!effect) {
+    return (
+      <Badge
+        variant="light"
+        color="gray"
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
+        {label}
+      </Badge>
+    );
+  }
+
+  const effectColor = STATE_COLOR[effect.type];
+  const iconSrc =
+    effect.icon !== false
+      ? getStatusEffectIcon(effect.slug, effect.type)
+      : undefined;
+
+  if (disablePopover) {
+    return (
+      <Badge
+        variant="light"
+        color={effectColor}
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
+        {label}
+      </Badge>
+    );
+  }
+
+  return (
+    <IconBadge
+      label={label}
+      color={effectColor}
+      size="sm"
+      iconSrc={iconSrc}
+      component="span"
+      popoverContent={
+        <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
+          <Group gap="xs" wrap="nowrap">
+            <SafeImage
+              src={iconSrc}
+              alt={effect.name}
+              w={IMAGE_SIZE.ICON_LG}
+              h={IMAGE_SIZE.ICON_LG}
+            />
+            <Text fw={600} size="sm">
+              {effect.name}
+            </Text>
+            <Badge variant="light" color={effectColor} size="xs">
+              {effect.type}
+            </Badge>
+          </Group>
+          <RichText
+            text={effect.effect}
+            statusEffects={statusEffects}
+            disablePopovers
+          />
+          {effect.remark && (
+            <Text
+              size="xs"
+              c="dimmed"
+              fs="italic"
+              style={WHITE_SPACE_PRE_LINE_STYLE}
+            >
+              {effect.remark}
+            </Text>
+          )}
+        </Stack>
+      }
+    />
+  );
+}
 
 export default function RichText({
   text,
@@ -135,7 +242,7 @@ export default function RichText({
   const { resources } = useContext(ResourcesContext);
   const { accent } = useGradientAccent();
   const talentLines = talent?.talent_levels.map(
-    (level) => `Level ${level.level}: ${level.effect}`
+    (level) => `Level ${level.level}: ${level.effect}`,
   );
 
   return (
@@ -156,15 +263,27 @@ export default function RichText({
         }
 
         if (seg.type === 'percentRange') {
-          return <Text key={i} component="span" size="sm" c="green" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="green" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'percent') {
-          return <Text key={i} component="span" size="sm" c="yellow" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="yellow" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'number') {
-          return <Text key={i} component="span" size="sm" c="blue" fw={600}>{seg.content}</Text>;
+          return (
+            <Text key={i} component="span" size="sm" c="blue" fw={600}>
+              {seg.content}
+            </Text>
+          );
         }
 
         if (seg.type === 'statusRef') {
@@ -242,10 +361,16 @@ export default function RichText({
         }
 
         const resource = resources.find(
-          (r) => normalizeName(r.name) === normalizeName(seg.name)
+          (r) => normalizeName(r.name) === normalizeName(seg.name),
         );
         if (resource) {
-          return <ResourceBadge key={i} slug={resource.slug} displayName={seg.name} />;
+          return (
+            <ResourceBadge
+              key={i}
+              slug={resource.slug}
+              displayName={seg.name}
+            />
+          );
         }
 
         return (

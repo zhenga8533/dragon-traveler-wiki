@@ -101,7 +101,7 @@ function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
   if (isFieldDiff(value)) {
     return extractFieldDiffDetails(
       value as Record<string, unknown>,
-      pathPrefix
+      pathPrefix,
     );
   }
 
@@ -116,7 +116,7 @@ function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
 
 function extractFieldDiffDetails(
   diff: Record<string, unknown>,
-  pathPrefix = ''
+  pathPrefix = '',
 ): string[] {
   const details: string[] = [];
   const label = pathPrefix || '';
@@ -153,7 +153,7 @@ function extractFieldDiffDetails(
     for (const [key, value] of Object.entries(changed)) {
       const keyLabel = label ? `${label}.${key}` : key;
       details.push(
-        `${keyLabel}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`
+        `${keyLabel}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`,
       );
     }
   }
@@ -324,7 +324,7 @@ function summarizeFieldDiff(diff: FieldDiff): {
     const details: string[] = [];
     if (diff.old !== undefined && diff.new !== undefined) {
       details.push(
-        `${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`
+        `${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`,
       );
     } else if (diff.new !== undefined) {
       details.push(`Added: ${formatDiffValue(diff.new)}`);
@@ -343,7 +343,7 @@ function summarizeFieldDiff(diff: FieldDiff): {
   // Handle array/object diff (added/removed/modified/changed)
   if (isFieldDiff(diff as unknown as Record<string, unknown>)) {
     const details = extractFieldDiffDetails(
-      diff as unknown as Record<string, unknown>
+      diff as unknown as Record<string, unknown>,
     );
     if (details.length > 0) {
       const hasAdd = !!diff.added?.length;
@@ -445,7 +445,7 @@ export function ChangeRecordCard({
                   </Badge>
                 </Group>
                 {summary.details.map((detail, index) =>
-                  renderDetailLine(fieldName, detail, index)
+                  renderDetailLine(fieldName, detail, index),
                 )}
               </Paper>
             );
@@ -504,13 +504,13 @@ export default function ChangeHistory({
     {
       defaultSize: PAGE_SIZE,
       storageKey: getPageSizeStorageKey('change-history'),
-    }
+    },
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     sorted.length,
     pageSize,
-    paginationResetKey
+    paginationResetKey,
   );
 
   if (!history && !hasExtras) return null;

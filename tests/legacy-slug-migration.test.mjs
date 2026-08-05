@@ -12,7 +12,7 @@ test('legacy character slugs migrate through saved structures and asset keys', (
       banner: '/character/expected_zeus/skins/default/portrait.png',
       route: '/noble-phantasms/expected_zeus',
     },
-    aliases
+    aliases,
   );
 
   assert.deepEqual(migrated, {

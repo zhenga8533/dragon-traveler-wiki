@@ -82,10 +82,13 @@ function serveAssetsDir(assetsDir: string): Plugin {
                     ? Number.parseInt(match[2], 10)
                     : null;
                   const start =
-                    requestedStart ?? Math.max(0, size - (requestedEnd ?? size));
+                    requestedStart ??
+                    Math.max(0, size - (requestedEnd ?? size));
                   const end = Math.min(
-                    requestedStart == null ? size - 1 : (requestedEnd ?? size - 1),
-                    size - 1
+                    requestedStart == null
+                      ? size - 1
+                      : (requestedEnd ?? size - 1),
+                    size - 1,
                   );
 
                   if (start > end || start >= size) {
@@ -96,7 +99,10 @@ function serveAssetsDir(assetsDir: string): Plugin {
                   }
 
                   res.statusCode = 206;
-                  res.setHeader('Content-Range', `bytes ${start}-${end}/${size}`);
+                  res.setHeader(
+                    'Content-Range',
+                    `bytes ${start}-${end}/${size}`,
+                  );
                   res.setHeader('Content-Length', end - start + 1);
                   if (req.method === 'HEAD') {
                     res.end();
@@ -156,7 +162,21 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (id.includes('vite/preload-helper')) return 'vite-runtime';
             if (id.includes('node_modules/@mantine/')) return 'mantine';
+            if (id.includes('node_modules/three/build/three.core.js')) {
+              return 'three-core';
+            }
+            if (id.includes('node_modules/three/build/three.module.js')) {
+              return 'three-renderer';
+            }
+            if (
+              id.includes('node_modules/@react-three/') ||
+              id.includes('node_modules/three-stdlib/') ||
+              id.includes('node_modules/three/examples/')
+            ) {
+              return 'react-three';
+            }
             if (
               id.includes('node_modules/react/') ||
               id.includes('node_modules/react-dom/') ||

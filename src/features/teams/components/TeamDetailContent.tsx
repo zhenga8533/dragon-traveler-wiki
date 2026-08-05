@@ -24,7 +24,7 @@ interface TeamDetailContentProps {
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (
     characterName: string,
-    characterQuality?: string | null
+    characterQuality?: string | null,
   ) => string;
   factionColor: string;
   accentPrimary: string;
@@ -40,7 +40,7 @@ function renderWyrmspellCard(
   spells: TeamWyrmspells,
   key: keyof TeamWyrmspells,
   label: string,
-  allWyrmspells: Wyrmspell[]
+  allWyrmspells: Wyrmspell[],
 ) {
   const name = spells[key];
   if (!name) return null;
@@ -82,25 +82,25 @@ export default function TeamDetailContent({
               team.wyrmspells || {},
               'breach',
               'Breach',
-              wyrmspells
+              wyrmspells,
             )}
             {renderWyrmspellCard(
               team.wyrmspells || {},
               'refuge',
               'Refuge',
-              wyrmspells
+              wyrmspells,
             )}
             {renderWyrmspellCard(
               team.wyrmspells || {},
               'wildcry',
               'Wildcry',
-              wyrmspells
+              wyrmspells,
             )}
             {renderWyrmspellCard(
               team.wyrmspells || {},
               'dragons_call',
               "Dragon's Call",
-              wyrmspells
+              wyrmspells,
             )}
           </SimpleGrid>
         </Stack>
@@ -153,7 +153,6 @@ export default function TeamDetailContent({
                 desktopMode={exporting}
               />
             )}
-
           </Stack>
         </Box>
       </Stack>

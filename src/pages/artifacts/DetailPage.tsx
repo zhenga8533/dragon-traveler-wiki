@@ -9,31 +9,36 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
+import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
 import TreasureCard from '@/features/wiki/artifacts/components/TreasureCard';
-import { useArtifactChanges, useArtifacts, useDarkMode, useFactions, useGradientAccent, useStatusEffects } from '@/hooks';
+import {
+  useArtifactChanges,
+  useArtifacts,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useFactions, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
+import { compareQualityThenName } from '@/utils/quality';
 import {
   Badge,
   Box,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
@@ -59,13 +64,10 @@ export default function ArtifactPage() {
   // Match list page: sort by quality, then name
   const orderedArtifacts = useMemo(
     () =>
-      [...artifacts].sort((a, b) => {
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return qA - qB;
-        return a.name.localeCompare(b.name);
-      }),
-    [artifacts]
+      [...artifacts].sort((a, b) =>
+        compareQualityThenName(a.quality, b.quality, a.name, b.name),
+      ),
+    [artifacts],
   );
 
   const artifactIndex = useMemo(() => {
@@ -76,7 +78,7 @@ export default function ArtifactPage() {
   const recommendingFactions = useMemo(() => {
     if (!artifact) return [];
     return factions.filter((f) =>
-      f.recommended_artifacts.some((a) => a === artifact.slug)
+      f.recommended_artifacts.some((a) => a === artifact.slug),
     );
   }, [factions, artifact]);
 
@@ -88,11 +90,7 @@ export default function ArtifactPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!artifact) {
@@ -151,7 +149,7 @@ export default function ArtifactPage() {
               <Badge size="lg" variant="light" color={accent.secondary}>
                 {artifact.rows}x{artifact.columns}
               </Badge>
-<Badge size="lg" variant="light" color={accent.tertiary}>
+              <Badge size="lg" variant="light" color={accent.tertiary}>
                 {artifact.treasures.length} treasure
                 {artifact.treasures.length !== 1 ? 's' : ''}
               </Badge>
@@ -169,16 +167,14 @@ export default function ArtifactPage() {
           </Stack>
         </Group>
 
-        <Paper
-          p="md"
-          radius="md"
-          withBorder
-          {...getCardHoverProps({
-            style: getLoreGlassStyles(isDark),
-          })}
-        >
-          <RichText text={artifact.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
-        </Paper>
+        <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
+          <RichText
+            text={artifact.lore}
+            statusEffects={statusEffects}
+            italic
+            lineHeight={1.6}
+          />
+        </StaticSurface>
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>

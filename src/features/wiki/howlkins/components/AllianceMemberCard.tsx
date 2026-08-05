@@ -4,8 +4,8 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { QUALITY_COLOR } from '@/constants/quality';
-import { getCardHoverProps } from '@/constants/styles';
-import { Group, Paper, Stack, Text } from '@mantine/core';
+import { StaticSurface } from '@/components/ui/Surface';
+import { Group, Stack, Text } from '@mantine/core';
 
 interface AllianceMemberCardProps {
   howlkin: Howlkin;
@@ -19,15 +19,11 @@ export default function AllianceMemberCard({
   const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
   const qualityColor = QUALITY_COLOR[howlkin.quality];
   return (
-    <Paper
+    <StaticSurface
       p="sm"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="xs">
         <Group gap="sm" wrap="nowrap">
@@ -57,6 +53,6 @@ export default function AllianceMemberCard({
         </Group>
         <HowlkinStats stats={howlkin.basic_stats} size="xs" />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

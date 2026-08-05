@@ -10,7 +10,7 @@ import { IMAGE_SIZE, NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { useGradientAccent, useNavBadgeCounts } from '@/hooks';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
 import { useEffect, useState, type ComponentType } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 const collapsedNavStyles = {
   root: {
@@ -136,8 +136,7 @@ export default function Navigation({
               }
               childrenOffset={24}
               leftSection={
-                item.icon &&
-                renderNavIcon(item.icon, navAccent, isChildActive)
+                item.icon && renderNavIcon(item.icon, navAccent, isChildActive)
               }
               color={navAccent}
               styles={expandedNavStyles}
@@ -163,11 +162,7 @@ export default function Navigation({
                       childrenOffset={14}
                       leftSection={
                         child.icon &&
-                        renderNavIcon(
-                          child.icon,
-                          navAccent,
-                          isSubgroupActive,
-                        )
+                        renderNavIcon(child.icon, navAccent, isSubgroupActive)
                       }
                       active={isSubgroupActive}
                       color={navAccent}
@@ -178,10 +173,7 @@ export default function Navigation({
                           component={Link}
                           to={leaf.path}
                           label={leaf.label}
-                          active={isNavPathActive(
-                            leaf.path,
-                            location.pathname,
-                          )}
+                          active={isNavPathActive(leaf.path, location.pathname)}
                           color={navAccent}
                           onClick={onNavigate}
                         />

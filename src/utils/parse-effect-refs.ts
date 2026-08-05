@@ -25,11 +25,15 @@ export function splitEffectRefs(text: string): TextSegment[] {
   let lastIndex = 0;
 
   // Match {status refs}, [skill/talent/unknown refs], *italic*, X-Y / X-Y%, X%, bare numbers in priority order.
-  const re = /\{([^}]+)\}|\[([^\]]+)\]|\*([^*]+)\*|(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)(?:%)?|(\d+(?:\.\d+)?)%|\b(\d+(?:\.\d+)?)\b/g;
+  const re =
+    /\{([^}]+)\}|\[([^\]]+)\]|\*([^*]+)\*|(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)(?:%)?|(\d+(?:\.\d+)?)%|\b(\d+(?:\.\d+)?)\b/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      segments.push({ type: 'text', content: text.slice(lastIndex, match.index) });
+      segments.push({
+        type: 'text',
+        content: text.slice(lastIndex, match.index),
+      });
     }
     if (match[1] != null) {
       segments.push({ type: 'statusRef', name: match[1] });

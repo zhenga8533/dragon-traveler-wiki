@@ -8,76 +8,76 @@ import {
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
-  ListPageLoading,
+  BuilderPageLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
-  matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
-import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
+import {
+  BUILDER_SIDE_LAYOUT_CONTAINER_SIZE,
+  STORAGE_KEY,
+} from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
-import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import {
+  getCharacterIdentityKey,
+  resolveCharacterByNameAndQuality,
+} from '@/features/characters/utils/character-route';
 import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
-import type { TierList as TierListType } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
+import {
+  EMPTY_TIER_LIST_VIEW_FILTERS,
+  matchesTierListFilters,
+  type TierListViewFilters,
+} from '@/features/tier-list/filters';
+import {
+  loadSavedTierLists,
+  removeSavedTierList,
+} from '@/features/tier-list/saved-tier-lists';
+import {
+  useTierListChanges,
+  useTierLists,
+} from '@/features/tier-list/hooks/use-tier-list-data';
+import { useNoblePhantasms } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  isCharacterTierEntry,
+  isNoblePhantasmTierEntry,
+  type TierListRankableEntity,
+  type TierList as TierListType,
+} from '@/features/tier-list/types';
 import {
   countActiveFilters,
   useBuilderEditState,
-  useCharacterResolution,
-  useCharacters,
   useDarkMode,
   useFilters,
   useGradientAccent,
   useIsMobile,
   usePoolLayout,
-  useTierListChanges,
-  useTierLists,
   useViewMode,
 } from '@/hooks';
-import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsImage } from '@/utils/export-image';
+import { showErrorToast } from '@/utils/toast';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import {
   Container,
   Group,
   SegmentedControl,
+  Skeleton,
   Stack,
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { useSearchParamText } from '@/hooks';
-
-function matchesTierListFilters(
-  tierList: TierListType,
-  search: string,
-  viewFilters: Record<string, string[]>
-) {
-  if (
-    search &&
-    ![tierList.name, tierList.author, tierList.description ?? '']
-      .join(' ')
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  ) {
-    return false;
-  }
-
-  if (
-    !matchesContentTypeFilters(tierList.content_type, viewFilters.contentTypes)
-  ) {
-    return false;
-  }
-
-  return true;
-}
 
 export default function TierList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -93,23 +93,16 @@ export default function TierList() {
     error: charactersError,
     retry: retryCharacters,
   } = useCharacters();
+  const {
+    data: noblePhantasms,
+    loading: loadingNoblePhantasms,
+    error: noblePhantasmsError,
+    retry: retryNoblePhantasms,
+  } = useNoblePhantasms();
   const { data: tierListChanges } = useTierListChanges();
-  interface TierListViewFilters {
-    [key: string]: string[];
-    contentTypes: string[];
-    factions: string[];
-    classes: string[];
-    qualities: string[];
-  }
-
   const { filters: viewFilters, setFilters: setViewFilters } =
     useFilters<TierListViewFilters>({
-      emptyFilters: {
-        contentTypes: [],
-        factions: [],
-        classes: [],
-        qualities: [],
-      },
+      emptyFilters: EMPTY_TIER_LIST_VIEW_FILTERS,
       storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
     });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
@@ -136,13 +129,15 @@ export default function TierList() {
     draftStorageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
     setSearchParams,
   });
-  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>([]);
+  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
+    mode === 'saved' ? loadSavedTierLists() : [],
+  );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
   });
   const [isCapturingTierList, setIsCapturingTierList] = useState<string | null>(
-    null
+    null,
   );
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const isDark = useDarkMode();
@@ -153,8 +148,8 @@ export default function TierList() {
     setLayout: setPoolLayout,
     canUseSideLayout: canUseSidePoolLayout,
   } = usePoolLayout();
-  const loading = loadingTiers || loadingChars;
-  const error = tierListsError || charactersError;
+  const loading = loadingTiers || loadingChars || loadingNoblePhantasms;
+  const error = tierListsError || charactersError || noblePhantasmsError;
 
   const {
     preferredByName: preferredCharacterByName,
@@ -163,19 +158,57 @@ export default function TierList() {
 
   const charMap = preferredCharacterByName;
 
+  const noblePhantasmBySlug = useMemo(() => {
+    const result = new Map(noblePhantasms.map((item) => [item.slug, item]));
+    for (const item of noblePhantasms) {
+      if (item.legacy_slug) result.set(item.legacy_slug, item);
+    }
+    return result;
+  }, [noblePhantasms]);
+
   const resolveTierEntryCharacter = useCallback(
     (entry: TierListType['entries'][number]) =>
-      resolveCharacterByNameAndQuality(
-        entry.character_slug,
-        entry.character_quality,
-        preferredCharacterByName,
-        characterByIdentity
-      ),
-    [preferredCharacterByName, characterByIdentity]
+      isCharacterTierEntry(entry)
+        ? resolveCharacterByNameAndQuality(
+            entry.character_slug,
+            entry.character_quality,
+            preferredCharacterByName,
+            characterByIdentity,
+          )
+        : null,
+    [preferredCharacterByName, characterByIdentity],
+  );
+
+  const resolveTierEntryEntity = useCallback(
+    (
+      entry: TierListType['entries'][number],
+    ): TierListRankableEntity | undefined => {
+      if (isNoblePhantasmTierEntry(entry)) {
+        const noblePhantasm = noblePhantasmBySlug.get(
+          entry.noble_phantasm_slug,
+        );
+        return noblePhantasm
+          ? {
+              key: noblePhantasm.slug,
+              entityType: 'noble_phantasm',
+              noblePhantasm,
+            }
+          : undefined;
+      }
+      const character = resolveTierEntryCharacter(entry);
+      return character
+        ? {
+            key: getCharacterIdentityKey(character),
+            entityType: 'character',
+            character,
+          }
+        : undefined;
+    },
+    [noblePhantasmBySlug, resolveTierEntryCharacter],
   );
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
-  const hasCharacterFilters =
+  const hasEntityFilters =
     viewFilters.factions.length > 0 ||
     viewFilters.classes.length > 0 ||
     viewFilters.qualities.length > 0;
@@ -185,7 +218,7 @@ export default function TierList() {
       if (
         viewFilters.factions.length > 0 &&
         !character.factions.some((faction) =>
-          viewFilters.factions.includes(faction)
+          viewFilters.factions.includes(faction),
         )
       ) {
         return false;
@@ -207,7 +240,30 @@ export default function TierList() {
 
       return true;
     },
-    [viewFilters.factions, viewFilters.classes, viewFilters.qualities]
+    [viewFilters.factions, viewFilters.classes, viewFilters.qualities],
+  );
+
+  const matchesEntityViewFilters = useCallback(
+    (entity: TierListRankableEntity) => {
+      if (entity.character) {
+        return matchesCharacterViewFilters(entity.character);
+      }
+      const noblePhantasm = entity.noblePhantasm;
+      if (!noblePhantasm) return false;
+      if (viewFilters.factions.length > 0 || viewFilters.classes.length > 0) {
+        return false;
+      }
+      return (
+        viewFilters.qualities.length === 0 ||
+        viewFilters.qualities.includes(noblePhantasm.quality)
+      );
+    },
+    [
+      matchesCharacterViewFilters,
+      viewFilters.classes.length,
+      viewFilters.factions.length,
+      viewFilters.qualities,
+    ],
   );
 
   useEffect(() => {
@@ -215,7 +271,7 @@ export default function TierList() {
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
-        (value, index) => value === viewFilters.contentTypes[index]
+        (value, index) => value === viewFilters.contentTypes[index],
       );
     if (unchanged) return;
     setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
@@ -228,11 +284,18 @@ export default function TierList() {
         label: 'Content Type',
         options: contentTypeOptions,
       },
+      {
+        key: 'entityTypes',
+        label: 'Entity Type',
+        options: ['character', 'noble_phantasm'],
+        labelFn: (value) =>
+          value === 'noble_phantasm' ? 'Noble Phantasms' : 'Characters',
+      },
       createFactionFilterGroup(),
       createClassFilterGroup(),
       createQualityFilterGroup(),
     ],
-    [contentTypeOptions]
+    [contentTypeOptions],
   );
 
   const activeFilterCount =
@@ -244,12 +307,13 @@ export default function TierList() {
     (key: string, values: string[]) => {
       setViewFilters((prev) => ({ ...prev, [key]: values }));
     },
-    [setViewFilters]
+    [setViewFilters],
   );
 
   const handleClearFilters = useCallback(() => {
     setViewFilters({
       contentTypes: [],
+      entityTypes: [],
       factions: [],
       classes: [],
       qualities: [],
@@ -262,30 +326,25 @@ export default function TierList() {
   }, [search]);
 
   const refreshSavedTierLists = useCallback(() => {
-    setSavedTierLists(
-      loadSavedFromStorage<TierListType>(STORAGE_KEY.TIER_LIST_MY_SAVED,
-        (v) => Array.isArray(v.entries), migrateStoredTierList
-      )
-    );
+    setSavedTierLists(loadSavedTierLists());
   }, []);
 
-  useEffect(() => {
+  const [prevMode, setPrevMode] = useState(mode);
+  if (mode !== prevMode) {
+    setPrevMode(mode);
     if (mode === 'saved') refreshSavedTierLists();
-  }, [mode, refreshSavedTierLists]);
+  }
 
   function deleteSavedTierList(name: string) {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
-      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
-      delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(
-        STORAGE_KEY.TIER_LIST_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      removeSavedTierList(toEntitySlug(name));
       setSavedTierLists((prev) => prev.filter((t) => t.name !== name));
       window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not delete tier list',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 
@@ -300,39 +359,39 @@ export default function TierList() {
   const visibleTierLists = useMemo(() => {
     return tierLists.filter((tierList) => {
       if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
-      if (!hasCharacterFilters) return true;
+      if (!hasEntityFilters) return true;
 
       return tierList.entries.some((entry) => {
-        const character = resolveTierEntryCharacter(entry);
-        return character ? matchesCharacterViewFilters(character) : false;
+        const entity = resolveTierEntryEntity(entry);
+        return entity ? matchesEntityViewFilters(entity) : false;
       });
     });
   }, [
     tierLists,
     search,
     viewFilters,
-    hasCharacterFilters,
-    resolveTierEntryCharacter,
-    matchesCharacterViewFilters,
+    hasEntityFilters,
+    resolveTierEntryEntity,
+    matchesEntityViewFilters,
   ]);
 
   const visibleSavedTierLists = useMemo(() => {
     return savedTierLists.filter((tierList) => {
       if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
-      if (!hasCharacterFilters) return true;
+      if (!hasEntityFilters) return true;
 
       return tierList.entries.some((entry) => {
-        const character = resolveTierEntryCharacter(entry);
-        return character ? matchesCharacterViewFilters(character) : false;
+        const entity = resolveTierEntryEntity(entry);
+        return entity ? matchesEntityViewFilters(entity) : false;
       });
     });
   }, [
     savedTierLists,
     search,
     viewFilters,
-    hasCharacterFilters,
-    resolveTierEntryCharacter,
-    matchesCharacterViewFilters,
+    hasEntityFilters,
+    resolveTierEntryEntity,
+    matchesEntityViewFilters,
   ]);
 
   const handleRequestExport = useCallback(
@@ -346,7 +405,7 @@ export default function TierList() {
         setIsCapturingTierList(null);
       }
     },
-    [isDark]
+    [isDark],
   );
 
   const exportRefCallback = useCallback(
@@ -354,7 +413,7 @@ export default function TierList() {
       if (node) exportRefs.current.set(name, node);
       else exportRefs.current.delete(name);
     },
-    []
+    [],
   );
 
   const containerSize =
@@ -397,7 +456,6 @@ export default function TierList() {
           </Group>
         </Group>
 
-
         {isMobile && (mode === 'view' || mode === 'saved') && (
           <PageFilterHeaderControls
             sticky
@@ -423,21 +481,33 @@ export default function TierList() {
           </PageFilterHeaderControls>
         )}
 
-        {loading &&
-          (mode === 'builder' ? (
-            <ListPageLoading cards={3} />
-          ) : (
-            <ViewModeLoading viewMode={viewMode} cards={3} cardHeight={180} />
-          ))}
+        {loading && (
+          <Stack gap="md">
+            <Skeleton height={36} radius="md" aria-hidden="true" />
+            {mode === 'builder' ? (
+              <BuilderPageLoading />
+            ) : (
+              <ViewModeLoading
+                viewMode={viewMode}
+                cardHeight={180}
+                showPagination
+                label="Loading tier lists"
+              />
+            )}
+          </Stack>
+        )}
 
         {!loading && error && (
           <DataFetchError
             title="Could not load tier lists"
             message={error.message}
-            onRetry={() => {
-              retryTierLists();
-              retryCharacters();
-            }}
+            onRetry={() =>
+              retryFailedDataSources(
+                [tierListsError, retryTierLists],
+                [charactersError, retryCharacters],
+                [noblePhantasmsError, retryNoblePhantasms],
+              )
+            }
           />
         )}
 
@@ -464,7 +534,8 @@ export default function TierList() {
               <TierListViewTab
                 visibleTierLists={visibleTierLists}
                 characters={characters}
-                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                noblePhantasms={noblePhantasms}
+                resolveTierEntryEntity={resolveTierEntryEntity}
                 viewMode={viewMode}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
@@ -473,8 +544,8 @@ export default function TierList() {
                 onRequestExport={handleRequestExport}
                 isExporting={isCapturingTierList}
                 exportRefCallback={exportRefCallback}
-                characterFilter={matchesCharacterViewFilters}
-                hasCharacterFilters={hasCharacterFilters}
+                entityFilter={matchesEntityViewFilters}
+                hasEntityFilters={hasEntityFilters}
               />
             )}
 
@@ -482,7 +553,7 @@ export default function TierList() {
               <TierListSavedTab
                 savedTierLists={savedTierLists}
                 visibleSavedTierLists={visibleSavedTierLists}
-                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                resolveTierEntryEntity={resolveTierEntryEntity}
                 viewMode={viewMode}
                 search={search}
                 onClearFilters={handleClearFilters}
@@ -493,8 +564,8 @@ export default function TierList() {
                 exportRefCallback={exportRefCallback}
                 onRequestDelete={setPendingDeleteSavedTierList}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
-                characterFilter={matchesCharacterViewFilters}
-                hasCharacterFilters={hasCharacterFilters}
+                entityFilter={matchesEntityViewFilters}
+                hasEntityFilters={hasEntityFilters}
               />
             )}
 
@@ -502,6 +573,7 @@ export default function TierList() {
               <TierListBuilder
                 characters={characters}
                 charMap={charMap}
+                noblePhantasms={noblePhantasms}
                 initialData={editData}
                 poolLayout={poolLayout}
                 onPoolLayoutChange={setPoolLayout}

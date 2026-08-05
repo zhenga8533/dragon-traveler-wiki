@@ -5,10 +5,7 @@ import { LocaleContext } from '@/contexts/locale';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import { changesPath, dataPath, DEFAULT_LOCALE } from '@/utils/data-paths';
-import {
-  parseObjectArray,
-  parseObjectRecord,
-} from '@/utils/data-validation';
+import { parseObjectArray, parseObjectRecord } from '@/utils/data-validation';
 
 export function useCharacters() {
   const { locale } = useContext(LocaleContext);
@@ -18,14 +15,14 @@ export function useCharacters() {
   const localeResult = useDataFetch<Character[]>(
     localePath,
     [],
-    parseObjectArray<Character>
+    parseObjectArray<Character>,
   );
   // Always fetch enUS so missing locale characters can fall back to it.
   // When locale is already enUS, both paths are identical and the cache deduplicates the request.
   const enUSResult = useDataFetch<Character[]>(
     enUSPath,
     [],
-    parseObjectArray<Character>
+    parseObjectArray<Character>,
   );
 
   const data = useMemo(() => {
@@ -44,7 +41,8 @@ export function useCharacters() {
   return {
     data,
     // For non-enUS locales, wait for both fetches before reporting done.
-    loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
+    loading:
+      localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     // Only surface the enUS error — a locale fetch failure just means graceful fallback.
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
     retry: () => {
@@ -62,12 +60,12 @@ export function useCharacterChanges() {
   const localeResult = useDataFetch<ChangesFile>(
     localePath,
     {},
-    parseObjectRecord<ChangesFile[string]>
+    parseObjectRecord<ChangesFile[string]>,
   );
   const enUSResult = useDataFetch<ChangesFile>(
     enUSPath,
     {},
-    parseObjectRecord<ChangesFile[string]>
+    parseObjectRecord<ChangesFile[string]>,
   );
 
   const data = useMemo(() => {
@@ -78,7 +76,8 @@ export function useCharacterChanges() {
 
   return {
     data,
-    loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
+    loading:
+      localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
     error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
     retry: () => {
       localeResult.retry();

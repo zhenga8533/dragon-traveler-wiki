@@ -2,13 +2,13 @@
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
-import { getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import { getWyrmIcon } from '@/assets';
 import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
 
-import { Badge, Group, Paper, Stack, Text, Title } from '@mantine/core';
+import { Badge, Group, Stack, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Juvenile Phase': 'violet',
@@ -16,29 +16,38 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Final Phase': 'orange',
 };
 
-function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves To'; w: Wyrm; isDark: boolean }) {
+function EvolutionCard({
+  label,
+  w,
+  isDark,
+}: {
+  label: 'Evolves From' | 'Evolves To';
+  w: Wyrm;
+  isDark: boolean;
+}) {
   const iconSrc = getWyrmIcon(w.slug);
   const qualityColor = QUALITY_COLOR[w.quality];
   const phaseColor = WYRM_PHASE_COLOR[w.phase];
 
   return (
-    <Paper
+    <InteractiveSurface
       component={Link}
       to={`/wyrms/${w.slug}`}
       p="lg"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        interactive: true,
-        style: {
-          textDecoration: 'none',
-          flex: 1,
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        textDecoration: 'none',
+        flex: 1,
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="sm">
-        <Text size="xs" tt="uppercase" fw={700} c={`${qualityColor}.${isDark ? 4 : 6}`} style={{ letterSpacing: '0.06em' }}>
+        <Text
+          size="xs"
+          tt="uppercase"
+          fw={700}
+          c={`${qualityColor}.${isDark ? 4 : 6}`}
+          style={{ letterSpacing: '0.06em' }}
+        >
           {label}
         </Text>
         <Group gap="md" align="center" wrap="nowrap">
@@ -53,7 +62,12 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
             />
           )}
           <Stack gap={6}>
-            <Text fw={700} size="md" className="dt-link-text" style={{ lineHeight: 1.2 }}>
+            <Text
+              fw={700}
+              size="md"
+              className="dt-link-text"
+              style={{ lineHeight: 1.2 }}
+            >
               {w.name}
             </Text>
             <Group gap="xs" wrap="wrap">
@@ -66,12 +80,23 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
           </Stack>
         </Group>
       </Stack>
-    </Paper>
+    </InteractiveSurface>
   );
 }
 
-export default function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyrm; allWyrms: Wyrm[]; isDark: boolean }) {
-  const bySlug = useMemo(() => new Map(allWyrms.map((w) => [w.slug, w])), [allWyrms]);
+export default function EvolutionSection({
+  wyrm,
+  allWyrms,
+  isDark,
+}: {
+  wyrm: Wyrm;
+  allWyrms: Wyrm[];
+  isDark: boolean;
+}) {
+  const bySlug = useMemo(
+    () => new Map(allWyrms.map((w) => [w.slug, w])),
+    [allWyrms],
+  );
   const prev = wyrm.evolves_from ? bySlug.get(wyrm.evolves_from) : undefined;
   const next = wyrm.evolves_to ? bySlug.get(wyrm.evolves_to) : undefined;
 
@@ -83,7 +108,9 @@ export default function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyr
         Evolution
       </Title>
       <Group gap="sm" align="stretch" wrap="wrap">
-        {prev && <EvolutionCard label="Evolves From" w={prev} isDark={isDark} />}
+        {prev && (
+          <EvolutionCard label="Evolves From" w={prev} isDark={isDark} />
+        )}
         {next && <EvolutionCard label="Evolves To" w={next} isDark={isDark} />}
       </Group>
     </Stack>

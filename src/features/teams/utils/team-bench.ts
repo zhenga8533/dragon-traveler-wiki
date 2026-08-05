@@ -31,19 +31,19 @@ export function getTeamBenchEntryName(entry: TeamBenchMember): string {
 }
 
 export function getTeamBenchEntryQuality(
-  entry: TeamBenchMember
+  entry: TeamBenchMember,
 ): TeamBenchMember['character_quality'] | undefined {
   return entry.character_quality;
 }
 
 export function getTeamBenchEntryNote(
-  entry: TeamBenchMember
+  entry: TeamBenchMember,
 ): TeamBenchMember['note'] | undefined {
   return normalizeOptionalNote(entry.note);
 }
 
 export function normalizeTeamBenchEntry(
-  value: unknown
+  value: unknown,
 ): TeamBenchMember | null {
   if (typeof value === 'string') {
     // May be a slug already or a legacy display name — toEntitySlug is idempotent on slugs

@@ -24,7 +24,7 @@ export function useSortState(storageKey: string) {
           (parsed.col === null || typeof parsed.col === 'string') &&
           (parsed.dir === 'asc' || parsed.dir === 'desc')
         );
-      }
+      },
     );
   });
 

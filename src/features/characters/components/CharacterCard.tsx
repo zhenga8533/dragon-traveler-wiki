@@ -1,5 +1,5 @@
 import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CHARACTER_CARD } from '@/constants/ui';
 
 import type { Quality } from '@/types/quality';
@@ -34,7 +34,6 @@ export default function CharacterCard({
   clampName = true,
   isNew = false,
 }: CharacterCardProps) {
-
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
       <CharacterPortrait

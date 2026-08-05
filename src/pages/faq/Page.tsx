@@ -1,16 +1,14 @@
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { useGradientAccent } from '@/hooks';
 import {
   Alert,
   Anchor,
   Box,
   Button,
-  Card,
   Container,
   Divider,
   Group,
-  Paper,
   Stack,
   Text,
   ThemeIcon,
@@ -27,7 +25,7 @@ import {
   IoTicketOutline,
   IoTrophyOutline,
 } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 type FAQItem = {
   question: string;
@@ -312,7 +310,7 @@ function FAQCard({
   accentColor: string;
 }) {
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="xs">
         <Group gap="xs" wrap="nowrap" align="flex-start">
           <ThemeIcon
@@ -331,7 +329,7 @@ function FAQCard({
           {answer}
         </Text>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -396,7 +394,7 @@ export default function FAQ() {
 
         <Divider />
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Source Reference</Title>
             <Alert
@@ -416,12 +414,7 @@ export default function FAQ() {
               </Anchor>
               .
             </Alert>
-            <Paper
-              withBorder
-              radius="md"
-              p={0}
-              {...getCardHoverProps({ style: { overflow: 'hidden' } })}
-            >
+            <StaticSurface radius="md" p={0} style={{ overflow: 'hidden' }}>
               <Box
                 component="iframe"
                 src="https://www.gamekee.com/lhlr"
@@ -429,7 +422,7 @@ export default function FAQ() {
                 style={{ width: '100%', height: 460, border: 0 }}
                 loading="lazy"
               />
-            </Paper>
+            </StaticSurface>
             <Group>
               <Button
                 component="a"
@@ -443,7 +436,7 @@ export default function FAQ() {
               </Button>
             </Group>
           </Stack>
-        </Card>
+        </StaticSurface>
       </Stack>
     </Container>
   );

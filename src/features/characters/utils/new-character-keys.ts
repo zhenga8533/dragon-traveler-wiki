@@ -10,7 +10,7 @@ interface CharacterLifecycleHistory {
 
 export function getNewestActiveCharacterKeys(
   history: Record<string, CharacterLifecycleHistory>,
-  activeSlugs: Iterable<string>
+  activeSlugs: Iterable<string>,
 ): Set<string> {
   const active = new Set(activeSlugs);
   const introductions = new Map<string, number>();
@@ -42,6 +42,6 @@ export function getNewestActiveCharacterKeys(
   return new Set(
     [...introductions]
       .filter(([, timestamp]) => timestamp === newestTimestamp)
-      .map(([slug]) => slug)
+      .map(([slug]) => slug),
   );
 }

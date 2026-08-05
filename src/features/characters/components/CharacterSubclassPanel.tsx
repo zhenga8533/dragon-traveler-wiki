@@ -48,7 +48,7 @@ export default function CharacterSubclassPanel({
               subclassDetails?.class ?? character.character_class;
             const subclassIcon = getSubclassIcon(
               subclassDetails?.slug ?? subclass,
-              subclassClass
+              subclassClass,
             );
             const subclassBonuses = subclassDetails?.bonuses ?? [];
             const tooltipLabel = (

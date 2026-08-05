@@ -45,7 +45,7 @@ export default function TeamCharacterAvatars({
       entry.name,
       entry.quality,
       preferredByName,
-      byIdentity
+      byIdentity,
     );
     const displayName = char?.name ?? entry.name;
     const assetKey = char ? getCharacterRouteSlug(char) : undefined;

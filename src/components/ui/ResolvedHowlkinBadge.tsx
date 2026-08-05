@@ -16,5 +16,11 @@ export default function ResolvedHowlkinBadge({
   const { data: howlkins } = useHowlkins();
   const howlkin = howlkins.find((entry) => entry.slug === slug);
 
-  return <WikiHowlkinBadge name={howlkin?.name ?? slug} howlkin={howlkin} size={size} />;
+  return (
+    <WikiHowlkinBadge
+      name={howlkin?.name ?? slug}
+      howlkin={howlkin}
+      size={size}
+    />
+  );
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { NavigateFunction } from 'react-router-dom';
-import type { SetURLSearchParams } from 'react-router-dom';
+import type { NavigateFunction } from 'react-router';
+import type { SetURLSearchParams } from 'react-router';
 
 interface UseBuilderEditStateOptions<T> {
   /** localStorage key to check for an existing builder draft */
@@ -37,7 +37,7 @@ export function useBuilderEditState<T>({
   navigate,
 }: UseBuilderEditStateOptions<T>): UseBuilderEditStateReturn<T> {
   const [editData, setEditData] = useState<T | null>(
-    () => navigationInitialItem ?? null
+    () => navigationInitialItem ?? null,
   );
   const [pendingEditItem, setPendingEditItem] = useState<T | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);

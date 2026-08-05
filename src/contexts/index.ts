@@ -9,9 +9,7 @@ export {
   CharacterOwnershipProvider,
 } from './character-ownership-context';
 export type { CharacterOwnershipContextValue } from './character-ownership-context';
-export {
-  CharacterSkinProvider,
-} from './character-skin-context';
+export { CharacterSkinProvider } from './character-skin-context';
 export { CharacterSkinContext } from './character-skin';
 export type { CharacterSkinContextValue } from './character-skin';
 export {

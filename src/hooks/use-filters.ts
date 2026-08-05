@@ -100,7 +100,7 @@ export function useFilters<T extends object>({
         storageKey,
         {},
         (value): value is Record<string, unknown> =>
-          value !== null && typeof value === 'object' && !Array.isArray(value)
+          value !== null && typeof value === 'object' && !Array.isArray(value),
       );
       return mergeStoredFilterShape(emptyFilters, stored);
     }
@@ -168,7 +168,7 @@ export function countActiveFilters<T extends object>(filters: T): number {
             (item) =>
               item !== null &&
               item !== undefined &&
-              (!(typeof item === 'string') || item.trim() !== '')
+              (!(typeof item === 'string') || item.trim() !== ''),
           ).length
         );
       }
@@ -176,6 +176,6 @@ export function countActiveFilters<T extends object>(filters: T): number {
       if (typeof v === 'string') return acc + (v ? 1 : 0);
       return acc;
     },
-    0
+    0,
   );
 }

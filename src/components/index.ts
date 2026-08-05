@@ -1,24 +1,4 @@
-// Component exports for cleaner imports
-
-// ── Characters ───────────────────────────────────────────────────────────────
-export { default as CharacterCard } from '@/features/characters/components/CharacterCard';
-export { default as CharacterFilter } from '@/features/characters/components/CharacterFilter';
-export type { CharacterFilterProps } from '@/features/characters/components/CharacterFilter';
-export { default as CharacterList } from '@/features/characters/components/CharacterList';
-export { default as CharacterTag } from '@/features/characters/components/CharacterTag';
-export { default as FilterableCharacterPool } from './common/FilterableCharacterPool';
-
-// ── Wiki features ─────────────────────────────────────────────────────────────
-export { default as GearTypeTag } from '@/features/wiki/gear/components/GearTypeTag';
-export { default as HowlkinBadge } from '@/features/wiki/howlkins/components/HowlkinBadge';
-export { default as HowlkinStats } from '@/features/wiki/howlkins/components/HowlkinStats';
-export { default as StatusEffectBadge } from '@/features/wiki/status-effects/components/StatusEffectBadge';
-export { default as WyrmspellCard } from '@/features/wiki/wyrmspells/components/WyrmspellCard';
-
-// ── Teams / Tier list ─────────────────────────────────────────────────────────
-export { default as TeamBuilder } from '@/features/teams/components/TeamBuilder';
-export { default as TierListBuilder } from '@/features/tier-list/components/TierListBuilder';
-
+// Shared component exports for cleaner imports.
 // ── UI primitives ─────────────────────────────────────────────────────────────
 export { default as ClassTag } from './ui/ClassTag';
 export { default as CollapsibleSectionCard } from './ui/CollapsibleSectionCard';
@@ -47,6 +27,10 @@ export { default as SafeVideo } from './ui/SafeVideo';
 export { default as SortableTh } from './ui/SortableTh';
 export { default as StatCard } from './ui/StatCard';
 export { InteractiveSurface, StaticSurface } from './ui/Surface';
+export {
+  INTERACTIVE_SURFACE_CLASS_NAME,
+  STATIC_SURFACE_CLASS_NAME,
+} from './ui/Surface';
 export type { InteractiveSurfaceProps, StaticSurfaceProps } from './ui/Surface';
 export { default as TierBadge } from './ui/TierBadge';
 export type { TierBadgeProps } from './ui/TierBadge';
@@ -71,7 +55,7 @@ export { default as Footer } from './layout/Footer';
 export { default as FullBleedSection } from './layout/FullBleedSection';
 export { default as ListPageHeader } from './layout/ListPageHeader';
 export { default as ListPageShell } from './layout/ListPageShell';
-export { DetailPageLoading, ListPageLoading } from './layout/PageLoadingSkeleton';
+export { CharacterListLoading } from './layout/PageLoadingSkeleton';
 
 // ── Tools ─────────────────────────────────────────────────────────────────────
 export { default as JsonModal } from './tools/JsonModal';

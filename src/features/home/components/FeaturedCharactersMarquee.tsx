@@ -2,6 +2,7 @@
 import { normalizeContentType } from '@/constants/content-types';
 import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
 import CharacterCard from '@/features/characters/components/CharacterCard';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import {
   buildCharacterByIdentityMap,
   buildPreferredCharacterByNameMap,
@@ -9,15 +10,12 @@ import {
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
-import styles from '@/features/home/styles/marquee.module.css';
 import {
-  Badge,
-  Box,
-  Group,
-  Skeleton,
-  Stack,
-  Text,
-} from '@mantine/core';
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
+import styles from '@/features/home/styles/marquee.module.css';
+import { Badge, Box, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
 
 export default function FeaturedCharactersMarquee() {
@@ -32,31 +30,37 @@ export default function FeaturedCharactersMarquee() {
 
   if (loading) {
     return (
-      <Box
-        style={{
-          overflowX: 'hidden',
-          width: '100%',
-          padding: '8px 0',
-          maskImage:
-            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-          WebkitMaskImage:
-            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-        }}
-      >
-        <Group gap="md" wrap="nowrap" justify="center">
-          {Array.from({ length: 8 }, (_, i) => (
-            <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
-              <Skeleton height={64} width={64} radius="50%" />
-              <Skeleton height={18} width={36} radius="sm" />
-            </Stack>
-          ))}
-        </Group>
-      </Box>
+      <LoadingRegion label="Loading featured characters">
+        <Box
+          style={{
+            overflowX: 'hidden',
+            width: '100%',
+            padding: '8px 0',
+            maskImage:
+              'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+            WebkitMaskImage:
+              'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+          }}
+        >
+          <Group gap="md" wrap="nowrap" justify="center">
+            {Array.from({ length: 8 }, (_, i) => (
+              <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
+                <Skeleton height={64} circle />
+                <Skeleton height={18} width={36} radius="sm" />
+              </Stack>
+            ))}
+          </Group>
+        </Box>
+      </LoadingRegion>
     );
   }
 
+  const characterTierLists = tierLists.filter(
+    (tierList) => getTierListEntityType(tierList) === 'character',
+  );
   const tierList =
-    tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
+    characterTierLists.find((t) => t.name === selectedTierListName) ??
+    characterTierLists[0];
   if (!tierList) return null;
 
   const charMap = buildPreferredCharacterByNameMap(characters);
@@ -65,9 +69,9 @@ export default function FeaturedCharactersMarquee() {
     tierList.tiers && tierList.tiers.length >= 2
       ? [tierList.tiers[0].name, tierList.tiers[1].name]
       : ['S+', 'S'];
-  const topEntries = tierList.entries.filter((e) =>
-    topTierNames.includes(e.tier)
-  );
+  const topEntries = tierList.entries
+    .filter(isCharacterTierEntry)
+    .filter((entry) => topTierNames.includes(entry.tier));
 
   if (topEntries.length === 0) return null;
 
@@ -77,7 +81,7 @@ export default function FeaturedCharactersMarquee() {
         entry.character_slug,
         entry.character_quality,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       );
       const resolvedName = char?.name ?? entry.character_slug;
       return (

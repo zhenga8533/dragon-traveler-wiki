@@ -22,7 +22,7 @@ export default function EffectTable({
 }) {
   const sortedEffects = [...effects].sort(
     (a, b) =>
-      getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier)
+      getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier),
   );
 
   if (sortedEffects.length === 0) {
@@ -47,9 +47,7 @@ export default function EffectTable({
           {sortedEffects.map((effect, idx) => {
             const tierDetail = getNoblePhantasmTierDetail(effect.tier);
             return (
-              <Table.Tr
-                key={`${effect.tier ?? 'none'}-${idx}`}
-              >
+              <Table.Tr key={`${effect.tier ?? 'none'}-${idx}`}>
                 <Table.Td style={COMPACT_COL_STYLE}>
                   {effect.tier ? (
                     <Badge

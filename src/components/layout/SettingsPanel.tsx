@@ -1,11 +1,12 @@
 import JsonModal from '@/components/tools/JsonModal';
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
-import { STORAGE_KEY, TRANSITION, Z_INDEX } from '@/constants/ui';
+import { TRANSITION, Z_INDEX } from '@/constants/ui';
 import type { CustomMantineAccent } from '@/contexts';
 import {
   BannerContext,
   CharacterOwnershipContext,
+  CharacterSkinContext,
   LocaleContext,
   TierListReferenceContext,
   UiOpacityContext,
@@ -16,6 +17,11 @@ import {
   PALETTE_SWATCHES,
   RANDOM_MODE_LABEL,
 } from '@/features/settings/options';
+import {
+  buildSettingsExport,
+  importSettings,
+} from '@/features/settings/settings-storage';
+import { SETTINGS_STORAGE_KEYS } from '@/features/settings/settings-storage-keys';
 import {
   useDarkMode,
   useEffectiveNavLayout,
@@ -46,23 +52,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
-
-const SETTINGS_EXPORT_VERSION = 1;
-const SETTINGS_EXPORT_EXCLUDE = new Set<string>([
-  STORAGE_KEY.TEAMS_BUILDER_DRAFT,
-  STORAGE_KEY.TEAMS_BUILDER_SLOTS,
-  STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
-  STORAGE_KEY.TIER_LIST_BUILDER_SLOTS,
-]);
-const SETTINGS_IMPORT_KEYS = new Set<string>(
-  Object.values(STORAGE_KEY).filter(
-    (key) => !SETTINGS_EXPORT_EXCLUDE.has(key)
-  )
-);
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value);
-}
+import { showErrorToast } from '@/utils/toast';
 
 export default function SettingsPanel({
   initiallyOpened = false,
@@ -77,8 +67,10 @@ export default function SettingsPanel({
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const mobileTooltip = useMobileTooltip();
-  const { accent, palette, setPalette, customColors, setCustomColors } = useGradientAccent();
-  const { navLayout, setNavLayout, effectiveNavLayout } = useEffectiveNavLayout();
+  const { accent, palette, setPalette, customColors, setCustomColors } =
+    useGradientAccent();
+  const { navLayout, setNavLayout, effectiveNavLayout } =
+    useEffectiveNavLayout();
 
   const {
     tierLists,
@@ -120,6 +112,7 @@ export default function SettingsPanel({
     setShowCharacterTiers,
   } = useContext(CharacterOwnershipContext);
   const { locale, setLocale } = useContext(LocaleContext);
+  const { skinsEnabled, setSkinsEnabled } = useContext(CharacterSkinContext);
 
   useEffect(() => {
     if (isMobile || !opened) return;
@@ -137,7 +130,9 @@ export default function SettingsPanel({
     });
     const official = tierLists.map(toOption);
     const officialNames = new Set(tierLists.map((l) => l.name));
-    const uniqueSaved = savedTierLists.filter((l) => !officialNames.has(l.name));
+    const uniqueSaved = savedTierLists.filter(
+      (l) => !officialNames.has(l.name),
+    );
     if (uniqueSaved.length === 0) return official;
     return [
       { group: 'Official', items: official },
@@ -158,62 +153,34 @@ export default function SettingsPanel({
     ? ({ withinPortal: false, zIndex: Z_INDEX.TOOLTIP } as const)
     : selectComboboxProps;
 
-  const [exportModalOpened, { open: openExportModal, close: closeExportModal }] =
-    useDisclosure(false);
-  const [importModalOpened, { open: openImportModal, close: closeImportModal }] =
-    useDisclosure(false);
+  const [
+    exportModalOpened,
+    { open: openExportModal, close: closeExportModal },
+  ] = useDisclosure(false);
+  const [
+    importModalOpened,
+    { open: openImportModal, close: closeImportModal },
+  ] = useDisclosure(false);
   const [exportJson, setExportJson] = useState('');
 
   const handleOpenExport = () => {
-    const data: Record<string, string> = {};
-    for (const key of Object.values(STORAGE_KEY)) {
-      if (SETTINGS_EXPORT_EXCLUDE.has(key)) continue;
-      const val = localStorage.getItem(key);
-      if (val !== null) data[key] = val;
+    try {
+      setExportJson(buildSettingsExport(localStorage, SETTINGS_STORAGE_KEYS));
+      openExportModal();
+    } catch {
+      showErrorToast({
+        title: 'Could not export settings',
+        message: 'Browser storage is unavailable. Please try again.',
+      });
     }
-    setExportJson(
-      JSON.stringify(
-        {
-          version: SETTINGS_EXPORT_VERSION,
-          savedAt: new Date().toISOString(),
-          data,
-        },
-        null,
-        2
-      )
-    );
-    openExportModal();
   };
 
   const handleImport = (text: string): string | null => {
-    try {
-      const parsed: unknown = JSON.parse(text);
-      if (
-        !isRecord(parsed) ||
-        parsed.version !== SETTINGS_EXPORT_VERSION ||
-        !isRecord(parsed.data)
-      ) {
-        return 'Invalid settings file.';
-      }
-
-      const entries = Object.entries(parsed.data);
-      if (
-        entries.some(
-          ([key, value]) =>
-            !SETTINGS_IMPORT_KEYS.has(key) || typeof value !== 'string'
-        )
-      ) {
-        return 'Settings file contains unsupported keys or values.';
-      }
-
-      for (const [key, value] of entries) {
-        localStorage.setItem(key, value as string);
-      }
+    const error = importSettings(text, localStorage, SETTINGS_STORAGE_KEYS);
+    if (!error) {
       window.location.reload();
-      return null;
-    } catch {
-      return 'Could not parse JSON. Make sure you pasted the full settings export.';
     }
+    return error;
   };
 
   const settingsContent = (
@@ -234,7 +201,8 @@ export default function SettingsPanel({
             allowDeselect={false}
           />
           <Text size="xs" c="dimmed">
-            Changes which localized data files are loaded. Reload the page after switching.
+            Changes which localized data files are loaded. Reload the page after
+            switching.
           </Text>
         </Stack>
       </Paper>
@@ -367,7 +335,15 @@ export default function SettingsPanel({
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                <Text size="xs" fw={700} style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.5)', letterSpacing: '0.04em' }}>
+                <Text
+                  size="xs"
+                  fw={700}
+                  style={{
+                    color: '#fff',
+                    textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
                   Custom
                 </Text>
               </UnstyledButton>
@@ -384,8 +360,13 @@ export default function SettingsPanel({
                       size="xs"
                       format="hex"
                       value={customColors[key]}
-                      onChange={(v) => setCustomColors({ ...customColors, [key]: v })}
-                      popoverProps={{ withinPortal: false, zIndex: Z_INDEX.TOOLTIP }}
+                      onChange={(v) =>
+                        setCustomColors({ ...customColors, [key]: v })
+                      }
+                      popoverProps={{
+                        withinPortal: false,
+                        zIndex: Z_INDEX.TOOLTIP,
+                      }}
                       swatches={swatches}
                       swatchesPerRow={8}
                     />
@@ -396,7 +377,11 @@ export default function SettingsPanel({
                   size="xs"
                   value={customColors.mantineAccent}
                   onChange={(v) =>
-                    v && setCustomColors({ ...customColors, mantineAccent: v as CustomMantineAccent })
+                    v &&
+                    setCustomColors({
+                      ...customColors,
+                      mantineAccent: v as CustomMantineAccent,
+                    })
                   }
                   onDropdownOpen={() => setIsSelectDropdownOpen(true)}
                   onDropdownClose={() => setIsSelectDropdownOpen(false)}
@@ -447,6 +432,14 @@ export default function SettingsPanel({
             label="Show tier badges"
             checked={showCharacterTiers}
             onChange={(e) => setShowCharacterTiers(e.currentTarget.checked)}
+          />
+          <Switch
+            size={isMobile ? 'md' : 'sm'}
+            color={accent.primary}
+            label="Show character skins"
+            description="Display selected skins on portraits instead of default art"
+            checked={skinsEnabled}
+            onChange={(e) => setSkinsEnabled(e.currentTarget.checked)}
           />
           {showCharacterTiers && (
             <Select
@@ -654,7 +647,10 @@ export default function SettingsPanel({
               color={accent.primary}
               size="xs"
               leftSection={<IoDownload size={14} />}
-              onClick={() => { handleOpenExport(); closeOpened(); }}
+              onClick={() => {
+                handleOpenExport();
+                closeOpened();
+              }}
             >
               Export
             </Button>
@@ -663,7 +659,10 @@ export default function SettingsPanel({
               color={accent.primary}
               size="xs"
               leftSection={<IoFolderOpen size={14} />}
-              onClick={() => { openImportModal(); closeOpened(); }}
+              onClick={() => {
+                openImportModal();
+                closeOpened();
+              }}
             >
               Import
             </Button>

@@ -20,10 +20,13 @@ export function useQuoteGame() {
   const { data: characters, loading, error, retry } = useCharacters();
   const todayStr = useTodayIsoDate();
 
-  const eligible = useMemo(() => getEligibleCharacters(characters), [characters]);
+  const eligible = useMemo(
+    () => getEligibleCharacters(characters),
+    [characters],
+  );
   const answerPool = useMemo(
     () => getQuoteEligibleCharacters(characters),
-    [characters]
+    [characters],
   );
 
   const answer = useDailyAnswer(answerPool, todayStr, MODE_SALT);
@@ -32,15 +35,18 @@ export function useQuoteGame() {
     STORAGE_KEY.DTDLE_QUOTE_STATE,
     todayStr,
     freshGameState,
-    isValidGameState
+    isValidGameState,
   );
 
   const { stats, recordWin } = useDailyStats(
     STORAGE_KEY.DTDLE_QUOTE_STATS,
-    todayStr
+    todayStr,
   );
 
-  const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
+  const guessedCharacters = useGuessedCharacters(
+    eligible,
+    gameState.guessedSlugs,
+  );
 
   const submitGuess = useSubmitGuess(setGameState, answer, recordWin);
 

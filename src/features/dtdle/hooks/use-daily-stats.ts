@@ -24,7 +24,7 @@ const DEFAULT_STATS: DtdleStats = {
 /** Shared win-streak tracking, persisted under `storageKey`. A "day" is `todayStr`. */
 export function useDailyStats(storageKey: string, todayStr: string) {
   const [stats, setStats] = useState<DtdleStats>(() =>
-    readStoredJson(storageKey, DEFAULT_STATS, isValidStats)
+    readStoredJson(storageKey, DEFAULT_STATS, isValidStats),
   );
 
   useEffect(() => {

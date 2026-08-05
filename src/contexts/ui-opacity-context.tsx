@@ -53,10 +53,10 @@ function getInitialOpacityByTheme(): OpacityByTheme {
   const readOpacity = (
     key: string,
     mode: ThemeMode,
-    defaultValue: number
+    defaultValue: number,
   ): number => {
     const themedValue = window.localStorage.getItem(
-      getThemeOpacityStorageKey(key, mode)
+      getThemeOpacityStorageKey(key, mode),
     );
     if (themedValue !== null) {
       return parseStoredOpacity(themedValue, defaultValue);
@@ -72,17 +72,17 @@ function getInitialOpacityByTheme(): OpacityByTheme {
       bannerMediaOpacity: readOpacity(
         STORAGE_KEY.UI_BANNER_MEDIA_OPACITY,
         mode,
-        UI_OPACITY_DEFAULTS.bannerMediaOpacity
+        UI_OPACITY_DEFAULTS.bannerMediaOpacity,
       ),
       bannerOverlayOpacity: readOpacity(
         STORAGE_KEY.UI_BANNER_OVERLAY_OPACITY,
         mode,
-        UI_OPACITY_DEFAULTS.bannerOverlayOpacity
+        UI_OPACITY_DEFAULTS.bannerOverlayOpacity,
       ),
       surfaceOpacity: readOpacity(
         STORAGE_KEY.UI_SURFACE_OPACITY,
         mode,
-        UI_OPACITY_DEFAULTS.surfaceOpacity
+        UI_OPACITY_DEFAULTS.surfaceOpacity,
       ),
     };
   }
@@ -94,7 +94,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
   const isDark = useDarkMode();
   const activeMode: ThemeMode = isDark ? 'dark' : 'light';
   const [opacityByTheme, setOpacityByTheme] = useState<OpacityByTheme>(
-    getInitialOpacityByTheme
+    getInitialOpacityByTheme,
   );
 
   const activeOpacity = opacityByTheme[activeMode];
@@ -110,7 +110,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
         },
       }));
     },
-    [activeMode]
+    [activeMode],
   );
 
   const setBannerOverlayOpacity = useCallback(
@@ -124,7 +124,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
         },
       }));
     },
-    [activeMode]
+    [activeMode],
   );
 
   const setSurfaceOpacity = useCallback(
@@ -138,7 +138,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
         },
       }));
     },
-    [activeMode]
+    [activeMode],
   );
 
   const resetOpacitySettings = useCallback(() => {
@@ -158,15 +158,15 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
     for (const mode of THEME_MODES) {
       window.localStorage.setItem(
         getThemeOpacityStorageKey(STORAGE_KEY.UI_BANNER_MEDIA_OPACITY, mode),
-        String(opacityByTheme[mode].bannerMediaOpacity)
+        String(opacityByTheme[mode].bannerMediaOpacity),
       );
       window.localStorage.setItem(
         getThemeOpacityStorageKey(STORAGE_KEY.UI_BANNER_OVERLAY_OPACITY, mode),
-        String(opacityByTheme[mode].bannerOverlayOpacity)
+        String(opacityByTheme[mode].bannerOverlayOpacity),
       );
       window.localStorage.setItem(
         getThemeOpacityStorageKey(STORAGE_KEY.UI_SURFACE_OPACITY, mode),
-        String(opacityByTheme[mode].surfaceOpacity)
+        String(opacityByTheme[mode].surfaceOpacity),
       );
     }
   }, [opacityByTheme]);
@@ -175,7 +175,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return;
     document.documentElement.style.setProperty(
       '--dt-surface-opacity',
-      String(activeOpacity.surfaceOpacity)
+      String(activeOpacity.surfaceOpacity),
     );
   }, [activeOpacity.surfaceOpacity]);
 
@@ -197,7 +197,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
       setBannerMediaOpacity,
       setBannerOverlayOpacity,
       setSurfaceOpacity,
-    ]
+    ],
   );
 
   return (

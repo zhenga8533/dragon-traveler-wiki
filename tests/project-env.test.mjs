@@ -10,7 +10,7 @@ test('project env loads local files relative to the project root', async () => {
   try {
     await writeFile(
       path.join(root, '.env.local'),
-      'DATA_DIR=../data-repo/data\nASSETS_DIR=../data-repo/assets\n'
+      'DATA_DIR=../data-repo/data\nASSETS_DIR=../data-repo/assets\n',
     );
     const result = loadProjectEnv('development', root);
     assert.equal(result.dataDir, path.resolve(root, '../data-repo/data'));

@@ -14,6 +14,6 @@ export function useTierListChanges() {
   return useDataFetch<ChangesFile>(
     path,
     {},
-    parseObjectRecord<ChangesFile[string]>
+    parseObjectRecord<ChangesFile[string]>,
   );
 }

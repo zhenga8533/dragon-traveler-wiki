@@ -26,18 +26,14 @@ export function useDailyGameState<T extends { date: string }>(
   storageKey: string,
   todayStr: string,
   freshState: (date: string) => T,
-  isValid: (value: unknown) => value is T
+  isValid: (value: unknown) => value is T,
 ) {
   const [state, setState] = useState<T>(() =>
-    readStoredJson(storageKey, freshState(todayStr), isValid)
+    readStoredJson(storageKey, freshState(todayStr), isValid),
   );
-
-  useEffect(() => {
-    if (state.date !== todayStr) {
-      setState(freshState(todayStr));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todayStr]);
+  if (state.date !== todayStr) {
+    setState(freshState(todayStr));
+  }
 
   useEffect(() => {
     writeStoredJson(storageKey, state);

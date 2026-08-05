@@ -1,11 +1,11 @@
 import SafeImage from '@/components/ui/SafeImage';
 import RichText from '@/components/common/RichText';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getWyrmSkillIcon } from '@/assets';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { Group, Paper, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 
 export default function SkillCard({
   wyrm,
@@ -19,7 +19,7 @@ export default function SkillCard({
   const iconSrc = getWyrmSkillIcon(wyrm.slug, skill.name);
 
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="md">
         <Group gap="md" wrap="nowrap" align="flex-start">
           {iconSrc && (
@@ -39,6 +39,6 @@ export default function SkillCard({
         </Group>
         <RichText text={skill.description} statusEffects={statusEffects} />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

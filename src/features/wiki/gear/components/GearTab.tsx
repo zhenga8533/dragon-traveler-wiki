@@ -8,12 +8,14 @@ import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
+import type { GearFilters } from '@/features/wiki/gear/filters';
 import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
@@ -31,6 +33,7 @@ import {
 interface GearTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   gear: Gear[];
   filtered: Gear[];
   viewMode: ViewMode;
@@ -45,19 +48,15 @@ interface GearTabProps {
   pageSize: number;
   pageSizeOptions: readonly number[];
   onPageSizeChange: (pageSize: number) => void;
-  filters: { search: string; types: GearType[]; qualities: Quality[] };
-  onFiltersChange: (filters: {
-    search: string;
-    types: GearType[];
-    qualities: Quality[];
-  }) => void;
-  emptyFilters: { search: string; types: GearType[]; qualities: Quality[] };
+  filters: GearFilters;
+  onFiltersChange: (filters: GearFilters) => void;
+  emptyFilters: GearFilters;
   filterGroups: ChipFilterGroup[];
   sortCol: string | null;
   sortDir: 'asc' | 'desc';
   onSort: (col: string) => void;
   pageItems: Gear[];
-  gearSetByName: Map<string, GearSet>;
+  gearSetBySlug: Map<string, GearSet>;
   accent: GradientPaletteAccents;
   statusEffects: StatusEffect[];
 }
@@ -65,6 +64,7 @@ interface GearTabProps {
 export default function GearTab({
   loading,
   error,
+  onRetry,
   gear,
   filtered,
   viewMode,
@@ -87,7 +87,7 @@ export default function GearTab({
   sortDir,
   onSort,
   pageItems,
-  gearSetByName,
+  gearSetBySlug,
   accent,
   statusEffects,
 }: GearTabProps) {
@@ -95,10 +95,18 @@ export default function GearTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load gear"
       hasData={gear.length > 0}
       emptyMessage="No gear data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode={viewMode}
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <FilteredListShell
         count={filtered.length}
@@ -149,7 +157,7 @@ export default function GearTab({
         gridContent={
           <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
             {pageItems.map((item) => {
-              const setData = gearSetByName.get(item.set);
+              const setData = gearSetBySlug.get(item.set);
               const setBonus = setData?.set_bonus ?? item.set_bonus;
               const iconSrc = getGearIcon(item.type, item.slug);
               return (
@@ -165,7 +173,7 @@ export default function GearTab({
                     <Group gap="xs" wrap="wrap">
                       <GearTypeTag type={item.type} />
                       <Badge variant="light" size="sm" color={accent.secondary}>
-                        {item.set}
+                        {setData?.name ?? item.set}
                       </Badge>
                       {setBonus && setBonus.quantity > 0 && (
                         <Badge
@@ -235,7 +243,7 @@ export default function GearTab({
               </Table.Thead>
               <Table.Tbody>
                 {pageItems.map((item) => {
-                  const setData = gearSetByName.get(item.set);
+                  const setData = gearSetBySlug.get(item.set);
                   const setBonus = setData?.set_bonus ?? item.set_bonus;
                   const iconSrc = getGearIcon(item.type, item.slug);
                   return (
@@ -259,8 +267,12 @@ export default function GearTab({
                         <GearTypeTag type={item.type} />
                       </Table.Td>
                       <Table.Td>
-                        <Badge variant="light" size="sm" color={accent.secondary}>
-                          {item.set}
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color={accent.secondary}
+                        >
+                          {setData?.name ?? item.set}
                         </Badge>
                       </Table.Td>
                       <Table.Td>

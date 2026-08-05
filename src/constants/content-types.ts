@@ -21,13 +21,13 @@ function warnInvalidContentType(rawValue: string, fallback: ContentType): void {
   warnedInvalidContentTypes.add(warningKey);
 
   console.warn(
-    `[content-type] Invalid value "${rawValue}". Falling back to "${fallback}".`
+    `[content-type] Invalid value "${rawValue}". Falling back to "${fallback}".`,
   );
 }
 
 export function normalizeContentType(
   value: string | null | undefined,
-  fallback: ContentType = DEFAULT_CONTENT_TYPE
+  fallback: ContentType = DEFAULT_CONTENT_TYPE,
 ): ContentType {
   const rawValue = (value || '').trim();
   const normalized = rawValue.toLowerCase();
@@ -53,13 +53,13 @@ export function normalizeContentType(
 
 export function getContentTypeColor(
   value: string | null | undefined,
-  fallback: ContentType = 'All'
+  fallback: ContentType = 'All',
 ): string {
   return CONTENT_TYPE_COLOR[normalizeContentType(value, fallback)];
 }
 
 export function normalizeContentTypeFilters(
-  values: readonly string[] | null | undefined
+  values: readonly string[] | null | undefined,
 ): ContentType[] {
   if (!values || values.length === 0) return [];
   return [
@@ -69,7 +69,7 @@ export function normalizeContentTypeFilters(
 
 export function matchesContentTypeFilters(
   value: string | null | undefined,
-  selectedFilters: readonly string[] | null | undefined
+  selectedFilters: readonly string[] | null | undefined,
 ): boolean {
   const normalizedFilters = normalizeContentTypeFilters(selectedFilters);
   if (normalizedFilters.length === 0) {

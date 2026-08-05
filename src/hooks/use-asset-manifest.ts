@@ -24,6 +24,6 @@ export function useAssetManifest() {
   return useDataFetch<AssetManifest>(
     'assets/manifest.json',
     EMPTY_MANIFEST,
-    parseAssetManifest
+    parseAssetManifest,
   );
 }

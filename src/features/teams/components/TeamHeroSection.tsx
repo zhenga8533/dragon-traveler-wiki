@@ -9,13 +9,17 @@ import {
   getContentTypeColor,
   normalizeContentType,
 } from '@/constants/content-types';
-import { GLASS_BORDER, GLASS_ICON_BG, getLoreGlassStyles } from '@/constants/glass';
+import {
+  GLASS_BORDER,
+  GLASS_ICON_BG,
+  getLoreGlassStyles,
+} from '@/constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -32,7 +36,6 @@ import {
   Button,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
@@ -40,7 +43,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCreate, IoTrash } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export function TeamHeroSection({
   team,
@@ -143,29 +146,15 @@ export function TeamHeroSection({
           </Group>
 
           {team.description && (
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
-            >
+            <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
               <Text size="sm" lh={1.6}>
                 {team.description}
               </Text>
-            </Paper>
+            </StaticSurface>
           )}
 
           {factionInfo && (
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
-            >
+            <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
               <Stack gap="sm">
                 <Title order={2} size="h3">
                   Faction Overview
@@ -194,12 +183,7 @@ export function TeamHeroSection({
                               to={`/artifacts/${artifactSlug}`}
                               style={{ textDecoration: 'none' }}
                             >
-                              <Paper
-                                p="sm"
-                                radius="md"
-                                withBorder
-                                {...getCardHoverProps({ interactive: true })}
-                              >
+                              <InteractiveSurface component="div" p="sm">
                                 <Group
                                   gap="sm"
                                   wrap="nowrap"
@@ -274,7 +258,7 @@ export function TeamHeroSection({
                                     Artifact info unavailable
                                   </Text>
                                 )}
-                              </Paper>
+                              </InteractiveSurface>
                             </Link>
                           </Tooltip>
                         );
@@ -283,7 +267,7 @@ export function TeamHeroSection({
                   </Stack>
                 )}
               </Stack>
-            </Paper>
+            </StaticSurface>
           )}
         </Stack>
       </Container>

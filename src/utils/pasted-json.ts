@@ -4,7 +4,7 @@ import { isRecord } from './type-guards';
 export function resolvePastedPatch<TEntry>(
   value: unknown,
   isEntryLike: (item: unknown) => item is TEntry,
-  entriesKey: string
+  entriesKey: string,
 ): Record<string, unknown> | null {
   if (Array.isArray(value)) {
     if (value.every(isEntryLike)) {

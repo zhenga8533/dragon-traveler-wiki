@@ -1,9 +1,5 @@
 import { STORAGE_KEY } from '@/constants/ui';
-import {
-  createContext,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useState, type ReactNode } from 'react';
 
 export interface CharacterOwnershipContextValue {
   /** Map of character identity key → owned star level value. Absent key = not owned. */
@@ -49,7 +45,9 @@ export const CharacterOwnershipContext =
   });
 
 // Migrate ownership keys from the old "slug__quality" format to plain slug.
-function migrateOwnershipKeys(data: Record<string, string>): Record<string, string> {
+function migrateOwnershipKeys(
+  data: Record<string, string>,
+): Record<string, string> {
   const migrated: Record<string, string> = {};
   let changed = false;
   for (const [key, value] of Object.entries(data)) {
@@ -64,7 +62,7 @@ function migrateOwnershipKeys(data: Record<string, string>): Record<string, stri
   if (changed) {
     window.localStorage.setItem(
       STORAGE_KEY.CHARACTER_OWNERSHIP,
-      JSON.stringify(migrated)
+      JSON.stringify(migrated),
     );
   }
   return migrated;
@@ -76,11 +74,7 @@ function loadOwnedFromStorage(): Record<string, string> {
     const raw = window.localStorage.getItem(STORAGE_KEY.CHARACTER_OWNERSHIP);
     if (!raw) return {};
     const parsed = JSON.parse(raw);
-    if (
-      typeof parsed !== 'object' ||
-      parsed === null ||
-      Array.isArray(parsed)
-    )
+    if (typeof parsed !== 'object' || parsed === null || Array.isArray(parsed))
       return {};
     return migrateOwnershipKeys(parsed as Record<string, string>);
   } catch {
@@ -105,23 +99,21 @@ export function CharacterOwnershipProvider({
 }: {
   children: ReactNode;
 }) {
-  const [ownedCharacters, setOwnedCharacters] = useState<Record<string, string>>(
-    () => loadOwnedFromStorage()
-  );
-  const [characterTrackingEnabled, setCharacterTrackingEnabledState] = useState<boolean>(
-    () => loadBoolPref(STORAGE_KEY.UI_CHARACTER_TRACKING_ENABLED, true)
-  );
-  const [grayUnowned, setGrayUnownedState] = useState<boolean>(
-    () => loadGrayUnownedFromStorage()
+  const [ownedCharacters, setOwnedCharacters] = useState<
+    Record<string, string>
+  >(() => loadOwnedFromStorage());
+  const [characterTrackingEnabled, setCharacterTrackingEnabledState] =
+    useState<boolean>(() =>
+      loadBoolPref(STORAGE_KEY.UI_CHARACTER_TRACKING_ENABLED, true),
+    );
+  const [grayUnowned, setGrayUnownedState] = useState<boolean>(() =>
+    loadGrayUnownedFromStorage(),
   );
   const [showCharacterTiers, setShowCharacterTiersState] = useState<boolean>(
-    () => loadBoolPref(STORAGE_KEY.UI_SHOW_CHARACTER_TIERS, true)
+    () => loadBoolPref(STORAGE_KEY.UI_SHOW_CHARACTER_TIERS, true),
   );
 
-  const setCharacterStarLevel = (
-    identityKey: string,
-    value: string | null
-  ) => {
+  const setCharacterStarLevel = (identityKey: string, value: string | null) => {
     setOwnedCharacters((prev) => {
       const next = { ...prev };
       if (value === null) {
@@ -131,7 +123,7 @@ export function CharacterOwnershipProvider({
       }
       window.localStorage.setItem(
         STORAGE_KEY.CHARACTER_OWNERSHIP,
-        JSON.stringify(next)
+        JSON.stringify(next),
       );
       return next;
     });
@@ -147,7 +139,7 @@ export function CharacterOwnershipProvider({
     setCharacterTrackingEnabledState(value);
     window.localStorage.setItem(
       STORAGE_KEY.UI_CHARACTER_TRACKING_ENABLED,
-      String(value)
+      String(value),
     );
   };
 
@@ -158,7 +150,10 @@ export function CharacterOwnershipProvider({
 
   const setShowCharacterTiers = (value: boolean) => {
     setShowCharacterTiersState(value);
-    window.localStorage.setItem(STORAGE_KEY.UI_SHOW_CHARACTER_TIERS, String(value));
+    window.localStorage.setItem(
+      STORAGE_KEY.UI_SHOW_CHARACTER_TIERS,
+      String(value),
+    );
   };
 
   return (

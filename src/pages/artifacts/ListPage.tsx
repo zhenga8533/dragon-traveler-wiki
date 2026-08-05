@@ -2,11 +2,14 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
@@ -15,18 +18,20 @@ import {
   ARTIFACT_EFFECT_ARRAY_FIELDS,
   ARTIFACT_FIELDS,
 } from '@/features/wiki/artifacts/form-fields';
-import { QUALITY_ORDER } from '@/constants/quality';
 import {
-  getMinWidthStyle,
-} from '@/constants/styles';
+  compareArtifacts,
+  EMPTY_ARTIFACT_FILTERS,
+  matchesArtifactFilters,
+} from '@/features/wiki/artifacts/filters';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import type { Quality } from '@/types/quality';
 import {
-  applyDir,
-  useFilteredPageData,
-  useGradientAccent,
-} from '@/hooks';
+  useArtifacts,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useFilteredPageData, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {
   Badge,
@@ -40,22 +45,9 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 
-interface ArtifactFilters {
-  search: string;
-}
-
-const EMPTY_FILTERS: ArtifactFilters = {
-  search: '',
-};
-
 export default function Artifacts() {
   const { accent } = useGradientAccent();
-  const {
-    data: artifacts,
-    loading,
-    error,
-    retry,
-  } = useArtifacts();
+  const { data: artifacts, loading, error, retry } = useArtifacts();
   const { data: statusEffects } = useStatusEffects();
   const {
     filters,
@@ -78,49 +70,40 @@ export default function Artifacts() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(artifacts, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_ARTIFACT_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.ARTIFACT_FILTERS,
       viewMode: STORAGE_KEY.ARTIFACT_VIEW_MODE,
       sort: STORAGE_KEY.ARTIFACT_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (a, filters) => {
-      if (
-        filters.search &&
-        !a.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          cmp =
-            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-        } else if (col === 'size') {
-          cmp = a.rows * a.columns - b.rows * b.columns;
-        } else if (col === 'treasures') {
-          cmp = b.treasures.length - a.treasures.length;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: quality > name
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
-      if (qA !== qB) return qA - qB;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesArtifactFilters,
+    sortFn: compareArtifacts,
   });
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(artifacts),
-    [artifacts]
+    [artifacts],
   );
+  const filterGroups: ChipFilterGroup[] = useMemo(() => {
+    const footprints = [
+      ...new Set(
+        artifacts.map((artifact) => `${artifact.rows}x${artifact.columns}`),
+      ),
+    ].sort((left, right) => {
+      const [leftRows, leftColumns] = left.split('x').map(Number);
+      const [rightRows, rightColumns] = right.split('x').map(Number);
+      return (
+        leftColumns * leftRows - rightColumns * rightRows ||
+        leftColumns - rightColumns ||
+        leftRows - rightRows
+      );
+    });
+    return [
+      createQualityFilterGroup(),
+      { key: 'footprints', label: 'Footprint', options: footprints },
+    ];
+  }, [artifacts]);
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -145,7 +128,14 @@ export default function Artifacts() {
           errorTitle="Could not load artifacts"
           hasData={artifacts.length > 0}
           emptyMessage="No artifact data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}
@@ -158,6 +148,21 @@ export default function Artifacts() {
             onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
+                groups={filterGroups}
+                selected={{
+                  qualities: filters.qualities,
+                  footprints: filters.footprints,
+                }}
+                onChange={(key, values) => {
+                  if (key === 'qualities') {
+                    setFilters({
+                      ...filters,
+                      qualities: values as Quality[],
+                    });
+                    return;
+                  }
+                  setFilters({ ...filters, footprints: values });
+                }}
                 onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
@@ -182,7 +187,9 @@ export default function Artifacts() {
                       to={`/artifacts/${artifact.slug}`}
                       title={artifact.name}
                       imageSrc={iconSrc}
-                      titleAccessory={<QualityIcon quality={artifact.quality} />}
+                      titleAccessory={
+                        <QualityIcon quality={artifact.quality} />
+                      }
                       metadata={
                         <Group gap="xs">
                           <Badge

@@ -8,13 +8,15 @@ import { useEffect, useState } from 'react';
  */
 export function useInputCommit(
   externalValue: string,
-  onCommit: (value: string) => void
+  onCommit: (value: string) => void,
 ): [string, Dispatch<SetStateAction<string>>] {
   const [inputValue, setInputValue] = useState(externalValue);
-
-  useEffect(() => {
+  const [committedExternalValue, setCommittedExternalValue] =
+    useState(externalValue);
+  if (externalValue !== committedExternalValue) {
+    setCommittedExternalValue(externalValue);
     setInputValue(externalValue);
-  }, [externalValue]);
+  }
 
   useEffect(() => {
     if (inputValue === externalValue) return;

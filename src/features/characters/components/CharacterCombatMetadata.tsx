@@ -39,7 +39,11 @@ export default function CharacterCombatMetadata({
         </Badge>
       )}
       {attackRange && (
-        <Badge variant="light" color={ATTACK_RANGE_COLORS[attackRange]} size="md">
+        <Badge
+          variant="light"
+          color={ATTACK_RANGE_COLORS[attackRange]}
+          size="md"
+        >
           {displayLabel(attackRange)}
         </Badge>
       )}

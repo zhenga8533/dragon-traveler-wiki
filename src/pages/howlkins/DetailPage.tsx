@@ -4,16 +4,19 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import { QUALITY_ORDER } from '@/constants/quality';
 import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { useGoldenAllianceChanges, useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useGoldenAllianceChanges,
+  useGoldenAlliances,
+  useHowlkins,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
-import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 import {
   Badge,
   Box,
@@ -25,7 +28,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function GoldenAllianceDetailPage() {
   const { accent } = useGradientAccent();
@@ -39,7 +42,7 @@ export default function GoldenAllianceDetailPage() {
 
   const alliance = useMemo(
     () => findEntityByParam(alliances, allianceParam, (a) => a.slug) ?? null,
-    [alliances, allianceParam]
+    [alliances, allianceParam],
   );
 
   useEffect(() => {
@@ -57,25 +60,26 @@ export default function GoldenAllianceDetailPage() {
   const sortedMembers = useMemo(() => {
     if (!alliance) return [];
     return [...alliance.howlkins].sort((a, b) => {
-      const qA = QUALITY_ORDER.indexOf(
-        howlkinMap.get(a)?.quality ?? ('' as Quality)
+      const qualityComparison = compareQuality(
+        howlkinMap.get(a)?.quality,
+        howlkinMap.get(b)?.quality,
       );
-      const qB = QUALITY_ORDER.indexOf(
-        howlkinMap.get(b)?.quality ?? ('' as Quality)
-      );
-      if (qA !== qB) return qA - qB;
+      if (qualityComparison !== 0) return qualityComparison;
       return a.localeCompare(b);
     });
   }, [alliance, howlkinMap]);
 
   const orderedAlliances = useMemo(
     () => [...alliances].sort((a, b) => a.slug.localeCompare(b.slug)),
-    [alliances]
+    [alliances],
   );
 
   const allianceIndex = useMemo(
-    () => alliance ? orderedAlliances.findIndex((a) => a.slug === alliance.slug) : -1,
-    [orderedAlliances, alliance]
+    () =>
+      alliance
+        ? orderedAlliances.findIndex((a) => a.slug === alliance.slug)
+        : -1,
+    [orderedAlliances, alliance],
   );
 
   const previousAlliance =
@@ -86,11 +90,7 @@ export default function GoldenAllianceDetailPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!alliance) {
@@ -205,7 +205,6 @@ export default function GoldenAllianceDetailPage() {
               </Table>
             </Box>
           </Stack>
-
         </Stack>
 
         <ChangeHistory history={changesData[alliance.slug]} />

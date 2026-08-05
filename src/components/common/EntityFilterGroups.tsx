@@ -25,18 +25,17 @@ interface BaseFilterGroupOptions {
   label?: string;
 }
 
-interface OrderedFilterGroupOptions<
-  T extends string,
-> extends BaseFilterGroupOptions {
+interface OrderedFilterGroupOptions<T extends string>
+  extends BaseFilterGroupOptions {
   options?: readonly T[];
 }
 
 export function orderFilterOptions<T extends string>(
   options: Iterable<T>,
-  preferredOrder: readonly T[]
+  preferredOrder: readonly T[],
 ): T[] {
   const orderIndex = new Map(
-    preferredOrder.map((value, index) => [value, index] as const)
+    preferredOrder.map((value, index) => [value, index] as const),
   );
 
   return [...new Set(options)].sort((left, right) => {
@@ -109,7 +108,8 @@ export function createFactionFilterGroup({
     key,
     label,
     options: [...options],
-    labelFn: (value: string) => FACTION_SLUG_TO_NAME[value as FactionSlug] ?? value,
+    labelFn: (value: string) =>
+      FACTION_SLUG_TO_NAME[value as FactionSlug] ?? value,
     icon: (value: string) => {
       const iconSrc =
         FACTION_ICON_MAP[value as FactionSlug] ??

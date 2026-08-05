@@ -2,7 +2,6 @@
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -18,13 +17,20 @@ import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/status-effect-colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import {
+  compareStatusEffects,
+  EMPTY_STATUS_EFFECT_FILTERS,
+  matchesStatusEffectFilters,
+} from '@/features/wiki/status-effects/filters';
+import { useFilteredPageData, useSearchParamFilter } from '@/hooks';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { getLatestTimestamp } from '@/utils';
 
@@ -64,23 +70,8 @@ const STATUS_EFFECT_FIELDS: FieldDef[] = [
   },
 ];
 
-interface StatusEffectFilters {
-  search: string;
-  types: StatusEffectType[];
-}
-
-const EMPTY_FILTERS: StatusEffectFilters = {
-  search: '',
-  types: [],
-};
-
 export default function StatusEffects() {
-  const {
-    data: effects,
-    loading,
-    error,
-    retry,
-  } = useStatusEffects();
+  const { data: effects, loading, error, retry } = useStatusEffects();
   const {
     filters,
     setFilters,
@@ -102,54 +93,30 @@ export default function StatusEffects() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(effects, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_STATUS_EFFECT_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.STATUS_EFFECT_FILTERS,
       viewMode: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
       sort: STORAGE_KEY.STATUS_EFFECT_SORT,
     },
     defaultViewMode: 'list',
-    filterFn: (effect, filters) => {
-      if (
-        filters.search &&
-        !effect.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filters.types.length > 0 && !filters.types.includes(effect.type)) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'type') {
-          cmp = STATE_ORDER.indexOf(a.type) - STATE_ORDER.indexOf(b.type);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: type > name
-      const typeIndexA = STATE_ORDER.indexOf(a.type);
-      const typeIndexB = STATE_ORDER.indexOf(b.type);
-      if (typeIndexA !== typeIndexB) return typeIndexA - typeIndexB;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesStatusEffectFilters,
+    sortFn: compareStatusEffects,
   });
   useSearchParamFilter(setFilters);
 
   const filterGroups = useMemo(() => {
     const typeSet = new Set(effects.map((e) => e.type));
     const options = STATE_ORDER.filter((t) => typeSet.has(t));
-    const extra = [...typeSet].filter((t) => !STATE_ORDER.includes(t as StatusEffectType)).sort();
+    const extra = [...typeSet]
+      .filter((t) => !STATE_ORDER.includes(t as StatusEffectType))
+      .sort();
     return [{ key: 'types', label: 'Type', options: [...options, ...extra] }];
   }, [effects]);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
-    [effects]
+    [effects],
   );
 
   return (
@@ -174,7 +141,14 @@ export default function StatusEffects() {
           errorTitle="Could not load status effects"
           hasData={effects.length > 0}
           emptyMessage="No status effect data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}
@@ -212,15 +186,12 @@ export default function StatusEffects() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {
-                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
+                  const iconSrc =
+                    effect.icon !== false
+                      ? getStatusEffectIcon(effect.slug, effect.type)
+                      : undefined;
                   return (
-                    <Paper
-                      key={effect.name}
-                      p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
-                    >
+                    <StaticSurface key={effect.name} p="sm">
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           <SafeImage
@@ -252,7 +223,7 @@ export default function StatusEffects() {
                           </Text>
                         )}
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   );
                 })}
               </SimpleGrid>
@@ -285,7 +256,10 @@ export default function StatusEffects() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((effect) => {
-                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
+                      const iconSrc =
+                        effect.icon !== false
+                          ? getStatusEffectIcon(effect.slug, effect.type)
+                          : undefined;
                       return (
                         <Table.Tr key={effect.name}>
                           <Table.Td>

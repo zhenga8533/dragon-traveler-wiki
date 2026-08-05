@@ -4,13 +4,12 @@ import {
   SUPPORTED_LOCALES,
   type SupportedLocale,
 } from '@/utils/data-paths';
+import { STORAGE_KEY } from '@/constants/ui';
 import { LocaleContext, type LocaleContextValue } from './locale';
-
-const STORAGE_KEY = 'dragon-traveler-wiki:locale';
 
 function readStoredLocale(): SupportedLocale {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY.LOCALE);
     if (stored && (SUPPORTED_LOCALES as readonly string[]).includes(stored)) {
       return stored as SupportedLocale;
     }
@@ -25,7 +24,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const setLocale = useCallback((next: SupportedLocale) => {
     try {
-      localStorage.setItem(STORAGE_KEY, next);
+      localStorage.setItem(STORAGE_KEY.LOCALE, next);
     } catch {
       // ignore
     }
@@ -34,7 +33,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<LocaleContextValue>(
     () => ({ locale, setLocale }),
-    [locale, setLocale]
+    [locale, setLocale],
   );
 
   return (

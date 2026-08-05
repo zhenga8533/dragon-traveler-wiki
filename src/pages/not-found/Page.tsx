@@ -8,7 +8,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoGift, IoHome, IoPeople, IoTrophy } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { IMAGE_SIZE } from '@/constants/ui';
 
 const QUICK_LINKS = [

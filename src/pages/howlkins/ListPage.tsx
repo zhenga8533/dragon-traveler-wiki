@@ -17,30 +17,27 @@ import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
 import HowlkinsTab from '@/features/wiki/howlkins/components/HowlkinsTab';
 import GoldenAlliancesTab from '@/features/wiki/howlkins/components/GoldenAlliancesTab';
-import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
-import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  applyDir,
+  compareHowlkins,
+  EMPTY_HOWLKIN_FILTERS,
+  matchesHowlkinFilters,
+} from '@/features/wiki/howlkins/filters';
+import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
+import {
+  useGoldenAlliances,
+  useHowlkins,
+} from '@/features/wiki/hooks/use-wiki-data';
+import {
   useFilteredPageData,
   useGradientAccent,
   useSearchParamFilter,
   useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-
-interface HowlkinFilters {
-  search: string;
-  qualities: Quality[];
-}
-
-const EMPTY_FILTERS: HowlkinFilters = {
-  search: '',
-  qualities: [],
-};
 
 export default function Howlkins() {
   const { accent } = useGradientAccent();
@@ -60,7 +57,18 @@ export default function Howlkins() {
     data: goldenAlliances,
     loading: alliancesLoading,
     error: alliancesError,
+    retry: retryAlliances,
   } = useGoldenAlliances();
+
+  const howlkinToAlliance = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const alliance of goldenAlliances) {
+      for (const slug of alliance.howlkins) {
+        map.set(slug, alliance.slug);
+      }
+    }
+    return map;
+  }, [goldenAlliances]);
 
   const {
     filters,
@@ -83,52 +91,23 @@ export default function Howlkins() {
     pageSizeOptions: howlkinPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(howlkins, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_HOWLKIN_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.HOWLKIN_FILTERS,
       viewMode: STORAGE_KEY.HOWLKIN_VIEW_MODE,
       sort: STORAGE_KEY.HOWLKIN_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (howlkin, filters) => {
-      if (
-        filters.search &&
-        !howlkin.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(howlkin.quality)
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          cmp =
-            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: quality > name
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
-      if (qA !== qB) return qA - qB;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: (howlkin, currentFilters) =>
+      matchesHowlkinFilters(howlkin, currentFilters, howlkinToAlliance),
+    sortFn: compareHowlkins,
   });
   useSearchParamFilter(setFilters);
 
   const qualityOptions = useMemo(() => {
     return orderFilterOptions(
       howlkins.flatMap((howlkin) => (howlkin.quality ? [howlkin.quality] : [])),
-      QUALITY_ORDER
+      QUALITY_ORDER,
     );
   }, [howlkins]);
 
@@ -139,12 +118,12 @@ export default function Howlkins() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(howlkins),
-    [howlkins]
+    [howlkins],
   );
 
   const mostRecentAllianceUpdate = useMemo(
     () => getLatestTimestamp(goldenAlliances),
-    [goldenAlliances]
+    [goldenAlliances],
   );
 
   const howlkinMap = useMemo(() => {
@@ -155,21 +134,11 @@ export default function Howlkins() {
     return map;
   }, [howlkins]);
 
-  const howlkinToAlliance = useMemo(() => {
-    const map = new Map<string, string>();
-    for (const alliance of goldenAlliances) {
-      for (const slug of alliance.howlkins) {
-        map.set(slug, alliance.slug);
-      }
-    }
-    return map;
-  }, [goldenAlliances]);
-
   const allianceSearchFn = useCallback(
     (alliance: GoldenAlliance, query: string) =>
       alliance.name.toLowerCase().includes(query) ||
       alliance.howlkins.some((h) => h.toLowerCase().includes(query)),
-    []
+    [],
   );
 
   const {
@@ -202,7 +171,10 @@ export default function Howlkins() {
         >
           {activeTab === 'golden-alliances' ? (
             <Group gap="xs">
-              <ExportButton data={goldenAlliances} filename="golden-alliances.json" />
+              <ExportButton
+                data={goldenAlliances}
+                filename="golden-alliances.json"
+              />
               <SuggestModal
                 buttonLabel="Suggest"
                 modalTitle="Suggest a New Golden Alliance"
@@ -233,9 +205,14 @@ export default function Howlkins() {
 
           <Tabs.Panel value="howlkins" pt="md">
             <HowlkinsTab
-              loading={howlkinsLoading}
-              error={howlkinsError}
-              onRetry={retryHowlkins}
+              loading={howlkinsLoading || alliancesLoading}
+              error={howlkinsError || alliancesError}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [howlkinsError, retryHowlkins],
+                  [alliancesError, retryAlliances],
+                )
+              }
               howlkins={howlkins}
               filtered={filtered}
               viewMode={viewMode}
@@ -266,6 +243,7 @@ export default function Howlkins() {
             <GoldenAlliancesTab
               loading={alliancesLoading}
               error={alliancesError}
+              onRetry={retryAlliances}
               goldenAlliances={goldenAlliances}
               search={allianceSearch}
               onSearchChange={setAllianceSearch}

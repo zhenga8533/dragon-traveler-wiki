@@ -15,7 +15,7 @@ export function safeDecodeURIComponent(value: string): string {
  */
 export function toEntitySlug(
   value: string,
-  { allowPlus = false }: { allowPlus?: boolean } = {}
+  { allowPlus = false }: { allowPlus?: boolean } = {},
 ): string {
   const charPattern = allowPlus ? /[^a-z0-9_+]/g : /[^a-z0-9_]/g;
   return safeDecodeURIComponent(value)
@@ -33,7 +33,7 @@ export function findEntityByParam<T>(
   items: T[],
   param: string | undefined,
   getName: (item: T) => string,
-  getAliases?: (item: T) => Array<string | null | undefined>
+  getAliases?: (item: T) => Array<string | null | undefined>,
 ): T | null {
   if (!param) return null;
   const slug = toEntitySlug(param);
@@ -42,15 +42,15 @@ export function findEntityByParam<T>(
       (item) =>
         toEntitySlug(getName(item)) === slug ||
         getAliases?.(item).some(
-          (alias) => Boolean(alias) && toEntitySlug(alias ?? '') === slug
-        )
+          (alias) => Boolean(alias) && toEntitySlug(alias ?? '') === slug,
+        ),
     ) ?? null
   );
 }
 
 export function shouldRedirectToEntitySlug(
   param: string | undefined,
-  entityName: string | undefined
+  entityName: string | undefined,
 ): boolean {
   if (!param || !entityName) return false;
   const incoming = safeDecodeURIComponent(param).trim();

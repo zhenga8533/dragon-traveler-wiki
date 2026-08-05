@@ -2,26 +2,23 @@ import {
   Badge,
   Box,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
   Tooltip,
 } from '@mantine/core';
 import { IoFlash } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TeamMember } from '@/features/teams/types';
-import {
-  resolveCharacterByNameAndQuality,
-} from '@/features/characters/utils/character-route';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
@@ -34,7 +31,7 @@ const BG_ROW_HINTS = [
 
 function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
   const grid: (TeamMember | null)[][] = Array.from({ length: 3 }, () =>
-    Array(3).fill(null)
+    Array(3).fill(null),
   );
   const unpositioned: TeamMember[] = [];
 
@@ -81,7 +78,7 @@ export function BattlefieldGrid({
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (
     characterName: string,
-    characterQuality?: string | null
+    characterQuality?: string | null,
   ) => string;
   factionColor: string;
   isDark: boolean;
@@ -145,20 +142,16 @@ export function BattlefieldGrid({
             {row.map((member, colIdx) => {
               if (!member) {
                 return (
-                  <Paper
+                  <StaticSurface
                     key={colIdx}
-                    radius="md"
-                    withBorder
-                    {...getCardHoverProps({
-                      style: {
-                        minHeight: isMobile ? 72 : 80,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        opacity: 0.25,
-                        borderStyle: 'dashed',
-                      },
-                    })}
+                    style={{
+                      minHeight: isMobile ? 72 : 80,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: 0.25,
+                      borderStyle: 'dashed',
+                    }}
                   >
                     <Stack gap={2} align="center">
                       <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
@@ -168,7 +161,7 @@ export function BattlefieldGrid({
                         —
                       </Text>
                     </Stack>
-                  </Paper>
+                  </StaticSurface>
                 );
               }
 
@@ -176,25 +169,19 @@ export function BattlefieldGrid({
                 member.character_slug,
                 member.character_quality,
                 charMap,
-                characterByIdentity
+                characterByIdentity,
               );
               const routePath = getCharacterPath(
                 member.character_slug,
-                member.character_quality
+                member.character_quality,
               );
               const resolvedName = character?.name ?? member.character_slug;
 
               return (
-                <Paper
+                <StaticSurface
                   key={colIdx}
                   p={isMobile ? 'xs' : 'sm'}
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps({
-                    style: {
-                      borderTop: `3px solid ${accentColor}`,
-                    },
-                  })}
+                  style={{ borderTop: `3px solid ${accentColor}` }}
                 >
                   <Stack gap={6} align="center">
                     <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
@@ -209,7 +196,11 @@ export function BattlefieldGrid({
                           borderWidth={3}
                           link
                           routePath={routePath}
-                          fallbackSrc={character === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
+                          fallbackSrc={
+                            character === null
+                              ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?`
+                              : undefined
+                          }
                         />
                       </Tooltip>
                       {(member.note?.trim() || '').length > 0 && (
@@ -296,7 +287,7 @@ export function BattlefieldGrid({
                       </Group>
                     )}
                   </Stack>
-                </Paper>
+                </StaticSurface>
               );
             })}
           </SimpleGrid>

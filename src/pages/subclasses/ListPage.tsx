@@ -1,372 +1,96 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
-import { getSubclassIcon } from '@/assets';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import { createClassFilterGroup } from '@/components/common/EntityFilterGroups';
-import FilteredListShell from '@/components/layout/FilteredListShell';
+import { Container, Group, Stack, Tabs } from '@mantine/core';
+import { useMemo } from 'react';
 import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import SubclassCatalogTab from '@/features/wiki/subclasses/components/SubclassCatalogTab';
+import SubclassUsageTab from '@/features/wiki/subclasses/components/SubclassUsageTab';
 import { SUBCLASS_FIELDS } from '@/features/wiki/subclasses/form-fields';
-import RichText from '@/components/common/RichText';
-import SortableTh from '@/components/ui/SortableTh';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import ClassTag from '@/components/ui/ClassTag';
-import type { CharacterClass } from '@/features/characters/types';
-import TierBadge from '@/components/ui/TierBadge';
-import { useStatusEffects, useSubclasses } from '@/features/wiki/hooks/use-wiki-data';
+import { useSubclassCatalog } from '@/features/wiki/subclasses/hooks/use-subclass-catalog';
+import { useSubclassUsage } from '@/features/wiki/subclasses/hooks/use-subclass-usage';
 import {
-  applyDir,
-  useFilteredPageData,
-  useGradientAccent,
-  useSearchParamFilter,
-} from '@/hooks';
+  useStatusEffects,
+  useSubclasses,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useGradientAccent, useMobileTooltip, useTabParam } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { getClassRank } from '@/utils/class-order';
-import {
-  Badge,
-  Container,
-  Group,
-  Paper,
-  ScrollArea,
-  SimpleGrid,
-  Stack,
-  Table,
-  Text,
-} from '@mantine/core';
-import { useMemo } from 'react';
-
-interface SubclassFilters {
-  search: string;
-  classes: CharacterClass[];
-  tiers: string[];
-}
-
-const EMPTY_FILTERS: SubclassFilters = {
-  search: '',
-  classes: [],
-  tiers: [],
-};
-
-const FILTER_GROUPS: ChipFilterGroup[] = [
-  createClassFilterGroup(),
-  {
-    key: 'tiers',
-    label: 'Tier',
-    options: ['1', '2', '3'],
-  },
-];
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 
 export default function Subclasses() {
   const { accent } = useGradientAccent();
+  const tooltipProps = useMobileTooltip();
+  const [activeTab, handleTabChange] = useTabParam('tab', 'subclasses', [
+    'subclasses',
+    'usage',
+  ]);
+  const { data: subclasses, loading, error, retry } = useSubclasses();
   const {
-    data: subclasses,
-    loading,
-    error,
-    retry,
-  } = useSubclasses();
+    data: characters,
+    loading: charactersLoading,
+    error: charactersError,
+    retry: retryCharacters,
+  } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
-
-  const {
-    filters,
-    setFilters,
-    resetFilters,
-    filterOpen,
-    toggleFilter,
-    viewMode,
-    setViewMode,
-    sortCol,
-    sortDir,
-    handleSort,
-    pageItems,
-    filtered,
-    page,
-    setPage,
-    totalPages,
-    pageSize,
-    setPageSize,
-    pageSizeOptions,
-    activeFilterCount,
-  } = useFilteredPageData(subclasses, {
-    emptyFilters: EMPTY_FILTERS,
-    storageKeys: {
-      filters: STORAGE_KEY.SUBCLASS_FILTERS,
-      viewMode: STORAGE_KEY.SUBCLASS_VIEW_MODE,
-      sort: STORAGE_KEY.SUBCLASS_SORT,
-    },
-    defaultViewMode: 'list',
-    filterFn: (item, filters) => {
-      if (
-        filters.search &&
-        !item.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (filters.classes.length > 0 && !filters.classes.includes(item.class)) {
-        return false;
-      }
-      if (
-        filters.tiers.length > 0 &&
-        !filters.tiers.includes(String(item.tier))
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'class') {
-          cmp = getClassRank(a.class) - getClassRank(b.class);
-        } else if (col === 'tier') {
-          cmp = a.tier - b.tier;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      const classCmp = getClassRank(a.class) - getClassRank(b.class);
-      if (classCmp !== 0) return classCmp;
-      if (a.tier !== b.tier) return a.tier - b.tier;
-      return a.name.localeCompare(b.name);
-    },
-  });
-  useSearchParamFilter(setFilters);
-
+  const catalog = useSubclassCatalog(subclasses);
+  const usage = useSubclassUsage(subclasses, characters);
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(subclasses),
-    [subclasses]
+    [subclasses],
   );
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Subclasses" timestamp={mostRecentUpdate}>
-          <Group gap="xs">
-            <ExportButton data={subclasses} filename="subclasses.json" />
-            <SuggestModal
-              buttonLabel="Suggest"
-              modalTitle="Suggest a New Subclass"
-              issueTitle="[Subclass] New subclass suggestion"
-              fields={SUBCLASS_FIELDS}
-            />
-          </Group>
+          {activeTab !== 'usage' && (
+            <Group gap="xs">
+              <ExportButton data={subclasses} filename="subclasses.json" />
+              <SuggestModal
+                buttonLabel="Suggest"
+                modalTitle="Suggest a New Subclass"
+                issueTitle="[Subclass] New subclass suggestion"
+                fields={SUBCLASS_FIELDS}
+              />
+            </Group>
+          )}
         </ListPageHeader>
 
-        <ListPageShell
-          loading={loading}
-          error={error}
-          onRetry={retry}
-          errorTitle="Could not load subclasses"
-          hasData={subclasses.length > 0}
-          emptyMessage="No subclass data available yet."
-          skeletonCards={4}
-        >
-          <FilteredListShell
-            count={filtered.length}
-            noun="subclass"
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
-            filterCount={activeFilterCount}
-            filterOpen={filterOpen}
-            onFilterToggle={toggleFilter}
-            onResetFilters={resetFilters}
-            filterContent={
-              <EntityFilter
-                groups={FILTER_GROUPS}
-                selected={{ classes: filters.classes, tiers: filters.tiers }}
-                onChange={(key, values) => {
-                  if (key === 'classes') {
-                    setFilters({
-                      ...filters,
-                      classes: values as CharacterClass[],
-                    });
-                    return;
-                  }
-                  setFilters({ ...filters, tiers: values as string[] });
-                }}
-                onClear={resetFilters}
-                search={filters.search}
-                onSearchChange={(value) =>
-                  setFilters({ ...filters, search: value })
-                }
-                searchPlaceholder="Search by name..."
-              />
-            }
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-            pageSize={pageSize}
-            pageSizeOptions={pageSizeOptions}
-            onPageSizeChange={setPageSize}
-            gridContent={
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                {pageItems.map((item) => {
-                  const subclassIcon = getSubclassIcon(item.slug, item.class);
-                  return (
-                    <Paper
-                      key={item.name}
-                      p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
-                    >
-                      <Stack gap="xs">
-                        <Group gap="sm" wrap="nowrap">
-                          {subclassIcon && (
-                            <SafeImage
-                              src={subclassIcon}
-                              alt={item.name}
-                              w={IMAGE_SIZE.CARD_ICON_SM}
-                              h={IMAGE_SIZE.CARD_ICON_SM}
-                              fit="contain"
-                              loading="lazy"
-                            />
-                          )}
-                          <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
-                            <Text fw={600}>{item.name}</Text>
-                            <Group gap="xs" wrap="wrap">
-                              <ClassTag characterClass={item.class} size="xs" />
-                              <TierBadge
-                                tier={String(item.tier)}
-                                showPrefix
-                                size="xs"
-                                index={item.tier - 1}
-                              />
-                            </Group>
-                          </Stack>
-                        </Group>
+        <Tabs value={activeTab} onChange={handleTabChange}>
+          <Tabs.List>
+            <Tabs.Tab value="subclasses">Subclasses</Tabs.Tab>
+            <Tabs.Tab value="usage">Usage</Tabs.Tab>
+          </Tabs.List>
 
-                        {item.bonuses.length > 0 && (
-                          <Group gap="xs" wrap="wrap">
-                            {item.bonuses.map((bonus) => (
-                              <Badge
-                                key={bonus}
-                                variant="outline"
-                                size="xs"
-                                color={accent.secondary}
-                              >
-                                {bonus}
-                              </Badge>
-                            ))}
-                          </Group>
-                        )}
+          <Tabs.Panel value="subclasses" pt="md">
+            <SubclassCatalogTab
+              loading={loading}
+              error={error}
+              onRetry={retry}
+              subclasses={subclasses}
+              statusEffects={statusEffects}
+              accent={accent}
+              catalog={catalog}
+            />
+          </Tabs.Panel>
 
-                        <RichText
-                          text={item.effect}
-                          statusEffects={statusEffects}
-                        />
-                      </Stack>
-                    </Paper>
-                  );
-                })}
-              </SimpleGrid>
-            }
-            tableContent={
-              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={getMinWidthStyle(860)}>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Icon</Table.Th>
-                      <SortableTh
-                        sortKey="name"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Name
-                      </SortableTh>
-                      <SortableTh
-                        sortKey="class"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Class
-                      </SortableTh>
-                      <SortableTh
-                        sortKey="tier"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Tier
-                      </SortableTh>
-                      <Table.Th>Bonuses</Table.Th>
-                      <Table.Th>Effect</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {pageItems.map((item) => {
-                      const subclassIcon = getSubclassIcon(
-                        item.name,
-                        item.class
-                      );
-                      return (
-                        <Table.Tr key={item.name}>
-                          <Table.Td>
-                            {subclassIcon && (
-                              <SafeImage
-                                src={subclassIcon}
-                                alt={item.name}
-                                w={IMAGE_SIZE.CARD_ICON_SM}
-                                h={IMAGE_SIZE.CARD_ICON_SM}
-                                fit="contain"
-                                loading="lazy"
-                              />
-                            )}
-                          </Table.Td>
-                          <Table.Td>
-                            <Text fw={600} size="sm">
-                              {item.name}
-                            </Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <ClassTag characterClass={item.class} size="sm" />
-                          </Table.Td>
-                          <Table.Td>
-                            <TierBadge
-                              tier={String(item.tier)}
-                              showPrefix
-                              size="sm"
-                              index={item.tier - 1}
-                            />
-                          </Table.Td>
-                          <Table.Td className="table-badge-cell">
-                            <Group
-                              gap="xs"
-                              wrap="wrap"
-                              className="table-badge-list"
-                            >
-                              {item.bonuses.map((bonus) => (
-                                <Badge
-                                  key={bonus}
-                                  variant="outline"
-                                  size="xs"
-                                  color={accent.secondary}
-                                >
-                                  {bonus}
-                                </Badge>
-                              ))}
-                            </Group>
-                          </Table.Td>
-                          <Table.Td>
-                            <RichText
-                              text={item.effect}
-                              statusEffects={statusEffects}
-                            />
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
-                  </Table.Tbody>
-                </Table>
-              </ScrollArea>
-            }
-          />
-        </ListPageShell>
+          <Tabs.Panel value="usage" pt="md">
+            <SubclassUsageTab
+              loading={loading || charactersLoading}
+              error={error || charactersError}
+              onRetry={() =>
+                retryFailedDataSources(
+                  [error, retry],
+                  [charactersError, retryCharacters],
+                )
+              }
+              subclasses={subclasses}
+              usage={usage}
+              accent={accent}
+              tooltipProps={tooltipProps}
+            />
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
     </Container>
   );

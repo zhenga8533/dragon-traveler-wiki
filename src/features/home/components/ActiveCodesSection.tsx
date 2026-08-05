@@ -2,7 +2,6 @@ import {
   ActionIcon,
   CopyButton,
   Group,
-  Paper,
   Skeleton,
   Stack,
   Text,
@@ -10,7 +9,8 @@ import {
 } from '@mantine/core';
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useCodes } from '@/features/wiki/hooks/use-wiki-data';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
@@ -23,11 +23,22 @@ export default function ActiveCodesSection() {
 
   if (loading) {
     return (
-      <Stack gap="xs">
-        {[1, 2, 3, 4, 5].map((i) => (
-          <Skeleton key={i} height={40} radius="md" />
-        ))}
-      </Stack>
+      <LoadingRegion label="Loading active codes">
+        <Stack gap="xs">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <StaticSurface key={i} p="xs">
+              <Group justify="space-between" wrap="nowrap">
+                <Skeleton height={14} width={96} radius="sm" />
+                <Skeleton height={26} width={26} radius="md" />
+              </Group>
+              <Group gap={4} mt="xs">
+                <Skeleton height={18} width={54} radius="xl" />
+                <Skeleton height={18} width={62} radius="xl" />
+              </Group>
+            </StaticSurface>
+          ))}
+        </Stack>
+      </LoadingRegion>
     );
   }
 
@@ -42,13 +53,7 @@ export default function ActiveCodesSection() {
   return (
     <Stack gap="xs">
       {activeCodes.map((entry) => (
-        <Paper
-          key={entry.code}
-          p="xs"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
-        >
+        <StaticSurface key={entry.code} p="xs">
           <Group justify="space-between" wrap="nowrap">
             <Text ff="monospace" fw={500} size="sm" truncate>
               {entry.code}
@@ -85,7 +90,7 @@ export default function ActiveCodesSection() {
               ))}
             </Group>
           )}
-        </Paper>
+        </StaticSurface>
       ))}
     </Stack>
   );

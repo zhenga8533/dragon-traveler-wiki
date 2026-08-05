@@ -1,15 +1,14 @@
 import ResolvedHowlkinBadge from '@/components/ui/ResolvedHowlkinBadge';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import WyrmspellBadge from '@/components/ui/WyrmspellBadge';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { getMinWidthStyle } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import {
   Alert,
   Anchor,
-  Card,
   Container,
   Group,
-  Paper,
   ScrollArea,
   Stack,
   Table,
@@ -17,7 +16,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import GuideHeroCard from './components/GuideHeroCard';
+import GuideHeroCard from '@/features/guides/components/GuideHeroCard';
 
 const FACTION_GIFTS: {
   faction: string;
@@ -163,7 +162,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
 
 function QA({ q, children }: { q: string; children: React.ReactNode }) {
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <StaticSurface p="md">
       <Stack gap="xs">
         <Group align="flex-start" gap={6} wrap="nowrap">
           <Text fw={700}>Q:</Text>
@@ -185,7 +184,7 @@ function QA({ q, children }: { q: string; children: React.ReactNode }) {
           </Text>
         </Group>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -218,14 +217,13 @@ export default function BeginnerQA() {
           </Alert>
         </GuideHeroCard>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Summoning &amp; Characters</Title>
 
             <QA q="Which characters should I prioritize summoning?">
-              Go for at least 8 copies of{' '}
-              <CharacterTag slug="ifrit_ssr_plus" /> (AoE
-              attack, physical defense reduction) to reach Red 1★ for the
+              Go for at least 8 copies of <CharacterTag slug="ifrit_ssr_plus" />{' '}
+              (AoE attack, physical defense reduction) to reach Red 1★ for the
               powerful Level 4 passive. Then try to summon at least 1 copy of
               each limited character.
             </QA>
@@ -258,9 +256,9 @@ export default function BeginnerQA() {
               want to prioritize different characters.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Economy &amp; Shopping</Title>
 
@@ -301,9 +299,9 @@ export default function BeginnerQA() {
               resources available in each cycle, but feel free to save them.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Progression &amp; Mechanics</Title>
 
@@ -333,9 +331,9 @@ export default function BeginnerQA() {
               <br />• Healer: CD Reduction &gt; Healing Power &gt; HP.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Events &amp; Guilds</Title>
 
@@ -352,8 +350,7 @@ export default function BeginnerQA() {
               <ResolvedHowlkinBadge slug="pumpkin_knight" /> &gt;{' '}
               <WyrmspellBadge slug="agility_aura" /> &gt; Mythic Wyrm Spells
               &gt; <ResolvedHowlkinBadge slug="titan" /> ≥{' '}
-              <ResolvedHowlkinBadge slug="hydra" />{' '}
-              &gt; Mythic Artifacts.
+              <ResolvedHowlkinBadge slug="hydra" /> &gt; Mythic Artifacts.
               <br />
               Avoid exchanging for Diamond-equivalent currency or generic
               shards.
@@ -400,16 +397,16 @@ export default function BeginnerQA() {
                             </Text>
                           </Table.Td>
                         </Table.Tr>
-                      )
+                      ),
                     )}
                   </Table.Tbody>
                 </Table>
               </ScrollArea>
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Affection Gifts</Title>
             <Text size="sm" c="dimmed">
@@ -465,9 +462,9 @@ export default function BeginnerQA() {
               </Table>
             </ScrollArea>
           </Stack>
-        </Card>
+        </StaticSurface>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
+        <StaticSurface p="lg">
           <Stack gap="sm">
             <Title order={2}>Combat Strategy</Title>
 
@@ -476,11 +473,11 @@ export default function BeginnerQA() {
               commonly support-focused with lower output. Many meta Mages are
               currently utility-focused, with fewer high-damage exceptions (such
               as <CharacterTag slug="gabriele_ssr_plus" /> or{' '}
-              <CharacterTag slug="poseidon_ssr_ex" />), so physical pressure is
-              often more common.
+              <CharacterTag slug="poseidon_ssr_ex" />
+              ), so physical pressure is often more common.
             </QA>
           </Stack>
-        </Card>
+        </StaticSurface>
       </Stack>
     </Container>
   );

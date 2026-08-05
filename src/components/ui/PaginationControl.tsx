@@ -128,7 +128,11 @@ export default function PaginationControl({
           )}
 
           {hasPagination && hasPageSizeSelector && (
-            <Divider orientation="vertical" h={20} style={{ alignSelf: 'center' }} />
+            <Divider
+              orientation="vertical"
+              h={20}
+              style={{ alignSelf: 'center' }}
+            />
           )}
 
           {hasPageSizeSelector && (

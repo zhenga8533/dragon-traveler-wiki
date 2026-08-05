@@ -1,5 +1,10 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, type Illustration } from '@/assets';
+import {
+  getWyrmIcon,
+  getWyrmIllustration,
+  getWyrmPortrait,
+  type Illustration,
+} from '@/assets';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import ChangeHistory from '@/components/common/ChangeHistory';
@@ -14,7 +19,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { BREAKPOINTS, IMAGE_SIZE } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
@@ -27,7 +32,11 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
 import EvolutionSection from '@/features/wiki/wyrms/components/EvolutionSection';
 import SkillCard from '@/features/wiki/wyrms/components/SkillCard';
 import StarUpgradesTable from '@/features/wiki/wyrms/components/StarUpgradesTable';
-import { useStatusEffects, useWyrmChanges, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrmChanges,
+  useWyrms,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
@@ -39,14 +48,13 @@ import {
   Container,
   Grid,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 function phaseIndex(phase: WyrmPhase): number {
   return WYRM_PHASE_ORDER.indexOf(phase);
@@ -67,7 +75,7 @@ export default function WyrmPage() {
 
   const wyrm = useMemo(
     () => findEntityByParam(wyrms, name, (w) => w.slug),
-    [wyrms, name]
+    [wyrms, name],
   );
 
   useEffect(() => {
@@ -83,7 +91,7 @@ export default function WyrmPage() {
         if (fCmp !== 0) return fCmp;
         return phaseIndex(a.phase) - phaseIndex(b.phase);
       }),
-    [wyrms]
+    [wyrms],
   );
 
   const wyrmIndex = useMemo(() => {
@@ -98,11 +106,7 @@ export default function WyrmPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!wyrm) {
@@ -120,7 +124,8 @@ export default function WyrmPage() {
   const illustrationSrc = getWyrmIllustration(wyrm.slug);
   const qualityColor = QUALITY_COLOR[wyrm.quality];
   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
-  const stickyTopOffset = 'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
+  const stickyTopOffset =
+    'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
 
   return (
     <Box>
@@ -170,19 +175,22 @@ export default function WyrmPage() {
         </Group>
 
         {wyrm.description && (
-          <Paper
-            p="md"
-            radius="md"
-            withBorder
-            {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
-          >
+          <StaticSurface p="md" style={getLoreGlassStyles(isDark)}>
             <Stack gap="xs">
-              <RichText text={wyrm.description} statusEffects={statusEffects} italic lineHeight={1.6} />
+              <RichText
+                text={wyrm.description}
+                statusEffects={statusEffects}
+                italic
+                lineHeight={1.6}
+              />
               {wyrm.battle_description && (
-                <RichText text={wyrm.battle_description} statusEffects={statusEffects} />
+                <RichText
+                  text={wyrm.battle_description}
+                  statusEffects={statusEffects}
+                />
               )}
             </Stack>
-          </Paper>
+          </StaticSurface>
         )}
       </DetailPageHero>
 
@@ -210,8 +218,18 @@ export default function WyrmPage() {
                     opened={previewOpen}
                     onClose={() => setPreviewOpen(false)}
                     entityName={wyrm.name}
-                    illustrations={[{ name: wyrm.name, src: illustrationSrc, type: 'image' } satisfies Illustration]}
-                    activeIllustration={{ name: wyrm.name, src: illustrationSrc, type: 'image' }}
+                    illustrations={[
+                      {
+                        name: wyrm.name,
+                        src: illustrationSrc,
+                        type: 'image',
+                      } satisfies Illustration,
+                    ]}
+                    activeIllustration={{
+                      name: wyrm.name,
+                      src: illustrationSrc,
+                      type: 'image',
+                    }}
                     activeIllustrationIndex={0}
                     hasMultipleIllustrations={false}
                     showPreviousIllustration={() => {}}
@@ -257,12 +275,20 @@ export default function WyrmPage() {
         <DetailPageNavigation
           previousItem={
             previousWyrm
-              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}`, iconSrc: getWyrmIcon(previousWyrm.slug) }
+              ? {
+                  label: previousWyrm.name,
+                  path: `/wyrms/${previousWyrm.slug}`,
+                  iconSrc: getWyrmIcon(previousWyrm.slug),
+                }
               : null
           }
           nextItem={
             nextWyrm
-              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}`, iconSrc: getWyrmIcon(nextWyrm.slug) }
+              ? {
+                  label: nextWyrm.name,
+                  path: `/wyrms/${nextWyrm.slug}`,
+                  iconSrc: getWyrmIcon(nextWyrm.slug),
+                }
               : null
           }
         />

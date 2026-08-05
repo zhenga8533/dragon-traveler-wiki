@@ -5,7 +5,7 @@ import { IMAGE_SIZE } from '@/constants/ui';
 interface DataFetchErrorProps {
   title?: string;
   message?: string;
-  onRetry?: () => void;
+  onRetry: () => void;
 }
 
 export default function DataFetchError({
@@ -26,17 +26,15 @@ export default function DataFetchError({
           {message ||
             'Something went wrong while loading this page. Please try again.'}
         </Text>
-        {onRetry && (
-          <Button
-            size="xs"
-            variant="light"
-            color="red"
-            leftSection={<IoRefresh size={14} />}
-            onClick={onRetry}
-          >
-            Retry
-          </Button>
-        )}
+        <Button
+          size="xs"
+          variant="light"
+          color="red"
+          leftSection={<IoRefresh size={14} />}
+          onClick={onRetry}
+        >
+          Retry
+        </Button>
       </Group>
     </Alert>
   );

@@ -3,7 +3,6 @@ import {
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -25,13 +24,25 @@ import {
   type FieldDef,
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import {
+  RESOURCE_CATEGORY_COLOR,
+  RESOURCE_CATEGORY_ORDER,
+} from '@/constants/resource-colors';
+import { getMinWidthStyle } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
-import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
-import type { ResourceCategory } from '@/types/resource';
+import { useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import {
+  compareResources,
+  EMPTY_RESOURCE_FILTERS,
+  matchesResourceFilters,
+} from '@/features/wiki/resources/filters';
+import type { ResourceCategory } from '@/features/wiki/resources/types';
+import type { Quality } from '@/types/quality';
+import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import { getLatestTimestamp } from '@/utils';
 
 const RESOURCE_FIELDS: FieldDef[] = [
@@ -65,22 +76,13 @@ const RESOURCE_FIELDS: FieldDef[] = [
   },
 ];
 
-interface ResourceFilters {
-  search: string;
-  categories: ResourceCategory[];
-}
-
-const EMPTY_FILTERS: ResourceFilters = {
-  search: '',
-  categories: [],
-};
-
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
     key: 'categories',
     label: 'Category',
     options: [...RESOURCE_CATEGORY_ORDER],
   },
+  createQualityFilterGroup(),
 ];
 
 export default function Resources() {
@@ -106,59 +108,21 @@ export default function Resources() {
     pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(resources, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_RESOURCE_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.RESOURCE_FILTERS,
       viewMode: STORAGE_KEY.RESOURCE_VIEW_MODE,
       sort: STORAGE_KEY.RESOURCE_SORT,
     },
     defaultViewMode: 'list',
-    filterFn: (r, filters) => {
-      if (
-        filters.search &&
-        !r.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.categories.length > 0 &&
-        !filters.categories.includes(r.category)
-      ) {
-        return false;
-      }
-      return true;
-    },
-    sortFn: (a, b, col, dir) => {
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = a.name.localeCompare(b.name);
-        } else if (col === 'quality') {
-          const qA = QUALITY_ORDER.indexOf(a.quality);
-          const qB = QUALITY_ORDER.indexOf(b.quality);
-          cmp = qA - qB;
-        } else if (col === 'category') {
-          cmp =
-            RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
-            RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-      // Default: category > quality > name
-      const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
-      const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-      if (catA !== catB) return catA - catB;
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
-      if (qA !== qB) return qA - qB;
-      return a.name.localeCompare(b.name);
-    },
+    filterFn: matchesResourceFilters,
+    sortFn: compareResources,
   });
   useSearchParamFilter(setFilters);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(resources),
-    [resources]
+    [resources],
   );
 
   return (
@@ -183,7 +147,14 @@ export default function Resources() {
           errorTitle="Could not load resources"
           hasData={resources.length > 0}
           emptyMessage="No resource data available yet."
-          skeletonCards={4}
+          loadingFallback={
+            <ViewModeLoading
+              viewMode={viewMode}
+              listType="table"
+              withToolbar
+              showPagination
+            />
+          }
         >
           <FilteredListShell
             count={filtered.length}
@@ -197,13 +168,20 @@ export default function Resources() {
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}
-                selected={{ categories: filters.categories }}
-                onChange={(key, values) =>
-                  setFilters({
-                    ...filters,
-                    [key]: values as ResourceCategory[],
-                  })
-                }
+                selected={{
+                  categories: filters.categories,
+                  qualities: filters.qualities,
+                }}
+                onChange={(key, values) => {
+                  if (key === 'categories') {
+                    setFilters({
+                      ...filters,
+                      categories: values as ResourceCategory[],
+                    });
+                    return;
+                  }
+                  setFilters({ ...filters, qualities: values as Quality[] });
+                }}
                 onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
@@ -222,15 +200,12 @@ export default function Resources() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((resource) => {
-                  const iconSrc = getResourceIcon(resource.slug, resource.category);
+                  const iconSrc = getResourceIcon(
+                    resource.slug,
+                    resource.category,
+                  );
                   return (
-                    <Paper
-                      key={resource.name}
-                      p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
-                    >
+                    <StaticSurface key={resource.name} p="sm">
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {iconSrc && (
@@ -261,7 +236,7 @@ export default function Resources() {
                           <InlineMarkup text={resource.description} />
                         </Text>
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   );
                 })}
               </SimpleGrid>
@@ -301,7 +276,10 @@ export default function Resources() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((resource) => {
-                      const iconSrc = getResourceIcon(resource.slug, resource.category);
+                      const iconSrc = getResourceIcon(
+                        resource.slug,
+                        resource.category,
+                      );
                       return (
                         <Table.Tr key={resource.name}>
                           <Table.Td>

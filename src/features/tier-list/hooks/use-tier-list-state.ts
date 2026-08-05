@@ -2,30 +2,51 @@
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
-  type ContentType,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import {
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
   resolveCharacterReferenceKey,
   toCharacterReferenceFromKey,
 } from '@/features/characters/utils/character-route';
-import { compareCharactersByQualityThenName } from '@/features/characters/utils/filter-characters';
 import type { TierExportRow } from '@/features/tier-list/components/TierListBuilder/ExportView';
 import { normalizeNote } from '@/utils/normalize-note';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   getPastedTierListPatch,
   normalizeTierListFromPartial,
 } from '@/features/tier-list/utils/tier-list-builder';
 import type {
+  CharacterTierEntry,
+  NoblePhantasmTierEntry,
   TierDefinition,
   TierList,
+  TierListEntityType,
+  TierListRankableEntity,
+} from '@/features/tier-list/types';
+import {
+  createDefaultTierDefs,
+  createEmptyTierListBuilderState,
+  createTierPlacements,
+  removeEntityNote,
+  tierListBuilderReducer,
+  type TierListBuilderMetaState,
+  type TierListBuilderState,
+  type TierPlacements,
+} from '@/features/tier-list/tier-list-builder-state';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+  isNoblePhantasmTierEntry,
 } from '@/features/tier-list/types';
 import { removeItemFromRecordArrays } from '@/utils/dnd-list';
-import { useCharacterResolution, useDraftHydration } from '@/hooks';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useDraftHydration } from '@/hooks';
 import type { Quality } from '@/types/quality';
+import { compareQuality } from '@/utils/quality';
 import { showWarningToast } from '@/utils/toast';
 import type {
   DragEndEvent,
@@ -44,36 +65,10 @@ import {
 const DEFAULT_TIER_LIST_NAME = 'My Tier List';
 const DEFAULT_TIER_LIST_AUTHOR = 'Anonymous';
 
-export type TierPlacements = Record<string, string[]>;
-
-export interface TierListBuilderMetaState {
-  name: string;
-  author: string;
-  categoryName: ContentType;
-  description: string;
-}
-
-export interface TierListBuilderState {
-  tierDefs: TierDefinition[];
-  placements: TierPlacements;
-  notes: Record<string, string>;
-  meta: TierListBuilderMetaState;
-}
-
-export type TierListBuilderAction =
-  | { type: 'LOAD_TIER_LIST'; payload: TierListBuilderState }
-  | { type: 'UPDATE_META'; patch: Partial<TierListBuilderMetaState> }
-  | { type: 'SET_PLACEMENTS'; payload: TierPlacements }
-  | { type: 'SET_CHARACTER_NOTE'; characterKey: string; note?: string }
-  | { type: 'SET_TIER_NOTE'; tierName: string; note: string }
-  | { type: 'ADD_TIER'; name: string; note?: string }
-  | { type: 'DELETE_TIER'; tierName: string }
-  | { type: 'MOVE_TIER'; fromIndex: number; toIndex: number }
-  | { type: 'RESET' };
-
 export interface UseTierListStateOptions {
   characters: Character[];
   charMap: Map<string, Character>;
+  noblePhantasms: NoblePhantasm[];
   initialData?: TierList | null;
 }
 
@@ -82,36 +77,11 @@ interface DragResolution {
   notes: Record<string, string>;
 }
 
-function createPlacements(tierDefs: TierDefinition[]): TierPlacements {
-  const placements: TierPlacements = {};
-  for (const tierDef of tierDefs) {
-    placements[tierDef.name] = [];
-  }
-  return placements;
-}
-
-function createDefaultTierDefs(): TierDefinition[] {
-  return DEFAULT_TIER_DEFINITIONS.map((tierDef) => ({ ...tierDef }));
-}
-
-function createEmptyBuilderState(): TierListBuilderState {
-  const tierDefs = createDefaultTierDefs();
-  return {
-    tierDefs,
-    placements: createPlacements(tierDefs),
-    notes: {},
-    meta: {
-      name: '',
-      author: '',
-      categoryName: DEFAULT_CONTENT_TYPE,
-      description: '',
-    },
-  };
-}
-
 function createFallbackTierList(): TierList {
   return {
     name: '',
+    slug: '',
+    entity_type: 'character',
     author: '',
     content_type: DEFAULT_CONTENT_TYPE,
     description: '',
@@ -129,24 +99,15 @@ function clonePlacements(source: TierPlacements): TierPlacements {
   return nextPlacements;
 }
 
-function removeCharacterNote(
-  notes: Record<string, string>,
-  characterKey: string
-): Record<string, string> {
-  if (!(characterKey in notes)) return notes;
-  const nextNotes = { ...notes };
-  delete nextNotes[characterKey];
-  return nextNotes;
-}
-
-function toCharacterKey(id: UniqueIdentifier | undefined): string | null {
+function toEntityKey(id: UniqueIdentifier | undefined): string | null {
   return typeof id === 'string' ? id : null;
 }
 
 function toBuilderState(
   data: TierList,
-  getCharacterKeyFromReference: (name: string, quality?: Quality) => string
+  getCharacterKeyFromReference: (name: string, quality?: Quality) => string,
 ): TierListBuilderState {
+  const entityType = getTierListEntityType(data);
   const baseTierDefs = data.tiers?.length
     ? data.tiers.map((tierDef) => ({
         name: tierDef.name,
@@ -164,25 +125,32 @@ function toBuilderState(
   }
 
   const tierDefs = [...baseTierDefs, ...extraTierDefs];
-  const placements = createPlacements(tierDefs);
+  const placements = createTierPlacements(tierDefs);
   const notes: Record<string, string> = {};
-  const seenCharacters = new Set<string>();
+  const seenEntities = new Set<string>();
 
   for (const entry of data.entries) {
-    const characterKey = getCharacterKeyFromReference(
-      entry.character_slug,
-      entry.character_quality
-    );
-    if (seenCharacters.has(characterKey)) continue;
-    seenCharacters.add(characterKey);
+    let entityKey: string;
+    if (entityType === 'noble_phantasm') {
+      if (!isNoblePhantasmTierEntry(entry)) continue;
+      entityKey = entry.noble_phantasm_slug;
+    } else {
+      if (!isCharacterTierEntry(entry)) continue;
+      entityKey = getCharacterKeyFromReference(
+        entry.character_slug,
+        entry.character_quality,
+      );
+    }
+    if (seenEntities.has(entityKey)) continue;
+    seenEntities.add(entityKey);
 
     if (placements[entry.tier] !== undefined) {
-      placements[entry.tier].push(characterKey);
+      placements[entry.tier].push(entityKey);
     }
 
     const normalizedEntryNote = normalizeNote(entry.note);
     if (normalizedEntryNote) {
-      notes[characterKey] = normalizedEntryNote;
+      notes[entityKey] = normalizedEntryNote;
     }
   }
 
@@ -195,98 +163,9 @@ function toBuilderState(
       author: data.author || '',
       categoryName: normalizeContentType(data.content_type),
       description: data.description || '',
+      entityType,
     },
   };
-}
-
-function tierListBuilderReducer(
-  state: TierListBuilderState,
-  action: TierListBuilderAction
-): TierListBuilderState {
-  switch (action.type) {
-    case 'LOAD_TIER_LIST':
-      return action.payload;
-    case 'UPDATE_META':
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          ...action.patch,
-        },
-      };
-    case 'SET_PLACEMENTS':
-      return { ...state, placements: action.payload };
-    case 'SET_CHARACTER_NOTE': {
-      const nextNotes = { ...state.notes };
-      if (action.note) {
-        nextNotes[action.characterKey] = action.note;
-      } else {
-        delete nextNotes[action.characterKey];
-      }
-      return { ...state, notes: nextNotes };
-    }
-    case 'SET_TIER_NOTE':
-      return {
-        ...state,
-        tierDefs: state.tierDefs.map((tierDef) =>
-          tierDef.name === action.tierName
-            ? { ...tierDef, note: action.note }
-            : tierDef
-        ),
-      };
-    case 'ADD_TIER': {
-      if (!action.name.trim()) return state;
-      if (state.tierDefs.some((tierDef) => tierDef.name === action.name)) {
-        return state;
-      }
-      return {
-        ...state,
-        tierDefs: [...state.tierDefs, { name: action.name, note: action.note }],
-        placements: {
-          ...state.placements,
-          [action.name]: [],
-        },
-      };
-    }
-    case 'DELETE_TIER': {
-      const removedCharacters = state.placements[action.tierName] || [];
-      const nextPlacements = { ...state.placements };
-      delete nextPlacements[action.tierName];
-
-      let nextNotes = state.notes;
-      for (const characterKey of removedCharacters) {
-        nextNotes = removeCharacterNote(nextNotes, characterKey);
-      }
-
-      return {
-        ...state,
-        tierDefs: state.tierDefs.filter(
-          (tierDef) => tierDef.name !== action.tierName
-        ),
-        placements: nextPlacements,
-        notes: nextNotes,
-      };
-    }
-    case 'MOVE_TIER': {
-      if (
-        action.fromIndex < 0 ||
-        action.fromIndex >= state.tierDefs.length ||
-        action.toIndex < 0 ||
-        action.toIndex >= state.tierDefs.length
-      ) {
-        return state;
-      }
-
-      const nextTierDefs = [...state.tierDefs];
-      const [movedTier] = nextTierDefs.splice(action.fromIndex, 1);
-      nextTierDefs.splice(action.toIndex, 0, movedTier);
-      return { ...state, tierDefs: nextTierDefs };
-    }
-    case 'RESET':
-      return createEmptyBuilderState();
-    default:
-      return state;
-  }
 }
 
 function applyTierListDrag(
@@ -297,7 +176,7 @@ function applyTierListDrag(
     activeTier?: string;
     targetCharacterKey?: string;
     targetTier?: string;
-  }
+  },
 ): DragResolution | null {
   const { characterKey, overId, activeTier, targetCharacterKey, targetTier } =
     input;
@@ -306,11 +185,11 @@ function applyTierListDrag(
     if (!activeTier) return null;
     const nextPlacements = clonePlacements(state.placements);
     nextPlacements[activeTier] = nextPlacements[activeTier].filter(
-      (entry) => entry !== characterKey
+      (entry) => entry !== characterKey,
     );
     return {
       placements: nextPlacements,
-      notes: removeCharacterNote(state.notes, characterKey),
+      notes: removeEntityNote(state.notes, characterKey),
     };
   }
 
@@ -327,7 +206,7 @@ function applyTierListDrag(
       nextPlacements[activeTier][activeIndex] = targetCharacterKey;
       return {
         placements: nextPlacements,
-        notes: removeCharacterNote(state.notes, characterKey),
+        notes: removeEntityNote(state.notes, characterKey),
       };
     }
 
@@ -348,7 +227,7 @@ function applyTierListDrag(
       }
 
       nextPlacements[activeTier] = nextPlacements[activeTier].filter(
-        (entry) => entry !== characterKey
+        (entry) => entry !== characterKey,
       );
       nextPlacements[targetTier][targetIndex] = characterKey;
       nextPlacements[activeTier].push(targetCharacterKey);
@@ -377,21 +256,58 @@ function applyTierListDrag(
 export function useTierListState({
   characters,
   charMap,
+  noblePhantasms,
   initialData,
 }: UseTierListStateOptions) {
   const [state, dispatch] = useReducer(
     tierListBuilderReducer,
     undefined,
-    createEmptyBuilderState
+    createEmptyTierListBuilderState,
   );
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const { byIdentity: characterByIdentity } = useCharacterResolution(characters);
+  const { byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>
       getCharacterByReferenceKey(characterKey, charMap, characterByIdentity),
-    [characterByIdentity, charMap]
+    [characterByIdentity, charMap],
+  );
+
+  const noblePhantasmBySlug = useMemo(() => {
+    const result = new Map<string, NoblePhantasm>();
+    for (const noblePhantasm of noblePhantasms) {
+      result.set(noblePhantasm.slug, noblePhantasm);
+      if (noblePhantasm.legacy_slug) {
+        result.set(noblePhantasm.legacy_slug, noblePhantasm);
+      }
+    }
+    return result;
+  }, [noblePhantasms]);
+
+  const getEntityFromKey = useCallback(
+    (entityKey: string): TierListRankableEntity | undefined => {
+      if (state.meta.entityType === 'noble_phantasm') {
+        const noblePhantasm = noblePhantasmBySlug.get(entityKey);
+        return noblePhantasm
+          ? {
+              key: noblePhantasm.slug,
+              entityType: 'noble_phantasm',
+              noblePhantasm,
+            }
+          : undefined;
+      }
+      const character = getCharacterFromKey(entityKey);
+      return character
+        ? {
+            key: getCharacterIdentityKey(character),
+            entityType: 'character',
+            character,
+          }
+        : undefined;
+    },
+    [getCharacterFromKey, noblePhantasmBySlug, state.meta.entityType],
   );
 
   const getCharacterKeyFromReference = useCallback(
@@ -401,9 +317,9 @@ export function useTierListState({
         quality,
         characters,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       ),
-    [characterByIdentity, charMap, characters]
+    [characterByIdentity, charMap, characters],
   );
 
   const loadFromTierList = useCallback(
@@ -413,7 +329,7 @@ export function useTierListState({
         payload: toBuilderState(tierList, getCharacterKeyFromReference),
       });
     },
-    [getCharacterKeyFromReference]
+    [getCharacterKeyFromReference],
   );
 
   const draftHydrated = useDraftHydration({
@@ -423,7 +339,7 @@ export function useTierListState({
     normalizeFromPartial: (partial, fallback) =>
       normalizeTierListFromPartial(
         partial as Parameters<typeof normalizeTierListFromPartial>[0],
-        fallback
+        fallback,
       ),
     createFallback: createFallbackTierList,
     load: loadFromTierList,
@@ -435,8 +351,38 @@ export function useTierListState({
   const deferredCategoryName = useDeferredValue(state.meta.categoryName);
 
   const tierListData = useMemo<TierList>(() => {
+    const entries: TierList['entries'] = [];
+    for (const tierDef of state.tierDefs) {
+      for (const entityKey of state.placements[tierDef.name] || []) {
+        const note = state.notes[entityKey]
+          ? { note: state.notes[entityKey] }
+          : {};
+        if (state.meta.entityType === 'noble_phantasm') {
+          const noblePhantasm = noblePhantasmBySlug.get(entityKey);
+          const entry: NoblePhantasmTierEntry = {
+            noble_phantasm_slug: noblePhantasm?.slug ?? entityKey,
+            tier: tierDef.name,
+            ...note,
+          };
+          entries.push(entry);
+          continue;
+        }
+        const entry: CharacterTierEntry = {
+          ...toCharacterReferenceFromKey(
+            entityKey,
+            charMap,
+            characterByIdentity,
+          ),
+          tier: tierDef.name,
+          ...note,
+        };
+        entries.push(entry);
+      }
+    }
     return {
       name: deferredName || DEFAULT_TIER_LIST_NAME,
+      slug: toEntitySlug(deferredName || DEFAULT_TIER_LIST_NAME),
+      entity_type: state.meta.entityType,
       author: deferredAuthor || DEFAULT_TIER_LIST_AUTHOR,
       content_type: deferredCategoryName,
       description: deferredDescription,
@@ -446,19 +392,7 @@ export function useTierListState({
           ? { note: normalizeNote(tierDef.note) }
           : {}),
       })),
-      entries: state.tierDefs.flatMap((tierDef) =>
-        (state.placements[tierDef.name] || []).map((characterKey) => ({
-          ...toCharacterReferenceFromKey(
-            characterKey,
-            charMap,
-            characterByIdentity
-          ),
-          tier: tierDef.name,
-          ...(state.notes[characterKey]
-            ? { note: state.notes[characterKey] }
-            : {}),
-        }))
-      ),
+      entries,
       last_updated: 0,
     };
   }, [
@@ -468,14 +402,16 @@ export function useTierListState({
     deferredCategoryName,
     deferredDescription,
     deferredName,
+    noblePhantasmBySlug,
     state.notes,
+    state.meta.entityType,
     state.placements,
     state.tierDefs,
   ]);
 
   const json = useMemo(
     () => JSON.stringify(tierListData, null, 2),
-    [tierListData]
+    [tierListData],
   );
 
   useEffect(() => {
@@ -485,15 +421,30 @@ export function useTierListState({
 
   const hasAnyPlaced = useMemo(
     () => Object.values(state.placements).some((entries) => entries.length > 0),
-    [state.placements]
+    [state.placements],
   );
 
-  const unrankedCharacters = useMemo(() => {
-    const placedCharacters = new Set(Object.values(state.placements).flat());
-    return characters.filter(
-      (character) => !placedCharacters.has(getCharacterIdentityKey(character))
-    );
-  }, [characters, state.placements]);
+  const unrankedEntities = useMemo<TierListRankableEntity[]>(() => {
+    const placedEntities = new Set(Object.values(state.placements).flat());
+    if (state.meta.entityType === 'noble_phantasm') {
+      return noblePhantasms
+        .filter((entity) => !placedEntities.has(entity.slug))
+        .map((noblePhantasm) => ({
+          key: noblePhantasm.slug,
+          entityType: 'noble_phantasm',
+          noblePhantasm,
+        }));
+    }
+    return characters
+      .filter(
+        (character) => !placedEntities.has(getCharacterIdentityKey(character)),
+      )
+      .map((character) => ({
+        key: getCharacterIdentityKey(character),
+        entityType: 'character',
+        character,
+      }));
+  }, [characters, noblePhantasms, state.meta.entityType, state.placements]);
 
   const hasAnyBuilderData = useMemo(
     () =>
@@ -513,7 +464,7 @@ export function useTierListState({
       state.meta.author.trim().length > 0 ||
       state.meta.description.trim().length > 0 ||
       state.meta.categoryName !== DEFAULT_CONTENT_TYPE,
-    [hasAnyPlaced, state.meta, state.notes, state.tierDefs]
+    [hasAnyPlaced, state.meta, state.notes, state.tierDefs],
   );
 
   const tierExportRows = useMemo<TierExportRow[]>(
@@ -523,19 +474,19 @@ export function useTierListState({
           tier: tierDef.name,
           tierIndex: index,
           note: tierDef.note,
-          entries: (state.placements[tierDef.name] || []).map(
-            (characterKey) => {
-              const character = getCharacterFromKey(characterKey);
-              return {
-                characterName: character?.name ?? characterKey,
-                characterQuality: character?.quality ?? null,
-                label: undefined,
-              };
-            }
-          ),
+          entries: (state.placements[tierDef.name] || []).map((entityKey) => {
+            const entity = getEntityFromKey(entityKey);
+            return {
+              entityName:
+                entity?.character?.name ??
+                entity?.noblePhantasm?.name ??
+                entityKey,
+              entity,
+            };
+          }),
         }))
         .filter((row) => row.entries.length > 0),
-    [getCharacterFromKey, state.placements, state.tierDefs]
+    [getEntityFromKey, state.placements, state.tierDefs],
   );
 
   const updateMeta = useCallback((patch: Partial<TierListBuilderMetaState>) => {
@@ -546,14 +497,14 @@ export function useTierListState({
     (name: string) => {
       updateMeta({ name });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleAuthorCommit = useCallback(
     (author: string) => {
       updateMeta({ author });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleCategoryChange = useCallback(
@@ -562,14 +513,22 @@ export function useTierListState({
         categoryName: normalizeContentType(value, DEFAULT_CONTENT_TYPE),
       });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleDescriptionCommit = useCallback(
     (description: string) => {
       updateMeta({ description });
     },
-    [updateMeta]
+    [updateMeta],
+  );
+
+  const handleEntityTypeChange = useCallback(
+    (entityType: TierListEntityType) => {
+      if (entityType === state.meta.entityType) return;
+      dispatch({ type: 'SET_ENTITY_TYPE', entityType });
+    },
+    [state.meta.entityType],
   );
 
   const handleCharacterNoteChange = useCallback(
@@ -580,7 +539,7 @@ export function useTierListState({
         note: normalizeNote(note),
       });
     },
-    []
+    [],
   );
 
   const handleTierNoteChange = useCallback((tierName: string, note: string) => {
@@ -605,7 +564,7 @@ export function useTierListState({
       if (index >= state.tierDefs.length - 1) return;
       dispatch({ type: 'MOVE_TIER', fromIndex: index, toIndex: index + 1 });
     },
-    [state.tierDefs.length]
+    [state.tierDefs.length],
   );
 
   const handleAddTier = useCallback(
@@ -637,7 +596,7 @@ export function useTierListState({
         note: normalizeNote(note),
       });
     },
-    [state.tierDefs]
+    [state.tierDefs],
   );
 
   const handlePasteApply = useCallback(
@@ -651,7 +610,7 @@ export function useTierListState({
 
         const mergedTierList = normalizeTierListFromPartial(
           partialTierList,
-          tierListData
+          tierListData,
         );
         loadFromTierList(mergedTierList);
         return null;
@@ -659,7 +618,7 @@ export function useTierListState({
         return 'Could not parse JSON. Paste a JSON object, a one-item tier list array, or an entries array.';
       }
     },
-    [loadFromTierList, tierListData]
+    [loadFromTierList, tierListData],
   );
 
   const handleSort = useCallback(() => {
@@ -668,33 +627,46 @@ export function useTierListState({
       nextPlacements[tierDef.name] = [
         ...(state.placements[tierDef.name] || []),
       ].sort((left, right) => {
-        const leftCharacter = getCharacterFromKey(left);
-        const rightCharacter = getCharacterFromKey(right);
-        if (!leftCharacter && !rightCharacter) return left.localeCompare(right);
-        if (!leftCharacter) return 1;
-        if (!rightCharacter) return -1;
-        return compareCharactersByQualityThenName(
-          leftCharacter,
-          rightCharacter
-        );
+        const leftEntity = getEntityFromKey(left);
+        const rightEntity = getEntityFromKey(right);
+        if (!leftEntity && !rightEntity) return left.localeCompare(right);
+        if (!leftEntity) return 1;
+        if (!rightEntity) return -1;
+        const leftQuality =
+          leftEntity.character?.quality ??
+          leftEntity.noblePhantasm?.quality ??
+          '';
+        const rightQuality =
+          rightEntity.character?.quality ??
+          rightEntity.noblePhantasm?.quality ??
+          '';
+        const qualityComparison = compareQuality(leftQuality, rightQuality);
+        if (qualityComparison !== 0) return qualityComparison;
+        const leftName =
+          leftEntity.character?.name ?? leftEntity.noblePhantasm?.name ?? left;
+        const rightName =
+          rightEntity.character?.name ??
+          rightEntity.noblePhantasm?.name ??
+          right;
+        return leftName.localeCompare(rightName);
       });
     }
     dispatch({ type: 'SET_PLACEMENTS', payload: nextPlacements });
-  }, [getCharacterFromKey, state.placements, state.tierDefs]);
+  }, [getEntityFromKey, state.placements, state.tierDefs]);
 
   const handleClear = useCallback(() => {
     dispatch({ type: 'RESET' });
   }, []);
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
-    setActiveId(toCharacterKey(event.active.id));
+    setActiveId(toEntityKey(event.active.id));
   }, []);
 
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       setActiveId(null);
-      const characterKey = toCharacterKey(event.active.id);
-      const overId = toCharacterKey(event.over?.id);
+      const characterKey = toEntityKey(event.active.id);
+      const overId = toEntityKey(event.over?.id);
       if (!characterKey || !overId) return;
 
       const activeTier =
@@ -702,8 +674,8 @@ export function useTierListState({
           ? event.active.data.current.tier
           : undefined;
       const targetCharacterKey =
-        typeof event.over?.data.current?.characterKey === 'string'
-          ? event.over.data.current.characterKey
+        typeof event.over?.data.current?.entityKey === 'string'
+          ? event.over.data.current.entityKey
           : undefined;
       const targetTier =
         typeof event.over?.data.current?.tier === 'string'
@@ -737,12 +709,12 @@ export function useTierListState({
         }
       }
     },
-    [state]
+    [state],
   );
 
   return {
     activeId,
-    getCharacterFromKey,
+    getEntityFromKey,
     handleAddTier,
     handleAuthorCommit,
     handleCategoryChange,
@@ -750,6 +722,7 @@ export function useTierListState({
     handleClear,
     handleDeleteTier,
     handleDescriptionCommit,
+    handleEntityTypeChange,
     handleDragEnd,
     handleDragStart,
     handleMoveTierDown,
@@ -767,6 +740,6 @@ export function useTierListState({
     tierDefs: state.tierDefs,
     tierExportRows,
     tierListData,
-    unrankedCharacters,
+    unrankedEntities,
   };
 }

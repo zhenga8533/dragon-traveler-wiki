@@ -4,7 +4,7 @@ import { resolveIllustrations } from '@/assets';
 import { getEventImage, placeholderEventImage } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
-import { useCharacters } from '@/hooks';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 
 const INDICATOR_DOT_SIZE = 8;
 const BANNER_TICK_MS = 3000;
@@ -51,10 +51,10 @@ interface IllustrationState {
 }
 
 function useIllustration(characters: string[]): IllustrationState {
-  const { data: characterData } = useCharacters();
+  const { data: characterData, loading } = useCharacters();
   const byIdentity = useMemo(
     () => buildCharacterByIdentityMap(characterData),
-    [characterData]
+    [characterData],
   );
 
   const srcs = useMemo(() => {
@@ -63,17 +63,13 @@ function useIllustration(characters: string[]): IllustrationState {
         const character = byIdentity.get(slug);
         const list = resolveIllustrations(slug, slug, character?.skins);
         const img =
-          list.find(
-            (il) => il.type === 'image' && il.name.toLowerCase() === 'default'
-          ) ??
+          list.find((il) => il.type === 'image' && il.isDefault) ??
           list.find((il) => il.type === 'image') ??
           list[0];
         return img?.src ?? null;
       })
       .filter((s): s is string => s !== null);
   }, [characters, byIdentity]);
-
-  const loading = characterData.length === 0;
 
   const [srcsForIdx, setSrcsForIdx] = useState<string[] | null>(null);
   const [idx, setIdx] = useState(0);
@@ -83,11 +79,13 @@ function useIllustration(characters: string[]): IllustrationState {
   }
 
   const sharedTick = useSharedBannerTick(srcs.length > 1);
-  useEffect(() => {
-    if (srcs.length <= 1) return;
-    setIdx((i) => (i + 1) % srcs.length);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sharedTick]);
+  const [tickForIdx, setTickForIdx] = useState(sharedTick);
+  if (sharedTick !== tickForIdx) {
+    setTickForIdx(sharedTick);
+    if (srcs.length > 1) {
+      setIdx((i) => (i + 1) % srcs.length);
+    }
+  }
 
   return {
     src: srcs.length > 0 ? srcs[idx] : null,
@@ -129,9 +127,10 @@ export default function EventBanner({
         flex: width ? `0 0 ${width}px` : undefined,
       }}
       visibleFrom={visibleFrom}
+      aria-busy={loading || undefined}
     >
       {loading ? (
-        <Skeleton height={height} radius={radius} />
+        <Skeleton height={height} radius={radius} aria-hidden="true" />
       ) : (
         <SafeImage
           src={src ?? namedImage ?? placeholderEventImage}

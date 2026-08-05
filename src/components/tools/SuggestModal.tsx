@@ -33,7 +33,13 @@ import {
   IoOpenOutline,
 } from 'react-icons/io5';
 
-export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number' | 'url';
+export type FieldType =
+  | 'text'
+  | 'textarea'
+  | 'select'
+  | 'boolean'
+  | 'number'
+  | 'url';
 
 export interface SelectOption {
   value: string;
@@ -83,7 +89,7 @@ function buildIssueUrl(params: { title: string; body: string }): string {
 }
 
 function buildInitialValues(
-  fields: FieldDef[]
+  fields: FieldDef[],
 ): Record<string, string | boolean> {
   const values: Record<string, string | boolean> = {};
   for (const f of fields) {
@@ -99,7 +105,7 @@ function newRowId(): string {
 }
 
 function buildInitialArrayRow(
-  fields: FieldDef[]
+  fields: FieldDef[],
 ): Record<string, string | boolean> {
   return { ...buildInitialValues(fields), _id: newRowId() };
 }
@@ -120,7 +126,10 @@ function isValidUrl(value: string): boolean {
   }
 }
 
-function getFieldError(f: FieldDef, value: string | boolean): string | undefined {
+function getFieldError(
+  f: FieldDef,
+  value: string | boolean,
+): string | undefined {
   if (f.required && isBlank(value)) return `${f.label} is required`;
   if (
     f.type === 'url' &&
@@ -173,7 +182,7 @@ export default function SuggestModal({
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
   const [values, setValues] = useState<Record<string, string | boolean>>(() =>
-    buildInitialValues(fields)
+    buildInitialValues(fields),
   );
   const [arrayValues, setArrayValues] = useState<
     Record<string, Record<string, string | boolean>[]>
@@ -221,7 +230,7 @@ export default function SuggestModal({
     arrayName: string,
     index: number,
     fieldName: string,
-    value: string | boolean
+    value: string | boolean,
   ) => {
     setArrayValues((prev) => {
       const rows = [...prev[arrayName]];
@@ -251,7 +260,7 @@ export default function SuggestModal({
     formArrayValues: Record<
       string,
       Record<string, string | boolean>[]
-    > = arrayValues
+    > = arrayValues,
   ) => {
     const excludeSet = new Set(excludeFromJson ?? []);
     const data: Record<string, unknown> = {};
@@ -266,7 +275,7 @@ export default function SuggestModal({
     }
     for (const af of arrayFields ?? []) {
       const filteredRows = formArrayValues[af.name].filter((row) =>
-        af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false)
+        af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false),
       );
 
       if (af.toDict) {
@@ -336,7 +345,7 @@ export default function SuggestModal({
     formArrayValues: Record<
       string,
       Record<string, string | boolean>[]
-    > = arrayValues
+    > = arrayValues,
   ) => {
     for (const f of fields) {
       if (getFieldError(f, formValues[f.name])) return false;
@@ -345,7 +354,7 @@ export default function SuggestModal({
     for (const af of arrayFields ?? []) {
       const rows = formArrayValues[af.name] ?? [];
       const filledRows = rows.filter((row) =>
-        af.fields.some((f) => !isBlank(row[f.name]))
+        af.fields.some((f) => !isBlank(row[f.name])),
       );
 
       if ((af.minItems ?? 0) > 0 && filledRows.length < (af.minItems ?? 0)) {
@@ -369,7 +378,7 @@ export default function SuggestModal({
     f: FieldDef,
     value: string | boolean,
     onChange: (val: string | boolean) => void,
-    fieldOptions?: { error?: string; onBlur?: () => void }
+    fieldOptions?: { error?: string; onBlur?: () => void },
   ) => {
     const { error, onBlur } = fieldOptions ?? {};
     switch (f.type) {
@@ -540,17 +549,13 @@ export default function SuggestModal({
           </Text>
 
           {fields.map((f) =>
-            renderField(
-              f,
-              values[f.name],
-              (val) => setField(f.name, val),
-              {
-                error: touched.has(f.name) || submitAttempted
+            renderField(f, values[f.name], (val) => setField(f.name, val), {
+              error:
+                touched.has(f.name) || submitAttempted
                   ? getFieldError(f, values[f.name])
                   : undefined,
-                onBlur: () => markTouched(f.name),
-              }
-            )
+              onBlur: () => markTouched(f.name),
+            }),
           )}
 
           {arrayFields?.map((af) => (
@@ -583,8 +588,8 @@ export default function SuggestModal({
                             error: submitAttempted
                               ? getFieldError(f, row[f.name])
                               : undefined,
-                          }
-                        )
+                          },
+                        ),
                       )}
                     </Group>
                     {arrayValues[af.name].length > 1 && (

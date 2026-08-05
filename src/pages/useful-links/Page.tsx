@@ -2,7 +2,6 @@
   Anchor,
   Badge,
   Box,
-  Card,
   Container,
   Group,
   Stack,
@@ -14,11 +13,12 @@ import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '@/components';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
+import { StaticSurface } from '@/components/ui/Surface';
 import { getStableTagColor } from '@/constants/tag-colors';
-import { getCardHoverProps } from '@/constants/styles';
 import { useUsefulLinks } from '@/features/wiki/hooks/use-wiki-data';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { toEntitySlug } from '@/utils/entity-slug';
 
 const LINK_FIELDS: FieldDef[] = [
@@ -66,12 +66,7 @@ const ICON_MAP: Record<string, IconType> = {
 
 export default function UsefulLinks() {
   const { hash } = useLocation();
-  const {
-    data: links,
-    loading,
-    error,
-    retry,
-  } = useUsefulLinks();
+  const { data: links, loading, error, retry } = useUsefulLinks();
 
   useEffect(() => {
     if (!hash || links.length === 0) return;
@@ -104,18 +99,15 @@ export default function UsefulLinks() {
           errorTitle="Could not load useful links"
           hasData={links.length > 0}
           emptyMessage="No useful links available yet."
-          skeletonCards={4}
+          loadingFallback={<ViewModeLoading viewMode="list" />}
         >
           {links.map((link) => {
             const Icon = ICON_MAP[link.icon] ?? IoLinkOutline;
             return (
-              <Card
+              <StaticSurface
                 key={link.link}
                 id={toEntitySlug(link.name)}
-                padding="lg"
-                radius="md"
-                withBorder
-                {...getCardHoverProps()}
+                p="lg"
               >
                 <Group>
                   <Text size="xl" lh={1}>
@@ -144,7 +136,7 @@ export default function UsefulLinks() {
                     </Text>
                   </Box>
                 </Group>
-              </Card>
+              </StaticSurface>
             );
           })}
         </ListPageShell>

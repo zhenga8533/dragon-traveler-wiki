@@ -7,7 +7,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoArrowBack, IoSearch } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface EntityNotFoundProps {
   entityType: string;

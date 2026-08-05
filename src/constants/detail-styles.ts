@@ -21,7 +21,7 @@ export function getDetailHeroGradient(
   isDark: boolean,
   primaryColor: string,
   secondaryColor = 'violet',
-  opacity = { dark: 0.7, light: 0.9 }
+  opacity = { dark: 0.7, light: 0.9 },
 ) {
   const fadeStop = '58%';
 
@@ -48,7 +48,7 @@ export function getDetailHeroGradient(
 export function getHeroIconBoxStyles(
   isDark: boolean,
   color: string,
-  circle = false
+  circle = false,
 ): CSSProperties {
   return {
     width: 96,

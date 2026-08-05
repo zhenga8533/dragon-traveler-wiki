@@ -1,6 +1,6 @@
 import type { ImageProps } from '@mantine/core';
 import { Image } from '@mantine/core';
-import { useEffect, useState, type SyntheticEvent } from 'react';
+import { useState, type SyntheticEvent } from 'react';
 
 export interface SafeImageProps extends ImageProps {
   alt?: string;
@@ -21,11 +21,12 @@ export default function SafeImage({
 }: SafeImageProps) {
   const [displaySrc, setDisplaySrc] = useState(src);
   const [isLoading, setIsLoading] = useState(Boolean(src));
-
-  useEffect(() => {
+  const [loadedSrc, setLoadedSrc] = useState(src);
+  if (src !== loadedSrc) {
+    setLoadedSrc(src);
     setDisplaySrc(src);
     setIsLoading(Boolean(src));
-  }, [src]);
+  }
 
   if (!displaySrc) return null;
 

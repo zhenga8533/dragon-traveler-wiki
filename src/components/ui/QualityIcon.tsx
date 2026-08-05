@@ -30,7 +30,13 @@ function QualityIcon({
       loading="lazy"
     />
   );
-  return showTooltip ? <Tooltip label={quality} {...mobileTooltip}>{image}</Tooltip> : image;
+  return showTooltip ? (
+    <Tooltip label={quality} {...mobileTooltip}>
+      {image}
+    </Tooltip>
+  ) : (
+    image
+  );
 }
 
 export default memo(QualityIcon);

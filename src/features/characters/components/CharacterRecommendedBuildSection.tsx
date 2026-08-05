@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import {
   Badge,
   Center,
   Divider,
   Group,
-  Paper,
   SegmentedControl,
   SimpleGrid,
   Stack,
@@ -21,7 +20,8 @@ import TierBadge from '@/components/ui/TierBadge';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getNoblePhantasmIcon } from '@/assets';
-import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
+import { RICH_TOOLTIP_STYLES } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_MAX_WIDTH } from '@/constants/ui';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type {
@@ -29,6 +29,7 @@ import type {
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import { getNoblePhantasmPreviewDescription } from '@/features/wiki/noble-phantasms/utils';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { toQuality } from '@/utils/quality';
@@ -36,28 +37,29 @@ import { toQuality } from '@/utils/quality';
 interface CharacterRecommendedBuildSectionProps {
   recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  linkedNoblePhantasm: NoblePhantasm | null;
+  linkedNoblePhantasms: NoblePhantasm[];
   statusEffects: StatusEffect[];
 }
 
 export default function CharacterRecommendedBuildSection({
   recommendedGearLoadouts,
   recommendedSubclassEntries,
-  linkedNoblePhantasm,
+  linkedNoblePhantasms,
   statusEffects,
 }: CharacterRecommendedBuildSectionProps) {
   const { accent } = useGradientAccent();
   const mobileTooltip = useMobileTooltip();
   const [selectedLoadoutIndex, setSelectedLoadoutIndex] = useState(0);
 
-  const activeLoadout = recommendedGearLoadouts[selectedLoadoutIndex] ?? recommendedGearLoadouts[0];
+  const activeLoadout =
+    recommendedGearLoadouts[selectedLoadoutIndex] ?? recommendedGearLoadouts[0];
   const recommendedGearDetails = activeLoadout?.details ?? [];
   const activatedSetBonuses = activeLoadout?.activatedSetBonuses ?? [];
 
   if (
     recommendedGearLoadouts.length === 0 &&
     recommendedSubclassEntries.length === 0 &&
-    linkedNoblePhantasm === null
+    linkedNoblePhantasms.length === 0
   ) {
     return null;
   }
@@ -79,46 +81,55 @@ export default function CharacterRecommendedBuildSection({
       }
     >
       <Stack gap="md">
-        {linkedNoblePhantasm && (() => {
-          const npIcon = getNoblePhantasmIcon(linkedNoblePhantasm.slug);
-          const topEffect = linkedNoblePhantasm.effects[0];
-          return (
-            <Stack gap="sm">
-              <Text fw={600} size="sm">
-                Recommended Noble Phantasm
-              </Text>
-              <Link
-                to={`/noble-phantasms/${linkedNoblePhantasm.slug}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
-                  <Group gap="sm" wrap="nowrap">
-                    {npIcon && (
-                      <SafeImage
-                        src={npIcon}
-                        alt={linkedNoblePhantasm.name}
-                        w={IMAGE_SIZE.CARD_ICON_SM}
-                        h={IMAGE_SIZE.CARD_ICON_SM}
-                        fit="contain"
-                        loading="lazy"
-                      />
-                    )}
-                    <Stack gap={2} style={{ minWidth: 0 }}>
-                      <Text size="sm" fw={600} truncate>
-                        {linkedNoblePhantasm.name}
-                      </Text>
-                      {topEffect && (
-                        <ExpandableText size="xs">
-                          <RichText text={topEffect.description} statusEffects={statusEffects} />
-                        </ExpandableText>
-                      )}
-                    </Stack>
-                  </Group>
-                </Paper>
-              </Link>
-            </Stack>
-          );
-        })()}
+        {linkedNoblePhantasms.length > 0 && (
+          <Stack gap="sm">
+            <Text fw={600} size="sm">
+              Recommended Noble Phantasms
+            </Text>
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+              {linkedNoblePhantasms.map((noblePhantasm) => {
+                const npIcon = getNoblePhantasmIcon(noblePhantasm.slug);
+                const previewDescription =
+                  getNoblePhantasmPreviewDescription(noblePhantasm);
+                return (
+                  <Link
+                    key={noblePhantasm.slug}
+                    to={`/noble-phantasms/${noblePhantasm.slug}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <StaticSurface p="sm">
+                      <Group gap="sm" wrap="nowrap">
+                        {npIcon && (
+                          <SafeImage
+                            src={npIcon}
+                            alt={noblePhantasm.name}
+                            w={IMAGE_SIZE.CARD_ICON_SM}
+                            h={IMAGE_SIZE.CARD_ICON_SM}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                        <Stack gap={2} style={{ minWidth: 0 }}>
+                          <Text size="sm" fw={600} truncate>
+                            {noblePhantasm.name}
+                          </Text>
+                          {previewDescription && (
+                            <ExpandableText size="xs">
+                              <RichText
+                                text={previewDescription}
+                                statusEffects={statusEffects}
+                              />
+                            </ExpandableText>
+                          )}
+                        </Stack>
+                      </Group>
+                    </StaticSurface>
+                  </Link>
+                );
+              })}
+            </SimpleGrid>
+          </Stack>
+        )}
 
         {recommendedSubclassEntries.length > 0 && (
           <Stack gap="sm">
@@ -134,13 +145,14 @@ export default function CharacterRecommendedBuildSection({
                     </Text>
                     <Group gap={6} wrap="wrap">
                       {typeof entry.tier === 'number' && (
-                        <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
-                      )}
-                      {entry.className && (
-                        <ClassTag
-                          characterClass={entry.className}
+                        <TierBadge
+                          tier={String(entry.tier)}
+                          showPrefix
                           size="xs"
                         />
+                      )}
+                      {entry.className && (
+                        <ClassTag characterClass={entry.className} size="xs" />
                       )}
                     </Group>
                     {entry.effect && (
@@ -151,10 +163,7 @@ export default function CharacterRecommendedBuildSection({
                       />
                     )}
                     {entry.bonuses.length > 0 && (
-                      <Text
-                        size="xs"
-                        c="dimmed"
-                      >
+                      <Text size="xs" c="dimmed">
                         Bonuses: {entry.bonuses.join(', ')}
                       </Text>
                     )}
@@ -170,12 +179,7 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <Paper
-                      p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
-                    >
+                    <StaticSurface p="sm">
                       <Group gap="sm" align="flex-start" wrap="nowrap">
                         {entry.icon && (
                           <Center
@@ -205,7 +209,11 @@ export default function CharacterRecommendedBuildSection({
                               {entry.name}
                             </Text>
                             {typeof entry.tier === 'number' && (
-                              <TierBadge tier={String(entry.tier)} showPrefix size="xs" />
+                              <TierBadge
+                                tier={String(entry.tier)}
+                                showPrefix
+                                size="xs"
+                              />
                             )}
                             {entry.className && (
                               <ClassTag
@@ -221,7 +229,7 @@ export default function CharacterRecommendedBuildSection({
                           )}
                         </Stack>
                       </Group>
-                    </Paper>
+                    </StaticSurface>
                   </Tooltip>
                 );
               })}
@@ -260,7 +268,7 @@ export default function CharacterRecommendedBuildSection({
                       ([statName, statValue]) =>
                         Boolean(statName) &&
                         statValue !== null &&
-                        statValue !== undefined
+                        statValue !== undefined,
                     )
                   : [];
 
@@ -276,11 +284,7 @@ export default function CharacterRecommendedBuildSection({
                         style={{ flexShrink: 0, opacity: 0.85 }}
                       />
                       <Stack gap={2} style={{ minWidth: 0 }}>
-                        <Text
-                          fw={700}
-                          size="sm"
-                          style={{ lineHeight: 1.25 }}
-                        >
+                        <Text fw={700} size="sm" style={{ lineHeight: 1.25 }}>
                           {entry.name}
                         </Text>
                         {(entry.setDisplayName || entry.quality) && (
@@ -295,10 +299,7 @@ export default function CharacterRecommendedBuildSection({
                               </Badge>
                             )}
                             {entryQuality && (
-                              <QualityIcon
-                                quality={entryQuality}
-                                size={16}
-                              />
+                              <QualityIcon quality={entryQuality} size={16} />
                             )}
                           </Group>
                         )}
@@ -371,14 +372,13 @@ export default function CharacterRecommendedBuildSection({
                     {entry.setName ? (
                       <Link
                         to={`/gear-sets/${entry.setName}`}
-                        style={{ textDecoration: 'none', width: '100%', display: 'block' }}
+                        style={{
+                          textDecoration: 'none',
+                          width: '100%',
+                          display: 'block',
+                        }}
                       >
-                        <Paper
-                          p="sm"
-                          radius="md"
-                          withBorder
-                          {...getCardHoverProps()}
-                        >
+                        <StaticSurface p="sm">
                           <Group gap="sm" wrap="nowrap">
                             <SafeImage
                               src={entry.icon}
@@ -400,16 +400,10 @@ export default function CharacterRecommendedBuildSection({
                               )}
                             </Stack>
                           </Group>
-                        </Paper>
+                        </StaticSurface>
                       </Link>
                     ) : (
-                      <Paper
-                        p="sm"
-                        radius="md"
-                        withBorder
-                        style={{ width: '100%' }}
-                        {...getCardHoverProps()}
-                      >
+                      <StaticSurface p="sm" style={{ width: '100%' }}>
                         <Group gap="sm" wrap="nowrap">
                           <SafeImage
                             src={entry.icon}
@@ -431,7 +425,7 @@ export default function CharacterRecommendedBuildSection({
                             )}
                           </Stack>
                         </Group>
-                      </Paper>
+                      </StaticSurface>
                     )}
                   </Tooltip>
                 );
@@ -457,11 +451,7 @@ export default function CharacterRecommendedBuildSection({
                       <Badge variant="light" color="gray" size="xs">
                         Pieces: {setBonus.pieces}/{setBonus.requiredPieces}
                       </Badge>
-                      <Badge
-                        variant="light"
-                        color={accent.primary}
-                        size="xs"
-                      >
+                      <Badge variant="light" color={accent.primary} size="xs">
                         Activations: ×{setBonus.activations}
                       </Badge>
                     </Group>
@@ -487,12 +477,7 @@ export default function CharacterRecommendedBuildSection({
                     styles={RICH_TOOLTIP_STYLES}
                     {...mobileTooltip}
                   >
-                    <Paper
-                      p="sm"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps()}
-                    >
+                    <StaticSurface p="sm">
                       <Stack gap={4}>
                         <Group justify="space-between" gap="xs">
                           <Text fw={600} size="sm" truncate>
@@ -510,10 +495,13 @@ export default function CharacterRecommendedBuildSection({
                           {setBonus.pieces}/{setBonus.requiredPieces} pieces
                         </Text>
                         <ExpandableText size="xs">
-                          <RichText text={setBonus.description} statusEffects={statusEffects} />
+                          <RichText
+                            text={setBonus.description}
+                            statusEffects={statusEffects}
+                          />
                         </ExpandableText>
                       </Stack>
-                    </Paper>
+                    </StaticSurface>
                   </Tooltip>
                 );
               })}

@@ -4,76 +4,66 @@ import { createFactionFilterGroup } from '@/components/common/EntityFilterGroups
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
-  ListPageLoading,
+  BuilderPageLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
-  matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
-import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
+import {
+  BUILDER_SIDE_LAYOUT_CONTAINER_SIZE,
+  STORAGE_KEY,
+} from '@/constants/ui';
 import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
+import {
+  EMPTY_TEAM_FILTERS,
+  matchesTeamFilters,
+  type TeamFilters,
+} from '@/features/teams/filters';
+import { loadSavedTeams, removeSavedTeam } from '@/features/teams/saved-teams';
 import type { Team } from '@/features/teams/types';
-import { migrateStoredTeam } from '@/features/teams/utils/team-builder';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useTeams } from '@/features/teams/hooks/use-teams-data';
+import { useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
   useBuilderEditState,
-  useCharacterResolution,
-  useCharacters,
   useFilters,
   useGradientAccent,
   useIsMobile,
   usePageSize,
   usePagination,
   usePoolLayout,
-  useTeams,
   useViewMode,
-  useWyrmspells,
 } from '@/hooks';
-import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
+import { showErrorToast } from '@/utils/toast';
+import { retryFailedDataSources } from '@/utils/retry-failed-data-sources';
 import {
   Container,
   Group,
   SegmentedControl,
+  Skeleton,
   Stack,
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router';
 
 const TEAMS_PER_PAGE = 12;
 const TEAM_PAGE_SIZE_OPTIONS = {
   grid: [6, 12, 18, 24],
   list: [10, 20, 30, 50],
 } as const;
-
-function matchesTeamFilters(
-  team: Team,
-  search: string,
-  viewFilters: Record<string, string[]>
-) {
-  if (search && !team.name.toLowerCase().includes(search.toLowerCase())) {
-    return false;
-  }
-  if (
-    viewFilters.factions.length > 0 &&
-    !viewFilters.factions.includes(team.faction)
-  ) {
-    return false;
-  }
-  if (!matchesContentTypeFilters(team.content_type, viewFilters.contentTypes)) {
-    return false;
-  }
-  return true;
-}
 
 export default function Teams() {
   const { accent } = useGradientAccent();
@@ -98,12 +88,11 @@ export default function Teams() {
     error: wyrmspellsError,
     retry: retryWyrmspells,
   } = useWyrmspells();
-  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
-    Record<string, string[]>
-  >({
-    emptyFilters: { factions: [], contentTypes: [] },
-    storageKey: STORAGE_KEY.TEAMS_FILTERS,
-  });
+  const { filters: viewFilters, setFilters: setViewFilters } =
+    useFilters<TeamFilters>({
+      emptyFilters: EMPTY_TEAM_FILTERS,
+      storageKey: STORAGE_KEY.TEAMS_FILTERS,
+    });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -136,11 +125,7 @@ export default function Teams() {
     canUseSideLayout: canUseSidePoolLayout,
   } = usePoolLayout();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
-    mode === 'saved'
-      ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
-          Array.isArray(v.members), migrateStoredTeam
-        )
-      : []
+    mode === 'saved' ? loadSavedTeams() : [],
   );
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
@@ -153,10 +138,8 @@ export default function Teams() {
     window.localStorage.setItem(STORAGE_KEY.TEAMS_SEARCH, search);
   }, [search]);
 
-  const {
-    preferredByName: charMap,
-    byIdentity: characterByIdentity,
-  } = useCharacterResolution(characters);
+  const { preferredByName: charMap, byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
@@ -165,7 +148,7 @@ export default function Teams() {
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
-        (value, index) => value === viewFilters.contentTypes[index]
+        (value, index) => value === viewFilters.contentTypes[index],
       );
     if (unchanged) return;
     setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
@@ -180,7 +163,7 @@ export default function Teams() {
       },
       createFactionFilterGroup(),
     ],
-    [contentTypeOptions]
+    [contentTypeOptions],
   );
 
   const activeFilterCount =
@@ -192,38 +175,35 @@ export default function Teams() {
     (key: string, values: string[]) => {
       setViewFilters((prev) => ({ ...prev, [key]: values }));
     },
-    [setViewFilters]
+    [setViewFilters],
   );
 
   const handleClearFilters = useCallback(() => {
-    setViewFilters({ factions: [], contentTypes: [] });
+    setViewFilters(EMPTY_TEAM_FILTERS);
     setSearch('');
   }, [setViewFilters]);
 
   function deleteSavedTeam(name: string) {
     try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
-      delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(
-        STORAGE_KEY.TEAMS_MY_SAVED,
-        JSON.stringify(saves)
-      );
+      removeSavedTeam(toEntitySlug(name));
       setSavedTeams((prev) => prev.filter((team) => team.name !== name));
     } catch {
-      // ignore
+      showErrorToast({
+        title: 'Could not delete team',
+        message: 'Browser storage could not be updated. Please try again.',
+      });
     }
   }
 
   const filteredSavedTeams = useMemo(() => {
     return savedTeams.filter((team) =>
-      matchesTeamFilters(team, search, viewFilters)
+      matchesTeamFilters(team, search, viewFilters),
     );
   }, [savedTeams, search, viewFilters]);
 
   const filteredTeams = useMemo(() => {
     return teams.filter((team) =>
-      matchesTeamFilters(team, search, viewFilters)
+      matchesTeamFilters(team, search, viewFilters),
     );
   }, [teams, search, viewFilters]);
 
@@ -232,13 +212,13 @@ export default function Teams() {
     {
       defaultSize: TEAMS_PER_PAGE,
       storageKey: getPageSizeStorageKey(STORAGE_KEY.TEAMS_VIEW_MODE),
-    }
+    },
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredTeams.length,
     pageSize,
-    JSON.stringify({ search, viewFilters })
+    JSON.stringify({ search, viewFilters }),
   );
 
   useEffect(() => {
@@ -318,22 +298,33 @@ export default function Teams() {
           </PageFilterHeaderControls>
         )}
 
-        {loading &&
-          (mode === 'builder' ? (
-            <ListPageLoading cards={4} />
-          ) : (
-            <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={200} />
-          ))}
+        {loading && (
+          <Stack gap="md">
+            <Skeleton height={36} radius="md" aria-hidden="true" />
+            {mode === 'builder' ? (
+              <BuilderPageLoading />
+            ) : (
+              <ViewModeLoading
+                viewMode={viewMode}
+                cardHeight={200}
+                showPagination
+                label="Loading teams"
+              />
+            )}
+          </Stack>
+        )}
 
         {!loading && error && (
           <DataFetchError
             title="Could not load teams data"
             message={error.message}
-            onRetry={() => {
-              retryTeams();
-              retryCharacters();
-              retryWyrmspells();
-            }}
+            onRetry={() =>
+              retryFailedDataSources(
+                [teamsError, retryTeams],
+                [charactersError, retryCharacters],
+                [wyrmspellsError, retryWyrmspells],
+              )
+            }
           />
         )}
 
@@ -347,13 +338,7 @@ export default function Teams() {
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
                 if (newMode === 'saved') {
-                  setSavedTeams(
-                    loadSavedFromStorage<Team>(
-                      STORAGE_KEY.TEAMS_MY_SAVED,
-                      (v) => Array.isArray(v.members),
-                      migrateStoredTeam
-                    )
-                  );
+                  setSavedTeams(loadSavedTeams());
                 }
                 setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);

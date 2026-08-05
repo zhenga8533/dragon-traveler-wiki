@@ -18,16 +18,20 @@ import {
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
 import {
-  EMPTY_FILTERS,
+  EMPTY_CHARACTER_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
   sortCharactersByQuality,
-} from '@/features/characters/utils/filter-characters';
+} from '@/features/characters/filters';
 import PaginationControl from '@/components/ui/PaginationControl';
 import CharacterFilter from '@/features/characters/components/CharacterFilter';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
 
 const ROWS_PER_PAGE = 6;
 
@@ -43,7 +47,7 @@ interface FilterableCharacterPoolProps {
     filtered: Character[],
     filterHeader: React.ReactNode,
     paginationControl: React.ReactNode,
-    cols: number
+    cols: number,
   ) => React.ReactNode;
 }
 
@@ -55,10 +59,12 @@ export default function FilterableCharacterPool({
   children,
 }: FilterableCharacterPoolProps) {
   const { tierLists, selectedTierListName } = useContext(
-    TierListReferenceContext
+    TierListReferenceContext,
   );
   const { data: statusEffects } = useStatusEffects();
-  const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
+  const [filters, setFilters] = useState<CharacterFilters>(
+    EMPTY_CHARACTER_FILTERS,
+  );
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
   // Mirror the SimpleGrid breakpoints: base: 2, xs: 3, sm: 4, md: 6
@@ -71,7 +77,7 @@ export default function FilterableCharacterPool({
     layout === 'side' ? SIDE_LAYOUT_COLS : isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSizeOptions = useMemo(
     () => buildRowAlignedPageSizeOptions(cols, [4, 6, 8, 10]),
-    [cols]
+    [cols],
   );
   const { pageSize, setPageSize } = usePageSize(pageSizeOptions, {
     defaultSize: cols * ROWS_PER_PAGE,
@@ -94,12 +100,12 @@ export default function FilterableCharacterPool({
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
-    [characters]
+    [characters],
   );
 
   const characterByIdentity = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
 
   const tierOptions = useMemo(() => {
@@ -142,13 +148,14 @@ export default function FilterableCharacterPool({
     const map = new Map<string, string>();
     if (!selectedTierListName) return map;
     const list = tierLists.find((l) => l.name === selectedTierListName);
-    if (!list) return map;
+    if (!list || getTierListEntityType(list) !== 'character') return map;
     for (const entry of list.entries) {
+      if (!isCharacterTierEntry(entry)) continue;
       const resolved = resolveCharacterByNameAndQuality(
         entry.character_slug,
         entry.character_quality,
         preferredCharacterByName,
-        characterByIdentity
+        characterByIdentity,
       );
       if (resolved) {
         map.set(getCharacterIdentityKey(resolved), entry.tier);
@@ -166,14 +173,14 @@ export default function FilterableCharacterPool({
     const filteredChars = filterCharacters(
       characters,
       filters,
-      selectedTierListName ? tierLookup : undefined
+      selectedTierListName ? tierLookup : undefined,
     );
     return sortCharactersByQuality(filteredChars);
   }, [characters, filters, tierLookup, selectedTierListName]);
 
   const filterKey = useMemo(
     () => JSON.stringify({ filters, selectedTierListName }),
-    [filters, selectedTierListName]
+    [filters, selectedTierListName],
   );
   const {
     page: safePage,

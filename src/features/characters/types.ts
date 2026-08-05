@@ -33,6 +33,7 @@ export interface DivinityChoice {
   name: string;
   description: string;
   cooldown: number;
+  icon?: string;
 }
 
 export interface DivinityLevel {
@@ -144,7 +145,7 @@ export interface Character {
   talent?: Talent | null;
   skills: Skill[];
   divinity?: DivinityLevel[];
-  recommended_noble_phantasm: string;
+  recommended_noble_phantasm: string[];
   recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
   skins: CharacterSkin[];

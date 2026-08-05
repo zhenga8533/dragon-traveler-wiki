@@ -1,17 +1,24 @@
 import { Box, Container, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { lazy, Suspense, useCallback, useContext, useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
+import { useParams } from 'react-router';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import EmptyState from '@/components/ui/EmptyState';
-import { StaticSurface } from '@/components/ui/Surface';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { CharacterDetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FullBleedSection from '@/components/layout/FullBleedSection';
 import { BREAKPOINTS } from '@/constants/ui';
-import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
+import { useCharacterAssets } from '@/features/characters/hooks/use-character-assets';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useMobileTooltip } from '@/hooks';
 import {
   BannerContext,
   CharacterOwnershipContext,
@@ -19,7 +26,7 @@ import {
   FavoriteIllustrationsContext,
 } from '@/contexts';
 import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import {
   getCharacterNavPaths,
   useCharacterPageData,
@@ -33,14 +40,9 @@ import CharacterSkillsSection from '@/features/characters/components/CharacterSk
 import CharacterSubclassPanel from '@/features/characters/components/CharacterSubclassPanel';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
-import {
-  getTeamBenchEntryName,
-  getTeamBenchEntryQuality,
-} from '@/features/teams/utils/team-bench';
-import { IoHourglassOutline } from 'react-icons/io5';
 
-const CharacterModelViewer = lazy(
-  () => import('@/features/characters/components/CharacterModelViewer')
+const CharacterModelLauncher = lazy(
+  () => import('@/features/characters/components/CharacterModelLauncher'),
 );
 
 export default function CharacterPage() {
@@ -48,24 +50,24 @@ export default function CharacterPage() {
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
   const { getCharacterStarLevel, setCharacterStarLevel } = useContext(
-    CharacterOwnershipContext
+    CharacterOwnershipContext,
   );
   const { isFavoriteIllustration, toggleFavoriteIllustration } = useContext(
-    FavoriteIllustrationsContext
+    FavoriteIllustrationsContext,
   );
   const { favoritesOnly } = useContext(BannerContext);
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
-    [rawStarLevels]
+    [rawStarLevels],
   );
   const starLevelOptions = useMemo(
     () => [
       { value: '', label: 'Not owned' },
       ...starLevels.map((l) => ({ value: l.value, label: l.label })),
     ],
-    [starLevels]
+    [starLevels],
   );
 
   const {
@@ -78,7 +80,7 @@ export default function CharacterPage() {
     tierLabel,
     tierListCharacterNote,
     selectedTierListName,
-    linkedNoblePhantasm,
+    linkedNoblePhantasms,
     subclassBySlug,
     recommendedGearLoadouts,
     recommendedSubclassEntries,
@@ -138,20 +140,12 @@ export default function CharacterPage() {
   }, []);
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <CharacterDetailPageLoading />;
   }
 
   if (!character) {
     if (sameNameVariants.length > 1 && routeBaseSlug) {
-      return (
-        <CharacterVariantSelector
-          variants={sameNameVariants}
-        />
-      );
+      return <CharacterVariantSelector variants={sameNameVariants} />;
     }
 
     return (
@@ -169,35 +163,18 @@ export default function CharacterPage() {
   const { previousItem, nextItem } = getCharacterNavPaths(
     previousCharacter,
     nextCharacter,
-    getSelectedSkin
+    getDisplaySkin,
   );
-  const hasTeamReference = teams.some((team) => {
-    const matchesCharacter = (slug: string, quality?: string) =>
-      (slug === character.slug || slug === character.legacy_slug) &&
-      (!quality || quality === character.quality);
-    return (
-      team.members?.some((member) =>
-        matchesCharacter(member.character_slug, member.character_quality)
-      ) ||
-      team.bench?.some((entry) =>
-        matchesCharacter(
-          getTeamBenchEntryName(entry),
-          getTeamBenchEntryQuality(entry)
-        )
-      )
-    );
-  });
   const hasRightColumnInformation = Boolean(
     character.lore ||
-    character.summary ||
-    character.talent ||
-    character.skills.length > 0 ||
-    (character.divinity?.length ?? 0) > 0 ||
-    recommendedGearLoadouts.length > 0 ||
-    recommendedSubclassEntries.length > 0 ||
-    linkedNoblePhantasm ||
-    hasTeamReference ||
-    (selectedTierListName && tierLabel && tierListCharacterNote)
+      character.summary ||
+      character.talent ||
+      character.skills.length > 0 ||
+      (character.divinity?.length ?? 0) > 0 ||
+      recommendedGearLoadouts.length > 0 ||
+      recommendedSubclassEntries.length > 0 ||
+      linkedNoblePhantasms.length > 0 ||
+      (selectedTierListName && tierLabel && tierListCharacterNote),
   );
 
   return (
@@ -210,6 +187,7 @@ export default function CharacterPage() {
             fullBodySrc={fullBodySrc}
             assetKey={characterAssetKey}
             isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
+            selectedSkinSlug={selectedSkinSlug}
           />
         </ErrorBoundary>
       </FullBleedSection>
@@ -250,7 +228,7 @@ export default function CharacterPage() {
                 modelAction={
                   <ErrorBoundary>
                     <Suspense fallback={null}>
-                      <CharacterModelViewer
+                      <CharacterModelLauncher
                         characterSlug={characterAssetKey || character.slug}
                         skinSlug={selectedSkinSlug}
                       />
@@ -268,7 +246,7 @@ export default function CharacterPage() {
                 onChange={(val) =>
                   setCharacterStarLevel(
                     getCharacterIdentityKey(character),
-                    val || null
+                    val || null,
                   )
                 }
               />
@@ -284,15 +262,6 @@ export default function CharacterPage() {
           {/* Right Column */}
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap="xl">
-              {!hasRightColumnInformation && (
-                <StaticSurface p="xl" radius="lg">
-                  <EmptyState
-                    icon={<IoHourglassOutline size={32} />}
-                    title="Character information coming soon"
-                    description="This preview currently includes available artwork and basic details. Skills, lore, and build information will be added when they become available."
-                  />
-                </StaticSurface>
-              )}
               <ErrorBoundary>
                 <CharacterBuildSection
                   character={character}
@@ -306,9 +275,10 @@ export default function CharacterPage() {
                   statusEffects={statusEffects}
                   recommendedGearLoadouts={recommendedGearLoadouts}
                   recommendedSubclassEntries={recommendedSubclassEntries}
-                  linkedNoblePhantasm={linkedNoblePhantasm}
+                  linkedNoblePhantasms={linkedNoblePhantasms}
                   scrollToSkill={scrollToSkill}
                   scrollToTalent={scrollToTalent}
+                  showInformationComingSoon={!hasRightColumnInformation}
                 />
               </ErrorBoundary>
               <ErrorBoundary>

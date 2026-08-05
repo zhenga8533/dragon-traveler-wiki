@@ -34,7 +34,7 @@ function pickForDate(
   dateStr: string,
   ring: ReturnType<typeof buildRing>,
   excludedSlugs: ReadonlySet<string>,
-  modeSalt = ''
+  modeSalt = '',
 ): string {
   const dateHash = fnv1aHash32(modeSalt ? `${modeSalt}:${dateStr}` : dateStr);
   return pickFromRing(ring, dateHash, excludedSlugs);
@@ -52,7 +52,7 @@ function pickForDate(
 export function getTodayAnswerSlug(
   todayStr: string,
   eligibleSlugsSorted: string[],
-  modeSalt = ''
+  modeSalt = '',
 ): string {
   const ring = buildRing(eligibleSlugsSorted);
   const history: string[] = [];

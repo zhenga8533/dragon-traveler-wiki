@@ -6,9 +6,9 @@ import type { Relic } from '@/features/wiki/relics/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { Group, Paper, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 
 interface OracleScrollRelicCardProps {
   relic: Relic;
@@ -23,15 +23,11 @@ export default function OracleScrollRelicCard({
 }: OracleScrollRelicCardProps) {
   const iconSrc = getRelicIcon(relic.slug, relic.quality);
   return (
-    <Paper
+    <StaticSurface
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderTop: `3px solid var(--mantine-color-${QUALITY_COLOR[relic.quality]}-${isDark ? 7 : 5})`,
-        },
-      })}
+      style={{
+        borderTop: `3px solid var(--mantine-color-${QUALITY_COLOR[relic.quality]}-${isDark ? 7 : 5})`,
+      }}
     >
       <Stack gap="sm">
         <Group gap="md" wrap="nowrap" align="flex-start">
@@ -56,15 +52,10 @@ export default function OracleScrollRelicCard({
           </Stack>
         </Group>
 
-        <Paper
-          p="sm"
-          radius="sm"
-          withBorder
-          {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
-        >
+        <StaticSurface p="sm" radius="sm" style={getLoreGlassStyles(isDark)}>
           <RichText text={relic.lore} statusEffects={statusEffects} italic />
-        </Paper>
+        </StaticSurface>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

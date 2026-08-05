@@ -7,7 +7,7 @@ function isValidBoolean(value: unknown): value is boolean {
 
 export function useStoredToggle(storageKey: string, defaultValue: boolean) {
   const [value, setValue] = useState(() =>
-    readStoredJson(storageKey, defaultValue, isValidBoolean)
+    readStoredJson(storageKey, defaultValue, isValidBoolean),
   );
   useEffect(() => {
     writeStoredJson(storageKey, value);

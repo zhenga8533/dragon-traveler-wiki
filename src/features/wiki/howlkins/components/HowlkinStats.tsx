@@ -22,7 +22,7 @@ export default function HowlkinStats({
 }: HowlkinStatsProps) {
   const { accent } = useGradientAccent();
   const entries = Object.entries(stats ?? {}).sort(([a], [b]) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   );
 
   if (entries.length === 0) {

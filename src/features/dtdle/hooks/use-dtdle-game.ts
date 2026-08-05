@@ -19,7 +19,7 @@ export function useDtdleGame() {
 
   const eligible = useMemo(
     () => getEligibleCharacters(characters),
-    [characters]
+    [characters],
   );
 
   const answer = useDailyAnswer(eligible, todayStr);
@@ -28,12 +28,15 @@ export function useDtdleGame() {
     STORAGE_KEY.DTDLE_STATE,
     todayStr,
     freshGameState,
-    isValidGameState
+    isValidGameState,
   );
 
   const { stats, recordWin } = useDailyStats(STORAGE_KEY.DTDLE_STATS, todayStr);
 
-  const guessedCharacters = useGuessedCharacters(eligible, gameState.guessedSlugs);
+  const guessedCharacters = useGuessedCharacters(
+    eligible,
+    gameState.guessedSlugs,
+  );
 
   const submitGuess = useSubmitGuess(setGameState, answer, recordWin);
 

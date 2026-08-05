@@ -1,11 +1,5 @@
 import { ActionIcon, Popover, Textarea, Tooltip } from '@mantine/core';
-import {
-  memo,
-  useEffect,
-  useRef,
-  useState,
-  type CSSProperties,
-} from 'react';
+import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { GLASS, getGlassStyles } from '@/constants/glass';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
@@ -69,6 +63,11 @@ function CharacterNoteButton({
       withinPortal
       zIndex={400}
       offset={6}
+      // Bound against the document instead of the narrow scrollable pool column.
+      middlewares={{
+        shift: { boundary: document.body },
+        flip: { boundary: document.body },
+      }}
     >
       <Popover.Target>
         <div style={style}>

@@ -1,17 +1,30 @@
-import { Link } from 'react-router-dom';
-import { Badge, Group, ScrollArea, SimpleGrid, Table, Text } from '@mantine/core';
+import { Link } from 'react-router';
+import {
+  Badge,
+  Group,
+  ScrollArea,
+  SimpleGrid,
+  Table,
+  Text,
+} from '@mantine/core';
 import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getRelicIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SortableTh from '@/components/ui/SortableTh';
 import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
+import type { RelicFilters } from '@/features/wiki/relics/filters';
 import type { Relic, RelicType } from '@/features/wiki/relics/types';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMinWidthStyle } from '@/constants/styles';
@@ -19,16 +32,12 @@ import type { GradientPaletteAccents } from '@/contexts';
 import type { ViewMode } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-
-interface RelicFilters {
-  search: string;
-  types: RelicType[];
-  qualities: Quality[];
-}
+import { useIsMobile } from '@/hooks';
 
 interface RelicsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   relics: Relic[];
   filtered: Relic[];
   viewMode: ViewMode;
@@ -58,6 +67,7 @@ interface RelicsTabProps {
 export default function RelicsTab({
   loading,
   error,
+  onRetry,
   relics,
   filtered,
   viewMode,
@@ -83,14 +93,24 @@ export default function RelicsTab({
   accent,
   statusEffects,
 }: RelicsTabProps) {
+  const isMobile = useIsMobile();
+
   return (
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load relics"
       hasData={relics.length > 0}
       emptyMessage="No relic data available yet."
-      skeletonCards={4}
+      loadingFallback={
+        <ViewModeLoading
+          viewMode={viewMode}
+          listType="table"
+          withToolbar
+          showPagination
+        />
+      }
     >
       <FilteredListShell
         count={filtered.length}
@@ -136,6 +156,31 @@ export default function RelicsTab({
               onFiltersChange({ ...filters, search: value })
             }
             searchPlaceholder="Search by name, oracle scroll, or lore..."
+            beforeGroups={
+              <FilterSection label="Oracle Scroll">
+                <FilterChipGroup
+                  value={filters.oracleScrollMembership}
+                  onChange={(values) =>
+                    onFiltersChange({
+                      ...filters,
+                      oracleScrollMembership:
+                        values.length === 0
+                          ? []
+                          : [
+                              values[
+                                values.length - 1
+                              ] as RelicFilters['oracleScrollMembership'][number],
+                            ],
+                    })
+                  }
+                  size={isMobile ? 'md' : 'xs'}
+                  options={[
+                    { value: 'member', label: 'Member' },
+                    { value: 'none', label: 'Not a member' },
+                  ]}
+                />
+              </FilterSection>
+            }
           />
         }
         gridContent={
@@ -146,7 +191,9 @@ export default function RelicsTab({
               return (
                 <EntitySummaryCard
                   key={item.name}
-                  to={oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null}
+                  to={
+                    oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null
+                  }
                   title={item.name}
                   imageSrc={iconSrc}
                   titleAccessory={
@@ -156,7 +203,11 @@ export default function RelicsTab({
                     <Group gap="xs" wrap="wrap">
                       <RelicTypeTag type={item.type} />
                       {oracleScroll && (
-                        <Badge variant="light" size="sm" color={accent.secondary}>
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color={accent.secondary}
+                        >
                           {oracleScroll.name}
                         </Badge>
                       )}
@@ -258,8 +309,13 @@ export default function RelicsTab({
                             variant="light"
                             size="sm"
                             color={accent.secondary}
-                            style={{ cursor: 'pointer', textDecoration: 'none' }}
-                            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                            style={{
+                              cursor: 'pointer',
+                              textDecoration: 'none',
+                            }}
+                            onClick={(e: React.MouseEvent) =>
+                              e.stopPropagation()
+                            }
                           >
                             {oracleScroll.name}
                           </Badge>

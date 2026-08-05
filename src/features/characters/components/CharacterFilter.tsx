@@ -10,9 +10,9 @@ import {
   FilterMultiSelect,
   FilterSection,
 } from '@/components/common/FilterControls';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
-import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
+import { EMPTY_CHARACTER_FILTERS } from '@/features/characters/filters';
 import { useIsMobile } from '@/hooks';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Divider, Group, Select, SimpleGrid, Text } from '@mantine/core';
@@ -97,7 +97,7 @@ export default function CharacterFilter({
         tiers: filters.tiers,
       }}
       onChange={handleGroupChange}
-      onClear={() => onChange(EMPTY_FILTERS)}
+      onClear={() => onChange(EMPTY_CHARACTER_FILTERS)}
       hasActiveFilters={
         filters.search !== '' ||
         filters.qualities.length > 0 ||
@@ -212,7 +212,9 @@ export default function CharacterFilter({
                 onChange={(val) => onChange({ ...filters, statusEffects: val })}
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
-                  const effect = effectOptions.find((o) => o.value === option.value);
+                  const effect = effectOptions.find(
+                    (o) => o.value === option.value,
+                  );
                   const iconSrc = effect?.slug
                     ? getStatusEffectIcon(effect.slug, effect.type)
                     : undefined;
@@ -259,11 +261,13 @@ export default function CharacterFilter({
                   value={filters.minStarLevel}
                   onChange={(val) => {
                     const minIndex = val
-                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === val,
+                        )
                       : -1;
                     const maxIndex = filters.maxStarLevel
                       ? starLevelOptions.findIndex(
-                          (option) => option.value === filters.maxStarLevel
+                          (option) => option.value === filters.maxStarLevel,
                         )
                       : -1;
                     onChange({
@@ -286,11 +290,13 @@ export default function CharacterFilter({
                   value={filters.maxStarLevel}
                   onChange={(val) => {
                     const maxIndex = val
-                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === val,
+                        )
                       : -1;
                     const minIndex = filters.minStarLevel
                       ? starLevelOptions.findIndex(
-                          (option) => option.value === filters.minStarLevel
+                          (option) => option.value === filters.minStarLevel,
                         )
                       : -1;
                     onChange({

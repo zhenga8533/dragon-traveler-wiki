@@ -1,7 +1,10 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { BREAKPOINTS, STORAGE_KEY } from '@/constants/ui';
-import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
+import {
+  CharacterOwnershipContext,
+  TierListReferenceContext,
+} from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
@@ -9,17 +12,21 @@ import {
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
-import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
+import type { CharacterFilters } from '@/features/characters/filters';
+import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
 import {
   compareCharactersByQualityThenName,
-  EMPTY_FILTERS,
+  EMPTY_CHARACTER_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
-} from '@/features/characters/utils/filter-characters';
+} from '@/features/characters/filters';
 import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
-import { buildStarLevels } from '@/types/star-level';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
 import type { ViewMode } from '@/hooks/use-filters';
 import { useFilterPanel, useFilters, useViewMode } from '@/hooks/use-filters';
 import {
@@ -64,23 +71,31 @@ export interface CharacterListData {
 }
 
 export function useCharacterListData(
-  characters: Character[]
+  characters: Character[],
 ): CharacterListData {
   const { tierLists, selectedTierListName } = useContext(
-    TierListReferenceContext
+    TierListReferenceContext,
   );
-  const { ownedCharacters, showCharacterTiers } = useContext(CharacterOwnershipContext);
+  const { ownedCharacters, showCharacterTiers } = useContext(
+    CharacterOwnershipContext,
+  );
   const { data: statusEffects } = useStatusEffects();
   const { data: rawStarLevels } = useStarLevels();
-  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
-  const starLevelOrder = useMemo(() => starLevels.map((l) => l.value), [starLevels]);
+  const starLevels = useMemo(
+    () => buildStarLevels(rawStarLevels),
+    [rawStarLevels],
+  );
+  const starLevelOrder = useMemo(
+    () => starLevels.map((l) => l.value),
+    [starLevels],
+  );
   const starLevelOptions = useMemo(
     () => starLevels.map((l) => ({ value: l.value, label: l.label })),
-    [starLevels]
+    [starLevels],
   );
 
   const { filters, setFilters } = useFilters<CharacterFilters>({
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_CHARACTER_FILTERS,
     storageKey: STORAGE_KEY.CHARACTER_FILTERS,
   });
   const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
@@ -98,7 +113,7 @@ export function useCharacterListData(
   const activeCols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const gridPageSizeOptions = useMemo(
     () => buildRowAlignedPageSizeOptions(activeCols, [4, 6, 8, 10]),
-    [activeCols]
+    [activeCols],
   );
   const listPageSizeOptions = [10, 20, 30, 50] as const;
   const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
@@ -106,7 +121,7 @@ export function useCharacterListData(
     {
       defaultSize: activeCols * 6,
       storageKey: getPageSizeStorageKey(STORAGE_KEY.CHARACTER_VIEW_MODE),
-    }
+    },
   );
 
   const effectOptions = useMemo(() => {
@@ -126,19 +141,22 @@ export function useCharacterListData(
 
   const combatTagOptions = useMemo(
     () =>
-      [...new Set(characters.flatMap((character) => character.combat_tags ?? []))]
-        .sort((left, right) => left.localeCompare(right)),
-    [characters]
+      [
+        ...new Set(
+          characters.flatMap((character) => character.combat_tags ?? []),
+        ),
+      ].sort((left, right) => left.localeCompare(right)),
+    [characters],
   );
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
-    [characters]
+    [characters],
   );
 
   const characterByIdentity = useMemo(
     () => buildCharacterByIdentityMap(characters),
-    [characters]
+    [characters],
   );
 
   const tierOptions = useMemo(() => {
@@ -173,13 +191,14 @@ export function useCharacterListData(
     const map = new Map<string, string>();
     if (!selectedTierListName) return map;
     const list = tierLists.find((l) => l.name === selectedTierListName);
-    if (!list) return map;
+    if (!list || getTierListEntityType(list) !== 'character') return map;
     for (const entry of list.entries) {
+      if (!isCharacterTierEntry(entry)) continue;
       const resolved = resolveCharacterByNameAndQuality(
         entry.character_slug,
         entry.character_quality,
         preferredCharacterByName,
-        characterByIdentity
+        characterByIdentity,
       );
       if (resolved) {
         map.set(getCharacterIdentityKey(resolved), entry.tier);
@@ -202,7 +221,7 @@ export function useCharacterListData(
         'N/A'
       );
     },
-    [showCharacterTiers, selectedTierListName, tierLookup]
+    [showCharacterTiers, selectedTierListName, tierLookup],
   );
 
   const filteredAndSorted = useMemo(() => {
@@ -211,7 +230,7 @@ export function useCharacterListData(
       filters,
       selectedTierListName ? tierLookup : undefined,
       ownedCharacters,
-      starLevelOrder
+      starLevelOrder,
     );
     return [...filtered].sort((a, b) => {
       if (sortCol) {
@@ -251,7 +270,7 @@ export function useCharacterListData(
   const { page, setPage, totalPages, offset } = usePagination(
     filteredAndSorted.length,
     pageSize,
-    JSON.stringify(filters)
+    JSON.stringify(filters),
   );
 
   useEffect(() => {

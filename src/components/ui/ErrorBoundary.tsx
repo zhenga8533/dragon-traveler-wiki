@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { IoAlertCircle, IoHome, IoRefresh } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface ErrorBoundaryProps {
   children: ReactNode;

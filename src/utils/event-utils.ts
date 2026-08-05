@@ -1,4 +1,4 @@
-import type { GameEvent } from '@/types';
+import type { GameEvent } from '@/features/wiki/events/types';
 
 const EVENT_TYPE_COLOR: Record<string, string> = {
   Release: 'blue',

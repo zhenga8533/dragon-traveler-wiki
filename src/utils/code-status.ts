@@ -1,4 +1,4 @@
-import type { Code } from '@/types/code';
+import type { Code } from '@/features/wiki/codes/types';
 
 type MaybeCodeStatus = Pick<Code, 'active'> | null | undefined;
 

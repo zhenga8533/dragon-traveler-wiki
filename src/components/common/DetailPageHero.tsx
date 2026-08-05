@@ -41,7 +41,7 @@ export default function DetailPageHero({
           isDark,
           qualityColor,
           secondaryColor,
-          gradientOpacity
+          gradientOpacity,
         )}
       />
       <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py={py}>

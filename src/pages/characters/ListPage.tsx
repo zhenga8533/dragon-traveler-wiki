@@ -1,13 +1,13 @@
 import {
-  CharacterList,
+  CharacterListLoading,
   EmptyState,
   ListPageHeader,
   ListPageShell,
   SuggestModal,
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
+import CharacterList from '@/features/characters/components/CharacterList';
 import { CHARACTER_FIELDS } from '@/features/characters/form-fields';
-import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import { CharacterOwnershipContext } from '@/contexts';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -15,23 +15,25 @@ import { useCharacterListData } from '@/features/characters/hooks/use-character-
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { ActionIcon, Button, Container, Group, Stack, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Button,
+  Container,
+  Group,
+  Stack,
+  Tooltip,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { IoPeople, IoPersonOutline } from 'react-icons/io5';
 
 export default function Characters() {
   const { accent } = useGradientAccent();
-  const {
-    data: characters,
-    loading,
-    error,
-    retry,
-  } = useCharacters();
+  const { data: characters, loading, error, retry } = useCharacters();
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(characters),
-    [characters]
+    [characters],
   );
 
   const listData = useCharacterListData(characters);
@@ -100,10 +102,9 @@ export default function Characters() {
           errorTitle="Could not load characters"
           hasData={characters.length > 0}
           emptyMessage="No character data available yet."
-          skeletonType="grid"
-          skeletonCards={12}
-          skeletonCardHeight={110}
-          skeletonCols={CHARACTER_GRID_COLS}
+          loadingFallback={
+            <CharacterListLoading viewMode={listData.viewMode} />
+          }
         >
           {characters.length === 0 ? (
             <EmptyState
@@ -113,7 +114,10 @@ export default function Characters() {
               color={accent.primary}
             />
           ) : (
-            <CharacterList data={listData} newCharacterKeys={newCharacterKeys} />
+            <CharacterList
+              data={listData}
+              newCharacterKeys={newCharacterKeys}
+            />
           )}
         </ListPageShell>
       </Stack>

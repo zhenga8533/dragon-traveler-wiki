@@ -1,5 +1,5 @@
 import { Group, ScrollArea, Table, Text, UnstyledButton } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
 import {
@@ -102,7 +102,9 @@ export default function CharacterTable({
                       borderWidth={3}
                       routePath={getCharacterRoutePath(char)}
                       style={{ flexShrink: 0 }}
-                      isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
+                      isNew={newCharacterKeys?.has(
+                        getCharacterIdentityKey(char),
+                      )}
                     />
                     <Text size="sm" fw={500} className="dt-link-text">
                       {char.name}

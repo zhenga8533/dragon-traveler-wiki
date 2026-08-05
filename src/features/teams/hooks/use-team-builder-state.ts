@@ -2,7 +2,6 @@
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
-  type ContentType,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
@@ -26,15 +25,19 @@ import {
 } from '@/features/teams/utils/team-builder';
 import type { Team, TeamMember, TeamWyrmspells } from '@/features/teams/types';
 import {
-  insertUniqueBefore,
-  removeItem,
-} from '@/utils/dnd-list';
+  createEmptyTeamBuilderState,
+  teamBuilderReducer,
+  type TeamBuilderMetaState,
+  type TeamBuilderState,
+} from '@/features/teams/team-builder-state';
+import { insertUniqueBefore, removeItem } from '@/utils/dnd-list';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import { useCharacterResolution, useDraftHydration } from '@/hooks';
+import { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+import { useDraftHydration } from '@/hooks';
 import type { FactionSlug } from '@/types/faction';
 import { showWarningToast } from '@/utils/toast';
 import type {
@@ -55,38 +58,6 @@ const DEFAULT_TEAM_NAME = 'My Team';
 const DEFAULT_TEAM_AUTHOR = 'Anonymous';
 const DEFAULT_TEAM_FACTION = 'elemental_echo' as FactionSlug;
 
-export interface TeamBuilderMetaState {
-  name: string;
-  author: string;
-  contentType: ContentType;
-  description: string;
-  faction: FactionSlug | null;
-}
-
-export interface TeamBuilderState {
-  slots: Array<string | null>;
-  overdriveEnabled: boolean;
-  overdriveSequence: number[];
-  bench: string[];
-  benchNotes: Record<string, string>;
-  slotNotes: string[];
-  teamWyrmspells: TeamWyrmspells;
-  meta: TeamBuilderMetaState;
-}
-
-export type TeamBuilderAction =
-  | { type: 'LOAD_TEAM'; payload: TeamBuilderState }
-  | { type: 'SET_SLOT'; slotIndex: number; characterKey: string | null }
-  | { type: 'SET_BENCH'; bench: string[]; benchNotes?: Record<string, string> }
-  | { type: 'UPDATE_META'; patch: Partial<TeamBuilderMetaState> }
-  | { type: 'SET_OVERDRIVE_ENABLED'; enabled: boolean }
-  | { type: 'SET_OVERDRIVE_SEQUENCE'; payload: number[] }
-  | { type: 'SET_SLOT_NOTE'; slotIndex: number; note: string }
-  | { type: 'SET_SLOT_NOTES'; payload: string[] }
-  | { type: 'SET_BENCH_NOTE'; characterKey: string; note?: string }
-  | { type: 'SET_WYRMSPELL'; key: keyof TeamWyrmspells; value?: string }
-  | { type: 'RESET' };
-
 export interface UseTeamBuilderStateOptions {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -96,25 +67,6 @@ export interface UseTeamBuilderStateOptions {
 interface CharacterLocationInBuilder {
   zone: 'slot' | 'bench' | 'available';
   index?: number;
-}
-
-function createEmptyBuilderState(): TeamBuilderState {
-  return {
-    slots: Array<string | null>(GRID_SIZE).fill(null),
-    overdriveEnabled: false,
-    overdriveSequence: [],
-    bench: [],
-    benchNotes: {},
-    slotNotes: Array<string>(GRID_SIZE).fill(''),
-    teamWyrmspells: {},
-    meta: {
-      name: '',
-      author: '',
-      contentType: DEFAULT_CONTENT_TYPE,
-      description: '',
-      faction: null,
-    },
-  };
 }
 
 function createFallbackTeam(): Team {
@@ -127,68 +79,6 @@ function createFallbackTeam(): Team {
     members: [],
     last_updated: 0,
   };
-}
-
-function teamBuilderReducer(
-  state: TeamBuilderState,
-  action: TeamBuilderAction
-): TeamBuilderState {
-  switch (action.type) {
-    case 'LOAD_TEAM':
-      return action.payload;
-    case 'SET_SLOT': {
-      const slots = [...state.slots];
-      slots[action.slotIndex] = action.characterKey;
-      return { ...state, slots };
-    }
-    case 'SET_BENCH':
-      return {
-        ...state,
-        bench: action.bench,
-        ...(action.benchNotes ? { benchNotes: action.benchNotes } : {}),
-      };
-    case 'UPDATE_META':
-      return {
-        ...state,
-        meta: {
-          ...state.meta,
-          ...action.patch,
-        },
-      };
-    case 'SET_OVERDRIVE_ENABLED':
-      return { ...state, overdriveEnabled: action.enabled };
-    case 'SET_OVERDRIVE_SEQUENCE':
-      return { ...state, overdriveSequence: action.payload };
-    case 'SET_SLOT_NOTE': {
-      const slotNotes = [...state.slotNotes];
-      slotNotes[action.slotIndex] = action.note;
-      return { ...state, slotNotes };
-    }
-    case 'SET_SLOT_NOTES':
-      return { ...state, slotNotes: action.payload };
-    case 'SET_BENCH_NOTE': {
-      const benchNotes = { ...state.benchNotes };
-      if (action.note) {
-        benchNotes[action.characterKey] = action.note;
-      } else {
-        delete benchNotes[action.characterKey];
-      }
-      return { ...state, benchNotes };
-    }
-    case 'SET_WYRMSPELL': {
-      const nextWyrmspells = { ...state.teamWyrmspells };
-      if (action.value) {
-        nextWyrmspells[action.key] = action.value;
-      } else {
-        delete nextWyrmspells[action.key];
-      }
-      return { ...state, teamWyrmspells: nextWyrmspells };
-    }
-    case 'RESET':
-      return createEmptyBuilderState();
-    default:
-      return state;
-  }
 }
 
 function parseFactionName(value: string | null): FactionSlug | null {
@@ -205,7 +95,7 @@ function toCharacterKey(id: UniqueIdentifier | undefined): string | null {
 /** First empty slot whose row is in `validRows` (any row if `validRows` is null). */
 function findNextEmptySlot(
   slots: Array<string | null>,
-  validRows: number[] | null
+  validRows: number[] | null,
 ): number {
   for (let slotIndex = 0; slotIndex < slots.length; slotIndex++) {
     if (slots[slotIndex] !== null) continue;
@@ -218,9 +108,9 @@ function findNextEmptySlot(
 function toBuilderState(
   data: Team,
   getCharacterKeyFromReference: (name: string, quality?: string) => string,
-  getCharacterFromKey: (characterKey: string) => Character | undefined
+  getCharacterFromKey: (characterKey: string) => Character | undefined,
 ): TeamBuilderState {
-  const nextState = createEmptyBuilderState();
+  const nextState = createEmptyTeamBuilderState();
   nextState.meta = {
     name: data.name || '',
     author: data.author || '',
@@ -236,16 +126,18 @@ function toBuilderState(
   for (const member of data.members) {
     const characterKey = getCharacterKeyFromReference(
       member.character_slug,
-      member.character_quality
+      member.character_quality,
     );
     if (usedKeys.has(characterKey)) continue;
 
     const character = getCharacterFromKey(characterKey);
-    const validRows = character ? getValidRows(character.character_class) : null;
+    const validRows = character
+      ? getValidRows(character.character_class)
+      : null;
 
     // A malformed/duplicate/wrong-row position falls back to the next open
     // valid-row slot instead of silently dropping the character.
-    let slotIndex = -1;
+    let slotIndex: number;
     if (member.position) {
       const candidate = member.position.row * 3 + member.position.col;
       const candidateValid =
@@ -300,7 +192,7 @@ function toBuilderState(
   nextState.benchNotes = Object.fromEntries(
     normalizedBenchEntries
       .map((entry) => [entry.benchKey, entry.benchNote] as const)
-      .filter((entry): entry is readonly [string, string] => Boolean(entry[1]))
+      .filter((entry): entry is readonly [string, string] => Boolean(entry[1])),
   );
 
   nextState.teamWyrmspells = data.wyrmspells || {};
@@ -316,16 +208,17 @@ export function useTeamBuilderState({
   const [state, dispatch] = useReducer(
     teamBuilderReducer,
     undefined,
-    createEmptyBuilderState
+    createEmptyTeamBuilderState,
   );
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const { byIdentity: characterByIdentity } = useCharacterResolution(characters);
+  const { byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>
       getCharacterByReferenceKey(characterKey, charMap, characterByIdentity),
-    [characterByIdentity, charMap]
+    [characterByIdentity, charMap],
   );
 
   const getCharacterKeyFromReference = useCallback(
@@ -335,9 +228,9 @@ export function useTeamBuilderState({
         quality,
         characters,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       ),
-    [characterByIdentity, charMap, characters]
+    [characterByIdentity, charMap, characters],
   );
 
   const loadFromTeam = useCallback(
@@ -347,11 +240,11 @@ export function useTeamBuilderState({
         payload: toBuilderState(
           team,
           getCharacterKeyFromReference,
-          getCharacterFromKey
+          getCharacterFromKey,
         ),
       });
     },
-    [getCharacterFromKey, getCharacterKeyFromReference]
+    [getCharacterFromKey, getCharacterKeyFromReference],
   );
 
   const draftHydrated = useDraftHydration({
@@ -361,7 +254,7 @@ export function useTeamBuilderState({
     normalizeFromPartial: (partial, fallback) =>
       normalizeTeamFromPartial(
         partial as Parameters<typeof normalizeTeamFromPartial>[0],
-        fallback
+        fallback,
       ),
     createFallback: createFallbackTeam,
     load: loadFromTeam,
@@ -404,7 +297,7 @@ export function useTeamBuilderState({
       state.overdriveEnabled ||
       state.slotNotes.some((note) => Boolean(normalizeNote(note))) ||
       Object.values(state.benchNotes).some((note) =>
-        Boolean(normalizeNote(note))
+        Boolean(normalizeNote(note)),
       ) ||
       Object.values(state.teamWyrmspells).some((value) => Boolean(value)) ||
       state.meta.name.trim().length > 0 ||
@@ -412,7 +305,7 @@ export function useTeamBuilderState({
       state.meta.description.trim().length > 0 ||
       state.meta.faction !== null ||
       state.meta.contentType !== DEFAULT_CONTENT_TYPE,
-    [state, teamSize]
+    [state, teamSize],
   );
 
   const teamData = useMemo<Team>(() => {
@@ -428,7 +321,7 @@ export function useTeamBuilderState({
           ...toCharacterReferenceFromKey(
             characterKey,
             charMap,
-            characterByIdentity
+            characterByIdentity,
           ),
           overdrive_order: overdriveOrder++,
           position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
@@ -445,7 +338,7 @@ export function useTeamBuilderState({
         ...toCharacterReferenceFromKey(
           characterKey,
           charMap,
-          characterByIdentity
+          characterByIdentity,
         ),
         overdrive_order: null,
         position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
@@ -468,7 +361,7 @@ export function useTeamBuilderState({
         const reference = toCharacterReferenceFromKey(
           characterKey,
           charMap,
-          characterByIdentity
+          characterByIdentity,
         );
         const note = normalizeNote(state.benchNotes[characterKey]);
         return note ? { ...reference, note } : reference;
@@ -520,9 +413,9 @@ export function useTeamBuilderState({
   const availableCharacters = useMemo(
     () =>
       characters.filter(
-        (character) => !usedNames.has(getCharacterIdentityKey(character))
+        (character) => !usedNames.has(getCharacterIdentityKey(character)),
       ),
-    [characters, usedNames]
+    [characters, usedNames],
   );
 
   const getCharacterPath = useCallback(
@@ -531,12 +424,12 @@ export function useTeamBuilderState({
         characterName,
         characterQuality,
         charMap,
-        characterByIdentity
+        characterByIdentity,
       );
       if (!character) return getCharacterRoutePathByName(characterName);
       return getCharacterRoutePath(character);
     },
-    [charMap, characterByIdentity]
+    [charMap, characterByIdentity],
   );
 
   const updateMeta = useCallback((patch: Partial<TeamBuilderMetaState>) => {
@@ -549,42 +442,42 @@ export function useTeamBuilderState({
         contentType: normalizeContentType(value, DEFAULT_CONTENT_TYPE),
       });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleNameCommit = useCallback(
     (name: string) => {
       updateMeta({ name });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleAuthorCommit = useCallback(
     (author: string) => {
       updateMeta({ author });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleDescriptionCommit = useCallback(
     (description: string) => {
       updateMeta({ description });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleFactionChange = useCallback(
     (value: string | null) => {
       updateMeta({ faction: parseFactionName(value) });
     },
-    [updateMeta]
+    [updateMeta],
   );
 
   const handleWyrmspellChange = useCallback(
     (key: keyof TeamWyrmspells, value: string | null) => {
       dispatch({ type: 'SET_WYRMSPELL', key, value: value || undefined });
     },
-    []
+    [],
   );
 
   const handleOverdriveEnabledChange = useCallback((enabled: boolean) => {
@@ -598,7 +491,7 @@ export function useTeamBuilderState({
         payload: state.overdriveSequence.filter((index) => index !== slotIndex),
       });
     },
-    [state.overdriveSequence]
+    [state.overdriveSequence],
   );
 
   const swapOverdriveSlots = useCallback(
@@ -612,7 +505,7 @@ export function useTeamBuilderState({
         }),
       });
     },
-    [state.overdriveSequence]
+    [state.overdriveSequence],
   );
 
   const moveOverdriveSlot = useCallback(
@@ -620,11 +513,11 @@ export function useTeamBuilderState({
       dispatch({
         type: 'SET_OVERDRIVE_SEQUENCE',
         payload: state.overdriveSequence.map((index) =>
-          index === fromIndex ? toIndex : index
+          index === fromIndex ? toIndex : index,
         ),
       });
     },
-    [state.overdriveSequence]
+    [state.overdriveSequence],
   );
 
   const isValidPlacement = useCallback(
@@ -634,7 +527,7 @@ export function useTeamBuilderState({
       const row = Math.floor(slotIndex / 3);
       return getValidRows(character.character_class).includes(row);
     },
-    [getCharacterFromKey]
+    [getCharacterFromKey],
   );
 
   const notifyInvalidPlacement = useCallback(
@@ -653,7 +546,7 @@ export function useTeamBuilderState({
         autoClose: 2400,
       });
     },
-    [getCharacterFromKey]
+    [getCharacterFromKey],
   );
 
   const notifyTeamFull = useCallback(() => {
@@ -676,7 +569,7 @@ export function useTeamBuilderState({
         autoClose: 2400,
       });
     },
-    [getCharacterFromKey]
+    [getCharacterFromKey],
   );
 
   const findValidEmptySlotForCharacter = useCallback(
@@ -695,7 +588,7 @@ export function useTeamBuilderState({
 
       return -1;
     },
-    [getCharacterFromKey, state.slots]
+    [getCharacterFromKey, state.slots],
   );
 
   const findCharacterLocation = useCallback(
@@ -708,7 +601,7 @@ export function useTeamBuilderState({
 
       return { zone: 'available' };
     },
-    [state.bench, state.slots]
+    [state.bench, state.slots],
   );
 
   const handleAddToNextSlot = useCallback(
@@ -740,7 +633,7 @@ export function useTeamBuilderState({
       notifyTeamFull,
       removeOverdriveSlot,
       teamSize,
-    ]
+    ],
   );
 
   const handleOverdriveOrderChange = useCallback(
@@ -748,7 +641,7 @@ export function useTeamBuilderState({
       if (!state.slots[slotIndex]) return;
 
       const withoutCurrent = state.overdriveSequence.filter(
-        (index) => index !== slotIndex
+        (index) => index !== slotIndex,
       );
       if (value == null || !Number.isFinite(value)) {
         dispatch({ type: 'SET_OVERDRIVE_SEQUENCE', payload: withoutCurrent });
@@ -766,7 +659,7 @@ export function useTeamBuilderState({
         payload: nextOrder.slice(0, MAX_ROSTER_SIZE),
       });
     },
-    [state.overdriveSequence, state.slots]
+    [state.overdriveSequence, state.slots],
   );
 
   const handleRemoveFromTeam = useCallback(
@@ -777,7 +670,7 @@ export function useTeamBuilderState({
       dispatch({ type: 'SET_SLOT_NOTE', slotIndex, note: '' });
       removeOverdriveSlot(slotIndex);
     },
-    [removeOverdriveSlot, state.slots]
+    [removeOverdriveSlot, state.slots],
   );
 
   const handleSlotNoteChange = useCallback(
@@ -788,7 +681,7 @@ export function useTeamBuilderState({
         note: normalizeNote(note) || '',
       });
     },
-    []
+    [],
   );
 
   const handleBenchNoteChange = useCallback(
@@ -799,7 +692,7 @@ export function useTeamBuilderState({
         note: normalizeNote(note) || undefined,
       });
     },
-    []
+    [],
   );
 
   const handlePasteApply = useCallback(
@@ -818,7 +711,7 @@ export function useTeamBuilderState({
         return 'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.';
       }
     },
-    [loadFromTeam, teamData]
+    [loadFromTeam, teamData],
   );
 
   const handleClear = useCallback(() => {
@@ -878,8 +771,8 @@ export function useTeamBuilderState({
             benchNotes: {
               ...Object.fromEntries(
                 Object.entries(state.benchNotes).filter(
-                  ([key]) => key !== characterKey
-                )
+                  ([key]) => key !== characterKey,
+                ),
               ),
               [occupant]: outgoingSlotNote,
             },
@@ -889,9 +782,7 @@ export function useTeamBuilderState({
 
         if (from.zone === 'available' || from.zone === 'bench') {
           const incomingNote =
-            from.zone === 'bench'
-              ? state.benchNotes[characterKey] || ''
-              : '';
+            from.zone === 'bench' ? state.benchNotes[characterKey] || '' : '';
 
           // Full team: occupant is overwritten outright (nowhere to relocate them).
           if (occupant && teamSize >= MAX_ROSTER_SIZE) {
@@ -951,8 +842,8 @@ export function useTeamBuilderState({
               bench: removeItem(state.bench, characterKey),
               benchNotes: Object.fromEntries(
                 Object.entries(state.benchNotes).filter(
-                  ([key]) => key !== characterKey
-                )
+                  ([key]) => key !== characterKey,
+                ),
               ),
             });
           }
@@ -1001,8 +892,8 @@ export function useTeamBuilderState({
             bench: removeItem(state.bench, characterKey),
             benchNotes: Object.fromEntries(
               Object.entries(state.benchNotes).filter(
-                ([key]) => key !== characterKey
-              )
+                ([key]) => key !== characterKey,
+              ),
             ),
           });
         }
@@ -1061,8 +952,8 @@ export function useTeamBuilderState({
             benchNotes: {
               ...Object.fromEntries(
                 Object.entries(state.benchNotes).filter(
-                  ([key]) => key !== targetKey
-                )
+                  ([key]) => key !== targetKey,
+                ),
               ),
               [characterKey]: movedSlotNote,
             },
@@ -1136,7 +1027,7 @@ export function useTeamBuilderState({
       state,
       swapOverdriveSlots,
       teamSize,
-    ]
+    ],
   );
 
   return {

@@ -1,32 +1,20 @@
-﻿import {
-  getArtifactIcon,
-  getGearIcon,
-  getHowlkinIcon,
-  getNoblePhantasmIcon,
-  getRelicIcon,
-  getResourceIcon,
-  getStatusEffectIcon,
-  getSubclassIcon,
-  getWyrmPortrait,
-  getWyrmspellIcon,
-} from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
-import { normalizeContentType } from '@/constants/content-types';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import {
   clearRecentSearches,
   loadRecentSearches,
   saveRecentSearch,
 } from '@/features/search/recent-searches';
-import { SEARCH_PAGES } from '@/features/search/search-pages';
+import {
+  buildSearchRegistry,
+  MAX_SEARCH_RESULTS,
+  SEARCH_CATEGORY_LABELS,
+  searchRegistry,
+  type SearchResult,
+} from '@/features/search/search-registry';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
-import { FACTION_SLUG_TO_NAME } from '@/types/faction';
-import { isCodeActive } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
-import { isGameEventActive } from '@/utils/event-utils';
 import { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 import {
   ActionIcon,
@@ -42,7 +30,6 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
-import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
 import {
   Fragment,
@@ -53,120 +40,8 @@ import {
   useState,
 } from 'react';
 import type { IconType } from 'react-icons';
-import {
-  IoArrowBack,
-  IoCalendarOutline,
-  IoClose,
-  IoCubeOutline,
-  IoDiamondOutline,
-  IoDocumentTextOutline,
-  IoFlameOutline,
-  IoFlashOutline,
-  IoGridOutline,
-  IoPawOutline,
-  IoPeopleOutline,
-  IoPersonOutline,
-  IoSearch,
-  IoShieldOutline,
-  IoSparklesOutline,
-  IoTimeOutline,
-} from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
-
-type SearchResult = {
-  type:
-    | 'artifact'
-    | 'character'
-    | 'code'
-    | 'event'
-    | 'gear'
-    | 'howlkin'
-    | 'noble-phantasm'
-    | 'page'
-    | 'relic'
-    | 'resource'
-    | 'status-effect'
-    | 'subclass'
-    | 'team'
-    | 'tier-list'
-    | 'useful-link'
-    | 'wyrm'
-    | 'wyrmspell';
-  title: string;
-  subtitle?: string;
-  path: string;
-  icon: IconType | string;
-  color: string;
-};
-
-// The page list never changes at runtime, so its Fuse index can be shared.
-const PAGE_FUSE = new Fuse(SEARCH_PAGES, {
-  keys: ['title', 'keywords'],
-  threshold: 0.4,
-});
-
-const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
-  artifact: 'Artifacts',
-  character: 'Characters',
-  code: 'Codes',
-  event: 'Events',
-  gear: 'Gear',
-  howlkin: 'Howlkins',
-  'noble-phantasm': 'Noble Phantasms',
-  page: 'Pages',
-  relic: 'Relics',
-  resource: 'Resources',
-  'status-effect': 'Status Effects',
-  subclass: 'Subclasses',
-  team: 'Teams',
-  'tier-list': 'Tier Lists',
-  'useful-link': 'Useful Links',
-  wyrm: 'Wyrms',
-  wyrmspell: 'Wyrmspells',
-};
-
-const MAX_RESULTS = 30;
-
-function searchPath(
-  path: string,
-  query: string,
-  params?: Record<string, string>
-) {
-  const searchParams = new URLSearchParams({ ...params, search: query });
-  return `${path}?${searchParams.toString()}`;
-}
-
-function titleMatchRank(title: string, query: string) {
-  const normalizedTitle = title.trim().toLocaleLowerCase();
-  const normalizedQuery = query.trim().toLocaleLowerCase();
-  if (normalizedTitle === normalizedQuery) return 0;
-  if (normalizedTitle.startsWith(normalizedQuery)) return 1;
-  if (normalizedTitle.includes(normalizedQuery)) return 2;
-  return 3;
-}
-
-function rankAndLimitResults(results: SearchResult[], query: string) {
-  const groups = new Map<SearchResult['type'], SearchResult[]>();
-  for (const result of results) {
-    const group = groups.get(result.type) ?? [];
-    group.push(result);
-    groups.set(result.type, group);
-  }
-
-  return [...groups.values()]
-    .map((group) =>
-      group.sort(
-        (a, b) =>
-          titleMatchRank(a.title, query) - titleMatchRank(b.title, query)
-      )
-    )
-    .sort(
-      (a, b) =>
-        titleMatchRank(a[0].title, query) - titleMatchRank(b[0].title, query)
-    )
-    .flat()
-    .slice(0, MAX_RESULTS);
-}
+import { IoArrowBack, IoClose, IoSearch, IoTimeOutline } from 'react-icons/io5';
+import { useNavigate } from 'react-router';
 
 interface SearchModalProps {
   trigger?: (props: { open: () => void }) => ReactNode;
@@ -184,34 +59,17 @@ function SearchModalContent({
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [recentSearches, setRecentSearches] = useState<string[]>(() =>
-    loadRecentSearches()
+    loadRecentSearches(),
   );
   const resultRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const navigate = useNavigate();
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
   const mobileTooltip = useMobileTooltip();
-  const {
-    characters,
-    artifacts,
-    gear,
-    howlkins,
-    relics,
-    resources,
-    statusEffects,
-    subclasses,
-    wyrms,
-    wyrmspells,
-    noblePhantasms,
-    teams,
-    codes,
-    events,
-    usefulLinks,
-    tierLists,
-    loading,
-    errors,
-  } = useContext(SearchDataContext);
+  const searchData = useContext(SearchDataContext);
+  const { loading, errors } = searchData;
   const isSearchPending = query.trim() !== debouncedQuery.trim();
+  const registry = useMemo(() => buildSearchRegistry(searchData), [searchData]);
 
   const searchShortcutHint = 'Search (/)';
 
@@ -226,442 +84,13 @@ function SearchModalContent({
             },
           ],
         ]
-      : []
+      : [],
   );
 
-  // Fuse index instances are built once per data-load, not on every keystroke.
-  // Rebuilding a Fuse index is O(n·log n); doing it on each debounced keypress
-  // is wasteful when the underlying data rarely changes.
-  const fuseIndices = useMemo(
-    () => ({
-      characters: characters.length
-        ? new Fuse(characters, {
-            keys: [
-              { name: 'name', weight: 2 },
-              { name: 'character_class', weight: 0.5 },
-              { name: 'factions', weight: 0.3 },
-              { name: 'subclasses', weight: 0.3 },
-            ],
-            threshold: 0.3,
-            includeScore: true,
-          })
-        : null,
-      artifacts: artifacts.length
-        ? new Fuse(artifacts, {
-            keys: [
-              'name',
-              'quality',
-              'lore',
-              'effect.description',
-              'treasures.name',
-            ],
-            threshold: 0.3,
-          })
-        : null,
-      gear: gear.length
-        ? new Fuse(gear, {
-            keys: ['name', 'set', 'type', 'lore'],
-            threshold: 0.3,
-          })
-        : null,
-      statusEffects: statusEffects.length
-        ? new Fuse(statusEffects, {
-            keys: ['name', 'type', 'effect'],
-            threshold: 0.3,
-          })
-        : null,
-      subclasses: subclasses.length
-        ? new Fuse(subclasses, {
-            keys: ['name', 'class', 'effect', 'bonuses'],
-            threshold: 0.3,
-          })
-        : null,
-      wyrmspells: wyrmspells.length
-        ? new Fuse(wyrmspells, {
-            keys: ['name', 'type', 'qualities.effect'],
-            threshold: 0.3,
-          })
-        : null,
-      teams: teams.length
-        ? new Fuse(teams, {
-            keys: ['name', 'description', 'members.character_slug'],
-            threshold: 0.3,
-          })
-        : null,
-      howlkins: howlkins.length
-        ? new Fuse(howlkins, {
-            keys: ['name', 'quality', 'passive_effects'],
-            threshold: 0.3,
-          })
-        : null,
-      relics: relics.length
-        ? new Fuse(relics, {
-            keys: ['name', 'type', 'quality', 'lore'],
-            threshold: 0.3,
-          })
-        : null,
-      wyrms: wyrms.length
-        ? new Fuse(wyrms, {
-            keys: [
-              { name: 'name', weight: 2 },
-              'faction',
-              'description',
-              'battle_description',
-            ],
-            threshold: 0.3,
-          })
-        : null,
-      noblePhantasms: noblePhantasms.length
-        ? new Fuse(noblePhantasms, {
-            keys: ['name', 'character', 'lore'],
-            threshold: 0.3,
-          })
-        : null,
-      resources: resources.length
-        ? new Fuse(resources, {
-            keys: ['name', 'description', 'category', 'quality'],
-            threshold: 0.3,
-          })
-        : null,
-      events: events.length
-        ? new Fuse(events, {
-            keys: [
-              { name: 'name', weight: 2 },
-              { name: 'tag', weight: 0.5 },
-              { name: 'description', weight: 0.5 },
-            ],
-            threshold: 0.3,
-          })
-        : null,
-      codes: codes.length
-        ? new Fuse(codes, { keys: ['code'], threshold: 0.25 })
-        : null,
-      usefulLinks: usefulLinks.length
-        ? new Fuse(usefulLinks, {
-            keys: ['application', 'name', 'description', 'link'],
-            threshold: 0.3,
-          })
-        : null,
-      tierLists: tierLists.length
-        ? new Fuse(tierLists, {
-            keys: [
-              'name',
-              'author',
-              'content_type',
-              'description',
-              'entries.character_slug',
-            ],
-            threshold: 0.3,
-          })
-        : null,
-    }),
-    [
-      characters,
-      artifacts,
-      gear,
-      howlkins,
-      relics,
-      resources,
-      statusEffects,
-      subclasses,
-      wyrms,
-      wyrmspells,
-      noblePhantasms,
-      teams,
-      codes,
-      events,
-      usefulLinks,
-      tierLists,
-    ]
+  const searchResults = useMemo(
+    () => searchRegistry(registry, debouncedQuery),
+    [debouncedQuery, registry],
   );
-
-  const searchResults = useMemo(() => {
-    if (!debouncedQuery.trim()) return [];
-    const q = debouncedQuery;
-    const results: SearchResult[] = [];
-
-    if (fuseIndices.characters) {
-      results.push(
-        ...fuseIndices.characters
-          .search(q)
-          .slice(0, 8)
-          .map((r) => ({
-            type: 'character' as const,
-            title: r.item.name,
-            subtitle: `${r.item.quality} ${r.item.character_class.charAt(0).toUpperCase()}${r.item.character_class.slice(1)}`,
-            path: getCharacterRoutePath(r.item),
-            icon: IoPersonOutline,
-            color: 'blue',
-          }))
-      );
-    }
-
-    if (fuseIndices.artifacts) {
-      results.push(
-        ...fuseIndices.artifacts
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'artifact' as const,
-            title: r.item.name,
-            subtitle: `${r.item.quality} Artifact`,
-            path: `/artifacts/${r.item.slug}`,
-            icon: getArtifactIcon(r.item.slug) ?? IoDiamondOutline,
-            color: 'teal',
-          }))
-      );
-    }
-
-    if (fuseIndices.gear) {
-      results.push(
-        ...fuseIndices.gear
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'gear' as const,
-            title: r.item.name,
-            subtitle: `${r.item.type} • ${r.item.set}`,
-            path: `/gear-sets/${toEntitySlug(r.item.set)}`,
-            icon: getGearIcon(r.item.type, r.item.slug) ?? IoShieldOutline,
-            color: 'teal',
-          }))
-      );
-    }
-
-    results.push(
-      ...PAGE_FUSE.search(q)
-        .slice(0, 3)
-        .map((r) => ({
-          type: 'page' as const,
-          title: r.item.title,
-          path: r.item.path,
-          icon: IoDocumentTextOutline,
-          color: 'gray',
-        }))
-    );
-
-    if (fuseIndices.statusEffects) {
-      results.push(
-        ...fuseIndices.statusEffects
-          .search(q)
-          .slice(0, 5)
-          .map((r) => {
-            const hasIcon = r.item.icon !== false;
-            const iconSrc = hasIcon
-              ? getStatusEffectIcon(r.item.slug, r.item.type)
-              : undefined;
-
-            return {
-              type: 'status-effect' as const,
-              title: r.item.name,
-              subtitle: r.item.type,
-              path: searchPath('/status-effects', r.item.name),
-              icon: iconSrc ?? IoSparklesOutline,
-              color: 'cyan',
-            };
-          })
-      );
-    }
-
-    if (fuseIndices.subclasses) {
-      results.push(
-        ...fuseIndices.subclasses
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'subclass' as const,
-            title: r.item.name,
-            subtitle: `${r.item.class.charAt(0).toUpperCase()}${r.item.class.slice(1)} • Tier ${r.item.tier}`,
-            path: searchPath('/subclasses', r.item.name),
-            icon: getSubclassIcon(r.item.slug, r.item.class) ?? IoGridOutline,
-            color: 'grape',
-          }))
-      );
-    }
-
-    if (fuseIndices.wyrmspells) {
-      results.push(
-        ...fuseIndices.wyrmspells
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'wyrmspell' as const,
-            title: r.item.name,
-            subtitle: r.item.type,
-            path: `/wyrmspells/${r.item.slug}`,
-            icon: getWyrmspellIcon(r.item.slug, r.item.type) ?? IoFlameOutline,
-            color: 'indigo',
-          }))
-      );
-    }
-
-    if (fuseIndices.teams) {
-      results.push(
-        ...fuseIndices.teams
-          .search(q)
-          .slice(0, 3)
-          .map((r) => ({
-            type: 'team' as const,
-            title: r.item.name,
-            subtitle: `${r.item.members.length} characters`,
-            path: `/teams/${toEntitySlug(r.item.name)}`,
-            icon: IoPeopleOutline,
-            color: 'green',
-          }))
-      );
-    }
-
-    if (fuseIndices.howlkins) {
-      results.push(
-        ...fuseIndices.howlkins
-          .search(q)
-          .slice(0, 4)
-          .map((r) => ({
-            type: 'howlkin' as const,
-            title: r.item.name,
-            subtitle: `${r.item.quality} Howlkin`,
-            path: searchPath('/howlkins', r.item.name, { tab: 'howlkins' }),
-            icon: getHowlkinIcon(r.item.slug, r.item.quality) ?? IoPawOutline,
-            color: 'orange',
-          }))
-      );
-    }
-
-    if (fuseIndices.noblePhantasms) {
-      results.push(
-        ...fuseIndices.noblePhantasms
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'noble-phantasm' as const,
-            title: r.item.name,
-            subtitle: r.item.character_slug || 'Noble Phantasm',
-            path: `/noble-phantasms/${r.item.slug}`,
-            icon: getNoblePhantasmIcon(r.item.slug) ?? IoFlashOutline,
-            color: 'teal',
-          }))
-      );
-    }
-
-    if (fuseIndices.resources) {
-      results.push(
-        ...fuseIndices.resources
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'resource' as const,
-            title: r.item.name,
-            subtitle: `${r.item.category} • ${r.item.quality}`,
-            path: searchPath('/resources', r.item.name),
-            icon:
-              getResourceIcon(r.item.slug, r.item.category) ?? IoCubeOutline,
-            color: 'teal',
-          }))
-      );
-    }
-
-    if (fuseIndices.events) {
-      results.push(
-        ...fuseIndices.events
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'event' as const,
-            title: r.item.name,
-            subtitle: isGameEventActive(r.item) ? 'Active event' : 'Past event',
-            path: searchPath('/events', r.item.name, {
-              tab: isGameEventActive(r.item) ? 'active' : 'past',
-            }),
-            icon: IoCalendarOutline,
-            color: 'green',
-          }))
-      );
-    }
-
-    if (fuseIndices.codes) {
-      results.push(
-        ...fuseIndices.codes
-          .search(q)
-          .slice(0, 4)
-          .map((r) => ({
-            type: 'code' as const,
-            title: r.item.code,
-            subtitle: isCodeActive(r.item) ? 'Active code' : 'Expired code',
-            path: searchPath('/codes', r.item.code, {
-              tab: isCodeActive(r.item) ? 'active' : 'expired',
-            }),
-            icon: IoFlashOutline,
-            color: 'cyan',
-          }))
-      );
-    }
-
-    if (fuseIndices.usefulLinks) {
-      results.push(
-        ...fuseIndices.usefulLinks
-          .search(q)
-          .slice(0, 4)
-          .map((r) => ({
-            type: 'useful-link' as const,
-            title: r.item.name,
-            subtitle: r.item.application,
-            path: `/toolbox/useful-links#${toEntitySlug(r.item.name)}`,
-            icon: IoDocumentTextOutline,
-            color: 'indigo',
-          }))
-      );
-    }
-
-    if (fuseIndices.tierLists) {
-      results.push(
-        ...fuseIndices.tierLists
-          .search(q)
-          .slice(0, 3)
-          .map((r) => ({
-            type: 'tier-list' as const,
-            title: r.item.name,
-            subtitle: `${normalizeContentType(r.item.content_type, 'All')} • ${r.item.author}`,
-            path: searchPath('/tier-list', r.item.name),
-            icon: IoDocumentTextOutline,
-            color: 'pink',
-          }))
-      );
-    }
-
-    if (fuseIndices.relics) {
-      results.push(
-        ...fuseIndices.relics
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'relic' as const,
-            title: r.item.name,
-            subtitle: r.item.type,
-            path: searchPath('/relics', r.item.name, { tab: 'relics' }),
-            icon: getRelicIcon(r.item.slug, r.item.quality) ?? IoDiamondOutline,
-            color: 'violet',
-          }))
-      );
-    }
-
-    if (fuseIndices.wyrms) {
-      results.push(
-        ...fuseIndices.wyrms
-          .search(q)
-          .slice(0, 5)
-          .map((r) => ({
-            type: 'wyrm' as const,
-            title: r.item.name,
-            subtitle: `${FACTION_SLUG_TO_NAME[r.item.faction] ?? r.item.faction} · ${r.item.phase}`,
-            path: `/wyrms/${r.item.slug}`,
-            icon: getWyrmPortrait(r.item.slug) ?? IoFlameOutline,
-            color: 'red',
-          }))
-      );
-    }
-
-    return rankAndLimitResults(results, q);
-  }, [debouncedQuery, fuseIndices]);
   const activeSelectedIndex = searchResults.length
     ? Math.min(selectedIndex, searchResults.length - 1)
     : 0;
@@ -700,7 +129,7 @@ function SearchModalContent({
     } else if (e.key === 'ArrowUp') {
       e.preventDefault();
       setSelectedIndex(
-        (i) => (i - 1 + searchResults.length) % searchResults.length
+        (i) => (i - 1 + searchResults.length) % searchResults.length,
       );
     } else if (e.key === 'Enter' && searchResults[activeSelectedIndex]) {
       e.preventDefault();
@@ -916,7 +345,7 @@ function SearchModalContent({
                               lineHeight: 1.25,
                             }}
                           >
-                            {CATEGORY_LABELS[result.type]}
+                            {SEARCH_CATEGORY_LABELS[result.type]}
                           </Text>
                         </Box>
                       )}
@@ -1031,7 +460,7 @@ function SearchModalContent({
                   );
                 })}
               </Stack>
-              {searchResults.length === MAX_RESULTS && (
+              {searchResults.length === MAX_SEARCH_RESULTS && (
                 <Box
                   py="xs"
                   ta="center"
@@ -1040,8 +469,8 @@ function SearchModalContent({
                   }}
                 >
                   <Text size="xs" c="dimmed">
-                    Showing top {MAX_RESULTS} results · try a more specific
-                    search
+                    Showing top {MAX_SEARCH_RESULTS} results · try a more
+                    specific search
                   </Text>
                 </Box>
               )}

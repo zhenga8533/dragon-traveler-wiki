@@ -8,7 +8,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import { Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useMobileTooltip } from '@/hooks';
 
 interface CharacterPortraitProps {
@@ -31,6 +31,8 @@ interface CharacterPortraitProps {
   routePath?: string;
   assetKey?: string;
   isNew?: boolean;
+  /** Renders this exact skin slug, bypassing the global "Show character skins" toggle. */
+  skinOverride?: string;
 }
 
 export default function CharacterPortrait({
@@ -52,17 +54,18 @@ export default function CharacterPortrait({
   routePath,
   assetKey,
   isNew = false,
+  skinOverride,
 }: CharacterPortraitProps) {
   const mobileTooltip = useMobileTooltip();
   const { characterTrackingEnabled, grayUnowned, isOwned } = useContext(
-    CharacterOwnershipContext
+    CharacterOwnershipContext,
   );
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
   const resolvedAssetKey = assetKey ?? routeAssetKey;
-  const selectedSkin = resolvedAssetKey
-    ? getSelectedSkin(resolvedAssetKey)
-    : 'default';
+  const selectedSkin =
+    skinOverride ??
+    (resolvedAssetKey ? getDisplaySkin(resolvedAssetKey) : 'default');
   const resolvedBorderColor =
     borderColor ??
     (quality ? QUALITY_BORDER_COLOR[quality] : 'var(--mantine-color-gray-5)');

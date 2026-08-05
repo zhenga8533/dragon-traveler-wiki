@@ -1,19 +1,19 @@
 import {
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { InteractiveSurface } from '@/components/ui/Surface';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { CHARACTER_CARD } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import {
@@ -28,7 +28,6 @@ interface CharacterVariantSelectorProps {
 export default function CharacterVariantSelector({
   variants,
 }: CharacterVariantSelectorProps) {
-
   if (variants.length === 0) {
     return null;
   }
@@ -57,12 +56,7 @@ export default function CharacterVariantSelector({
                 to={routePath}
                 style={LINK_BLOCK_RESET_STYLE}
               >
-                <Paper
-                  withBorder
-                  radius="md"
-                  p="sm"
-                  {...getCardHoverProps({ interactive: true })}
-                >
+                <InteractiveSurface component="div" p="sm">
                   <Group gap="sm" align="flex-start" wrap="nowrap">
                     <CharacterPortrait
                       name={variant.name}
@@ -118,7 +112,7 @@ export default function CharacterVariantSelector({
                       </Text>
                     </Stack>
                   </Group>
-                </Paper>
+                </InteractiveSurface>
               </UnstyledButton>
             );
           })}

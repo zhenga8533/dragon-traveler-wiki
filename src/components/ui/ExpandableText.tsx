@@ -8,7 +8,11 @@ interface ExpandableTextProps {
   ta?: React.CSSProperties['textAlign'];
 }
 
-export default function ExpandableText({ children, size = 'sm', ta }: ExpandableTextProps) {
+export default function ExpandableText({
+  children,
+  size = 'sm',
+  ta,
+}: ExpandableTextProps) {
   const [expanded, setExpanded] = useState(false);
   const [isClamped, setIsClamped] = useState(false);
   const ref = useRef<HTMLParagraphElement>(null);
@@ -21,7 +25,13 @@ export default function ExpandableText({ children, size = 'sm', ta }: Expandable
 
   return (
     <Stack gap={2}>
-      <Text ref={ref} size={size} c="dimmed" lineClamp={expanded ? undefined : 2} ta={ta}>
+      <Text
+        ref={ref}
+        size={size}
+        c="dimmed"
+        lineClamp={expanded ? undefined : 2}
+        ta={ta}
+      >
         {children}
       </Text>
       {(isClamped || expanded) && (

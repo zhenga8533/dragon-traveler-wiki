@@ -1,15 +1,11 @@
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   BASE_URL,
   DEFAULT_IMAGE,
   ROUTE_META,
+  ROUTE_PATH,
   SITE_NAME,
 } from '../src/constants/route-meta.ts';
 import { loadProjectEnv } from './project-env.mjs';
@@ -25,7 +21,7 @@ const rawAssetsBase = env.VITE_ASSETS_BASE ?? '';
 const assetsBase = rawAssetsBase
   ? new URL(
       rawAssetsBase.endsWith('/') ? rawAssetsBase : `${rawAssetsBase}/`,
-      `${BASE_URL}/`
+      `${BASE_URL}/`,
     ).href
   : null;
 
@@ -37,6 +33,13 @@ const DEFAULT_SOCIAL_IMAGE = {
   type: 'image/jpeg',
   cardType: 'summary_large_image',
 };
+
+export const LEGACY_ROUTE_ALIASES = new Map([
+  ['/useful-links', '/toolbox/useful-links'],
+  ...ROUTE_META.filter(({ pattern }) => pattern.startsWith('/toolbox/')).map(
+    ({ pattern }) => [pattern.replace('/toolbox/', '/guides/'), pattern],
+  ),
+]);
 
 export function normalizeTypeKey(value) {
   return String(value ?? '')
@@ -53,7 +56,9 @@ function humanizeKey(value) {
 }
 
 function normalizeQualityKey(quality) {
-  return String(quality ?? '').toLowerCase().replace('+', '_plus');
+  return String(quality ?? '')
+    .toLowerCase()
+    .replace('+', '_plus');
 }
 
 function escapeRegExp(value) {
@@ -108,9 +113,31 @@ function readJsonArray(fileName) {
   }
 }
 
+function readAssetManifestPaths() {
+  const manifestPath = path.join(assetsDir, 'manifest.json');
+  if (!existsSync(manifestPath)) return new Set();
+
+  const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+  return new Set(Object.keys(manifest.assets ?? {}));
+}
+
+const assetManifestPaths = readAssetManifestPaths();
+
+export function hasAsset(
+  relativePath,
+  manifestPaths = assetManifestPaths,
+  assetRoot = assetsDir,
+) {
+  const normalizedPath = relativePath.replaceAll(path.sep, '/');
+  return (
+    manifestPaths.has(normalizedPath) ||
+    existsSync(path.join(assetRoot, relativePath))
+  );
+}
+
 function getAssetImage(relativePath, options) {
   if (!assetsBase || !relativePath) return null;
-  if (!existsSync(path.join(assetsDir, relativePath))) return null;
+  if (!hasAsset(relativePath)) return null;
 
   return {
     url: new URL(relativePath.replaceAll(path.sep, '/'), assetsBase).href,
@@ -130,7 +157,7 @@ function getFirstAvailableAssetImage(candidates) {
 function upsertMeta(html, attr, key, value) {
   const pattern = new RegExp(
     `<meta\\s+${attr}=["']${escapeRegExp(key)}["']\\s+content=["'][^"']*["']\\s*\\/?>`,
-    'i'
+    'i',
   );
   const replacement = `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
 
@@ -141,7 +168,7 @@ function upsertMeta(html, attr, key, value) {
 function removeMeta(html, attr, key) {
   const pattern = new RegExp(
     `\\s*<meta\\s+${attr}=["']${escapeRegExp(key)}["']\\s+content=["'][^"']*["']\\s*\\/?>`,
-    'i'
+    'i',
   );
   return html.replace(pattern, '');
 }
@@ -163,7 +190,7 @@ export function buildRouteHtml(
   meta,
   siteName,
   baseUrl,
-  image = DEFAULT_SOCIAL_IMAGE
+  image = DEFAULT_SOCIAL_IMAGE,
 ) {
   const pageTitle =
     meta.title === siteName ? siteName : `${meta.title} | ${siteName}`;
@@ -171,7 +198,7 @@ export function buildRouteHtml(
 
   let html = indexHtml.replace(
     /<title>[\s\S]*?<\/title>/i,
-    `<title>${escapeHtml(pageTitle)}</title>`
+    `<title>${escapeHtml(pageTitle)}</title>`,
   );
   html = upsertMeta(html, 'name', 'description', meta.description);
   html = upsertMeta(html, 'property', 'og:title', pageTitle);
@@ -206,7 +233,12 @@ export function buildRouteHtml(
   }
   if (image.width && image.height) {
     html = upsertMeta(html, 'property', 'og:image:width', String(image.width));
-    html = upsertMeta(html, 'property', 'og:image:height', String(image.height));
+    html = upsertMeta(
+      html,
+      'property',
+      'og:image:height',
+      String(image.height),
+    );
   } else {
     html = removeMeta(html, 'property', 'og:image:width');
     html = removeMeta(html, 'property', 'og:image:height');
@@ -226,11 +258,11 @@ function makeSquareImage(relativePath, alt) {
 }
 
 function makeCharacterImage(item) {
-  const assetSlugs = [...new Set([item.slug, item.legacy_slug].filter(Boolean))];
+  const assetSlugs = [
+    ...new Set([item.slug, item.legacy_slug].filter(Boolean)),
+  ];
   const sceneOptions = {
     alt: `${item.name} default scene illustration`,
-    width: 2340,
-    height: 1080,
     cardType: 'summary_large_image',
   };
   const portraitOptions = {
@@ -271,30 +303,50 @@ function makeWyrmImage(item) {
   ]);
 }
 
+export function findFirstAvailableHowlkinMember(
+  memberSlugs,
+  qualityBySlug,
+  imageExists,
+) {
+  return (memberSlugs ?? []).find((slug) => {
+    const quality = qualityBySlug.get(slug);
+    return quality && imageExists(`howlkin/${quality}/${slug}.png`);
+  });
+}
+
+export function getOracleScrollReference(value) {
+  if (
+    !value ||
+    typeof value !== 'object' ||
+    typeof value.name !== 'string' ||
+    typeof value.slug !== 'string'
+  ) {
+    return null;
+  }
+
+  return {
+    name: value.name,
+    slug: value.slug,
+  };
+}
+
 export function writeRoutePages() {
   if (!existsSync(indexHtmlPath)) {
     throw new Error(
-      'dist/index.html not found. Run vite build before generating route pages.'
+      'dist/index.html not found. Run vite build before generating route pages.',
     );
   }
 
   const indexHtml = readFileSync(indexHtmlPath, 'utf-8');
   const routeMetaByPattern = new Map(
-    ROUTE_META.map((route) => [route.pattern, route.meta])
+    ROUTE_META.map((route) => [route.pattern, route.meta]),
   );
   const writtenPaths = new Set();
-  const writePage = (routePath, meta, image = DEFAULT_SOCIAL_IMAGE) => {
+  const writePage = (routePath, meta, image = null) => {
     if (!routePath || routePath === '/' || writtenPaths.has(routePath)) return;
     writeHtmlForPath(
       routePath,
-      buildRouteHtml(
-        indexHtml,
-        routePath,
-        meta,
-        SITE_NAME,
-        BASE_URL,
-        image ?? DEFAULT_SOCIAL_IMAGE
-      )
+      buildRouteHtml(indexHtml, routePath, meta, SITE_NAME, BASE_URL, image),
     );
     writtenPaths.add(routePath);
   };
@@ -309,6 +361,11 @@ export function writeRoutePages() {
     }
   }
 
+  for (const [aliasPath, targetPath] of LEGACY_ROUTE_ALIASES) {
+    const targetMeta = routeMetaByPattern.get(targetPath);
+    if (targetMeta) writePage(aliasPath, targetMeta);
+  }
+
   const characterItems = readJsonArray('enUS/characters.json');
   const charSlugToName = new Map();
   for (const character of characterItems) {
@@ -321,104 +378,111 @@ export function writeRoutePages() {
   const howlkinQualityMap = new Map(
     howlkinItems
       .filter((item) => item.slug && item.quality)
-      .map((item) => [item.slug, normalizeQualityKey(item.quality)])
+      .map((item) => [item.slug, normalizeQualityKey(item.quality)]),
   );
   const howlkinNameMap = new Map(
-    howlkinItems.filter((item) => item.slug).map((item) => [item.slug, item.name])
+    howlkinItems
+      .filter((item) => item.slug)
+      .map((item) => [item.slug, item.name]),
   );
 
   const dynamicRouteConfigs = [
     {
-      pattern: '/characters/:name',
+      pattern: ROUTE_PATH.characterDetail,
       file: 'enUS/characters.json',
       getImage: makeCharacterImage,
       getDescription: (item, fallback) =>
         truncateText(
           item.summary ||
-            `${item.name}, ${item.title ?? item.quality}. ${fallback}`
+            `${item.name}, ${item.title ?? item.quality}. ${fallback}`,
         ),
     },
     {
-      pattern: '/artifacts/:name',
+      pattern: ROUTE_PATH.artifactDetail,
       file: 'enUS/artifacts.json',
       getImage: (item) =>
         makeSquareImage(
           `artifacts/${item.slug}/artifact.png`,
-          `${item.name} artifact`
+          `${item.name} artifact`,
         ),
       getDescription: (item, fallback) =>
         truncateText(
-          `${item.quality ? `${item.quality} artifact. ` : ''}${item.lore || fallback}`
+          `${item.quality ? `${item.quality} artifact. ` : ''}${item.lore || fallback}`,
         ),
     },
     {
-      pattern: '/noble-phantasms/:name',
+      pattern: ROUTE_PATH.noblePhantasmDetail,
       file: 'enUS/noble-phantasm.json',
       getImage: (item) =>
         makeSquareImage(
           `noble_phantasm/${item.slug}.png`,
-          `${item.name} Noble Phantasm`
+          `${item.name} Noble Phantasm`,
         ),
       getDescription: (item, fallback) => {
         const owner = charSlugToName.get(item.character_slug);
-        const effect = item.effects?.[0]?.description ?? item.skills?.[0]?.description;
+        const effect =
+          item.effects?.[0]?.description ?? item.skills?.[0]?.description;
         return truncateText(
-          `${owner ? `${owner}'s Noble Phantasm. ` : 'Noble Phantasm. '}${effect || fallback}`
+          `${owner ? `${owner}'s Noble Phantasm. ` : 'Noble Phantasm. '}${effect || fallback}`,
         );
       },
     },
     {
-      pattern: '/teams/:teamName',
+      pattern: ROUTE_PATH.teamDetail,
       file: 'global/teams.json',
       getDescription: (item, fallback) =>
         truncateText(
-          `${item.content_type ? `${item.content_type} team. ` : ''}${item.description || fallback}`
+          `${item.content_type ? `${item.content_type} team. ` : ''}${item.description || fallback}`,
         ),
     },
     {
-      pattern: '/gear-sets/:setName',
+      pattern: ROUTE_PATH.gearSetDetail,
       file: 'enUS/gear-sets.json',
       getDescription: (item, fallback) =>
         truncateText(
           item.set_bonus?.description
             ? `${item.set_bonus.quantity}-piece bonus: ${item.set_bonus.description}`
-            : fallback
+            : fallback,
         ),
     },
     {
-      pattern: '/wyrms/:name',
+      pattern: ROUTE_PATH.wyrmDetail,
       file: 'enUS/wyrms.json',
       getImage: makeWyrmImage,
       getDescription: (item, fallback) =>
         truncateText(
-          `${item.quality ?? ''} ${item.phase ?? ''} ${humanizeKey(item.faction)} Wyrm. ${item.description || fallback}`
+          `${item.quality ?? ''} ${item.phase ?? ''} ${humanizeKey(item.faction)} Wyrm. ${item.description || fallback}`,
         ),
     },
     {
-      pattern: '/wyrmspells/:name',
+      pattern: ROUTE_PATH.wyrmspellDetail,
       file: 'enUS/wyrmspells.json',
       getImage: (item) =>
         makeSquareImage(
           `wyrmspell/${normalizeTypeKey(item.type)}/${item.slug}.png`,
-          `${item.name} Wyrmspell`
+          `${item.name} Wyrmspell`,
         ),
       getDescription: (item, fallback) => {
         const maxEffect = item.qualities?.at(-1)?.effect;
         return truncateText(
-          `${item.type ? `${item.type} Wyrmspell. ` : ''}${maxEffect || fallback}`
+          `${item.type ? `${item.type} Wyrmspell. ` : ''}${maxEffect || fallback}`,
         );
       },
     },
     {
-      pattern: '/howlkins/:allianceName',
+      pattern: ROUTE_PATH.howlkinDetail,
       file: 'enUS/golden-alliances.json',
       getImage: (item) => {
-        const memberSlug = item.howlkins?.[0];
+        const memberSlug = findFirstAvailableHowlkinMember(
+          item.howlkins,
+          howlkinQualityMap,
+          hasAsset,
+        );
         const quality = howlkinQualityMap.get(memberSlug);
         return memberSlug && quality
           ? makeSquareImage(
               `howlkin/${quality}/${memberSlug}.png`,
-              `${howlkinNameMap.get(memberSlug) ?? item.name} Howlkin`
+              `${howlkinNameMap.get(memberSlug) ?? item.name} Howlkin`,
             )
           : null;
       },
@@ -431,7 +495,7 @@ export function writeRoutePages() {
         return truncateText(
           members
             ? `Golden Alliance members: ${members}${remainder ? `, and ${remainder} more` : ''}.`
-            : fallback
+            : fallback,
         );
       },
     },
@@ -448,34 +512,29 @@ export function writeRoutePages() {
         title: String(item.name ?? fallbackMeta.title),
         description: config.getDescription(item, fallbackMeta.description),
       };
-      const image = config.getImage?.(item) ?? DEFAULT_SOCIAL_IMAGE;
-      writePage(
-        config.pattern.replace(/:[^/]+$/, slug),
-        meta,
-        image
-      );
+      const image = config.getImage?.(item) ?? null;
+      writePage(config.pattern.replace(/:[^/]+$/, slug), meta, image);
       if (item.legacy_slug && item.legacy_slug !== slug) {
         writePage(
           config.pattern.replace(/:[^/]+$/, item.legacy_slug),
           meta,
-          image
+          image,
         );
       }
     }
   }
 
-  const oracleMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
+  const oracleMeta = routeMetaByPattern.get(ROUTE_PATH.oracleScrollDetail);
   if (oracleMeta) {
     const scrollsSeen = new Set();
     for (const item of readJsonArray('enUS/relic.json')) {
-      const name = item.oracle_scroll;
-      const slug = toEntitySlug(name);
-      if (!slug || scrollsSeen.has(slug)) continue;
-      scrollsSeen.add(slug);
-      writePage(`/oracle-scrolls/${slug}`, {
-        title: String(name),
+      const scroll = getOracleScrollReference(item.oracle_scroll);
+      if (!scroll || scrollsSeen.has(scroll.slug)) continue;
+      scrollsSeen.add(scroll.slug);
+      writePage(`/oracle-scrolls/${scroll.slug}`, {
+        title: scroll.name,
         description: truncateText(
-          `${name} Oracle Scroll. ${oracleMeta.description}`
+          `${scroll.name} Oracle Scroll. ${oracleMeta.description}`,
         ),
       });
     }
@@ -493,9 +552,9 @@ export function writeRoutePages() {
       fallbackMeta,
       SITE_NAME,
       BASE_URL,
-      DEFAULT_SOCIAL_IMAGE
+      DEFAULT_SOCIAL_IMAGE,
     ),
-    'utf-8'
+    'utf-8',
   );
 }
 

@@ -1,16 +1,7 @@
-import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
-import { getCardHoverProps } from '@/constants/styles';
+import { Badge, Group, Skeleton, Stack, Text } from '@mantine/core';
+import { StaticSurface } from '@/components/ui/Surface';
+import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
-
-interface ChangelogEntry {
-  date: string;
-  version?: string;
-  changes: {
-    type: 'added' | 'updated' | 'fixed' | 'removed';
-    category: string;
-    description: string;
-  }[];
-}
 
 const TYPE_COLORS: Record<string, string> = {
   added: 'green',
@@ -20,15 +11,26 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function RecentUpdatesSection() {
-  const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
+  const { data: changelog, loading } = useChangelog();
 
   if (loading) {
     return (
-      <Stack gap="xs">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} height={60} radius="md" />
-        ))}
-      </Stack>
+      <LoadingRegion label="Loading recent updates">
+        <Stack gap="xs">
+          {[1, 2, 3].map((i) => (
+            <StaticSurface key={i} p="xs">
+              <Group justify="space-between" mb={6} wrap="nowrap">
+                <Skeleton height={12} width={72} radius="sm" />
+                <Skeleton height={18} width={64} radius="xl" />
+              </Group>
+              <Stack gap={4}>
+                <Skeleton height={12} width="88%" radius="sm" />
+                <Skeleton height={12} width="68%" radius="sm" />
+              </Stack>
+            </StaticSurface>
+          ))}
+        </Stack>
+      </LoadingRegion>
     );
   }
 
@@ -47,13 +49,7 @@ export default function RecentUpdatesSection() {
   return (
     <Stack gap="xs">
       {recentEntries.map((entry) => (
-        <Paper
-          key={entry.version ?? entry.date}
-          p="xs"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
-        >
+        <StaticSurface key={entry.version ?? entry.date} p="xs">
           <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
             <Text size="xs" fw={600}>
               {entry.version || entry.date}
@@ -91,7 +87,7 @@ export default function RecentUpdatesSection() {
               </Text>
             )}
           </Stack>
-        </Paper>
+        </StaticSurface>
       ))}
     </Stack>
   );

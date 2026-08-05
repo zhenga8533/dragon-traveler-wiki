@@ -1,6 +1,6 @@
 const replaceSlugString = (
   value: string,
-  aliases: ReadonlyMap<string, string>
+  aliases: ReadonlyMap<string, string>,
 ): string => {
   let next = aliases.get(value) ?? value;
   for (const [legacy, canonical] of aliases) {
@@ -12,11 +12,11 @@ const replaceSlugString = (
       .replaceAll(`/characters/${legacy}`, `/characters/${canonical}`)
       .replaceAll(
         `/noble_phantasm/${legacy}.png`,
-        `/noble_phantasm/${canonical}.png`
+        `/noble_phantasm/${canonical}.png`,
       )
       .replaceAll(
         `/noble-phantasms/${legacy}`,
-        `/noble-phantasms/${canonical}`
+        `/noble-phantasms/${canonical}`,
       );
   }
   return next;
@@ -24,7 +24,7 @@ const replaceSlugString = (
 
 export function migrateLegacySlugsInValue(
   value: unknown,
-  aliases: ReadonlyMap<string, string>
+  aliases: ReadonlyMap<string, string>,
 ): unknown {
   if (typeof value === 'string') return replaceSlugString(value, aliases);
   if (Array.isArray(value)) {
@@ -36,6 +36,6 @@ export function migrateLegacySlugsInValue(
     Object.entries(value).map(([key, item]) => [
       replaceSlugString(key, aliases),
       migrateLegacySlugsInValue(item, aliases),
-    ])
+    ]),
   );
 }

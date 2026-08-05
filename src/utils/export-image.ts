@@ -52,7 +52,7 @@ function sanitizeFilename(filename: string): string {
 function triggerAnchorDownload(
   dataUrl: string,
   filename: string,
-  mobile: boolean
+  mobile: boolean,
 ) {
   const link = document.createElement('a');
   link.href = dataUrl;
@@ -74,7 +74,7 @@ async function renderElementAsJpeg(
   pixelRatio: number,
   fontRenderMode: FontRenderMode,
   width?: number,
-  height?: number
+  height?: number,
 ): Promise<string> {
   return toJpeg(el, {
     backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
@@ -179,7 +179,7 @@ function tryOpenImagePreviewForMobile(dataUrl: string): boolean {
 
 async function tryShareOnMobile(
   dataUrl: string,
-  filename: string
+  filename: string,
 ): Promise<boolean> {
   const nav = navigator as ShareCapableNavigator;
   if (!nav.share) {
@@ -206,7 +206,7 @@ async function tryShareOnMobile(
 export async function downloadElementAsImage(
   el: HTMLElement,
   filename: string,
-  isDark: boolean
+  isDark: boolean,
 ): Promise<void> {
   const mobile = isMobileDevice();
   const safeFilename = sanitizeFilename(filename) || 'export';
@@ -238,7 +238,7 @@ export async function downloadElementAsImage(
       preferredPixelRatio,
       'embed',
       exportWidth,
-      exportHeight
+      exportHeight,
     );
   } catch {
     try {
@@ -249,7 +249,7 @@ export async function downloadElementAsImage(
         preferredPixelRatio,
         'skip',
         exportWidth,
-        exportHeight
+        exportHeight,
       );
     } catch {
       // Final fallback for memory-constrained devices.
@@ -259,7 +259,7 @@ export async function downloadElementAsImage(
         1,
         'skip',
         exportWidth,
-        exportHeight
+        exportHeight,
       );
     }
   } finally {
@@ -280,4 +280,3 @@ export async function downloadElementAsImage(
 
   triggerAnchorDownload(dataUrl, safeFilename, mobile);
 }
-

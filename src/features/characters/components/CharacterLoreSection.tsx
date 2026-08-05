@@ -28,7 +28,15 @@ interface CharacterLoreSectionProps {
   scrollToTalent: () => void;
 }
 
-function QuoteCard({ text, attribution, label }: { text: string; attribution: string; label?: string }) {
+function QuoteCard({
+  text,
+  attribution,
+  label,
+}: {
+  text: string;
+  attribution: string;
+  label?: string;
+}) {
   const isDark = useDarkMode();
   const glassStyles = getLoreGlassStyles(isDark);
 
@@ -68,13 +76,24 @@ interface LoreBlockProps {
   onTalentClick: () => void;
 }
 
-function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClick, onTalentClick }: LoreBlockProps) {
+function LoreBlock({
+  lore,
+  showLabel,
+  statusEffects,
+  skills,
+  talent,
+  onSkillClick,
+  onTalentClick,
+}: LoreBlockProps) {
   const isDark = useDarkMode();
   const [expanded, { toggle }] = useDisclosure(false);
 
   const entries = useMemo(() => {
     if (Array.isArray(lore)) return lore;
-    return lore.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+    return lore
+      .split(/\n\s*\n/)
+      .map((s) => s.trim())
+      .filter(Boolean);
   }, [lore]);
 
   const firstEntry = entries[0] || '';
@@ -134,10 +153,19 @@ function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClic
                 aria-expanded={expanded}
               >
                 <Group gap="xs" wrap="nowrap">
-                  <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)', opacity: 0.5 }} />
+                  <Box
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      background: 'var(--mantine-color-default-border)',
+                      opacity: 0.5,
+                    }}
+                  />
                   <Group gap={4} wrap="nowrap" style={{ flexShrink: 0 }}>
                     <Text size="xs" fw={600} c="dimmed">
-                      {expanded ? 'Show less' : `${remaining.length} more paragraph${remaining.length === 1 ? '' : 's'}`}
+                      {expanded
+                        ? 'Show less'
+                        : `${remaining.length} more paragraph${remaining.length === 1 ? '' : 's'}`}
                     </Text>
                     <Box
                       aria-hidden="true"
@@ -151,7 +179,14 @@ function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClic
                       <IoChevronDown size={IMAGE_SIZE.ICON_SM} />
                     </Box>
                   </Group>
-                  <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)', opacity: 0.5 }} />
+                  <Box
+                    style={{
+                      flex: 1,
+                      height: 1,
+                      background: 'var(--mantine-color-default-border)',
+                      opacity: 0.5,
+                    }}
+                  />
                 </Group>
               </UnstyledButton>
             </>
@@ -222,7 +257,13 @@ export default function CharacterLoreSection({
         )}
 
         {(character.ssr_quote || character.quote) && (
-          <SimpleGrid cols={{ base: 1, sm: (character.ssr_quote && character.quote) ? 2 : 1 }} spacing="md">
+          <SimpleGrid
+            cols={{
+              base: 1,
+              sm: character.ssr_quote && character.quote ? 2 : 1,
+            }}
+            spacing="md"
+          >
             {character.ssr_quote && (
               <QuoteCard
                 text={character.ssr_quote}

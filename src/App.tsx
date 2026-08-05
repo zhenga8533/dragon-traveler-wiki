@@ -1,4 +1,4 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router';
 import AppProviders from './AppProviders';
 import RouteMeta from './components/common/RouteMeta';
 import AppLayout from './components/layout/AppLayout';

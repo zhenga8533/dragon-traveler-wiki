@@ -20,7 +20,7 @@ import {
 } from '@mantine/core';
 import type { ComponentType } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router';
 
 const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
@@ -37,10 +37,7 @@ function NavIcon({
   if (!Icon) return null;
   return (
     <Box component="span" visibleFrom="xl">
-      <Icon
-        size={IMAGE_SIZE.ICON_MD}
-        color={getIconColor(accent, isActive)}
-      />
+      <Icon size={IMAGE_SIZE.ICON_MD} color={getIconColor(accent, isActive)} />
     </Box>
   );
 }
@@ -140,8 +137,14 @@ export default function HeaderNav() {
               shadow="md"
             >
               <Menu.Target>
-                <UnstyledButton style={headerNavItemStyle(isChildActive, navAccent)}>
-                  <NavIcon icon={item.icon} accent={navAccent} isActive={isChildActive} />
+                <UnstyledButton
+                  style={headerNavItemStyle(isChildActive, navAccent)}
+                >
+                  <NavIcon
+                    icon={item.icon}
+                    accent={navAccent}
+                    isActive={isChildActive}
+                  />
                   <span>{item.label}</span>
                   <IoChevronDown size={IMAGE_SIZE.ICON_SM} />
                 </UnstyledButton>

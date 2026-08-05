@@ -1,5 +1,11 @@
 import type { ComponentType } from 'react';
-import { matchPath } from 'react-router-dom';
+import { matchPath } from 'react-router';
+import {
+  getNavigationPatterns,
+  getRouteById,
+  ROUTE_CATALOG,
+  type RouteId,
+} from './route-meta';
 import {
   IoBook,
   IoCalculatorOutline,
@@ -31,23 +37,28 @@ export function isNavGroup(child: NavLeaf | NavGroup): child is NavGroup {
   return 'children' in child;
 }
 
+function routeLeaf(routeId: RouteId, label?: string): NavLeaf {
+  const route = getRouteById(routeId);
+  return { label: label ?? route.meta.title, path: route.pattern };
+}
+
 export const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', path: '/', icon: IoHome },
+  { ...routeLeaf('home'), icon: IoHome },
   {
     label: 'Database',
     icon: IoServer,
     children: [
-      { label: 'Artifacts', path: '/artifacts' },
-      { label: 'Characters', path: '/characters' },
-      { label: 'Gear', path: '/gear' },
-      { label: 'Howlkins', path: '/howlkins' },
-      { label: 'Noble Phantasms', path: '/noble-phantasms' },
-      { label: 'Relics', path: '/relics' },
-      { label: 'Resources', path: '/resources' },
-      { label: 'Subclasses', path: '/subclasses' },
-      { label: 'Status Effects', path: '/status-effects' },
-      { label: 'Wyrms', path: '/wyrms' },
-      { label: 'Wyrmspells', path: '/wyrmspells' },
+      routeLeaf('artifacts'),
+      routeLeaf('characters'),
+      routeLeaf('gear'),
+      routeLeaf('howlkins'),
+      routeLeaf('noblePhantasms'),
+      routeLeaf('relics'),
+      routeLeaf('resources'),
+      routeLeaf('subclasses'),
+      routeLeaf('statusEffects'),
+      routeLeaf('wyrms'),
+      routeLeaf('wyrmspells'),
     ],
   },
   {
@@ -58,53 +69,42 @@ export const NAV_ITEMS: NavItem[] = [
         label: 'Calculators',
         icon: IoCalculatorOutline,
         children: [
-          {
-            label: 'Star Upgrade Calculator',
-            path: '/toolbox/star-upgrade-calculator',
-          },
-          {
-            label: 'Mythic Summon Calculator',
-            path: '/toolbox/mythic-summon-calculator',
-          },
-          {
-            label: 'Diamond Calculator',
-            path: '/toolbox/diamond-calculator',
-          },
+          routeLeaf('starUpgradeCalculator'),
+          routeLeaf('mythicSummonCalculator'),
+          routeLeaf('diamondCalculator'),
         ],
       },
       {
         label: 'Strategy Guides',
         icon: IoBook,
         children: [
-          { label: 'Beginner Q&A', path: '/toolbox/beginner-qa' },
-          { label: 'Shovel Event Guide', path: '/toolbox/shovel-event' },
+          routeLeaf('beginnerQa', 'Beginner Q&A'),
+          routeLeaf('shovelEvent'),
         ],
       },
       {
         label: 'Misc',
         icon: IoEllipsisHorizontalOutline,
         children: [
-          { label: 'FAQ', path: '/toolbox/faq' },
-          { label: 'Useful Links', path: '/toolbox/useful-links' },
-          { label: 'DTdle', path: '/toolbox/dtdle' },
+          routeLeaf('faq'),
+          routeLeaf('usefulLinks'),
+          routeLeaf('dtdle'),
         ],
       },
     ],
   },
-  { label: 'Tier List', path: '/tier-list', icon: IoTrophy },
-  { label: 'Teams', path: '/teams', icon: IoShield },
-  { label: 'Events', path: '/events', icon: IoCalendar },
-  { label: 'Codes', path: '/codes', icon: IoGift },
-  { label: 'Changelog', path: '/changelog', icon: IoList },
+  { ...routeLeaf('tierList'), icon: IoTrophy },
+  { ...routeLeaf('teams'), icon: IoShield },
+  { ...routeLeaf('events'), icon: IoCalendar },
+  { ...routeLeaf('codes'), icon: IoGift },
+  { ...routeLeaf('changelog'), icon: IoList },
 ];
 
-const NAV_ACTIVE_PATTERNS: Record<string, string[]> = {
-  '/gear': ['/gear', '/gear-sets/:setName'],
-  '/relics': ['/relics', '/oracle-scrolls/:scrollName'],
-};
-
 export function isNavPathActive(navPath: string, pathname: string) {
-  const patterns = NAV_ACTIVE_PATTERNS[navPath] ?? [navPath, `${navPath}/*`];
+  const route = ROUTE_CATALOG.find(({ pattern }) => pattern === navPath);
+  const patterns = route
+    ? [...getNavigationPatterns(route.id), `${navPath}/*`]
+    : [navPath, `${navPath}/*`];
   return patterns.some(
     (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null,
   );

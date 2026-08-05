@@ -5,7 +5,6 @@ import {
   Center,
   Group,
   Modal,
-  Paper,
   Stack,
   Text,
   Tooltip,
@@ -32,7 +31,7 @@ import {
   IoStarOutline,
 } from 'react-icons/io5';
 import type { Illustration } from '@/assets';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import { TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 
@@ -83,7 +82,7 @@ export default function IllustrationPreviewModal({
   const mediaContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
-    null
+    null,
   );
   const thumbnailHintId = 'character-illustration-thumbnails-hint';
   const activeIllustrationName = activeIllustration?.name;
@@ -95,7 +94,7 @@ export default function IllustrationPreviewModal({
         onSelectIllustration(candidate);
       }
     },
-    [illustrations, onSelectIllustration]
+    [illustrations, onSelectIllustration],
   );
 
   const handleThumbnailKeyDown = useCallback(
@@ -110,7 +109,7 @@ export default function IllustrationPreviewModal({
         event.preventDefault();
         event.stopPropagation();
         selectIllustrationByIndex(
-          (index - 1 + illustrations.length) % illustrations.length
+          (index - 1 + illustrations.length) % illustrations.length,
         );
       } else if (event.key === 'Home') {
         event.preventDefault();
@@ -122,7 +121,7 @@ export default function IllustrationPreviewModal({
         selectIllustrationByIndex(illustrations.length - 1);
       }
     },
-    [illustrations.length, selectIllustrationByIndex]
+    [illustrations.length, selectIllustrationByIndex],
   );
 
   const handleFullscreen = useCallback(async () => {
@@ -194,7 +193,9 @@ export default function IllustrationPreviewModal({
             <Group gap="xs">
               {onToggleFavorite && (
                 <Tooltip
-                  label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+                  label={
+                    isFavorite ? 'Remove from favorites' : 'Add to favorites'
+                  }
                   {...tooltipProps}
                 >
                   <ActionIcon
@@ -221,12 +222,8 @@ export default function IllustrationPreviewModal({
                     variant="default"
                     color={accent.primary}
                     radius="xl"
-                    >
-                    {isFullscreen ? (
-                      <IoContract />
-                    ) : (
-                      <IoExpand />
-                    )}
+                  >
+                    {isFullscreen ? <IoContract /> : <IoExpand />}
                   </ActionIcon>
                 </Tooltip>
               )}
@@ -242,23 +239,20 @@ export default function IllustrationPreviewModal({
             </Group>
           </Group>
 
-          <Paper
+          <StaticSurface
             ref={mediaContainerRef}
-            withBorder
             radius="lg"
             p={0}
-            {...getCardHoverProps({
-              style: {
-                position: 'relative',
-                maxHeight: isFullscreen ? '100dvh' : '70vh',
-                overflow: isFullscreen ? 'hidden' : 'auto',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                background: isFullscreen ? 'black' : undefined,
-                borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
-              },
-            })}
+            style={{
+              position: 'relative',
+              maxHeight: isFullscreen ? '100dvh' : '70vh',
+              overflow: isFullscreen ? 'hidden' : 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: isFullscreen ? 'black' : undefined,
+              borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
+            }}
           >
             {activeIllustration.type === 'video' ? (
               <SafeVideo
@@ -348,7 +342,7 @@ export default function IllustrationPreviewModal({
                 </Box>
               </>
             )}
-          </Paper>
+          </StaticSurface>
 
           {hasMultipleIllustrations && (
             <>

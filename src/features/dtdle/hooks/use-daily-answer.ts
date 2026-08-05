@@ -5,7 +5,7 @@ import { getTodayAnswerSlug } from '../utils/daily-answer';
 export function useDailyAnswer<T extends { slug: string }>(
   pool: T[],
   todayStr: string,
-  modeSalt = ''
+  modeSalt = '',
 ): T | null {
   return useMemo(() => {
     if (pool.length === 0) return null;

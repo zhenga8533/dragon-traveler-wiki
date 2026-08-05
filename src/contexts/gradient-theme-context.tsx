@@ -59,15 +59,15 @@ function injectCustomCssVars(colors: CustomGradientColors) {
 
   root.style.setProperty(
     '--dt-brand-gradient',
-    `linear-gradient(120deg, ${colors.colorA} 0%, ${colors.colorB} 100%)`
+    `linear-gradient(120deg, ${colors.colorA} 0%, ${colors.colorB} 100%)`,
   );
   root.style.setProperty(
     '--dt-home-hero-gradient-dark',
-    `linear-gradient(135deg, rgba(${rA},${gA},${bA},0.55) 0%, rgba(${rB},${gB},${bB},0.45) var(--dt-home-hero-stop-mid), rgba(${rA},${gA},${bA},0.35) 100%)`
+    `linear-gradient(135deg, rgba(${rA},${gA},${bA},0.55) 0%, rgba(${rB},${gB},${bB},0.45) var(--dt-home-hero-stop-mid), rgba(${rA},${gA},${bA},0.35) 100%)`,
   );
   root.style.setProperty(
     '--dt-home-hero-gradient-light',
-    `linear-gradient(135deg, rgba(${rA},${gA},${bA},0.12) 0%, rgba(${rB},${gB},${bB},0.1) var(--dt-home-hero-stop-mid), rgba(${rA},${gA},${bA},0.07) 100%)`
+    `linear-gradient(135deg, rgba(${rA},${gA},${bA},0.12) 0%, rgba(${rB},${gB},${bB},0.1) var(--dt-home-hero-stop-mid), rgba(${rA},${gA},${bA},0.07) 100%)`,
   );
   root.style.setProperty('--dt-surface-glow-a', `rgba(${rA},${gA},${bA},0.32)`);
   root.style.setProperty('--dt-surface-glow-b', `rgba(${rB},${gB},${bB},0.22)`);
@@ -77,45 +77,60 @@ function injectCustomCssVars(colors: CustomGradientColors) {
   root.style.setProperty('--dt-wordmark-color-light', colors.colorB);
   root.style.setProperty(
     '--dt-wordmark-shadow-dark',
-    `0 1px 12px rgba(${rA},${gA},${bA},0.42)`
+    `0 1px 12px rgba(${rA},${gA},${bA},0.42)`,
   );
   root.style.setProperty(
     '--dt-wordmark-shadow-light',
-    `0 1px 6px rgba(${rB},${gB},${bB},0.18)`
+    `0 1px 6px rgba(${rB},${gB},${bB},0.18)`,
   );
   root.style.setProperty('--dt-link-color-light', colors.colorB);
   root.style.setProperty('--dt-link-color-dark', colors.colorA);
   root.style.setProperty(
     '--dt-home-hero-panel-light',
-    `linear-gradient(180deg, rgba(${rA},${gA},${bA},0.08) 0%, rgba(${rB},${gB},${bB},0.06) 100%)`
+    `linear-gradient(180deg, rgba(${rA},${gA},${bA},0.08) 0%, rgba(${rB},${gB},${bB},0.06) 100%)`,
   );
   root.style.setProperty(
     '--dt-home-hero-panel-dark',
-    `linear-gradient(180deg, rgba(${rA},${gA},${bA},0.3) 0%, rgba(${rB},${gB},${bB},0.22) 100%)`
+    `linear-gradient(180deg, rgba(${rA},${gA},${bA},0.3) 0%, rgba(${rB},${gB},${bB},0.22) 100%)`,
   );
-  root.style.setProperty('--dt-home-hero-card-light', `rgba(${rA},${gA},${bA},0.08)`);
-  root.style.setProperty('--dt-home-hero-card-dark', `rgba(${rA},${gA},${bA},0.3)`);
+  root.style.setProperty(
+    '--dt-home-hero-card-light',
+    `rgba(${rA},${gA},${bA},0.08)`,
+  );
+  root.style.setProperty(
+    '--dt-home-hero-card-dark',
+    `rgba(${rA},${gA},${bA},0.3)`,
+  );
 
   for (let i = 0; i <= 9; i++) {
-    root.style.setProperty(`--mantine-primary-color-${i}`, `var(--mantine-color-${acc}-${i})`);
+    root.style.setProperty(
+      `--mantine-primary-color-${i}`,
+      `var(--mantine-color-${acc}-${i})`,
+    );
   }
-  root.style.setProperty('--mantine-primary-color-filled', `var(--mantine-color-${acc}-filled)`);
+  root.style.setProperty(
+    '--mantine-primary-color-filled',
+    `var(--mantine-color-${acc}-filled)`,
+  );
   root.style.setProperty(
     '--mantine-primary-color-filled-hover',
-    `var(--mantine-color-${acc}-filled-hover)`
+    `var(--mantine-color-${acc}-filled-hover)`,
   );
-  root.style.setProperty('--mantine-primary-color-light', `var(--mantine-color-${acc}-light)`);
+  root.style.setProperty(
+    '--mantine-primary-color-light',
+    `var(--mantine-color-${acc}-light)`,
+  );
   root.style.setProperty(
     '--mantine-primary-color-light-hover',
-    `var(--mantine-color-${acc}-light-hover)`
+    `var(--mantine-color-${acc}-light-hover)`,
   );
   root.style.setProperty(
     '--mantine-primary-color-light-color',
-    `var(--mantine-color-${acc}-light-color)`
+    `var(--mantine-color-${acc}-light-color)`,
   );
   root.style.setProperty(
     '--mantine-primary-color-contrast',
-    `var(--mantine-color-${acc}-contrast)`
+    `var(--mantine-color-${acc}-contrast)`,
   );
 }
 
@@ -133,9 +148,16 @@ function loadCustomColors(): CustomGradientColors {
     const parsed = JSON.parse(raw) as Partial<CustomGradientColors>;
     const { colorA, colorB } = parsed;
     return {
-      colorA: typeof colorA === 'string' && isValidHex(colorA) ? colorA : DEFAULT_CUSTOM_COLORS.colorA,
-      colorB: typeof colorB === 'string' && isValidHex(colorB) ? colorB : DEFAULT_CUSTOM_COLORS.colorB,
-      mantineAccent: parsed.mantineAccent ?? DEFAULT_CUSTOM_COLORS.mantineAccent,
+      colorA:
+        typeof colorA === 'string' && isValidHex(colorA)
+          ? colorA
+          : DEFAULT_CUSTOM_COLORS.colorA,
+      colorB:
+        typeof colorB === 'string' && isValidHex(colorB)
+          ? colorB
+          : DEFAULT_CUSTOM_COLORS.colorB,
+      mantineAccent:
+        parsed.mantineAccent ?? DEFAULT_CUSTOM_COLORS.mantineAccent,
     };
   } catch {
     return DEFAULT_CUSTOM_COLORS;
@@ -145,7 +167,9 @@ function loadCustomColors(): CustomGradientColors {
 export function GradientThemeProvider({ children }: { children: ReactNode }) {
   const [palette, setPalette] = useState<GradientPalette>(() => {
     if (typeof window === 'undefined') return DEFAULT_PALETTE;
-    return normalizePalette(window.localStorage.getItem(STORAGE_KEY.GRADIENT_PALETTE));
+    return normalizePalette(
+      window.localStorage.getItem(STORAGE_KEY.GRADIENT_PALETTE),
+    );
   });
 
   const [customColors, setCustomColors] = useState<CustomGradientColors>(() => {
@@ -156,7 +180,10 @@ export function GradientThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     window.localStorage.setItem(STORAGE_KEY.GRADIENT_PALETTE, palette);
-    window.localStorage.setItem(STORAGE_KEY.CUSTOM_GRADIENT_COLORS, JSON.stringify(customColors));
+    window.localStorage.setItem(
+      STORAGE_KEY.CUSTOM_GRADIENT_COLORS,
+      JSON.stringify(customColors),
+    );
     document.documentElement.setAttribute('data-gradient-palette', palette);
     if (palette === 'custom') {
       injectCustomCssVars(customColors);
@@ -172,7 +199,7 @@ export function GradientThemeProvider({ children }: { children: ReactNode }) {
       customColors,
       setCustomColors,
     }),
-    [palette, customColors]
+    [palette, customColors],
   );
 
   return (

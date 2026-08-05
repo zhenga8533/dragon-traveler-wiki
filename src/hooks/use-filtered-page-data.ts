@@ -32,7 +32,7 @@ export function useFilteredPageData<T, F extends object>(
     defaultViewMode?: ViewMode;
     pageSize?: number;
     pageSizeOptions?: readonly number[] | PageSizeOptionsByViewMode;
-  }
+  },
 ) {
   const {
     emptyFilters,
@@ -60,7 +60,7 @@ export function useFilteredPageData<T, F extends object>(
   const { col: sortCol, dir: sortDir } = sortState;
   const resolvedPageSizeOptions = useMemo(
     () => resolvePageSizeOptions(viewMode, pageSizeOptions),
-    [pageSizeOptions, viewMode]
+    [pageSizeOptions, viewMode],
   );
   const pageSizeStorageKey =
     storageKeys.pageSize ??
@@ -79,13 +79,13 @@ export function useFilteredPageData<T, F extends object>(
       data
         .filter((item) => filterFn(item, filters))
         .sort((a, b) => sortFn(a, b, sortCol, sortDir)),
-    [data, filters, sortCol, sortDir, filterFn, sortFn]
+    [data, filters, sortCol, sortDir, filterFn, sortFn],
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     activePageSize,
-    filters
+    filters,
   );
 
   useEffect(() => {

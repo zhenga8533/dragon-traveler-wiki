@@ -6,38 +6,35 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
-import { QUALITY_ORDER } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
 import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
-import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
-import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
-import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import type {
+  OracleScrollRef,
+  Relic,
+  RelicType,
+} from '@/features/wiki/relics/types';
 import {
-  applyDir,
+  compareRelics,
+  EMPTY_RELIC_FILTERS,
+  matchesRelicFilters,
+} from '@/features/wiki/relics/filters';
+import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
+import {
+  useRelics,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
+import {
   useFilteredPageData,
   useGradientAccent,
   useSearchParamFilter,
   useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-
-interface RelicFilters {
-  search: string;
-  types: RelicType[];
-  qualities: Quality[];
-}
-
-const EMPTY_FILTERS: RelicFilters = {
-  search: '',
-  types: [],
-  qualities: [],
-};
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
@@ -66,13 +63,17 @@ export default function RelicPage() {
     'oracle-scrolls',
   ]);
 
-  const {
-    data: relics,
-    loading,
-    error,
-  } = useRelics();
+  const { data: relics, loading, error, retry } = useRelics();
   const { data: statusEffects } = useStatusEffects();
-
+  const oracleScrolls = useMemo(() => {
+    const bySlug = new Map<string, OracleScrollRef>();
+    for (const relic of relics) {
+      if (relic.oracle_scroll) {
+        bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
+      }
+    }
+    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }, [relics]);
   const {
     filters,
     setFilters,
@@ -94,76 +95,19 @@ export default function RelicPage() {
     pageSizeOptions: relicPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(relics, {
-    emptyFilters: EMPTY_FILTERS,
+    emptyFilters: EMPTY_RELIC_FILTERS,
     storageKeys: {
       filters: STORAGE_KEY.RELIC_FILTERS,
       viewMode: STORAGE_KEY.RELIC_VIEW_MODE,
       sort: STORAGE_KEY.RELIC_SORT,
     },
     defaultViewMode: 'grid',
-    filterFn: (item, filters) => {
-      if (
-        !filters.search &&
-        filters.types.length === 0 &&
-        filters.qualities.length === 0
-      ) {
-        return true;
-      }
-      const query = filters.search.toLowerCase();
-      const matchesSearch =
-        !filters.search ||
-        item.name.toLowerCase().includes(query) ||
-        (item.oracle_scroll?.name ?? '').toLowerCase().includes(query) ||
-        item.lore.toLowerCase().includes(query);
-      const matchesType =
-        filters.types.length === 0 || filters.types.includes(item.type);
-      const matchesQuality =
-        filters.qualities.length === 0 ||
-        filters.qualities.includes(item.quality);
-      return matchesSearch && matchesType && matchesQuality;
-    },
-    sortFn: (a, b, col, dir) => {
-      const typeCmp =
-        getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
-        getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
-      const qualityCmp =
-        QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-      const oracleCmp = (a.oracle_scroll?.name ?? '').localeCompare(
-        b.oracle_scroll?.name ?? ''
-      );
-      const nameCmp = a.name.localeCompare(b.name);
-
-      if (col) {
-        let cmp = 0;
-        if (col === 'name') {
-          cmp = nameCmp;
-        } else if (col === 'type') {
-          cmp = typeCmp || qualityCmp || oracleCmp || nameCmp;
-        } else if (col === 'rarity') {
-          cmp = qualityCmp || oracleCmp || typeCmp || nameCmp;
-        } else if (col === 'oracle') {
-          cmp = oracleCmp || typeCmp || nameCmp;
-        }
-        if (cmp !== 0) return applyDir(cmp, dir);
-      }
-
-      if (qualityCmp !== 0) return qualityCmp;
-      if (oracleCmp !== 0) return oracleCmp;
-      if (typeCmp !== 0) return typeCmp;
-      return nameCmp;
-    },
+    filterFn: matchesRelicFilters,
+    sortFn: compareRelics,
   });
   useSearchParamFilter(setFilters);
 
   // Oracle Scrolls tab
-  const oracleScrolls = useMemo(() => {
-    const bySlug = new Map<string, OracleScrollRef>();
-    for (const relic of relics) {
-      if (relic.oracle_scroll) bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
-    }
-    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
-  }, [relics]);
-
   const relicsByOracle = useMemo(() => {
     const map = new Map<string, Relic[]>();
     for (const relic of relics) {
@@ -193,7 +137,7 @@ export default function RelicPage() {
         relicsInScroll.some((r) => r.name.toLowerCase().includes(query))
       );
     },
-    [relicsByOracle]
+    [relicsByOracle],
   );
 
   const {
@@ -240,6 +184,7 @@ export default function RelicPage() {
             <RelicsTab
               loading={loading}
               error={error}
+              onRetry={retry}
               relics={relics}
               filtered={filtered}
               viewMode={viewMode}
@@ -256,7 +201,7 @@ export default function RelicPage() {
               onPageSizeChange={setRelicPageSize}
               filters={filters}
               onFiltersChange={setFilters}
-              emptyFilters={EMPTY_FILTERS}
+              emptyFilters={EMPTY_RELIC_FILTERS}
               filterGroups={FILTER_GROUPS}
               sortCol={sortCol}
               sortDir={sortDir}
@@ -271,6 +216,7 @@ export default function RelicPage() {
             <OracleScrollsTab
               loading={loading}
               error={error}
+              onRetry={retry}
               oracleScrolls={oracleScrolls}
               search={oracleSearch}
               onSearchChange={setOracleSearch}

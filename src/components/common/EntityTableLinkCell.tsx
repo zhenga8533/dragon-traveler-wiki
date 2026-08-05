@@ -1,6 +1,6 @@
 import { Table, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface EntityTableLinkCellProps {
   to: string;

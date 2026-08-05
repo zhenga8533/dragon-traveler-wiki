@@ -21,33 +21,16 @@ export const RICH_TEXT_BADGE_STYLE = {
   verticalAlign: 'middle',
 } as const satisfies CSSProperties;
 
-type CardHoverPropsOptions = {
-  interactive?: boolean;
-  style?: CSSProperties;
-};
-
 type CharacterPortraitHoverOptions = {
   isSubstitute?: boolean;
 };
-
-/**
- * Returns the shared surface class and, for genuinely interactive surfaces,
- * opts into pointer and elevation affordances.
- */
-export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
-  const { interactive = false, style } = options;
-  const className = interactive
-    ? 'card-hover card-hover-interactive'
-    : 'card-surface-static';
-  return style ? { className, style } : { className };
-}
 
 /**
  * Returns a CSS class for character portrait hover effect (scale + shadow).
  * Actual transitions are handled by `.portrait-hover` in interactions.css.
  */
 export function getCharacterPortraitHoverProps(
-  options: CharacterPortraitHoverOptions = {}
+  options: CharacterPortraitHoverOptions = {},
 ) {
   const { isSubstitute = false } = options;
   return {
@@ -139,4 +122,3 @@ export const STICKY_POOL_COLUMN_STYLE = {
     'calc(100vh - var(--app-shell-header-offset, 0px) - var(--mantine-spacing-md) * 2)',
   overflowY: 'auto',
 } as const satisfies CSSProperties;
-

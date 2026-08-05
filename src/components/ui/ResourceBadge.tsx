@@ -29,7 +29,9 @@ export default function ResourceBadge({
 
   const resource = resources.find((r) => r.slug === slug);
 
-  const iconSrc = resource ? getResourceIcon(resource.slug, resource.category) : undefined;
+  const iconSrc = resource
+    ? getResourceIcon(resource.slug, resource.category)
+    : undefined;
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
   const label = `${displayName ?? resource?.name ?? slug}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 
@@ -45,7 +47,14 @@ export default function ResourceBadge({
         resource ? (
           <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
             <Group gap="xs" wrap="nowrap">
-              {iconSrc && <SafeImage src={iconSrc} alt={resource.name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
+              {iconSrc && (
+                <SafeImage
+                  src={iconSrc}
+                  alt={resource.name}
+                  w={IMAGE_SIZE.ICON_LG}
+                  h={IMAGE_SIZE.ICON_LG}
+                />
+              )}
               <Text fw={600} size="sm">
                 {resource.name}
               </Text>

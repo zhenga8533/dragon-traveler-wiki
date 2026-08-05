@@ -48,10 +48,7 @@ export default function Home() {
     <Stack gap={0}>
       <HomeHeroSection />
 
-      <Container
-        size="lg"
-        py={{ base: 'lg', sm: 'xl' }}
-      >
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
           {showCharacterTiers && (
             <ScrollReveal>
@@ -117,8 +114,8 @@ export default function Home() {
                   Dragon Traveler is a free-to-play idle RPG developed and
                   published by GameTree. Play as Fafnir, heir of the legendary
                   dragon, in a rom-com isekai adventure featuring card-based
-                  combat, strategic Dragon Soul mechanics, and a colorful cast of
-                  characters.
+                  combat, strategic Dragon Soul mechanics, and a colorful cast
+                  of characters.
                 </Text>
                 <Group gap="xs" wrap="wrap">
                   {GENRES.map((genre) => (
@@ -146,7 +143,12 @@ export default function Home() {
                     <IoGlobe size={16} />
                   </ThemeIcon>
                   {LANGUAGES.map((lang) => (
-                    <Badge key={lang} variant="light" color={accent.secondary} size="sm">
+                    <Badge
+                      key={lang}
+                      variant="light"
+                      color={accent.secondary}
+                      size="sm"
+                    >
                       {lang}
                     </Badge>
                   ))}

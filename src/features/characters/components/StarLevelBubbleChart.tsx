@@ -7,12 +7,10 @@ import {
   getCharacterIdentityKey,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
-import { useDarkMode, useGradientAccent, useStarLevels } from '@/hooks';
-import {
-  buildStarLevels,
-  type StarLevel,
-  type StarTier,
-} from '@/types/star-level';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent } from '@/hooks';
+import { buildStarLevels } from '@/features/wiki/star-levels/star-levels';
+import type { StarLevel, StarTier } from '@/features/wiki/star-levels/types';
 import { STORAGE_KEY } from '@/constants/ui';
 import {
   downloadElementAsImage,
@@ -125,7 +123,7 @@ function getBubbleRadius(
   copies: number,
   baseSize: number,
   scale: number,
-  exponent: number
+  exponent: number,
 ): number {
   return Math.round(baseSize + Math.pow(Math.max(copies, 1), exponent) * scale);
 }
@@ -161,32 +159,30 @@ function packWithD3(
   padding: number,
   largeOutside = false,
   sx = 1,
-  sy = 1
+  sy = 1,
 ): Array<{ x: number; y: number; r: number }> {
   if (bubbles.length === 0) return [];
 
   const order = bubbles
     .map((_, i) => i)
     .sort((a, b) =>
-      largeOutside ? bubbles[a].r - bubbles[b].r : bubbles[b].r - bubbles[a].r
+      largeOutside ? bubbles[a].r - bubbles[b].r : bubbles[b].r - bubbles[a].r,
     );
   const sorted = order.map((i) => bubbles[i]);
 
   const rFactor = Math.max(sx, sy, 1);
 
   type Root = { children?: BubbleItem[] };
-  const root = d3
-    .hierarchy<Root>({ children: sorted })
-    .sum((d) => {
-      const item = d as unknown as BubbleItem;
-      if (item.r == null) return 0;
-      const rp = item.r / rFactor;
-      return rp * rp;
-    });
+  const root = d3.hierarchy<Root>({ children: sorted }).sum((d) => {
+    const item = d as unknown as BubbleItem;
+    if (item.r == null) return 0;
+    const rp = item.r / rFactor;
+    return rp * rp;
+  });
 
-  const packed = d3.pack<Root>()
-    .size([PACK_SIZE, PACK_SIZE])
-    .padding(padding)(root);
+  const packed = d3.pack<Root>().size([PACK_SIZE, PACK_SIZE]).padding(padding)(
+    root,
+  );
 
   const cx = PACK_SIZE / 2;
   const cy = PACK_SIZE / 2;
@@ -209,7 +205,7 @@ function packWithD3(
 function resolveOverlaps(
   positions: Array<{ x: number; y: number; r: number }>,
   iterations = 30,
-  gap = 2
+  gap = 2,
 ): Array<{ x: number; y: number; r: number }> {
   const pos = positions.map((p) => ({ ...p }));
   for (let iter = 0; iter < iterations; iter++) {
@@ -241,8 +237,13 @@ function resolveOverlaps(
 
 const CANVAS_PAD = 12;
 
-function computeCanvasDimensions(positions: Array<{ x: number; y: number; r: number }>) {
-  let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+function computeCanvasDimensions(
+  positions: Array<{ x: number; y: number; r: number }>,
+) {
+  let minX = Infinity,
+    maxX = -Infinity,
+    minY = Infinity,
+    maxY = -Infinity;
   for (const { x, y, r } of positions) {
     minX = Math.min(minX, x - r);
     maxX = Math.max(maxX, x + r);
@@ -275,7 +276,12 @@ interface BubbleCanvasProps {
   interactive: boolean;
 }
 
-function BubbleCanvas({ bubbles, positions, config, interactive }: BubbleCanvasProps) {
+function BubbleCanvas({
+  bubbles,
+  positions,
+  config,
+  interactive,
+}: BubbleCanvasProps) {
   if (bubbles.length === 0) {
     return (
       <Text c="dimmed" size="sm" ta="center" py="xl">
@@ -287,7 +293,9 @@ function BubbleCanvas({ bubbles, positions, config, interactive }: BubbleCanvasP
   const { w, h, ox, oy } = computeCanvasDimensions(positions);
 
   return (
-    <Box style={{ position: 'relative', width: w, height: h, margin: '0 auto' }}>
+    <Box
+      style={{ position: 'relative', width: w, height: h, margin: '0 auto' }}
+    >
       {bubbles.map((b, idx) => {
         const { x, y, r } = positions[idx];
         const cx = x + ox;
@@ -298,8 +306,12 @@ function BubbleCanvas({ bubbles, positions, config, interactive }: BubbleCanvasP
             ? 1
             : 1 - config.tierFade * (1 - TIER_ORDER[b.starLevel.tier] / 4);
 
-        const a1 = Math.round(0x99 * config.glowIntensity).toString(16).padStart(2, '0');
-        const a2 = Math.round(0x66 * config.glowIntensity).toString(16).padStart(2, '0');
+        const a1 = Math.round(0x99 * config.glowIntensity)
+          .toString(16)
+          .padStart(2, '0');
+        const a2 = Math.round(0x66 * config.glowIntensity)
+          .toString(16)
+          .padStart(2, '0');
 
         const inner = (
           <Box
@@ -357,24 +369,54 @@ function ZoomControls({
 }) {
   const { zoomIn, zoomOut, centerView } = useControls();
   return (
-    <Group gap={4} style={{ position: 'absolute', bottom: 8, right: 8, zIndex: 10 }}>
+    <Group
+      gap={4}
+      style={{ position: 'absolute', bottom: 8, right: 8, zIndex: 10 }}
+    >
       <Tooltip label="Zoom in" withArrow>
-        <ActionIcon aria-label="Zoom in" variant="light" color={accent} size="sm" onClick={() => zoomIn()}>
+        <ActionIcon
+          aria-label="Zoom in"
+          variant="light"
+          color={accent}
+          size="sm"
+          onClick={() => zoomIn()}
+        >
           <IoAdd size={13} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Zoom out" withArrow>
-        <ActionIcon aria-label="Zoom out" variant="light" color={accent} size="sm" onClick={() => zoomOut()}>
+        <ActionIcon
+          aria-label="Zoom out"
+          variant="light"
+          color={accent}
+          size="sm"
+          onClick={() => zoomOut()}
+        >
           <IoRemove size={13} />
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Reset view" withArrow>
-        <ActionIcon aria-label="Reset view" variant="light" color={accent} size="sm" onClick={() => centerView(1)}>
+        <ActionIcon
+          aria-label="Reset view"
+          variant="light"
+          color={accent}
+          size="sm"
+          onClick={() => centerView(1)}
+        >
           <IoScanOutline size={13} />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} withArrow>
-        <ActionIcon aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} variant="light" color={accent} size="sm" onClick={onToggleFullscreen}>
+      <Tooltip
+        label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+        withArrow
+      >
+        <ActionIcon
+          aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+          variant="light"
+          color={accent}
+          size="sm"
+          onClick={onToggleFullscreen}
+        >
           {isFullscreen ? <IoContract size={13} /> : <IoExpand size={13} />}
         </ActionIcon>
       </Tooltip>
@@ -395,12 +437,25 @@ interface SliderRowProps {
   onChange: (v: number) => void;
 }
 
-function SliderRow({ label, value, display, min, max, step, accent, onChange }: SliderRowProps) {
+function SliderRow({
+  label,
+  value,
+  display,
+  min,
+  max,
+  step,
+  accent,
+  onChange,
+}: SliderRowProps) {
   return (
     <Stack gap={4}>
       <Group justify="space-between">
-        <Text size="xs" c="dimmed">{label}</Text>
-        <Text size="xs" c="dimmed">{display}</Text>
+        <Text size="xs" c="dimmed">
+          {label}
+        </Text>
+        <Text size="xs" c="dimmed">
+          {display}
+        </Text>
       </Group>
       <Slider
         size="xs"
@@ -429,12 +484,15 @@ export default function StarLevelBubbleChart({
   onClose,
 }: StarLevelBubbleChartProps) {
   const { ownedCharacters } = useContext(CharacterOwnershipContext);
-  const { getSelectedSkin } = useContext(CharacterSkinContext);
+  const { getDisplaySkin } = useContext(CharacterSkinContext);
   const { data: rawStarLevels } = useStarLevels();
-  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+  const starLevels = useMemo(
+    () => buildStarLevels(rawStarLevels),
+    [rawStarLevels],
+  );
   const starLevelMap = useMemo(
     () => new Map(starLevels.map((sl) => [sl.value, sl])),
-    [starLevels]
+    [starLevels],
   );
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
@@ -474,18 +532,31 @@ export default function StarLevelBubbleChart({
         char,
         starLevel,
         displayName: char.name,
-        r: getBubbleRadius(starLevel.copies, config.baseSize, config.scale, config.sizeExponent),
+        r: getBubbleRadius(
+          starLevel.copies,
+          config.baseSize,
+          config.scale,
+          config.sizeExponent,
+        ),
         portrait: getPortrait(
           char.name,
           getCharacterRouteSlug(char),
-          getSelectedSkin(getCharacterRouteSlug(char))
+          getDisplaySkin(getCharacterRouteSlug(char)),
         ),
         tierColor: TIER_GLOW[starLevel.tier],
         qualityBorder: QUALITY_BORDER_COLOR[char.quality] ?? '#9e9e9e',
       });
     }
     return items.sort((a, b) => b.r - a.r);
-  }, [ownedCharacters, charByIdentity, starLevelMap, config.baseSize, config.scale, config.sizeExponent, getSelectedSkin]);
+  }, [
+    ownedCharacters,
+    charByIdentity,
+    starLevelMap,
+    config.baseSize,
+    config.scale,
+    config.sizeExponent,
+    getDisplaySkin,
+  ]);
 
   const positions = useMemo(() => {
     const { padding, centerBias, stretchX, stretchY } = config;
@@ -495,7 +566,13 @@ export default function StarLevelBubbleChart({
       t === 0
         ? posCenter
         : (() => {
-            const posOutside = packWithD3(bubbles, padding, true, stretchX, stretchY);
+            const posOutside = packWithD3(
+              bubbles,
+              padding,
+              true,
+              stretchX,
+              stretchY,
+            );
             return bubbles.map((_, i) => ({
               x: posCenter[i].x * (1 - t) + posOutside[i].x * t,
               y: posCenter[i].y * (1 - t) + posOutside[i].y * t,
@@ -509,7 +586,10 @@ export default function StarLevelBubbleChart({
   useEffect(() => {
     if (!isExporting) return;
     const el = exportRef.current;
-    if (!el) { setIsExporting(false); return; }
+    if (!el) {
+      setIsExporting(false);
+      return;
+    }
     const run = async () => {
       await new Promise((r) => setTimeout(r, 200));
       try {
@@ -522,7 +602,10 @@ export default function StarLevelBubbleChart({
   }, [isExporting, isDark]);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY.BUBBLE_CHART_CONFIG, JSON.stringify(config));
+    localStorage.setItem(
+      STORAGE_KEY.BUBBLE_CHART_CONFIG,
+      JSON.stringify(config),
+    );
   }, [config]);
 
   useEffect(() => {
@@ -554,7 +637,9 @@ export default function StarLevelBubbleChart({
             <IoBarChart size={16} />
             <Text fw={600}>Investment Chart</Text>
             {ownedCount > 0 && (
-              <Text size="sm" c="dimmed">({ownedCount} characters)</Text>
+              <Text size="sm" c="dimmed">
+                ({ownedCount} characters)
+              </Text>
             )}
           </Group>
         }
@@ -565,7 +650,8 @@ export default function StarLevelBubbleChart({
           {/* Toolbar */}
           <Group justify="space-between" align="center">
             <Text size="xs" c="dimmed">
-              Circle size reflects copies invested. Border = quality. Glow = star tier.
+              Circle size reflects copies invested. Border = quality. Glow =
+              star tier.
             </Text>
             <Group gap={4}>
               <Tooltip label="Chart settings" withArrow>
@@ -600,10 +686,15 @@ export default function StarLevelBubbleChart({
             <Stack
               gap="xs"
               p="sm"
-              style={{ borderRadius: 8, border: '1px solid var(--mantine-color-default-border)' }}
+              style={{
+                borderRadius: 8,
+                border: '1px solid var(--mantine-color-default-border)',
+              }}
             >
               <Group justify="space-between" align="center">
-                <Text size="xs" fw={600} c="dimmed" tt="uppercase">Settings</Text>
+                <Text size="xs" fw={600} c="dimmed" tt="uppercase">
+                  Settings
+                </Text>
                 <Tooltip label="Reset to defaults" withArrow>
                   <ActionIcon
                     variant="subtle"
@@ -618,34 +709,64 @@ export default function StarLevelBubbleChart({
               </Group>
               <Divider mt={2} mb={2} />
 
-              <Tabs defaultValue="layout" variant="pills" color={accent.primary}>
+              <Tabs
+                defaultValue="layout"
+                variant="pills"
+                color={accent.primary}
+              >
                 <Tabs.List>
-                  <Tabs.Tab value="layout" fz="xs">Layout</Tabs.Tab>
-                  <Tabs.Tab value="shape" fz="xs">Shape</Tabs.Tab>
-                  <Tabs.Tab value="style" fz="xs">Style</Tabs.Tab>
+                  <Tabs.Tab value="layout" fz="xs">
+                    Layout
+                  </Tabs.Tab>
+                  <Tabs.Tab value="shape" fz="xs">
+                    Shape
+                  </Tabs.Tab>
+                  <Tabs.Tab value="style" fz="xs">
+                    Style
+                  </Tabs.Tab>
                 </Tabs.List>
 
                 <Tabs.Panel value="layout" pt="sm">
                   <Stack gap="sm">
                     <SliderRow
-                      label="Min size" display={`${config.baseSize}px`}
-                      min={8} max={40} step={1} value={config.baseSize}
-                      accent={accent.primary} onChange={set('baseSize')}
+                      label="Min size"
+                      display={`${config.baseSize}px`}
+                      min={8}
+                      max={40}
+                      step={1}
+                      value={config.baseSize}
+                      accent={accent.primary}
+                      onChange={set('baseSize')}
                     />
                     <SliderRow
-                      label="Size scale" display={`${config.scale}×`}
-                      min={2} max={16} step={0.5} value={config.scale}
-                      accent={accent.primary} onChange={set('scale')}
+                      label="Size scale"
+                      display={`${config.scale}×`}
+                      min={2}
+                      max={16}
+                      step={0.5}
+                      value={config.scale}
+                      accent={accent.primary}
+                      onChange={set('scale')}
                     />
                     <SliderRow
-                      label="Size contrast" display={config.sizeExponent.toFixed(2)}
-                      min={0.3} max={1.5} step={0.05} value={config.sizeExponent}
-                      accent={accent.primary} onChange={set('sizeExponent')}
+                      label="Size contrast"
+                      display={config.sizeExponent.toFixed(2)}
+                      min={0.3}
+                      max={1.5}
+                      step={0.05}
+                      value={config.sizeExponent}
+                      accent={accent.primary}
+                      onChange={set('sizeExponent')}
                     />
                     <SliderRow
-                      label="Padding" display={`${config.padding}px`}
-                      min={0} max={20} step={1} value={config.padding}
-                      accent={accent.primary} onChange={set('padding')}
+                      label="Padding"
+                      display={`${config.padding}px`}
+                      min={0}
+                      max={20}
+                      step={1}
+                      value={config.padding}
+                      accent={accent.primary}
+                      onChange={set('padding')}
                     />
                   </Stack>
                 </Tabs.Panel>
@@ -653,24 +774,44 @@ export default function StarLevelBubbleChart({
                 <Tabs.Panel value="shape" pt="sm">
                   <Stack gap="sm">
                     <SliderRow
-                      label="Large circles outward" display={config.centerBias.toFixed(2)}
-                      min={0} max={1} step={0.05} value={config.centerBias}
-                      accent={accent.primary} onChange={set('centerBias')}
+                      label="Large circles outward"
+                      display={config.centerBias.toFixed(2)}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={config.centerBias}
+                      accent={accent.primary}
+                      onChange={set('centerBias')}
                     />
                     <SliderRow
-                      label="Horizontal stretch" display={`${config.stretchX.toFixed(2)}×`}
-                      min={0.5} max={2} step={0.05} value={config.stretchX}
-                      accent={accent.primary} onChange={set('stretchX')}
+                      label="Horizontal stretch"
+                      display={`${config.stretchX.toFixed(2)}×`}
+                      min={0.5}
+                      max={2}
+                      step={0.05}
+                      value={config.stretchX}
+                      accent={accent.primary}
+                      onChange={set('stretchX')}
                     />
                     <SliderRow
-                      label="Vertical stretch" display={`${config.stretchY.toFixed(2)}×`}
-                      min={0.5} max={2} step={0.05} value={config.stretchY}
-                      accent={accent.primary} onChange={set('stretchY')}
+                      label="Vertical stretch"
+                      display={`${config.stretchY.toFixed(2)}×`}
+                      min={0.5}
+                      max={2}
+                      step={0.05}
+                      value={config.stretchY}
+                      accent={accent.primary}
+                      onChange={set('stretchY')}
                     />
                     <SliderRow
-                      label="Rotation" display={`${config.rotation}°`}
-                      min={0} max={360} step={1} value={config.rotation}
-                      accent={accent.primary} onChange={set('rotation')}
+                      label="Rotation"
+                      display={`${config.rotation}°`}
+                      min={0}
+                      max={360}
+                      step={1}
+                      value={config.rotation}
+                      accent={accent.primary}
+                      onChange={set('rotation')}
                     />
                   </Stack>
                 </Tabs.Panel>
@@ -678,24 +819,44 @@ export default function StarLevelBubbleChart({
                 <Tabs.Panel value="style" pt="sm">
                   <Stack gap="sm">
                     <SliderRow
-                      label="Glow intensity" display={`${Math.round(config.glowIntensity * 100)}%`}
-                      min={0} max={1} step={0.05} value={config.glowIntensity}
-                      accent={accent.primary} onChange={set('glowIntensity')}
+                      label="Glow intensity"
+                      display={`${Math.round(config.glowIntensity * 100)}%`}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={config.glowIntensity}
+                      accent={accent.primary}
+                      onChange={set('glowIntensity')}
                     />
                     <SliderRow
-                      label="Glow radius" display={`${config.glowRadius}px`}
-                      min={2} max={40} step={1} value={config.glowRadius}
-                      accent={accent.primary} onChange={set('glowRadius')}
+                      label="Glow radius"
+                      display={`${config.glowRadius}px`}
+                      min={2}
+                      max={40}
+                      step={1}
+                      value={config.glowRadius}
+                      accent={accent.primary}
+                      onChange={set('glowRadius')}
                     />
                     <SliderRow
-                      label="Border thickness" display={`${config.borderThickness}px`}
-                      min={0} max={6} step={0.5} value={config.borderThickness}
-                      accent={accent.primary} onChange={set('borderThickness')}
+                      label="Border thickness"
+                      display={`${config.borderThickness}px`}
+                      min={0}
+                      max={6}
+                      step={0.5}
+                      value={config.borderThickness}
+                      accent={accent.primary}
+                      onChange={set('borderThickness')}
                     />
                     <SliderRow
-                      label="Tier fade" display={`${Math.round(config.tierFade * 100)}%`}
-                      min={0} max={1} step={0.05} value={config.tierFade}
-                      accent={accent.primary} onChange={set('tierFade')}
+                      label="Tier fade"
+                      display={`${Math.round(config.tierFade * 100)}%`}
+                      min={0}
+                      max={1}
+                      step={0.05}
+                      value={config.tierFade}
+                      accent={accent.primary}
+                      onChange={set('tierFade')}
                     />
                   </Stack>
                 </Tabs.Panel>
@@ -732,7 +893,10 @@ export default function StarLevelBubbleChart({
               >
                 <div
                   style={{
-                    transform: config.rotation !== 0 ? `rotate(${config.rotation}deg)` : undefined,
+                    transform:
+                      config.rotation !== 0
+                        ? `rotate(${config.rotation}deg)`
+                        : undefined,
                     transformOrigin: 'center center',
                   }}
                 >
@@ -772,7 +936,9 @@ export default function StarLevelBubbleChart({
             <Stack gap="sm" mb={12}>
               <Group gap="xs">
                 <IoBarChart size={18} />
-                <Text fw={700} size="lg">Character Investment Chart</Text>
+                <Text fw={700} size="lg">
+                  Character Investment Chart
+                </Text>
               </Group>
               <Text size="sm" c="dimmed">
                 {ownedCount} characters · circle size = copies invested

@@ -34,8 +34,8 @@ export default function ClassicMode() {
         <>
           {gameState.solved && (
             <Alert color="green" title="Solved!">
-              Today's character was {answer.name}. Come back tomorrow for a
-              new one.
+              Today's character was {answer.name}. Come back tomorrow for a new
+              one.
             </Alert>
           )}
           <GuessSelect

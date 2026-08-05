@@ -26,7 +26,7 @@ const GLOBAL_FILE_SET = new Set([
 /** Absolute data path for a JSON file under the given locale (or global). */
 export function dataPath(
   filename: string,
-  locale: SupportedLocale = DEFAULT_LOCALE
+  locale: SupportedLocale = DEFAULT_LOCALE,
 ): string {
   if (GLOBAL_FILE_SET.has(filename)) {
     return `data/global/${filename}`;
@@ -37,7 +37,7 @@ export function dataPath(
 /** Absolute data path for a change-history file. */
 export function changesPath(
   filename: string,
-  locale: SupportedLocale = DEFAULT_LOCALE
+  locale: SupportedLocale = DEFAULT_LOCALE,
 ): string {
   if (GLOBAL_FILE_SET.has(filename)) {
     return `data/global/changes/${filename}`;

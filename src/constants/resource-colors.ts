@@ -1,4 +1,4 @@
-import type { ResourceCategory } from '@/types/resource';
+import type { ResourceCategory } from '@/features/wiki/resources/types';
 
 export const RESOURCE_CATEGORY_ORDER: ResourceCategory[] = [
   'Container',

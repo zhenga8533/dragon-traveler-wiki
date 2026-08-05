@@ -4,7 +4,7 @@ import { ActionIcon, Affix, Transition } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { IoArrowUp } from 'react-icons/io5';
-import { useLocation, useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router';
 
 const SCROLL_KEY = 'scroll-pos-';
 

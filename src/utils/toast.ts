@@ -9,7 +9,7 @@ interface ToastInput {
 
 function showToast(
   color: 'teal' | 'yellow' | 'gray' | 'red',
-  { title, message, autoClose = 3000, id }: ToastInput
+  { title, message, autoClose = 3000, id }: ToastInput,
 ) {
   notifications.show({
     color,
@@ -31,4 +31,8 @@ export function showWarningToast(input: ToastInput) {
 
 export function showInfoToast(input: ToastInput) {
   showToast('gray', input);
+}
+
+export function showErrorToast(input: ToastInput) {
+  showToast('red', input);
 }

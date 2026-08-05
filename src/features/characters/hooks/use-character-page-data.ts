@@ -1,8 +1,11 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { GEAR_TYPE_ICON_MAP, getGearIcon, getPortrait } from '@/assets';
 import { getSubclassIcon } from '@/assets';
-import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
+import {
+  CharacterOwnershipContext,
+  TierListReferenceContext,
+} from '@/contexts';
 import type { ChangesFile } from '@/types/changes';
 import type {
   ActivatedSetBonus,
@@ -20,20 +23,19 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Team } from '@/features/teams/types';
 import {
+  getTierListEntityType,
+  isCharacterTierEntry,
+} from '@/features/tier-list/types';
+import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
   getCharacterRouteSlug,
   resolveCharacterRoute,
 } from '@/features/characters/utils/character-route';
-import { compareCharactersByQualityThenName } from '@/features/characters/utils/filter-characters';
+import { compareCharactersByQualityThenName } from '@/features/characters/filters';
 import { useCharacterResolution } from './use-character-resolution';
-import {
-  useCharacterChanges,
-  useCharacters,
-} from './use-characters-data';
-import {
-  useTeams,
-} from '@/features/teams/hooks/use-teams-data';
+import { useCharacterChanges, useCharacters } from './use-characters-data';
+import { useTeams } from '@/features/teams/hooks/use-teams-data';
 import {
   useGear,
   useGearSets,
@@ -96,7 +98,7 @@ export interface CharacterPageData {
   tierLabel: string | null;
   tierListCharacterNote: string | null;
   selectedTierListName: string | null;
-  linkedNoblePhantasm: NoblePhantasm | null;
+  linkedNoblePhantasms: NoblePhantasm[];
   subclassBySlug: Map<string, Subclass>;
   recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
@@ -109,11 +111,11 @@ export interface CharacterPageData {
 }
 
 export function useCharacterPageData(
-  name: string | undefined
+  name: string | undefined,
 ): CharacterPageData {
   const navigate = useNavigate();
   const { tierLists, selectedTierListName } = useContext(
-    TierListReferenceContext
+    TierListReferenceContext,
   );
   const { showCharacterTiers } = useContext(CharacterOwnershipContext);
 
@@ -129,19 +131,18 @@ export function useCharacterPageData(
   const {
     preferredByName: preferredCharacterByName,
     byIdentity: characterByIdentity,
-  } =
-    useCharacterResolution(characters);
+  } = useCharacterResolution(characters);
 
   const routeMatch = useMemo(
     () => resolveCharacterRoute(characters, name),
-    [characters, name]
+    [characters, name],
   );
 
   const character = routeMatch.character;
 
   const sameNameVariants = useMemo(
     () => [...routeMatch.variants].sort(compareCharactersByQualityThenName),
-    [routeMatch.variants]
+    [routeMatch.variants],
   );
 
   useEffect(() => {
@@ -169,7 +170,11 @@ export function useCharacterPageData(
 
   const selectedTierList = useMemo(() => {
     if (!selectedTierListName) return null;
-    return tierLists.find((list) => list.name === selectedTierListName) ?? null;
+    const tierList =
+      tierLists.find((list) => list.name === selectedTierListName) ?? null;
+    return tierList && getTierListEntityType(tierList) === 'character'
+      ? tierList
+      : null;
   }, [tierLists, selectedTierListName]);
 
   const isPreferredCharacterForNameReferences = useMemo(() => {
@@ -190,13 +195,26 @@ export function useCharacterPageData(
       return null;
     return (
       selectedTierList.entries.find(
-        (entry) => characterByIdentity.get(entry.character_slug) === character
+        (entry) =>
+          isCharacterTierEntry(entry) &&
+          characterByIdentity.get(entry.character_slug) === character,
       ) ?? null
     );
-  }, [selectedTierList, character, characterByIdentity, isPreferredCharacterForNameReferences]);
+  }, [
+    selectedTierList,
+    character,
+    characterByIdentity,
+    isPreferredCharacterForNameReferences,
+  ]);
 
   const tierLabel = useMemo(() => {
-    if (!showCharacterTiers || !selectedTierListName || !selectedTierList || !character) return null;
+    if (
+      !showCharacterTiers ||
+      !selectedTierListName ||
+      !selectedTierList ||
+      !character
+    )
+      return null;
     return selectedTierListEntry?.tier ?? 'N/A';
   }, [
     showCharacterTiers,
@@ -214,14 +232,14 @@ export function useCharacterPageData(
   // Match list page order: sort by quality, then name
   const orderedCharacters = useMemo(
     () => [...characters].sort(compareCharactersByQualityThenName),
-    [characters]
+    [characters],
   );
 
   const characterIndex = useMemo(() => {
     if (!character) return -1;
     const identity = getCharacterIdentityKey(character);
     return orderedCharacters.findIndex(
-      (entry) => getCharacterIdentityKey(entry) === identity
+      (entry) => getCharacterIdentityKey(entry) === identity,
     );
   }, [orderedCharacters, character]);
 
@@ -237,15 +255,21 @@ export function useCharacterPageData(
     return getCharacterRouteSlug(character);
   }, [character]);
 
-  const linkedNoblePhantasm = useMemo(() => {
-    if (!character?.recommended_noble_phantasm) return null;
-    return (
-      noblePhantasms.find(
-        (np) =>
-          np.slug === character.recommended_noble_phantasm ||
-          np.legacy_slug === character.recommended_noble_phantasm
-      ) ?? null
+  const linkedNoblePhantasms = useMemo(() => {
+    const references = character?.recommended_noble_phantasm ?? [];
+    const noblePhantasmByReference = new Map(
+      noblePhantasms.flatMap((noblePhantasm) => [
+        [noblePhantasm.slug, noblePhantasm] as const,
+        ...(noblePhantasm.legacy_slug
+          ? ([[noblePhantasm.legacy_slug, noblePhantasm]] as const)
+          : []),
+      ]),
     );
+
+    return references.flatMap((reference) => {
+      const noblePhantasm = noblePhantasmByReference.get(reference);
+      return noblePhantasm ? [noblePhantasm] : [];
+    });
   }, [character, noblePhantasms]);
 
   const subclassBySlug = useMemo(() => {
@@ -323,7 +347,7 @@ export function useCharacterPageData(
         };
       });
     },
-    [gearBySlug, gearSetByName]
+    [gearBySlug, gearSetByName],
   );
 
   const resolveActivatedSetBonuses = useCallback(
@@ -372,7 +396,7 @@ export function useCharacterPageData(
               : 0,
         }))
         .filter(
-          (entry) => entry.activations > 0 && entry.description.length > 0
+          (entry) => entry.activations > 0 && entry.description.length > 0,
         )
         .sort((a, b) => {
           if (b.activations !== a.activations)
@@ -381,7 +405,7 @@ export function useCharacterPageData(
           return a.setName.localeCompare(b.setName);
         });
     },
-    []
+    [],
   );
 
   const recommendedGearLoadouts = useMemo<RecommendedGearLoadoutData[]>(() => {
@@ -406,7 +430,7 @@ export function useCharacterPageData(
     tierLabel,
     tierListCharacterNote,
     selectedTierListName,
-    linkedNoblePhantasm,
+    linkedNoblePhantasms,
     subclassBySlug,
     recommendedGearLoadouts,
     recommendedSubclassEntries,
@@ -423,7 +447,7 @@ export function useCharacterPageData(
 export function getCharacterNavPaths(
   previousCharacter: Character | null,
   nextCharacter: Character | null,
-  getSelectedSkin: (characterSlug: string) => string = () => 'default'
+  getDisplaySkin: (characterSlug: string) => string = () => 'default',
 ) {
   return {
     previousItem: previousCharacter
@@ -433,7 +457,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             previousCharacter.slug,
             previousCharacter.slug,
-            getSelectedSkin(previousCharacter.slug)
+            getDisplaySkin(previousCharacter.slug),
           ),
         }
       : null,
@@ -444,7 +468,7 @@ export function getCharacterNavPaths(
           iconSrc: getPortrait(
             nextCharacter.slug,
             nextCharacter.slug,
-            getSelectedSkin(nextCharacter.slug)
+            getDisplaySkin(nextCharacter.slug),
           ),
         }
       : null,

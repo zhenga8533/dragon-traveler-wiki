@@ -4,7 +4,7 @@ import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Group, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 interface EntitySummaryCardProps {
   /** Omit (or pass null) to render a non-interactive card, e.g. when no linked entity exists yet. */
@@ -48,7 +48,11 @@ export default function EntitySummaryCard({
         )}
         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
           <Group gap="sm" wrap="wrap">
-            <Text fw={700} className={to ? 'dt-link-text' : undefined} lineClamp={1}>
+            <Text
+              fw={700}
+              className={to ? 'dt-link-text' : undefined}
+              lineClamp={1}
+            >
               {title}
             </Text>
             {titleAccessory}

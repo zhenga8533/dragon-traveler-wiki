@@ -1,4 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  clearCachedJson,
+  fetchJsonCached,
+  getCachedJson,
+  hasCachedJson,
+} from '@/utils/cached-json-fetch';
 
 export interface DataFetchResult<T> {
   data: T;
@@ -7,40 +13,8 @@ export interface DataFetchResult<T> {
   retry: () => void;
 }
 
-const dataCache = new Map<string, unknown>();
-const inFlightRequests = new Map<string, Promise<unknown>>();
-
 function getDataUrl(path: string): string {
   return import.meta.env.BASE_URL + path;
-}
-
-async function fetchJsonCached(path: string): Promise<unknown> {
-  if (dataCache.has(path)) {
-    return dataCache.get(path);
-  }
-
-  const existingRequest = inFlightRequests.get(path);
-  if (existingRequest) {
-    return existingRequest;
-  }
-
-  const request = fetch(getDataUrl(path))
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-      }
-      return res.json();
-    })
-    .then((json) => {
-      dataCache.set(path, json);
-      return json;
-    })
-    .finally(() => {
-      inFlightRequests.delete(path);
-    });
-
-  inFlightRequests.set(path, request);
-  return request;
 }
 
 /**
@@ -61,15 +35,15 @@ async function fetchJsonCached(path: string): Promise<unknown> {
 export function useDataFetch<T>(
   path: string,
   initial: T,
-  parse?: (raw: unknown) => T
+  parse?: (raw: unknown) => T,
 ): DataFetchResult<T> {
   const parseRef = useRef(parse);
   const initialRef = useRef(initial);
 
-  const hasCachedValue = dataCache.has(path);
+  const hasCachedValue = hasCachedJson(path);
   const [data, setData] = useState<T>(() => {
     if (!hasCachedValue) return initial;
-    const raw = dataCache.get(path);
+    const raw = getCachedJson(path);
     if (parse) {
       try {
         return parse(raw);
@@ -94,7 +68,7 @@ export function useDataFetch<T>(
   useEffect(() => {
     let isCancelled = false;
 
-    const hasCached = dataCache.has(path);
+    const hasCached = hasCachedJson(path);
     queueMicrotask(() => {
       if (isCancelled) return;
       if (!hasCached) setData(initialRef.current);
@@ -102,7 +76,7 @@ export function useDataFetch<T>(
       setError(null);
     });
 
-    fetchJsonCached(path)
+    fetchJsonCached(path, getDataUrl(path))
       .then((result) => {
         if (isCancelled) return;
         const currentParse = parseRef.current;
@@ -110,7 +84,7 @@ export function useDataFetch<T>(
       })
       .catch((err) => {
         if (isCancelled) return;
-        dataCache.delete(path);
+        clearCachedJson(path);
         setData(initialRef.current);
         console.error(`Failed to fetch ${path}:`, err);
         setError(err instanceof Error ? err : new Error(String(err)));
@@ -126,7 +100,7 @@ export function useDataFetch<T>(
   }, [path, requestVersion]);
 
   const retry = useCallback(() => {
-    dataCache.delete(path);
+    clearCachedJson(path);
     setRequestVersion((version) => version + 1);
   }, [path]);
 

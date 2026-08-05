@@ -3,8 +3,7 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(
+  background: radial-gradient(
       circle at 20% -10%,
       var(--dt-surface-glow-a) 0%,
       transparent 34%
@@ -97,14 +96,6 @@ body {
       border-box;
 }
 
-.mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
-.mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
-  transform: translateY(-2px);
-  box-shadow:
-    var(--mantine-shadow-md),
-    0 10px 28px rgba(2, 6, 23, 0.12);
-}
-
 .mantine-NavLink-root[data-active='true'] {
   box-shadow: inset 3px 0 0 0
     light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
@@ -138,10 +129,5 @@ body {
   .mantine-Paper-root[data-with-border],
   .mantine-Card-root[data-with-border] {
     transition: none;
-  }
-
-  .mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
-  .mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
-    transform: none;
   }
 }

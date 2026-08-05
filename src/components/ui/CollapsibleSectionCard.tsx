@@ -1,8 +1,14 @@
-import { Box, Collapse, Group, Paper, UnstyledButton, type MantineColor } from '@mantine/core';
+import {
+  Box,
+  Collapse,
+  Group,
+  UnstyledButton,
+  type MantineColor,
+} from '@mantine/core';
 import { useCallback, useState, type ReactNode } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
-import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, NAV_ITEM_HEIGHT, TRANSITION } from '@/constants/ui';
+import { StaticSurface } from '@/components/ui/Surface';
 
 interface CollapsibleSectionCardProps {
   header: ReactNode;
@@ -23,7 +29,11 @@ export default function CollapsibleSectionCard({
   const toggle = useCallback(() => setOpened((v) => !v), []);
 
   return (
-    <Paper id={id} p="lg" radius="md" withBorder {...getCardHoverProps()} style={{ position: 'relative', overflow: 'hidden' }}>
+    <StaticSurface
+      id={id}
+      p="lg"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
       {color && (
         <Box
           style={{
@@ -65,6 +75,6 @@ export default function CollapsibleSectionCard({
       <Collapse in={opened}>
         <Box pt="md">{children}</Box>
       </Collapse>
-    </Paper>
+    </StaticSurface>
   );
 }

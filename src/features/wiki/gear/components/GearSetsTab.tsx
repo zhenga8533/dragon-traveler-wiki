@@ -1,8 +1,10 @@
-import { Link } from 'react-router-dom';
-import { Badge, Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+import { Link } from 'react-router';
+import { Badge, Group, SimpleGrid, Stack, Text } from '@mantine/core';
+import { InteractiveSurface } from '@/components/ui/Surface';
 import ListPageShell from '@/components/layout/ListPageShell';
+import { CardGridLoading } from '@/components/layout/PageLoadingSkeleton';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import type { GradientPaletteAccents } from '@/contexts';
@@ -10,6 +12,7 @@ import type { GradientPaletteAccents } from '@/contexts';
 interface GearSetsTabProps {
   loading: boolean;
   error: Error | null;
+  onRetry: () => void;
   gearSets: GearSet[];
   search: string;
   onSearchChange: (value: string) => void;
@@ -28,6 +31,7 @@ interface GearSetsTabProps {
 export default function GearSetsTab({
   loading,
   error,
+  onRetry,
   gearSets,
   search,
   onSearchChange,
@@ -46,10 +50,11 @@ export default function GearSetsTab({
     <ListPageShell
       loading={loading}
       error={error}
+      onRetry={onRetry}
       errorTitle="Could not load gear sets"
       hasData={gearSets.length > 0}
       emptyMessage="No gear set data available yet."
-      skeletonCards={4}
+      loadingFallback={<CardGridLoading cardHeight={180} showPagination />}
     >
       <SearchableGridPanel
         search={search}
@@ -74,17 +79,12 @@ export default function GearSetsTab({
             const bonusQuantity = setBonus?.quantity ?? 0;
             const bonusDescription = setBonus?.description ?? '';
             return (
-              <Paper
+              <InteractiveSurface
                 key={set.name}
                 component={Link}
                 to={`/gear-sets/${set.slug}`}
                 p="md"
-                radius="md"
-                withBorder
-                {...getCardHoverProps({
-                  interactive: true,
-                  style: LINK_BLOCK_RESET_STYLE,
-                })}
+                style={LINK_BLOCK_RESET_STYLE}
               >
                 <Stack gap="xs">
                   <Group justify="space-between" align="center">
@@ -114,7 +114,7 @@ export default function GearSetsTab({
                     ))}
                   </Group>
                 </Stack>
-              </Paper>
+              </InteractiveSurface>
             );
           })}
         </SimpleGrid>

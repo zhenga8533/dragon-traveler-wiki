@@ -4,9 +4,9 @@
 
 ```
 src/
-├── assets/          # Image helper functions (getCharacterPortrait, getGearIcon, etc.)
+├── assets/          # Image helper functions (getPortrait, getGearIcon, etc.)
 ├── components/
-│   ├── common/      # Shared one-off components (ExpandableText, SafeImage, RichText, etc.)
+│   ├── common/      # Shared application components (RichText, LastUpdated, entity helpers, etc.)
 │   ├── layout/      # Page-level shells (AppLayout, ListPageShell, FilteredListShell, etc.)
 │   ├── tools/       # Floating tools (SearchModal, ExportButton, SuggestModal, etc.)
 │   └── ui/          # Low-level UI primitives (ClassTag, SafeImage, etc.)
@@ -72,21 +72,21 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 2. **Data hook** — add `useMounts()` to `features/wiki/hooks/use-wiki-data.ts`
 3. **Components** — create `features/wiki/mounts/components/` with list card and detail components
 4. **Pages** — create `pages/mounts/ListPage.tsx` (and `DetailPage.tsx` if needed), keeping reusable domain logic in the feature folder
-5. **Route** — add `<Route path="/mounts" element={<Mounts />} />` in `src/routes/AppRoutes.tsx`; if the entity has detail pages, also add the pattern to `DETAIL_ROUTE_RE` in the same file
-6. **Navigation** — add an entry to `NAV_ITEMS` in `src/components/layout/Navigation.tsx`
-7. **Search** — add to `SearchDataContextValue` interface, call `useMounts()` in `SearchDataProvider`, and wire up a result type + renderer in `src/components/tools/SearchModal.tsx`
+5. **Route catalog** — add a stable route ID, path, metadata, optional search keywords, and optional fallback kind to `ROUTE_CATALOG` in `constants/route-meta.ts`; mount the lazy page through `ROUTE_PATH` in `routes/AppRoutes.tsx`
+6. **Navigation** — add the catalog route ID through `routeLeaf()` in `constants/nav-items.ts`
+7. **Search** — add to `SearchDataContextValue`, load it in `SearchDataProvider`, and add its typed adapter to `features/search/search-registry.ts`
 
 ## Key Shared Hooks
 
-| Hook | Purpose |
-| --- | --- |
-| `useDataFetch` | Fetch + cache a JSON file |
+| Hook                  | Purpose                                         |
+| --------------------- | ----------------------------------------------- |
+| `useDataFetch`        | Fetch + cache a JSON file                       |
 | `useFilteredPageData` | Filter, sort, paginate a dataset for list pages |
-| `useFilters` | Filter state with localStorage persistence |
-| `usePagination` | Page/offset state |
-| `useSort` | Sort column/direction state |
-| `useDarkMode` | Current color scheme |
-| `useIsMobile` | Responsive breakpoint |
+| `useFilters`          | Filter state with localStorage persistence      |
+| `usePagination`       | Page/offset state                               |
+| `useSort`             | Sort column/direction state                     |
+| `useDarkMode`         | Current color scheme                            |
+| `useIsMobile`         | Responsive breakpoint                           |
 
 ## Styling Conventions
 
@@ -109,7 +109,11 @@ request to execute formatting, lint, tests, and type checking together.
 
 Most list pages use one of two layout shells:
 
-- **`ListPageShell`** — simple list with header and optional filter toolbar
+- **`ListPageShell`** — handles loading, errors, and empty data; callers provide a page-appropriate `loadingFallback`
 - **`FilteredListShell`** — list with sidebar filter panel, search, sort, and pagination built in; powered by `useFilteredPageData`
 
 Detail pages use `DetailPageHero` + `DetailPageNavigation` for the top section.
+Reusable route, list, detail, builder, and home skeletons live in
+`components/layout/PageLoadingSkeleton.tsx`. Wrap custom placeholders in
+`LoadingRegion` so decorative skeletons are hidden from assistive technology and
+the loading state is announced once.

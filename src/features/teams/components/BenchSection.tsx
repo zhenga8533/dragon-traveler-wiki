@@ -2,12 +2,10 @@ import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getCardHoverProps } from '@/constants/styles';
+import { StaticSurface } from '@/components/ui/Surface';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
-import {
-  resolveCharacterByNameAndQuality,
-} from '@/features/characters/utils/character-route';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 import type { TeamBenchMember } from '@/features/teams/types';
 import {
   getTeamBenchEntryName,
@@ -19,14 +17,13 @@ import {
   Badge,
   Box,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Text,
   Title,
   Tooltip,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 
 export function BenchSection({
   bench,
@@ -45,7 +42,7 @@ export function BenchSection({
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (
     characterName: string,
-    characterQuality?: string | null
+    characterQuality?: string | null,
   ) => string;
   factionColor: string;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
@@ -75,23 +72,19 @@ export function BenchSection({
             benchName,
             benchQuality,
             charMap,
-            characterByIdentity
+            characterByIdentity,
           );
           const routePath = getCharacterPath(benchName, benchQuality);
           const resolvedName = char?.name ?? benchName;
           const benchNote = getTeamBenchEntryNote(benchEntry);
 
           return (
-            <Paper
+            <StaticSurface
               key={`${benchName}-${benchQuality ?? ''}`}
               p={isMobile ? 'xs' : 'sm'}
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: {
-                  borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
-                },
-              })}
+              style={{
+                borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
+              }}
             >
               <Stack gap={6} align="center">
                 <Box pos="relative">
@@ -103,7 +96,11 @@ export function BenchSection({
                       borderWidth={3}
                       link
                       routePath={routePath}
-                      fallbackSrc={char === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
+                      fallbackSrc={
+                        char === null
+                          ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?`
+                          : undefined
+                      }
                     />
                   </Tooltip>
                   {benchNote && (
@@ -155,7 +152,7 @@ export function BenchSection({
                   </Group>
                 )}
               </Stack>
-            </Paper>
+            </StaticSurface>
           );
         })}
       </SimpleGrid>

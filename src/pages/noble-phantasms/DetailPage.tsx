@@ -16,21 +16,19 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
 import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
-import { useNoblePhantasmChanges, useNoblePhantasms, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useNoblePhantasmChanges,
+  useNoblePhantasms,
+  useStatusEffects,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
-import {
-  Box,
-  Container,
-  Group,
-  Stack,
-  Title,
-} from '@mantine/core';
+import { Box, Container, Group, Stack, Title } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { IoHourglassOutline } from 'react-icons/io5';
 
 export default function NoblePhantasmPage() {
@@ -49,7 +47,7 @@ export default function NoblePhantasmPage() {
       noblePhantasms,
       name,
       (np) => np.slug,
-      (np) => [np.legacy_slug]
+      (np) => [np.legacy_slug],
     );
   }, [name, noblePhantasms]);
 
@@ -63,16 +61,20 @@ export default function NoblePhantasmPage() {
   const orderedNoblePhantasms = useMemo(
     () =>
       [...noblePhantasms].sort((a, b) => {
-        const charCmp = (a.character_slug ?? '').localeCompare(b.character_slug ?? '');
+        const charCmp = (a.character_slug ?? '').localeCompare(
+          b.character_slug ?? '',
+        );
         if (charCmp !== 0) return charCmp;
         return a.name.localeCompare(b.name);
       }),
-    [noblePhantasms]
+    [noblePhantasms],
   );
 
   const noblePhantasmIndex = useMemo(() => {
     if (!noblePhantasm) return -1;
-    return orderedNoblePhantasms.findIndex((entry) => entry.slug === noblePhantasm.slug);
+    return orderedNoblePhantasms.findIndex(
+      (entry) => entry.slug === noblePhantasm.slug,
+    );
   }, [noblePhantasm, orderedNoblePhantasms]);
 
   const previousNoblePhantasm =
@@ -88,16 +90,12 @@ export default function NoblePhantasmPage() {
   const linkedCharacter = useMemo(() => {
     if (!noblePhantasm?.character_slug) return null;
     return buildCharacterByIdentityMap(characters).get(
-      noblePhantasm.character_slug
+      noblePhantasm.character_slug,
     );
   }, [characters, noblePhantasm]);
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!noblePhantasm) {
@@ -140,19 +138,17 @@ export default function NoblePhantasmPage() {
           )}
 
           <Stack gap={6} style={{ flex: 1 }}>
-            <Title
-              order={1}
-              c={isDark ? 'white' : 'dark'}
-              fz={{ base: '1.5rem', sm: '2.125rem' }}
-              style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
-            >
-              {noblePhantasm.name}
-            </Title>
-            {noblePhantasm.quality && (
-              <Group gap="xs">
-                <QualityIcon quality={noblePhantasm.quality} size={24} />
-              </Group>
-            )}
+            <Group gap="sm" align="center" wrap="wrap">
+              <Title
+                order={1}
+                c={isDark ? 'white' : 'dark'}
+                fz={{ base: '1.5rem', sm: '2.125rem' }}
+                style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
+              >
+                {noblePhantasm.name}
+              </Title>
+              <QualityIcon quality={noblePhantasm.quality} size={32} />
+            </Group>
             <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
 
             {linkedCharacter && (
@@ -180,29 +176,33 @@ export default function NoblePhantasmPage() {
                 />
               </StaticSurface>
             )}
-          {noblePhantasm.effects.length > 0 && <Stack gap="md">
-            <Title order={2} size="h3">
-              Effects
-            </Title>
-            <EffectTable
-              effects={noblePhantasm.effects}
-              statusEffects={statusEffects}
-              skills={linkedCharacter?.skills}
-              talent={linkedCharacter?.talent}
-            />
-          </Stack>}
+          {noblePhantasm.effects.length > 0 && (
+            <Stack gap="md">
+              <Title order={2} size="h3">
+                Effects
+              </Title>
+              <EffectTable
+                effects={noblePhantasm.effects}
+                statusEffects={statusEffects}
+                skills={linkedCharacter?.skills}
+                talent={linkedCharacter?.talent}
+              />
+            </Stack>
+          )}
 
-          {noblePhantasm.skills.length > 0 && <Stack gap="md">
-            <Title order={2} size="h3">
-              Skill Progression
-            </Title>
-            <SkillTable
-              skills={noblePhantasm.skills}
-              statusEffects={statusEffects}
-              characterSkills={linkedCharacter?.skills}
-              talent={linkedCharacter?.talent}
-            />
-          </Stack>}
+          {noblePhantasm.skills.length > 0 && (
+            <Stack gap="md">
+              <Title order={2} size="h3">
+                Skill Progression
+              </Title>
+              <SkillTable
+                skills={noblePhantasm.skills}
+                statusEffects={statusEffects}
+                characterSkills={linkedCharacter?.skills}
+                talent={linkedCharacter?.talent}
+              />
+            </Stack>
+          )}
         </Stack>
 
         <ChangeHistory

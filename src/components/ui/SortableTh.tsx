@@ -19,7 +19,11 @@ export default function SortableTh({
 }: SortableThProps) {
   const active = sortCol === sortKey;
   const Icon = active && sortDir === 'desc' ? IoChevronDown : IoChevronUp;
-  const ariaSort = active ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none';
+  const ariaSort = active
+    ? sortDir === 'asc'
+      ? 'ascending'
+      : 'descending'
+    : 'none';
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTableCellElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {

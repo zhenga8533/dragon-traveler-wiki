@@ -13,8 +13,10 @@ export function useGradientAccent() {
     palette === 'custom'
       ? {
           primary: customColors.mantineAccent,
-          secondary: customColors.mantineAccent as GradientPaletteAccents['secondary'],
-          tertiary: customColors.mantineAccent as GradientPaletteAccents['tertiary'],
+          secondary:
+            customColors.mantineAccent as GradientPaletteAccents['secondary'],
+          tertiary:
+            customColors.mantineAccent as GradientPaletteAccents['tertiary'],
         }
       : GRADIENT_PALETTE_ACCENTS[palette];
 

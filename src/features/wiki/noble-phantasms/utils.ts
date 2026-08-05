@@ -1,3 +1,5 @@
+import type { NoblePhantasm } from './types';
+
 export const NOBLE_PHANTASM_TIER_DETAILS: Record<
   string,
   { label: string; color: string; order: number }
@@ -14,4 +16,14 @@ export function getNoblePhantasmTierDetail(tier: string | null | undefined) {
 
 export function getNoblePhantasmTierOrder(tier: string | null | undefined) {
   return getNoblePhantasmTierDetail(tier)?.order ?? Number.MAX_SAFE_INTEGER;
+}
+
+export function getNoblePhantasmPreviewDescription(
+  noblePhantasm: Pick<NoblePhantasm, 'effects' | 'skills'>,
+) {
+  return (
+    noblePhantasm.effects[0]?.description ??
+    noblePhantasm.skills[0]?.description ??
+    null
+  );
 }

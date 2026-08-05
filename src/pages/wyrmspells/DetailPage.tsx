@@ -9,28 +9,26 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import WyrmspellTypeTag from '@/features/wiki/wyrmspells/components/WyrmspellTypeTag';
-import { QUALITY_ORDER } from '@/constants/quality';
 import { getStableTagColor } from '@/constants/tag-colors';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
-import { useStatusEffects, useWyrmspellChanges, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import {
+  useStatusEffects,
+  useWyrmspellChanges,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
 } from '@/utils/entity-slug';
-import {
-  Box,
-  Container,
-  Group,
-  Stack,
-  Title,
-} from '@mantine/core';
+import { compareQuality } from '@/utils/quality';
+import { Box, Container, Group, Stack, Title } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 
 export default function WyrmspellPage() {
   const { name } = useParams<{ name: string }>();
@@ -44,7 +42,7 @@ export default function WyrmspellPage() {
 
   const wyrmspell = useMemo(
     () => findEntityByParam(wyrmspells, name, (w) => w.slug),
-    [wyrmspells, name]
+    [wyrmspells, name],
   );
 
   useEffect(() => {
@@ -58,15 +56,14 @@ export default function WyrmspellPage() {
       [...wyrmspells].sort((a, b) => {
         const typeCmp = a.type.localeCompare(b.type);
         if (typeCmp !== 0) return typeCmp;
-        const mA = getMaxQuality(a)?.quality;
-        const mB = getMaxQuality(b)?.quality;
-        const qA = mA !== undefined ? QUALITY_ORDER.indexOf(mA) : -1;
-        const qB = mB !== undefined ? QUALITY_ORDER.indexOf(mB) : -1;
-        if (qA !== qB)
-          return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+        const qualityComparison = compareQuality(
+          getMaxQuality(a)?.quality,
+          getMaxQuality(b)?.quality,
+        );
+        if (qualityComparison !== 0) return qualityComparison;
         return a.name.localeCompare(b.name);
       }),
-    [wyrmspells]
+    [wyrmspells],
   );
 
   const wyrmspellIndex = useMemo(() => {
@@ -82,11 +79,7 @@ export default function WyrmspellPage() {
       : null;
 
   if (loading) {
-    return (
-      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
-        <DetailPageLoading />
-      </Container>
-    );
+    return <DetailPageLoading />;
   }
 
   if (!wyrmspell) {
@@ -176,7 +169,10 @@ export default function WyrmspellPage() {
               ? {
                   label: previousWyrmspell.name,
                   path: `/wyrmspells/${previousWyrmspell.slug}`,
-                  iconSrc: getWyrmspellIcon(previousWyrmspell.slug, previousWyrmspell.type),
+                  iconSrc: getWyrmspellIcon(
+                    previousWyrmspell.slug,
+                    previousWyrmspell.type,
+                  ),
                 }
               : null
           }
@@ -185,7 +181,10 @@ export default function WyrmspellPage() {
               ? {
                   label: nextWyrmspell.name,
                   path: `/wyrmspells/${nextWyrmspell.slug}`,
-                  iconSrc: getWyrmspellIcon(nextWyrmspell.slug, nextWyrmspell.type),
+                  iconSrc: getWyrmspellIcon(
+                    nextWyrmspell.slug,
+                    nextWyrmspell.type,
+                  ),
                 }
               : null
           }

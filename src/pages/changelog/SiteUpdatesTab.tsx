@@ -9,20 +9,11 @@ import {
   Timeline,
 } from '@mantine/core';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { IMAGE_SIZE } from '@/constants/ui';
 import type { GradientPaletteAccents } from '@/contexts';
-
-export interface ChangelogEntry {
-  date: string;
-  version?: string;
-  changes: {
-    type: 'added' | 'updated' | 'fixed' | 'removed';
-    category: string;
-    description: string;
-  }[];
-}
+import type { ChangelogEntry } from '@/features/wiki/changelog/types';
 
 const CHANGE_TYPE_COLORS: Record<string, string> = {
   added: 'green',
@@ -78,7 +69,13 @@ export default function SiteUpdatesTab({
 }: SiteUpdatesTabProps) {
   return (
     <Stack gap="lg">
-      {loading && <ListPageLoading cards={4} />}
+      {loading && (
+        <ViewModeLoading
+          viewMode="list"
+          showPagination
+          label="Loading updates"
+        />
+      )}
 
       {!loading && changelog.length === 0 && (
         <Text c="dimmed" ta="center" py="lg">
@@ -118,7 +115,11 @@ export default function SiteUpdatesTab({
                           {formatShortDate(new Date(entry.date))}
                         </Text>
                         {entry.version && (
-                          <Badge size="xs" variant="light" color={accent.primary}>
+                          <Badge
+                            size="xs"
+                            variant="light"
+                            color={accent.primary}
+                          >
                             v{entry.version}
                           </Badge>
                         )}

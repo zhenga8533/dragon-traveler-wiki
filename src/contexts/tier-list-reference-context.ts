@@ -9,9 +9,11 @@
 } from 'react';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
-import type { TierList as TierListType } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
-import { loadSavedFromStorage } from '@/utils/saved-storage';
+import {
+  getTierListEntityType,
+  type TierList as TierListType,
+} from '@/features/tier-list/types';
+import { loadSavedTierLists } from '@/features/tier-list/saved-tier-lists';
 
 export interface TierListReferenceContextValue {
   tierLists: TierListType[];
@@ -31,11 +33,7 @@ export const TierListReferenceContext =
   });
 
 function readSavedTierLists(): TierListType[] {
-  return loadSavedFromStorage<TierListType>(
-    STORAGE_KEY.TIER_LIST_MY_SAVED,
-    (v) => Array.isArray(v.entries),
-    migrateStoredTierList
-  );
+  return loadSavedTierLists();
 }
 
 export function TierListReferenceProvider({
@@ -43,9 +41,18 @@ export function TierListReferenceProvider({
 }: {
   children: ReactNode;
 }) {
-  const { data: tierLists, loading } = useTierLists();
+  const { data: allTierLists, loading } = useTierLists();
+  const tierLists = useMemo(
+    () =>
+      allTierLists.filter(
+        (tierList) => getTierListEntityType(tierList) === 'character',
+      ),
+    [allTierLists],
+  );
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
-    readSavedTierLists()
+    readSavedTierLists().filter(
+      (tierList) => getTierListEntityType(tierList) === 'character',
+    ),
   );
   const [selectedTierListName, setSelectedTierListName] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -56,7 +63,11 @@ export function TierListReferenceProvider({
   });
 
   const refreshSaved = useCallback(() => {
-    setSavedTierLists(readSavedTierLists());
+    setSavedTierLists(
+      readSavedTierLists().filter(
+        (tierList) => getTierListEntityType(tierList) === 'character',
+      ),
+    );
   }, []);
 
   useEffect(() => {
@@ -76,7 +87,7 @@ export function TierListReferenceProvider({
     if (selectedTierListName) {
       window.localStorage.setItem(
         STORAGE_KEY.CHARACTER_TIER_LIST_REFERENCE,
-        selectedTierListName
+        selectedTierListName,
       );
     } else {
       window.localStorage.removeItem(STORAGE_KEY.CHARACTER_TIER_LIST_REFERENCE);
@@ -92,10 +103,10 @@ export function TierListReferenceProvider({
       return;
     }
     const existsInOfficial = tierLists.some(
-      (list) => list.name === selectedTierListName
+      (list) => list.name === selectedTierListName,
     );
     const existsInSaved = savedTierLists.some(
-      (list) => list.name === selectedTierListName
+      (list) => list.name === selectedTierListName,
     );
     if (!existsInOfficial && !existsInSaved) {
       queueMicrotask(() => {
@@ -112,7 +123,7 @@ export function TierListReferenceProvider({
       selectedTierListName,
       setSelectedTierListName,
     }),
-    [tierLists, savedTierLists, loading, selectedTierListName]
+    [tierLists, savedTierLists, loading, selectedTierListName],
   );
 
   return createElement(TierListReferenceContext.Provider, { value }, children);

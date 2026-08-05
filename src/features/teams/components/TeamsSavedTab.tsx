@@ -13,7 +13,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { FACTION_WYRM_MAP } from '@/assets';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import FactionTag from '@/components/ui/FactionTag';
@@ -203,7 +203,11 @@ export default function TeamsSavedTab({
                               size="xs"
                               variant="light"
                               color="gray"
-                              style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
+                              style={{
+                                minWidth: 56,
+                                justifyContent: 'center',
+                                cursor: 'default',
+                              }}
                             >
                               Subs
                             </Badge>
@@ -227,10 +231,7 @@ export default function TeamsSavedTab({
               </Table.Td>
               <Table.Td>
                 {team.faction && (
-                  <FactionTag
-                    faction={team.faction}
-                    size="sm"
-                  />
+                  <FactionTag faction={team.faction} size="sm" />
                 )}
               </Table.Td>
               <Table.Td>

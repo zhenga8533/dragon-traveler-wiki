@@ -32,19 +32,14 @@ import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
 } from '@/constants/content-types';
-import { getCardHoverProps } from '@/constants/styles';
-import {
-  CHARACTER_GRID_SPACING,
-  TRANSITION,
-} from '@/constants/ui';
+import { StaticSurface } from '@/components/ui/Surface';
+import { CHARACTER_GRID_SPACING, TRANSITION } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { FactionSlug } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import {
-  getCharacterRoutePath,
-} from '@/features/characters/utils/character-route';
+import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import CharacterNoteButton from '@/components/common/CharacterNoteButton';
 import {
@@ -79,7 +74,10 @@ export const TeamMetaFields = memo(function TeamMetaFields({
 }) {
   const [nameInput, setNameInput] = useInputCommit(name, onNameCommit);
   const [authorInput, setAuthorInput] = useInputCommit(author, onAuthorCommit);
-  const [descriptionInput, setDescriptionInput] = useInputCommit(description, onDescriptionCommit);
+  const [descriptionInput, setDescriptionInput] = useInputCommit(
+    description,
+    onDescriptionCommit,
+  );
 
   return (
     <>
@@ -174,8 +172,7 @@ export function DraggableCharCard({
 
   const resolvedLabel = label;
 
-  const routePath =
-    char ? getCharacterRoutePath(char) : undefined;
+  const routePath = char ? getCharacterRoutePath(char) : undefined;
 
   return (
     <div
@@ -196,7 +193,11 @@ export function DraggableCharCard({
   );
 }
 
-function renderFactionOption({ option }: { option: { value: string; label: string } }) {
+function renderFactionOption({
+  option,
+}: {
+  option: { value: string; label: string };
+}) {
   const iconSrc = FACTION_ICON_MAP[option.value as FactionSlug];
   return (
     <Group gap="xs" align="center">
@@ -249,26 +250,22 @@ export function SlotCard({
   }
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p={isMobile ? 4 : 'xs'}
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor,
-          borderWidth:
-            isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
-          opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-          minHeight: isMobile ? 100 : 120,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-        },
-      })}
+      style={{
+        borderColor,
+        borderWidth:
+          isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
+        opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        minHeight: isMobile ? 100 : 120,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+      }}
     >
       {charName ? (
         isMobile ? (
@@ -329,7 +326,7 @@ export function SlotCard({
                         ? 1
                         : overdriveOrder >= 6
                           ? 1
-                          : overdriveOrder + 1
+                          : overdriveOrder + 1,
                     )
                   }
                   style={{ flex: 1 }}
@@ -397,7 +394,7 @@ export function SlotCard({
                     color={accent.primary}
                     onClick={() =>
                       onOverdriveOrderChange(
-                        overdriveOrder == null ? 1 : overdriveOrder - 1
+                        overdriveOrder == null ? 1 : overdriveOrder - 1,
                       )
                     }
                     aria-label="Decrease overdrive order"
@@ -417,9 +414,7 @@ export function SlotCard({
                       onOverdriveOrderChange(overdriveOrder != null ? null : 1)
                     }
                   >
-                    {overdriveOrder != null
-                      ? `OD ${overdriveOrder}`
-                      : 'OD Off'}
+                    {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD Off'}
                   </Button>
                   <ActionIcon
                     size="sm"
@@ -427,7 +422,7 @@ export function SlotCard({
                     color={accent.primary}
                     onClick={() =>
                       onOverdriveOrderChange(
-                        overdriveOrder == null ? 1 : overdriveOrder + 1
+                        overdriveOrder == null ? 1 : overdriveOrder + 1,
                       )
                     }
                     aria-label="Increase overdrive order"
@@ -444,7 +439,7 @@ export function SlotCard({
           Drop here
         </Text>
       )}
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -515,7 +510,11 @@ export function SlotsGrid({
           return (
             <Group key={row} gap="xs" align="stretch" mb="xs" wrap="nowrap">
               {/* Row indicator */}
-              <Tooltip label={ROW_CLASS_HINTS[row]} {...mobileTooltip} position="right">
+              <Tooltip
+                label={ROW_CLASS_HINTS[row]}
+                {...mobileTooltip}
+                position="right"
+              >
                 <Box
                   style={{
                     width: 24,
@@ -600,18 +599,14 @@ export function AvailablePool({
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         {filterHeader || (
@@ -628,7 +623,7 @@ export function AvailablePool({
         </SimpleGrid>
         {paginationControl}
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
 
@@ -657,7 +652,9 @@ export function BenchDropItem({
       ref={setItemNodeRef}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
-        outline: isOverItem ? '2px solid var(--mantine-primary-color-5)' : 'none',
+        outline: isOverItem
+          ? '2px solid var(--mantine-primary-color-5)'
+          : 'none',
         outlineOffset: 2,
         transition: `outline-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
@@ -714,28 +711,28 @@ export function WyrmspellSelector({
       wyrmspells
         .filter((w) => w.type === 'Breach')
         .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
-    [wyrmspells]
+    [wyrmspells],
   );
   const refugeOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === 'Refuge')
         .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
-    [wyrmspells]
+    [wyrmspells],
   );
   const wildcryOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === 'Wildcry')
         .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
-    [wyrmspells]
+    [wyrmspells],
   );
   const dragonsCallOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === "Dragon's Call")
         .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
-    [wyrmspells]
+    [wyrmspells],
   );
 
   function leftIcon(name: string | undefined) {
@@ -824,18 +821,14 @@ export function BenchPool({
   const { setNodeRef, isOver } = useDroppable({ id: 'bench' });
 
   return (
-    <Paper
+    <StaticSurface
       ref={setNodeRef}
       p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
-          borderWidth: isOver ? 2 : undefined,
-          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        },
-      })}
+      style={{
+        borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
+        borderWidth: isOver ? 2 : undefined,
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      }}
     >
       <Stack gap="sm">
         <SimpleGrid
@@ -875,6 +868,6 @@ export function BenchPool({
           )}
         </SimpleGrid>
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
