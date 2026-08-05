@@ -9,7 +9,11 @@ import SafeVideo from '@/components/ui/SafeVideo';
 import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { CHARACTER_HERO } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
-import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
+import {
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
+} from '@/features/characters/utils/character-route';
+import { CharacterOwnershipContext } from '@/contexts';
 import { useDarkMode } from '@/hooks';
 import {
   Box,
@@ -21,6 +25,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useContext } from 'react';
 import CharacterPortrait from './CharacterPortrait';
 import CharacterFullBodyArtwork from './CharacterFullBodyArtwork';
 import CharacterCombatMetadata from './CharacterCombatMetadata';
@@ -55,6 +60,13 @@ export default function CharacterPageHeroSection({
   selectedSkinSlug,
 }: CharacterPageHeroSectionProps) {
   const isDark = useDarkMode();
+  const { characterTrackingEnabled, grayUnowned, isOwned } = useContext(
+    CharacterOwnershipContext,
+  );
+  const dimFullBodyArtwork =
+    characterTrackingEnabled &&
+    grayUnowned &&
+    !isOwned(getCharacterIdentityKey(character));
   const heroBlurFilter = isDark
     ? `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(${CHARACTER_HERO.BRIGHTNESS})`
     : `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(1.2) saturate(1.05)`;
@@ -105,6 +117,7 @@ export default function CharacterPageHeroSection({
         <CharacterFullBodyArtwork
           src={fullBodySrc}
           characterName={character.name}
+          dimmed={dimFullBodyArtwork}
         />
       )}
 

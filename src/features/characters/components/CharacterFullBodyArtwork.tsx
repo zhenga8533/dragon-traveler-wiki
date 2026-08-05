@@ -19,6 +19,7 @@ import { useGradientAccent } from '@/hooks';
 interface CharacterFullBodyArtworkProps {
   src: string;
   characterName: string;
+  dimmed?: boolean;
 }
 
 /**
@@ -34,6 +35,7 @@ function getArtworkHeight(aspectRatio: number): number {
 export default function CharacterFullBodyArtwork({
   src,
   characterName,
+  dimmed = false,
 }: CharacterFullBodyArtworkProps) {
   const isWideEnough = useMediaQuery(BREAKPOINTS.MD);
   const { accent } = useGradientAccent();
@@ -91,12 +93,17 @@ export default function CharacterFullBodyArtwork({
               width: 'auto',
               maxWidth: 'none',
               height: `${height ?? 140}%`,
-              opacity: height == null ? 0 : 1,
+              opacity: height == null ? 0 : dimmed ? 0.35 : 1,
               transform: hovered
                 ? 'translateX(-50%) scale(1.02)'
                 : 'translateX(-50%) scale(1)',
               transformOrigin: 'center top',
-              filter: hovered ? 'brightness(1.08)' : undefined,
+              filter: [
+                dimmed ? 'grayscale(1)' : null,
+                hovered ? 'brightness(1.08)' : null,
+              ]
+                .filter(Boolean)
+                .join(' '),
               transition:
                 'opacity 160ms ease, transform 180ms ease, filter 180ms ease',
               pointerEvents: 'none',
