@@ -21,6 +21,7 @@ export interface CharacterFilters {
   tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
+  upcomingOnly: boolean;
   ownedOnly: boolean;
   minStarLevel: string | null;
   maxStarLevel: string | null;
@@ -37,6 +38,7 @@ export const EMPTY_FILTERS: CharacterFilters = {
   tiers: [],
   statusEffects: [],
   globalOnly: null,
+  upcomingOnly: false,
   ownedOnly: false,
   minStarLevel: null,
   maxStarLevel: null,
@@ -51,6 +53,13 @@ export function filterCharacters(
   starLevelOrder?: string[]
 ): Character[] {
   const searchLower = filters.search.toLowerCase();
+  const now = new Date();
+  const currentDate = [
+    now.getFullYear(),
+    String(now.getMonth() + 1).padStart(2, '0'),
+    String(now.getDate()).padStart(2, '0'),
+  ].join('-');
+
   return characters.filter((c) => {
     if (filters.search && !c.name.toLowerCase().includes(searchLower)) {
       return false;
@@ -107,6 +116,12 @@ export function filterCharacters(
       }
     }
     if (filters.globalOnly !== null && c.is_global !== filters.globalOnly) {
+      return false;
+    }
+    if (
+      filters.upcomingOnly &&
+      (!c.release_date || c.release_date < currentDate)
+    ) {
       return false;
     }
     const identityKey = getCharacterIdentityKey(c);

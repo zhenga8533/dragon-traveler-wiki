@@ -195,7 +195,8 @@ export default function FilterableCharacterPool({
     filters.factions.length +
     (selectedTierListName ? filters.tiers.length : 0) +
     filters.statusEffects.length +
-    (filters.globalOnly !== null ? 1 : 0);
+    (filters.globalOnly !== null ? 1 : 0) +
+    (filters.upcomingOnly ? 1 : 0);
 
   const filterHeader = (
     <Group justify="space-between" align="center" wrap="wrap">

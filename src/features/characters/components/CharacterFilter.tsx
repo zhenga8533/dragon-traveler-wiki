@@ -109,6 +109,7 @@ export default function CharacterFilter({
         (showTierFilter && filters.tiers.length > 0) ||
         filters.statusEffects.length > 0 ||
         filters.globalOnly !== null ||
+        filters.upcomingOnly ||
         hasOwnedFilter
       }
       search={filters.search}
@@ -139,6 +140,16 @@ export default function CharacterFilter({
                 { value: 'global', label: 'Global' },
                 { value: 'cn', label: 'TW / CN' },
               ]}
+            />
+          </FilterSection>
+          <FilterSection label="Release">
+            <FilterChipGroup
+              size={chipSize}
+              value={filters.upcomingOnly ? ['upcoming'] : []}
+              onChange={(val) =>
+                onChange({ ...filters, upcomingOnly: val.includes('upcoming') })
+              }
+              options={[{ value: 'upcoming', label: 'Upcoming' }]}
             />
           </FilterSection>
         </>
