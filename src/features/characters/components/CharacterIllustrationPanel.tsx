@@ -2,7 +2,7 @@ import type { Illustration } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { StaticSurface } from '@/components/ui/Surface';
-import { ILLUSTRATION_PANEL } from '@/constants/ui';
+import { ILLUSTRATION_PANEL, NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useGradientAccent } from '@/hooks';
 import {
@@ -142,11 +142,9 @@ export default function CharacterIllustrationPanel({
           <UnstyledButton
             onClick={onOpenPreview}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              display: 'block',
               width: '100%',
-              height: ILLUSTRATION_PANEL.HEIGHT,
+              minHeight: NAV_ITEM_HEIGHT,
               borderRadius: 'var(--mantine-radius-md)',
               overflow: 'hidden',
               position: 'relative',
@@ -160,8 +158,7 @@ export default function CharacterIllustrationPanel({
                 loop={activeIllustration.videoVariant !== 'birth'}
                 style={{
                   width: '100%',
-                  height: '100%',
-                  objectFit: 'contain',
+                  maxHeight: ILLUSTRATION_PANEL.HEIGHT,
                   display: 'block',
                 }}
               />
@@ -170,8 +167,7 @@ export default function CharacterIllustrationPanel({
                 src={activeIllustration.src}
                 alt={`${characterName} - ${activeIllustration.name}`}
                 fit="contain"
-                w="100%"
-                h={ILLUSTRATION_PANEL.HEIGHT}
+                mah={ILLUSTRATION_PANEL.HEIGHT}
                 loading="lazy"
               />
             )}

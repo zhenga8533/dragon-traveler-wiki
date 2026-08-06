@@ -192,7 +192,11 @@ export default function AppLayout() {
         {/* flex:1 fills remaining Main height so the Footer stays at the bottom */}
         <Box style={{ position: 'relative', zIndex: 1, flex: 1, minHeight: 0 }}>
           <PageTransition>
-            <ErrorBoundary>
+            <ErrorBoundary
+              scope="page"
+              name="application routes"
+              resetKeys={[location.pathname, location.search]}
+            >
               <AppRoutes />
             </ErrorBoundary>
           </PageTransition>

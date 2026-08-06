@@ -1,84 +1,27 @@
-import { useGradientAccent } from '@/hooks';
-import {
-  Button,
-  Code,
-  Container,
-  Group,
-  Stack,
-  Text,
-  ThemeIcon,
-  Title,
-} from '@mantine/core';
-import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { IoAlertCircle, IoHome, IoRefresh } from 'react-icons/io5';
-import { Link } from 'react-router';
+import { Component, type ErrorInfo } from 'react';
+import ErrorFallback from './ErrorFallback';
+import type { ErrorBoundaryProps } from './error-boundary-types';
 
-interface ErrorBoundaryProps {
-  children: ReactNode;
-}
+export type {
+  ErrorBoundaryProps,
+  ErrorBoundaryScope,
+  ErrorFallbackRenderProps,
+} from './error-boundary-types';
 
 interface ErrorBoundaryState {
   hasError: boolean;
   error?: Error;
 }
 
-interface ErrorFallbackProps {
-  error?: Error;
-  onRetry: () => void;
-}
+function resetKeysChanged(
+  previous: readonly unknown[] | undefined,
+  current: readonly unknown[] | undefined,
+): boolean {
+  if (!previous || !current || previous.length !== current.length) {
+    return previous !== current;
+  }
 
-// eslint-disable-next-line react-refresh/only-export-components
-function ErrorFallback({ error, onRetry }: ErrorFallbackProps) {
-  const { accent } = useGradientAccent();
-
-  return (
-    <Container size="sm" py={80}>
-      <Stack align="center" gap="xl">
-        <ThemeIcon variant="light" color="red" size={80} radius="xl">
-          <IoAlertCircle size={44} />
-        </ThemeIcon>
-
-        <Stack align="center" gap="sm">
-          <Title order={2}>Something went wrong</Title>
-          <Text c="dimmed" ta="center" maw={360}>
-            An unexpected error occurred. You can try again or head back to the
-            home page.
-          </Text>
-        </Stack>
-
-        {error?.message && (
-          <Code
-            block
-            maw={420}
-            w="100%"
-            style={{ fontSize: 'var(--mantine-font-size-xs)' }}
-          >
-            {error.message}
-          </Code>
-        )}
-
-        <Group gap="sm" justify="center">
-          <Button
-            onClick={onRetry}
-            leftSection={<IoRefresh size={16} />}
-            variant="light"
-            color="red"
-          >
-            Try again
-          </Button>
-          <Button
-            component={Link}
-            to="/"
-            leftSection={<IoHome size={16} />}
-            variant="outline"
-            color={accent.primary}
-          >
-            Go home
-          </Button>
-        </Group>
-      </Stack>
-    </Container>
-  );
+  return previous.some((value, index) => !Object.is(value, current[index]));
 }
 
 export default class ErrorBoundary extends Component<
@@ -92,19 +35,41 @@ export default class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('Uncaught error:', error, info.componentStack);
+    const label = this.props.name ? ` in ${this.props.name}` : '';
+    console.error(`Uncaught error${label}:`, error, info.componentStack);
+    this.props.onError?.(error, info);
   }
 
+  componentDidUpdate(previousProps: ErrorBoundaryProps) {
+    if (
+      this.state.hasError &&
+      resetKeysChanged(previousProps.resetKeys, this.props.resetKeys)
+    ) {
+      this.reset();
+    }
+  }
+
+  private reset = () => {
+    this.setState({ hasError: false, error: undefined });
+    this.props.onReset?.();
+  };
+
   render() {
-    if (this.state.hasError) {
-      return (
-        <ErrorFallback
-          error={this.state.error}
-          onRetry={() => this.setState({ hasError: false })}
-        />
-      );
+    if (!this.state.hasError) return this.props.children;
+
+    const error = this.state.error ?? new Error('Unknown rendering error');
+    if (this.props.fallback) {
+      return this.props.fallback({ error, reset: this.reset });
     }
 
-    return this.props.children;
+    return (
+      <ErrorFallback
+        scope={this.props.scope}
+        error={error}
+        title={this.props.title}
+        message={this.props.message}
+        onReset={this.reset}
+      />
+    );
   }
 }

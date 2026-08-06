@@ -7,6 +7,10 @@ export { default as DataFetchError } from './ui/DataFetchError';
 export { default as EmptyState } from './ui/EmptyState';
 export { default as EntityNotFound } from './ui/EntityNotFound';
 export { default as ErrorBoundary } from './ui/ErrorBoundary';
+export type {
+  ErrorBoundaryScope,
+  ErrorFallbackRenderProps,
+} from './ui/ErrorBoundary';
 export { default as ExpandableText } from './ui/ExpandableText';
 export { default as FactionTag } from './ui/FactionTag';
 export type { FactionTagProps } from './ui/FactionTag';

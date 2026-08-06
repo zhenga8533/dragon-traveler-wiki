@@ -16,7 +16,6 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import {
-  Component,
   memo,
   Suspense,
   useCallback,
@@ -24,8 +23,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type ErrorInfo,
-  type ReactNode,
   type RefObject,
 } from 'react';
 import {
@@ -47,6 +44,7 @@ import {
 } from 'three';
 import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import { getVersionedAssetUrl } from '@/assets';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { useDarkMode } from '@/hooks';
 import type { AssetManifestEntry } from '@/types/asset-manifest';
 import {
@@ -455,39 +453,6 @@ function CameraFit({
   return null;
 }
 
-interface ModelErrorBoundaryProps {
-  children: ReactNode;
-  onError: (error: Error) => void;
-}
-
-interface ModelErrorBoundaryState {
-  hasError: boolean;
-}
-
-class ModelErrorBoundary extends Component<
-  ModelErrorBoundaryProps,
-  ModelErrorBoundaryState
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error(
-      'Failed to render character model:',
-      error,
-      info.componentStack,
-    );
-    this.props.onError(error);
-  }
-
-  render() {
-    return this.state.hasError ? null : this.props.children;
-  }
-}
-
 function CharacterModelScene({
   metadata,
   rootPath,
@@ -570,9 +535,12 @@ function CharacterModelScene({
           </Text>
         </Stack>
       )}
-      <ModelErrorBoundary
-        key={`${metadata.model}-${renderRun}`}
+      <ErrorBoundary
+        scope="section"
+        name="3D model canvas"
+        resetKeys={[metadata.model, renderRun]}
         onError={handleRenderError}
+        fallback={() => null}
       >
         <Canvas
           camera={{ position: [0, 0.9, 2.2], fov: 32 }}
@@ -611,7 +579,7 @@ function CharacterModelScene({
             </Bounds>
           </Suspense>
         </Canvas>
-      </ModelErrorBoundary>
+      </ErrorBoundary>
     </Box>
   );
 }

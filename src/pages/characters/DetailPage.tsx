@@ -180,7 +180,11 @@ export default function CharacterPage() {
   return (
     <Box>
       <FullBleedSection>
-        <ErrorBoundary>
+        <ErrorBoundary
+          scope="section"
+          name="character hero"
+          resetKeys={[character.slug, selectedSkinSlug]}
+        >
           <CharacterHeroSection
             character={character}
             activeIllustration={activeIllustration}
@@ -225,7 +229,11 @@ export default function CharacterPage() {
                     : undefined
                 }
                 modelAction={
-                  <ErrorBoundary>
+                  <ErrorBoundary
+                    scope="inline"
+                    name="3D model launcher"
+                    resetKeys={[characterAssetKey, selectedSkinSlug]}
+                  >
                     <Suspense fallback={null}>
                       <CharacterModelLauncher
                         characterSlug={characterAssetKey || character.slug}
@@ -261,7 +269,11 @@ export default function CharacterPage() {
           {/* Right Column */}
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap="xl">
-              <ErrorBoundary>
+              <ErrorBoundary
+                scope="section"
+                name="character build"
+                resetKeys={[character.slug]}
+              >
                 <CharacterBuildSection
                   character={character}
                   teams={teams}
@@ -280,7 +292,11 @@ export default function CharacterPage() {
                   showInformationComingSoon={!hasRightColumnInformation}
                 />
               </ErrorBoundary>
-              <ErrorBoundary>
+              <ErrorBoundary
+                scope="section"
+                name="character skills"
+                resetKeys={[character.slug]}
+              >
                 <CharacterSkillsSection
                   character={character}
                   statusEffects={statusEffects}
