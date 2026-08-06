@@ -7,7 +7,14 @@ import {
   useGLTF,
 } from '@react-three/drei';
 import { Canvas, useLoader, useThree } from '@react-three/fiber';
-import { Box, Button, Loader, Stack, Text } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Loader,
+  Stack,
+  Text,
+  useMantineTheme,
+} from '@mantine/core';
 import {
   Component,
   memo,
@@ -40,6 +47,7 @@ import {
 } from 'three';
 import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import { getVersionedAssetUrl } from '@/assets';
+import { useDarkMode } from '@/hooks';
 import type { AssetManifestEntry } from '@/types/asset-manifest';
 import {
   useModelAnimation,
@@ -493,7 +501,10 @@ function CharacterModelScene({
   onAnimationFinished,
   onProgress,
 }: CharacterModelSceneProps) {
+  const isDark = useDarkMode();
+  const theme = useMantineTheme();
   const maximumDpr = Math.min(window.devicePixelRatio || 1, 2);
+  const backgroundColor = isDark ? theme.colors.dark[8] : theme.colors.gray[1];
   const modelPath = `${rootPath}/${metadata.model}`;
   const modelUrl = getVersionedAssetUrl(modelPath, entries[modelPath]);
   const textureSemantics = useMemo(
@@ -568,8 +579,7 @@ function CharacterModelScene({
           dpr={dpr}
           style={{ opacity: modelReady ? 1 : 0 }}
         >
-          {/* three.js scene background — can't reference CSS vars; intentionally static across light/dark */}
-          <color attach="background" args={['#15111d']} />
+          <color attach="background" args={[backgroundColor]} />
           <OrbitControls makeDefault enablePan={false} minDistance={0.5} />
           <PerformanceMonitor
             flipflops={3}

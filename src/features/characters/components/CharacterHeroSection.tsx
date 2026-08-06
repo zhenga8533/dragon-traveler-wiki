@@ -113,14 +113,6 @@ export default function CharacterPageHeroSection({
         />
       )}
 
-      {fullBodySrc && (
-        <CharacterFullBodyArtwork
-          src={fullBodySrc}
-          characterName={character.name}
-          dimmed={dimFullBodyArtwork}
-        />
-      )}
-
       <Box
         style={{
           position: 'absolute',
@@ -131,6 +123,14 @@ export default function CharacterPageHeroSection({
           pointerEvents: 'none',
         }}
       />
+
+      {fullBodySrc && (
+        <CharacterFullBodyArtwork
+          src={fullBodySrc}
+          characterName={character.name}
+          dimmed={dimFullBodyArtwork}
+        />
+      )}
 
       {/* Content overlay */}
       <Container
