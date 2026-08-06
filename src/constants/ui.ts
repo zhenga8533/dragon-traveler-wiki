@@ -17,6 +17,11 @@ export const CHARACTER_HERO = {
   BRIGHTNESS: 0.4,
 } as const;
 
+// Illustration preview panels (character detail page, preview modal trigger)
+export const ILLUSTRATION_PANEL = {
+  HEIGHT: 420,
+} as const;
+
 // Image sizes
 export const IMAGE_SIZE = {
   ICON_XS: 12,

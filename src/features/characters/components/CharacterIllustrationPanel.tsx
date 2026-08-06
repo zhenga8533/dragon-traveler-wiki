@@ -2,7 +2,7 @@ import type { Illustration } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { StaticSurface } from '@/components/ui/Surface';
-import { NAV_ITEM_HEIGHT } from '@/constants/ui';
+import { ILLUSTRATION_PANEL } from '@/constants/ui';
 import { LoadingRegion } from '@/components/layout/PageLoadingSkeleton';
 import { useGradientAccent } from '@/hooks';
 import {
@@ -36,7 +36,6 @@ interface CharacterIllustrationPanelProps {
   activeIllustrationIndex: number;
   illustrationsLength: number;
   hasMultipleIllustrations: boolean;
-  isDesktop: boolean | undefined;
   onOpenPreview: () => void;
   onPrevious: () => void;
   onNext: () => void;
@@ -55,7 +54,6 @@ export default function CharacterIllustrationPanel({
   activeIllustrationIndex,
   illustrationsLength,
   hasMultipleIllustrations,
-  isDesktop,
   onOpenPreview,
   onPrevious,
   onNext,
@@ -72,7 +70,7 @@ export default function CharacterIllustrationPanel({
         <StaticSurface p="md" radius="lg">
           <Stack gap="xs">
             <Skeleton height={18} width="35%" />
-            <Skeleton height={300} radius="md" />
+            <Skeleton height={ILLUSTRATION_PANEL.HEIGHT} radius="md" />
           </Stack>
         </StaticSurface>
       </LoadingRegion>
@@ -82,7 +80,7 @@ export default function CharacterIllustrationPanel({
   if (!activeIllustration || illustrationsLength === 0) {
     return (
       <StaticSurface p="xl" radius="lg">
-        <Center h={300}>
+        <Center h={ILLUSTRATION_PANEL.HEIGHT}>
           <Text c="dimmed">No illustrations available</Text>
         </Center>
       </StaticSurface>
@@ -144,9 +142,11 @@ export default function CharacterIllustrationPanel({
           <UnstyledButton
             onClick={onOpenPreview}
             style={{
-              display: 'block',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               width: '100%',
-              minHeight: isDesktop ? undefined : NAV_ITEM_HEIGHT,
+              height: ILLUSTRATION_PANEL.HEIGHT,
               borderRadius: 'var(--mantine-radius-md)',
               overflow: 'hidden',
               position: 'relative',
@@ -160,7 +160,8 @@ export default function CharacterIllustrationPanel({
                 loop={activeIllustration.videoVariant !== 'birth'}
                 style={{
                   width: '100%',
-                  maxHeight: 420,
+                  height: '100%',
+                  objectFit: 'contain',
                   display: 'block',
                 }}
               />
@@ -169,7 +170,8 @@ export default function CharacterIllustrationPanel({
                 src={activeIllustration.src}
                 alt={`${characterName} - ${activeIllustration.name}`}
                 fit="contain"
-                mah={420}
+                w="100%"
+                h={ILLUSTRATION_PANEL.HEIGHT}
                 loading="lazy"
               />
             )}

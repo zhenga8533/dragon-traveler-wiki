@@ -1,7 +1,7 @@
 import SafeImage from '@/components/ui/SafeImage';
 import SafeVideo from '@/components/ui/SafeVideo';
 import { StaticSurface } from '@/components/ui/Surface';
-import { BREAKPOINTS } from '@/constants/ui';
+import { BREAKPOINTS, ILLUSTRATION_PANEL } from '@/constants/ui';
 import { Badge, Box, Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
@@ -40,9 +40,11 @@ export default function IllustrationPreviewCard({
         <UnstyledButton
           onClick={onExpand}
           style={{
-            display: 'block',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             width: '100%',
-            minHeight: isDesktop ? undefined : 44,
+            height: ILLUSTRATION_PANEL.HEIGHT,
             borderRadius: 'var(--mantine-radius-md)',
             overflow: 'hidden',
             position: 'relative',
@@ -57,9 +59,9 @@ export default function IllustrationPreviewCard({
               onError={() => setFailed(true)}
               style={{
                 width: '100%',
-                maxHeight: 420,
-                display: 'block',
+                height: '100%',
                 objectFit: 'contain',
+                display: 'block',
               }}
             />
           ) : (
@@ -67,7 +69,8 @@ export default function IllustrationPreviewCard({
               src={src}
               alt={name}
               fit="contain"
-              mah={420}
+              w="100%"
+              h={ILLUSTRATION_PANEL.HEIGHT}
               loading="lazy"
             />
           )}

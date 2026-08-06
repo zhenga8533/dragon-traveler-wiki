@@ -215,7 +215,6 @@ export default function CharacterPage() {
                 activeIllustrationIndex={activeIllustrationIndex}
                 illustrationsLength={illustrations.length}
                 hasMultipleIllustrations={hasMultipleIllustrations}
-                isDesktop={isDesktop}
                 onOpenPreview={() => setPreviewOpen(true)}
                 onPrevious={showPreviousIllustration}
                 onNext={showNextIllustration}
