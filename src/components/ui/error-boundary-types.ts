@@ -10,10 +10,10 @@ export interface ErrorFallbackRenderProps {
 export interface ErrorBoundaryProps {
   children: ReactNode;
   scope: ErrorBoundaryScope;
-  name?: string;
+  name: string;
   title?: string;
   message?: string;
-  resetKeys?: readonly unknown[];
+  resetKeys: readonly unknown[];
   onError?: (error: Error, info: ErrorInfo) => void;
   onReset?: () => void;
   fallback?: (props: ErrorFallbackRenderProps) => ReactNode;

@@ -19,7 +19,7 @@ async function findTypeScriptFiles(directory) {
       const entryPath = path.join(directory, entry.name);
       return entry.isDirectory()
         ? findTypeScriptFiles(entryPath)
-        : /.(?:ts|tsx)$/.test(entry.name)
+        : /\.(?:ts|tsx)$/.test(entry.name)
           ? [entryPath]
           : [];
     }),

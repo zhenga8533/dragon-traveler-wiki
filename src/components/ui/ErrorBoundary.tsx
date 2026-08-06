@@ -14,12 +14,10 @@ interface ErrorBoundaryState {
 }
 
 function resetKeysChanged(
-  previous: readonly unknown[] | undefined,
-  current: readonly unknown[] | undefined,
+  previous: readonly unknown[],
+  current: readonly unknown[],
 ): boolean {
-  if (!previous || !current || previous.length !== current.length) {
-    return previous !== current;
-  }
+  if (previous.length !== current.length) return true;
 
   return previous.some((value, index) => !Object.is(value, current[index]));
 }
@@ -35,8 +33,11 @@ export default class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, info: ErrorInfo) {
-    const label = this.props.name ? ` in ${this.props.name}` : '';
-    console.error(`Uncaught error${label}:`, error, info.componentStack);
+    console.error(
+      `Uncaught error in ${this.props.name}:`,
+      error,
+      info.componentStack,
+    );
     this.props.onError?.(error, info);
   }
 

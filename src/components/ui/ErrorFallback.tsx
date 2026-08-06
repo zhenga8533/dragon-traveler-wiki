@@ -33,8 +33,10 @@ export function ErrorDetails({ error }: { error: Error }) {
     <Code
       block
       w="100%"
+      mah={160}
       style={{
         fontSize: 'var(--mantine-font-size-xs)',
+        overflow: 'auto',
         overflowWrap: 'anywhere',
         whiteSpace: 'pre-wrap',
       }}
