@@ -7,6 +7,10 @@ import type { Plugin } from 'vite';
 import { defineConfig } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import { loadProjectEnv } from './scripts/project-env.mjs';
+import {
+  buildVersionPlugin,
+  resolveBuildId,
+} from './scripts/build-version.mjs';
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -130,9 +134,12 @@ function serveAssetsDir(assetsDir: string): Plugin {
 
 export default defineConfig(({ mode }) => {
   const { env, dataDir, assetsDir } = loadProjectEnv(mode, rootDir);
+  const appBase = env.VITE_APP_BASE ?? '/';
+  const buildId = resolveBuildId(env);
 
   return {
     plugins: [
+      buildVersionPlugin(buildId, appBase),
       react(),
       serveDataDir(dataDir),
       serveAssetsDir(assetsDir),
@@ -152,7 +159,7 @@ export default defineConfig(({ mode }) => {
           ]
         : []),
     ],
-    base: env.VITE_APP_BASE ?? '/',
+    base: appBase,
     resolve: {
       alias: {
         '@': path.resolve(rootDir, './src'),

@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build --configLoader runner && node scripts/generate-route-pages.mjs",
+    "validate:pages": "node scripts/validate-pages-build.mjs",
     "build:analyze": "tsc -b && vite build --configLoader runner --mode analyze",
     "typecheck": "tsc -b",
     "lint": "eslint .",

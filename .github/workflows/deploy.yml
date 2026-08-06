@@ -69,6 +69,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate production configuration
+        env:
+          R2_PUBLIC_URL: ${{ vars.R2_PUBLIC_URL }}
+        run: |
+          test -n "$R2_PUBLIC_URL"
+          case "$R2_PUBLIC_URL" in https://*) ;; *) exit 1 ;; esac
+
       - name: Build
         run: npm run build --ignore-scripts
         env:
@@ -76,12 +83,18 @@ jobs:
           ASSETS_DIR: private-data/assets
           VITE_APP_BASE: /
           VITE_ASSETS_BASE: ${{ vars.R2_PUBLIC_URL }}
+          VITE_BUILD_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Copy data into dist
         run: cp -r private-data/data dist/data
 
       - name: Copy asset manifest into dist
         run: cp private-data/assets/manifest.json dist/assets/manifest.json
+
+      - name: Validate Pages artifact
+        env:
+          EXPECTED_BUILD_ID: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+        run: npm run validate:pages
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

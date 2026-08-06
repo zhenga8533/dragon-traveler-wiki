@@ -54,6 +54,80 @@
   <body>
     <script>
       (function () {
+        var currentBuild = __DT_BUILD_ID__;
+        var appBase = __DT_APP_BASE__;
+        var buildParam = '__dt_build';
+        var checking = false;
+
+        if (currentBuild === 'development') {
+          return;
+        }
+
+        function checkForNewBuild() {
+          if (checking) {
+            return;
+          }
+          checking = true;
+
+          var versionUrl = new URL(
+            appBase.replace(/\/?$/, '/') + 'version.json',
+            window.location.origin,
+          );
+          versionUrl.searchParams.set('t', Date.now().toString());
+
+          fetch(versionUrl, { cache: 'no-store' })
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error('Unable to check the deployed build');
+              }
+              return response.json();
+            })
+            .then(function (version) {
+              var deployedBuild = version && version.buildId;
+              var currentUrl = new URL(window.location.href);
+
+              if (!deployedBuild || deployedBuild === currentBuild) {
+                checking = false;
+                if (currentUrl.searchParams.has(buildParam)) {
+                  currentUrl.searchParams.delete(buildParam);
+                  window.history.replaceState(null, '', currentUrl);
+                }
+                return;
+              }
+
+              if (currentUrl.searchParams.get(buildParam) === deployedBuild) {
+                checking = false;
+                return;
+              }
+
+              currentUrl.searchParams.set(buildParam, deployedBuild);
+              window.location.replace(currentUrl);
+            })
+            .catch(function () {
+              checking = false;
+            });
+        }
+
+        window.addEventListener('vite:preloadError', checkForNewBuild);
+        window.addEventListener(
+          'error',
+          function (event) {
+            var target = event.target;
+            if (
+              target instanceof HTMLScriptElement &&
+              target.type === 'module'
+            ) {
+              checkForNewBuild();
+            }
+          },
+          true,
+        );
+
+        checkForNewBuild();
+      })();
+    </script>
+    <script>
+      (function () {
         var hash = window.location.hash;
         if (!hash || hash.length < 2 || hash.charAt(1) !== '/') {
           return;
