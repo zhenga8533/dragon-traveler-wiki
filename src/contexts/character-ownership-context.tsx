@@ -1,48 +1,6 @@
 import { STORAGE_KEY } from '@/constants/ui';
-import { createContext, useState, type ReactNode } from 'react';
-
-export interface CharacterOwnershipContextValue {
-  /** Map of character identity key → owned star level value. Absent key = not owned. */
-  ownedCharacters: Record<string, string>;
-  /** Set (or clear with null) the owned star level for a character identity key. */
-  setCharacterStarLevel: (identityKey: string, value: string | null) => void;
-  /** Get the owned star level value for a character identity key, or null if not owned. */
-  getCharacterStarLevel: (identityKey: string) => string | null;
-  /** Returns true if the character identity key has any star level set. */
-  isOwned: (identityKey: string) => boolean;
-  /**
-   * Master toggle for character-tracking features: the "My Progress" section
-   * on character detail pages, the "My Characters" button/tab on the list
-   * page, and graying out unowned characters.
-   */
-  characterTrackingEnabled: boolean;
-  setCharacterTrackingEnabled: (value: boolean) => void;
-  /** When true, character cards gray out characters that are not owned. */
-  grayUnowned: boolean;
-  setGrayUnowned: (value: boolean) => void;
-  /**
-   * When true, tier badges are shown on character cards/pages, the tier list
-   * reference picker is visible in Settings, and the featured characters
-   * marquee is shown on the home page.
-   */
-  showCharacterTiers: boolean;
-  setShowCharacterTiers: (value: boolean) => void;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const CharacterOwnershipContext =
-  createContext<CharacterOwnershipContextValue>({
-    ownedCharacters: {},
-    setCharacterStarLevel: () => {},
-    getCharacterStarLevel: () => null,
-    isOwned: () => false,
-    characterTrackingEnabled: true,
-    setCharacterTrackingEnabled: () => {},
-    grayUnowned: false,
-    setGrayUnowned: () => {},
-    showCharacterTiers: true,
-    setShowCharacterTiers: () => {},
-  });
+import { useState, type ReactNode } from 'react';
+import { CharacterOwnershipContext } from './character-ownership';
 
 // Migrate ownership keys from the old "slug__quality" format to plain slug.
 function migrateOwnershipKeys(

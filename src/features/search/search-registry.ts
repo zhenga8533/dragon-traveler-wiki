@@ -11,7 +11,7 @@ import {
   getWyrmspellIcon,
 } from '@/assets';
 import { normalizeContentType } from '@/constants/content-types';
-import type { SearchDataContextValue } from '@/contexts/search-data-context';
+import type { SearchDataContextValue } from '@/contexts/search-data';
 import {
   buildCharacterByIdentityMap,
   getCharacterRoutePath,

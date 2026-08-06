@@ -9,7 +9,7 @@ import {
   Popover,
   Tooltip,
 } from '@mantine/core';
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useRef, type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 
 interface FilterPopoverButtonProps {
@@ -48,9 +48,9 @@ export default function FilterPopoverButton({
   const isMobile = useIsMobile();
   const panelId = useId();
   const targetRef = useRef<HTMLButtonElement>(null);
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     if (filterOpen) onFilterToggle();
-  };
+  }, [filterOpen, onFilterToggle]);
 
   useEffect(() => {
     if (!filterOpen || isMobile) return;
@@ -62,8 +62,7 @@ export default function FilterPopoverButton({
     return () => {
       scrollTargets.forEach((el) => el.removeEventListener('scroll', onScroll));
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterOpen, isMobile]);
+  }, [filterOpen, handleClose, isMobile]);
 
   const disclosureProps = children
     ? {

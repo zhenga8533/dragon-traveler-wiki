@@ -332,15 +332,20 @@ export function useTierListState({
     [getCharacterKeyFromReference],
   );
 
-  const draftHydrated = useDraftHydration({
-    initialData,
-    storageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
-    getPastedPatch: getPastedTierListPatch,
-    normalizeFromPartial: (partial, fallback) =>
+  const normalizeDraft = useCallback(
+    (partial: unknown, fallback: TierList) =>
       normalizeTierListFromPartial(
         partial as Parameters<typeof normalizeTierListFromPartial>[0],
         fallback,
       ),
+    [],
+  );
+
+  const draftHydrated = useDraftHydration({
+    initialData,
+    storageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
+    getPastedPatch: getPastedTierListPatch,
+    normalizeFromPartial: normalizeDraft,
     createFallback: createFallbackTierList,
     load: loadFromTierList,
   });

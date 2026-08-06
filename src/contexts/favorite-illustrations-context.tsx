@@ -3,22 +3,8 @@ import {
   readStoredStringSet,
   writeStoredStringSet,
 } from '@/utils/saved-storage';
-import { createContext, useState, type ReactNode } from 'react';
-
-export interface FavoriteIllustrationsContextValue {
-  /** Set of favorited illustration identity keys, formatted `${characterSlug}::${index}`. */
-  favoriteIllustrations: Set<string>;
-  isFavoriteIllustration: (key: string) => boolean;
-  toggleFavoriteIllustration: (key: string) => void;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const FavoriteIllustrationsContext =
-  createContext<FavoriteIllustrationsContextValue>({
-    favoriteIllustrations: new Set(),
-    isFavoriteIllustration: () => false,
-    toggleFavoriteIllustration: () => {},
-  });
+import { useState, type ReactNode } from 'react';
+import { FavoriteIllustrationsContext } from './favorite-illustrations';
 
 export function FavoriteIllustrationsProvider({
   children,

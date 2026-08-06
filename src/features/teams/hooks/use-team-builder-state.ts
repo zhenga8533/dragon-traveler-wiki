@@ -247,15 +247,20 @@ export function useTeamBuilderState({
     [getCharacterFromKey, getCharacterKeyFromReference],
   );
 
-  const draftHydrated = useDraftHydration({
-    initialData,
-    storageKey: STORAGE_KEY.TEAMS_BUILDER_DRAFT,
-    getPastedPatch: getPastedTeamPatch,
-    normalizeFromPartial: (partial, fallback) =>
+  const normalizeDraft = useCallback(
+    (partial: unknown, fallback: Team) =>
       normalizeTeamFromPartial(
         partial as Parameters<typeof normalizeTeamFromPartial>[0],
         fallback,
       ),
+    [],
+  );
+
+  const draftHydrated = useDraftHydration({
+    initialData,
+    storageKey: STORAGE_KEY.TEAMS_BUILDER_DRAFT,
+    getPastedPatch: getPastedTeamPatch,
+    normalizeFromPartial: normalizeDraft,
     createFallback: createFallbackTeam,
     load: loadFromTeam,
   });

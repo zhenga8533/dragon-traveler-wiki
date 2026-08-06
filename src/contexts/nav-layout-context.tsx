@@ -1,20 +1,6 @@
 import { STORAGE_KEY } from '@/constants/ui';
-import { createContext, useState, type ReactNode } from 'react';
-
-export type NavLayout = 'sidebar' | 'header';
-
-export interface NavLayoutContextValue {
-  /** User's preferred nav layout. Falls back to the sidebar automatically on
-   * screens too narrow to fit a horizontal nav (see useEffectiveNavLayout). */
-  navLayout: NavLayout;
-  setNavLayout: (value: NavLayout) => void;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const NavLayoutContext = createContext<NavLayoutContextValue>({
-  navLayout: 'sidebar',
-  setNavLayout: () => {},
-});
+import { useState, type ReactNode } from 'react';
+import { NavLayoutContext, type NavLayout } from './nav-layout';
 
 function loadNavLayout(): NavLayout {
   if (typeof window === 'undefined') return 'sidebar';

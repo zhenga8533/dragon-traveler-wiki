@@ -51,8 +51,14 @@ export function useDraftHydration<T>({
     }
 
     queueMicrotask(() => setDraftHydrated(true));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialData, load, storageKey]);
+  }, [
+    createFallback,
+    getPastedPatch,
+    initialData,
+    load,
+    normalizeFromPartial,
+    storageKey,
+  ]);
 
   return draftHydrated;
 }

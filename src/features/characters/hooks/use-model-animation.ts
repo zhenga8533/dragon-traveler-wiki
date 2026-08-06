@@ -12,6 +12,19 @@ import type { ModelAnimation } from '../components/character-model-metadata';
 
 const ANIMATION_BLEND_DURATION = 0.25;
 
+function configureAnimationAction(action: AnimationAction, loop: boolean) {
+  action.reset();
+  action.setLoop(loop ? LoopRepeat : LoopOnce, loop ? Infinity : 1);
+  action.clampWhenFinished = !loop;
+  action.fadeIn(ANIMATION_BLEND_DURATION).play();
+}
+
+function seekAnimationAction(action: AnimationAction, time: number) {
+  const duration = action.getClip().duration;
+  action.time = Math.min(Math.max(time, 0), duration);
+  return duration;
+}
+
 export interface AnimationProgress {
   currentTime: number;
   duration: number;
@@ -89,15 +102,7 @@ export function useModelAnimation({
     );
     if (!definition || !activeAction) return;
 
-    activeAction.reset();
-    activeAction.setLoop(
-      definition.loop ? LoopRepeat : LoopOnce,
-      definition.loop ? Infinity : 1,
-    );
-    // Three.js exposes final-pose clamping as mutable AnimationAction state.
-    // eslint-disable-next-line react-hooks/immutability
-    activeAction.clampWhenFinished = !definition.loop;
-    activeAction.fadeIn(ANIMATION_BLEND_DURATION).play();
+    configureAnimationAction(activeAction, definition.loop);
     onProgress({
       currentTime: 0,
       duration: activeAction.getClip().duration,
@@ -130,10 +135,7 @@ export function useModelAnimation({
 
   useEffect(() => {
     if (!activeAction || !seekRequest) return;
-    const duration = activeAction.getClip().duration;
-    // AnimationAction has no setter for seeking; Three.js exposes its clock as mutable state.
-    // eslint-disable-next-line react-hooks/immutability
-    activeAction.time = Math.min(Math.max(seekRequest.time, 0), duration);
+    const duration = seekAnimationAction(activeAction, seekRequest.time);
     onProgress({ currentTime: activeAction.time, duration });
   }, [activeAction, onProgress, seekRequest]);
 
