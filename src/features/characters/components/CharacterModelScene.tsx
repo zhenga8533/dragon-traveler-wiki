@@ -70,6 +70,7 @@ interface CharacterModelSceneProps {
 
 const CAMERA_FIT_MARGIN = 1.12;
 const CAMERA_VIEW_DIRECTION = new Vector3(0, 0.08, 1).normalize();
+const CAMERA_CORE_JOINT_WEIGHT = 0.5;
 
 const vertexShader = /* glsl */ `
   #include <common>
@@ -266,7 +267,6 @@ function CharacterModel({
     onFinished: onAnimationFinished,
     onProgress,
   });
-
   useEffect(
     () => () => {
       material.dispose();
@@ -289,6 +289,67 @@ function CharacterModel({
   );
 }
 
+function isDescendantOf(node: Object3D, ancestor: Object3D): boolean {
+  for (let current: Object3D | null = node; current; current = current.parent) {
+    if (current === ancestor) return true;
+  }
+  return false;
+}
+
+interface SkeletonBranchLayout {
+  commonJoints: number[];
+  branches: Array<{ root: Object3D; joints: number[] }>;
+}
+
+function skeletonBranchLayout(mesh: SkinnedMesh): SkeletonBranchLayout | null {
+  const bones = mesh.skeleton.bones;
+  if (!bones.length) return null;
+
+  const ancestors: Object3D[] = [];
+  for (
+    let current: Object3D | null = bones[0];
+    current;
+    current = current.parent
+  ) {
+    ancestors.push(current);
+  }
+  const commonAncestor = ancestors.find((ancestor) =>
+    bones.every((bone) => isDescendantOf(bone, ancestor)),
+  );
+  if (!commonAncestor) return null;
+
+  const commonJoints = new Set<number>();
+  const branches = new Map<Object3D, number[]>();
+  bones.forEach((bone, index) => {
+    if (bone === commonAncestor) {
+      commonJoints.add(index);
+      return;
+    }
+    let branch: Object3D = bone;
+    while (branch.parent && branch.parent !== commonAncestor) {
+      branch = branch.parent;
+    }
+    if (branch.parent !== commonAncestor) return;
+    const joints = branches.get(branch) ?? [];
+    joints.push(index);
+    branches.set(branch, joints);
+  });
+
+  return {
+    commonJoints: [...commonJoints],
+    branches: [...branches.entries()]
+      .map(([root, joints]) => ({ root, joints }))
+      .sort((left, right) => right.joints.length - left.joints.length),
+  };
+}
+
+function primarySkeletonJoints(mesh: SkinnedMesh): Set<number> | null {
+  const layout = skeletonBranchLayout(mesh);
+  const primaryBranch = layout?.branches[0];
+  if (!layout || !primaryBranch) return null;
+  return new Set([...layout.commonJoints, ...primaryBranch.joints]);
+}
+
 function primaryActorBounds(model: Object3D, vertexCount: number): Box3 | null {
   model.updateWorldMatrix(true, true);
   let result: Box3 | null = null;
@@ -296,11 +357,34 @@ function primaryActorBounds(model: Object3D, vertexCount: number): Box3 | null {
     if (result || !(child instanceof SkinnedMesh)) return;
     const positions = child.geometry.getAttribute('position');
     if (!positions || positions.count < vertexCount) return;
+    const skinIndices = child.geometry.getAttribute('skinIndex');
+    const skinWeights = child.geometry.getAttribute('skinWeight');
+    const primaryJoints = primarySkeletonJoints(child);
 
     child.skeleton.update();
     const box = new Box3();
     const vertex = new Vector3();
     for (let index = 0; index < vertexCount; index += 1) {
+      if (primaryJoints && skinIndices && skinWeights) {
+        const indices = [
+          skinIndices.getX(index),
+          skinIndices.getY(index),
+          skinIndices.getZ(index),
+          skinIndices.getW(index),
+        ];
+        const weights = [
+          skinWeights.getX(index),
+          skinWeights.getY(index),
+          skinWeights.getZ(index),
+          skinWeights.getW(index),
+        ];
+        const coreWeight = weights.reduce(
+          (total, weight, influence) =>
+            total + (primaryJoints.has(indices[influence]) ? weight : 0),
+          0,
+        );
+        if (coreWeight < CAMERA_CORE_JOINT_WEIGHT) continue;
+      }
       vertex.fromBufferAttribute(positions, index);
       child.applyBoneTransform(index, vertex);
       box.expandByPoint(vertex.applyMatrix4(child.matrixWorld));
